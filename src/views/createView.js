@@ -63,8 +63,8 @@ async function createHandler(e, context) {
 
     const form = new FormData(document.getElementById('create-form'));
     const name = form.get('name');
-    const products = form.get('products');
-    const steps = form.get('steps');
+    const products = form.get('products').split('\n').map(content => content.trim());
+    const steps = form.get('steps').split('\n').map(content => content.trim());
     const img = form.get('img');
     const category = form.get('category');
 
@@ -79,5 +79,6 @@ async function createHandler(e, context) {
         category: category
     }
     const createdRecipe = await create(createRecipe);
+    console.log(createRecipe);
     context.page.redirect(`/details/${createdRecipe.objectId}`);
 }

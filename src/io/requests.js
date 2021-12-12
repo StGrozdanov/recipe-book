@@ -31,6 +31,7 @@ export async function create(recipe) {
         headers: {
             'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
             'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(recipe)
@@ -59,6 +60,7 @@ export async function update(recipe, recipeId) {
         headers: {
             'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
             'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(recipe)
@@ -74,7 +76,8 @@ export async function removeRecipe(id) {
         method: 'DELETE',
         headers: {
             'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
-            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS'
+            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
         }
     };
 
@@ -116,6 +119,7 @@ export async function commentRecipe(recipeId, comment) {
         headers: {
             'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
             'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(comment)
