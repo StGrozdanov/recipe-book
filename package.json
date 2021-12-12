@@ -1,0 +1,26 @@
+{
+  "name": "recepie-book",
+  "version": "1.0.0",
+  "description": "Personal cookbook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StGrozdanov/recepie-book.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StGrozdanov/recepie-book/issues"
+  },
+  "homepage": "https://github.com/StGrozdanov/recepie-book#readme",
+  "dependencies": {
+    "lit-html": "^2.0.2",
+    "lite-server": "^2.6.1",
+    "page": "^1.11.6"
+  }
+}
