@@ -1,0 +1,574 @@
+* {
+    box-sizing: bord;
+}
+
+body {
+    width: 980px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    margin: auto;
+    font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #55595c;
+    text-align: left;
+    background-color: #fff;
+}
+
+span {
+    font-weight: 700;
+}
+
+/* header  */
+
+header {
+    padding: 32px;
+    padding-left: 45px;
+    background-color: #cccccc;
+    position: relative;
+}
+
+header img {
+    margin-top: 55px;
+    width: 75%;
+    margin-left: 100px;
+}
+
+h1 {
+    font-size: 32px;
+    line-height: 32px;
+    vertical-align: bottom;
+    display: inline;
+}
+
+h1 img {
+    height: 32px;
+    vertical-align: bottom;
+    margin-right: 8px;
+}
+
+h1 a {
+    font-size: 32px;
+    text-decoration: none;
+    color: black;
+}
+
+h1 a:visited {
+    color: black;
+}
+
+nav {
+    display: inline-block;
+    position: absolute;
+    right: 16px;
+    text-align: right;
+}
+
+nav div {
+    display: inline-block;
+}
+
+nav a {
+    display: inline-block;
+    background-color: #010101;
+    padding: 8px 16px;
+    margin: 0 8px;
+    text-decoration: none;
+    color: white;
+}
+
+nav a:hover {
+    background-color: #c28a44;
+    color: white;
+}
+
+a.active {
+    background-color: #c28a44;
+    color: white;
+}
+
+/* header end */
+
+#dasahboard-page ul {
+    margin-left: -30px;
+}
+
+.containter {
+    width: 100%;
+    margin: auto;
+}
+
+h3 {
+    margin-bottom: -10px;
+    text-align: auto;
+}
+
+.otherBooks {
+    border-radius: 10px;
+    text-align: center;
+    margin: 2rem;
+    position: relative;
+    width: 400px;
+    height: auto;
+    transition: all 0.3s cubic-bezier(.50, .80, .25, 1);
+    box-shadow: -8px -2px 28px -8px #000000;
+    align-items: center;
+}
+
+
+.otherBooks:hover {
+    box-shadow: 30px 30px 100px 10px #000000;
+}
+
+.no-books {
+    font-weight: bold;
+    font-size: large;
+    text-align: center;
+}
+
+.my-books .my-books-list,
+.dashboard .other-books-list {
+    display: flex;
+    justify-content: space-around;
+}
+
+.detailsMyBooks textarea,
+.my-books textarea {
+    margin-bottom: 2rem;
+}
+
+.img {
+    width: 15rem;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+}
+
+.img::after {
+    display: block;
+    content: "";
+}
+
+.detailsOtherBooks,
+.detailsMyBooks,
+.deleteBook,
+.otherBooks,
+.myBooks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    cursor: pointer;
+}
+
+.detailsMyBooks>p:nth-child(2),
+.deleteBook>p:nth-child(2),
+.otherBooks>p:nth-child(2),
+.myBooks>p:nth-child(2) {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.dashboard>nav>ul {
+    display: flex;
+
+}
+
+.dashboard>nav>ul li:not(:last-child) {
+    padding-right: 1rem;
+
+}
+
+.dashboard .navbar {
+    justify-content: center;
+}
+
+.other-books-list img {
+    width: 100%;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+li {
+    list-style-type: none;
+}
+
+#meme-details {
+    margin-bottom: 50px;
+}
+#meme-details h1 {
+    margin-bottom: 0.5rem;
+    font-family: cursive;
+    font-weight: 650;
+    line-height: 1.2;
+    margin-left: 400px;
+}
+
+.meme-details {
+    width: 100%;
+    padding-left: 15px;
+    display: flex;
+    margin-right: -15px;
+    margin-left: -15px;
+    margin-top: 20px;
+}
+
+.meme-details h1 {
+    display: block;
+}
+
+.meme-img {
+    max-width: 50%;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.meme-img img {
+    padding: 0.25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    max-width: 85%;
+    height: auto;
+    box-shadow: 2px 5px 13px 0px #000000, 8px -15px 31px -12px rgb(0 0 0 / 0%);
+    margin-bottom: 15px;
+    margin-top: 64px;
+    margin-right: 90px;
+}
+
+.meme-description {
+    max-width: 35%;
+    flex: 0 0 35.333333%;
+    position: relative;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.meme-description h2 {
+    margin-bottom: 1rem;
+    font-family: cursive;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
+    margin-top: 1rem;
+    font-size: 1.75rem;
+}
+.meme-description ul {
+    margin-bottom: 50px;
+    text-align: justify;
+    box-shadow: 2px 5px 13px 0px #000000, 8px -15px 31px -12px rgb(0 0 0 / 0%);
+    padding:20px;
+}
+.meme-description li {
+    list-style-type: revert;
+    font-family: cursive;
+    font-weight: 500;
+}
+.warning {
+    margin-right: 20px;
+}
+
+.danger:hover {
+    color: #212529;
+    background-color: #dc3545;
+    border-color: #dc3545;
+} 
+.warning:hover {
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.button {
+    color: #fff;
+    background-color: #c28a44;
+    border-color: #007bff;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: 0.375rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    box-shadow: 0px 10px 13px -7px #000000, 0px -15px 0px -12px rgb(0 0 0 / 0%);
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.formData .button {
+    color: #fff;
+    background-color: #c9995c;
+    border-color: #007bff;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: 0.375rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    box-shadow: 0px 10px 13px -7px #000000, 0px -15px 0px -12px rgb(0 0 0 / 0%);
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.formData .button:hover {
+    border: 2px solid #234465;
+    background-color: #495561;
+}
+
+
+.create-comment>.form>textarea {
+    resize: none;
+    width: 72%;
+    height: 100px;
+    margin-top: 22px;
+    margin-bottom: 28px;
+    padding: 5px;
+}
+
+.details-comments {
+    margin-right: 100px;
+}
+
+.details-comments ul {
+    margin-left: -83px;
+}
+
+.create-comment {
+    margin-top: 60px;
+    position: relative;
+    text-align: center;
+    width: 450px;
+    height: auto;
+    border-radius: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+    background: #c28a44;
+    box-shadow: 0px 0px 32px 0px #32485e, -14px -14px 20px #55595c;
+}
+
+.create-comment>label {
+    color: white;
+    font-size: 28px;
+    text-align: center;
+    font-weight: 700;
+    line-height: normal;
+    font-family: cursive;
+}
+
+.details-comments li {
+    width: 400px;
+    display: inline-block;
+    position: static;
+    margin: 20px auto 25px auto;
+    box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.2), 12px 12px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 16px;
+    margin-left: 60px;
+    background: #c28a44;
+    color: white;
+}
+
+.details-comments li a {
+    text-decoration: underline;
+    display: inline-block;
+    padding-right: 120px;
+    font-family: cursive;
+    font-weight: 400;
+    color: white;
+}
+
+.details-comments h2 {
+    margin-bottom: 1rem;
+    font-family: cursive;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
+    margin-top: 1rem;
+    font-size: 1.75rem;
+    margin-left: 45px;
+}
+
+.comment p {
+    padding: 5px;
+}
+
+.comment-btn {
+    color: #fff;
+    background-color: rgb(0 0 0 / 20%);
+    border-color: #007bff;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: 0.375rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    box-shadow: 0px 10px 13px -7px #000000, 0px -15px 0px -12px rgb(0 0 0 / 0%);
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.comment-btn:hover {
+    background-color: #234465;
+    color: white;
+    cursor: pointer;
+}
+
+
+.formData form {
+	max-width: 30rem;
+}
+
+.formData form, .formData form fieldset, .formData form legend, .formData form label, .formData form input, .formData form textarea, .formData form select {
+	display: block;
+	width: 100%;
+	border: none;
+	padding: 0.4rem;
+}
+
+.formData form textarea {
+	border: none;
+	background: transparent;
+}
+
+.formData form fieldset {
+	border: 2px solid #666;
+	border-radius: 1rem;
+	box-shadow: 0 0 1rem 2rem rgba(0, 0, 0, 0.1);
+}
+.formData form legend {
+    border: 2px solid #234465;
+    background-color: #495561;
+    color: white;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem 0.1rem rgb(0 0 0 / 10%);
+}
+
+.formData form fieldset {
+	padding: 1em 2em 2em 2em;
+	position: relative;
+}
+
+.formData form legend {
+	width: 30%;
+	padding: 0.5rem 1rem;
+	left: -1px;
+	top: -1.4rem;
+	position: absolute;
+}
+
+.formData form label {
+	font-weight: bold;
+}
+
+
+.formData .field .input, .formData #type{
+	display: flex;
+	position: relative;
+	align-items: center;
+	border: 1px solid;
+	border-radius: 5px;
+}
+
+.formData .field .input:after {
+	display: block;
+	content: '';
+}
+
+.formData .field .input input, .formData #type {
+	border: none;
+	flex: 1 1 auto;
+	padding: 0.4rem;
+	outline: none;
+	background: transparent;
+	z-index: 2;
+	order: 2;
+}
+
+.formData .field .input .fas {
+	z-index: 2;
+	position: relative;
+	padding: 0 0 0 0.8rem;
+	font-size: 0.9em;
+	order: 1;
+}
+
+.formData .field .input input+.actions {
+	display: block;
+	background: #FFF;
+	border: 1px solid #CCC;
+	border-radius: 0.3rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+}
+
+.formData .field .input input:focus {
+	border-color: #090;
+}
+
+.formData .field .input input:focus+.fas {
+	color: #090;
+}
+
+.formData form textarea {
+	border-radius: 0.5rem;
+	padding: 0.8rem;
+}
+
+.formData form textarea:focus {
+	outline: none;
+	border-color: #090;
+}
+
+.formData .description {
+	width: 17rem;
+	height: 10vh;
+	padding: 2rem;
+	overflow: auto;
+}
+.formData .book-description {
+	width: 30rem;
+	padding: 2rem;
+	overflow: auto;
+	text-align: justify;
+}
+
+.formData .details {
+	display: flex;
+	justify-content: center;
+}
+
+.formData .details .type {
+	margin: 5px;
+	font-size: 20px;
+}
+
+.formData .details span.likes {
+	display: flex;
+    flex-direction: column;
+}
+
+.formData .field .input:hover {
+	background: #c4c1c1;
+}
