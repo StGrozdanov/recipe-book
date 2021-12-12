@@ -13,7 +13,7 @@ const guestViewTemplate = () => html`
 const userViewTemplate = (ctx) => html`
             <div id="user">
                 <a id="createLink" href="/add-recipe" >Създай рецепта</a>
-                <a @click=${logoutHandler(ctx)} id="logoutBtn" href="javascript:void(0)">Изход</a>
+                <a @click=${() => logoutHandler(ctx)} id="logoutBtn" href="javascript:void(0)">Изход</a>
             </div>
 `;
 
@@ -34,9 +34,12 @@ export function renderNavigation(ctx) {
 async function logoutHandler(ctx) {
     await logout();
     ctx.page.redirect('/');
+    const navigationHomeButton = document.querySelector('#catalogLink');
+    navigationHomeButton.classList.add('active');
 }
 
 function trackActiveLink(e) {
+    
     if (e.path[0].localName == 'a') {
         const navAnkerTags = Array.from(e.currentTarget.getElementsByTagName('a'));
         
