@@ -15,7 +15,7 @@ const allRecordsTemplate = (recepies) => html`
 
 const singleRecordTemplate = (data) => html`
         <li class="otherBooks"><a href='/details/${data.objectId}'>
-             <h3>${data.name}</h3>
+             <h3 style="color: #c28a44;">${data.name}</h3>
              <p class="img"><img src=${data.img}></p>
          </a></li>
 `;
