@@ -14,10 +14,10 @@ const allRecordsTemplate = (recepies) => html`
 `;
 
 const singleRecordTemplate = (data) => html`
-        <li class="otherBooks">
+        <li class="otherBooks"><a href='/details/${data.objectId}'>
              <h3>${data.name}</h3>
              <p class="img"><img src=${data.img}></p>
-         </li>
+         </a></li>
 `;
 
 export async function viewAllPage(ctx) {

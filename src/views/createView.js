@@ -2,20 +2,56 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { create } from '../io/requests.js';
 
 const createTemplate = (ctx) => html`
-        <section id="create-meme">
-            <form id="create-form">
-                <div class="container">
-                    <h1>Create Meme</h1>
-                    <label for="title">Title</label>
-                    <input id="title" type="text" placeholder="Enter Title" name="title">
-                    <label for="description">Description</label>
-                    <textarea id="description" placeholder="Enter Description" name="description"></textarea>
-                    <label for="imageUrl">Meme Image</label>
-                    <input id="imageUrl" type="text" placeholder="Enter meme ImageUrl" name="imageUrl">
-                    <input @click=${(e) => createHandler(e, ctx)} type="submit" class="registerbtn button" value="Create Meme">
-                </div>
-            </form>
-        </section>
+ <section id="create-page" class="create formData">
+    <form id="create-form" action="" method="">
+        <fieldset>
+            <legend>Нова рецепта</legend>
+            <p class="field">
+                <label for="title">Наименование</label>
+                <span class="input">
+                    <input type="text" name="name" id="title" placeholder="Име на рецепта">
+                </span>
+            </p>
+            <p class="field">
+                <label for="description">Продукти</label>
+                <span class="input">
+                    <textarea name="products" id="description" placeholder="Продукти и грамаж, всеки на нов ред"></textarea>
+                </span>
+            </p>
+            <p class="field">
+                <label for="description">Стъпки за приготвяне</label>
+                <span class="input">
+                    <textarea name="steps" id="description" placeholder="Стъпки за приготвяне, всяка на нов ред"></textarea>
+                </span>
+            </p>
+            <p class="field">
+                <label for="image">Картинка</label>
+                <span class="input">
+                    <input type="text" name="img" id="image" placeholder="Адрес на изображение">
+                </span>
+            </p>
+            <p class="field">
+                <label for="type">Категория</label>
+                <span class="input">
+                    <select id="type" name="category">
+                        <option value="Пилешко">Пилешко</option>
+                        <option value="Свинско">Свинско</option>
+                        <option value="Телешко">Телешко</option>
+                        <option value="Телешко-свинско">Телешко-свинско</option>
+                        <option value="Други месни">Други месни</option>
+                        <option value="Вегитариански">Вегитариански</option>
+                        <option value="Риба">Риба</option>
+                        <option value="Салати">Салати</option>
+                        <option value="Тестени">Тестени</option>
+                        <option value="Десерти">Десерти</option>
+                        <option value="Други">Други</option>
+                    </select>
+                </span>
+            </p>
+            <input @click=${(e) => createHandler(e, ctx)} class="button submit" type="submit" value="Създай рецепта">
+        </fieldset>
+    </form>
+</section>
 `;
 
 export function createPage(context) {
@@ -26,18 +62,22 @@ async function createHandler(e, context) {
     e.preventDefault();
 
     const form = new FormData(document.getElementById('create-form'));
-    const title = form.get('title');
-    const description = form.get('description');
-    const imageUrl = form.get('imageUrl');
+    const name = form.get('name');
+    const products = form.get('products');
+    const steps = form.get('steps');
+    const img = form.get('img');
+    const category = form.get('category');
 
-    if (description == '' || imageUrl == '' || title == '') {
+    if (name == '' || products.length === 0 || steps.length === 0 || img == '' || category == '') {
         return alert('All fields are required!');
     } 
-    const createData = {
-        title: title,
-        description: description,
-        imageUrl: imageUrl
+    const createRecipe = {
+        name: name,
+        products: products,
+        steps: steps,
+        img: img,
+        category: category
     }
-    await create(createData);
-    context.page.redirect('/all-memes');
+    const createdRecipe = await create(createRecipe);
+    context.page.redirect(`/details/${createdRecipe.objectId}`);
 }

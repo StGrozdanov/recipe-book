@@ -2,7 +2,7 @@ import { REGISTRY_URL } from "./registry.js";
 
 const endPoints = {
     allRecords: '/classes/Recipe',
-    singleRecord: (id) => { return `/classes/Recipe/%3D%22${id}%22` },
+    singleRecord: (id) => { return `/classes/Recipe/${id}` },
     singleRecordOwnerDetails: (id) => { return `/classes/Recipe/${id}?include=owner` },
     ownerPublications: (ownerId) => { return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}` },
     commentsByRecipe: (recipeId) => { return `/classes/Comment?where=${createPointerQuery('recipe', 'Recipe', recipeId)}&include=owner` },
@@ -42,7 +42,7 @@ export async function create(recipe) {
 }
 
 export async function getSingle(id) {
-    const response = await fetch(REGISTRY_URL + endPoints.singleRecordOwnerDetails(id), {
+    const response = await fetch(REGISTRY_URL + endPoints.singleRecord(id), {
         method: 'GET',
         headers: {
             'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
