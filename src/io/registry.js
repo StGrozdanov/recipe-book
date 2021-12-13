@@ -1,3 +1,5 @@
+import { notify } from "../views/common/notificationTemplate.js";
+
 export const REGISTRY_URL = 'https://parseapi.back4app.com';
 
 const endPoints = {
@@ -26,7 +28,7 @@ export async function register(username, email, password) {
         sessionStorage.setItem('username', username);
     } else {
         const error = await response.json();
-        alert(error.error);
+        notify(error.error);
         throw new Error(error.error);
     }
 }
@@ -48,7 +50,7 @@ export async function login(username, password) {
         sessionStorage.setItem('username', username);
     } else {
         const error = await response.json();
-        alert(error.error);
+        notify(error.error);
         throw new Error(error.error);
     }
 }
@@ -67,7 +69,7 @@ export async function logout() {
         sessionStorage.removeItem('username');
     } else {
         const error = await response.json();
-        alert(error.error);
+        notify(error.error);
         throw new Error(error.error);
     }
 }
@@ -90,7 +92,7 @@ export async function update(username, email, password, userId) {
         sessionStorage.removeItem('username');
     } else {
         const error = await response.json();
-        alert(error.error);
+        notify(error.error);
         throw new Error(error.error);
     }
 }
@@ -109,7 +111,7 @@ export async function remove(userId) {
         sessionStorage.removeItem('username');
     } else {
         const error = await response.json();
-        alert(error.error);
+        notify(error.error);
         throw new Error(error.error);
     }
 }

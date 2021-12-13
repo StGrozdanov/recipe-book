@@ -1,5 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { login } from '../io/registry.js';
+import { notify } from './common/notificationTemplate.js';
 
 const loginTemplate = (ctx) => html`
 <section id="login-page" class="login formData">
@@ -37,10 +38,17 @@ async function loginHandler(e, ctx) {
 
     if (username != '' && password != '') {
         await login(username, password);
-        ctx.page.redirect('/');
+        
+        if (sessionStorage.getItem('redirect') !== null) {
+            ctx.page.redirect(`/details/${sessionStorage.getItem('redirect')}`);
+            sessionStorage.removeItem('redirect');
+        } else {
+            ctx.page.redirect('/');
+        }
+
         const navigationHomeButton = document.querySelector('#catalogLink');
         navigationHomeButton.classList.add('active');
     } else {
-        return alert('All fields are required!');
+        return notify('All fields are required!');
     }
 }

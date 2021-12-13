@@ -1,5 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getSingle, update } from '../io/requests.js';
+import { notify } from './common/notificationTemplate.js';
 
 const editTemplate = (data, ctx) => html`
 <section id="edit-page" class="edit formData">
@@ -70,7 +71,7 @@ async function editHandler(e, context) {
     const category = form.get('category');
 
     if (name == '' || products.length === 0 || steps.length === 0 || img == '' || category == '') {
-        return alert('All fields are required!');
+        return notify('All fields are required!');
     } 
     const editRecipe = {
         name: name,

@@ -1,5 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { register } from '../io/registry.js'
+import { notify } from './common/notificationTemplate.js';
 
 const registerTemplate = (context) => html`
 <section id="register-page" class="register formData">
@@ -50,12 +51,20 @@ async function registerHandler(e, context) {
     const rePassword = form.get('confirm-pass');
 
     if (email == '' || password == '' || rePassword == '' || username == '') {
-        return alert('All fields are required!');
+        return notify('All fields are required!');
     } else if (password !== rePassword) {
-        return alert('Passwords don\'t match!')
+        return notify('Passwords don\'t match!')
     }
+
     await register(username, email, password);
-    context.page.redirect('/');
+    
+    if (sessionStorage.getItem('redirect') !== null) {
+        ctx.page.redirect(`/details/${sessionStorage.getItem('redirect')}`);
+        sessionStorage.removeItem('redirect');
+    } else {
+        ctx.page.redirect('/');
+    }
+
     const navigationHomeButton = document.querySelector('#catalogLink');
     navigationHomeButton.classList.add('active');
 }

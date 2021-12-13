@@ -1,5 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { commentRecipe, getCommentsForRecipe, getSingle, removeRecipe } from '../io/requests.js';
+import { notify } from './common/notificationTemplate.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit/${id}">Редактирай</a>
@@ -93,15 +94,15 @@ async function addCommentHandler(e, ctx) {
     const comment = commentField.value;
 
     if (comment.trim() == '') {
-        return alert('Коментарът ви не трябва да е празен.');
+        return notify('Коментарът ви не трябва да е празен.');
     }
 
     const response = await commentRecipe(ctx.params.id, { content: comment });
     
     if (response.code === 209) {
-        alert('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
-        alert('Ако не сте регистриран потребител можете да се регистрирате тук');
-        return alert('Ако вече сте регистриран потребител можете да влезнете в сайта от тук');
+        notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
+        notify('Ако не сте регистриран потребител можете да се регистрирате тук', {ctx: ctx, location: 'register'});
+        return notify('Ако вече сте регистриран потребител можете да влезнете в сайта от тук', {ctx: ctx, location: 'login'});
     }
     
     commentField.value = '';
