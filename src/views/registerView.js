@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { register } from '../io/registry.js'
+import { login, register } from '../io/registry.js'
 import { notify } from './common/notificationTemplate.js';
 
 const registerTemplate = (context) => html`
@@ -51,18 +51,18 @@ async function registerHandler(e, context) {
     const rePassword = form.get('confirm-pass');
 
     if (email == '' || password == '' || rePassword == '' || username == '') {
-        return notify('All fields are required!');
+        return notify('Всички полета са задължителни');
     } else if (password !== rePassword) {
-        return notify('Passwords don\'t match!')
+        return notify('Паролите не съвпадат')
     }
 
     await register(username, email, password);
     
     if (sessionStorage.getItem('redirect') !== null) {
-        ctx.page.redirect(`/details/${sessionStorage.getItem('redirect')}`);
+        context.page.redirect(`/details/${sessionStorage.getItem('redirect')}`);
         sessionStorage.removeItem('redirect');
     } else {
-        ctx.page.redirect('/');
+        context.page.redirect('/');
     }
 
     const navigationHomeButton = document.querySelector('#catalogLink');
