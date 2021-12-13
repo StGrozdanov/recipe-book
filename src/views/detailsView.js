@@ -3,56 +3,58 @@ import { commentRecipe, getCommentsForRecipe, getSingle, removeRecipe } from '..
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit/${id}">Редактирай</a>
-    <button @click=${() => deleteHandler(id, ctx)} class="button danger">Изтрий</button>
+    <button @click=${()=> deleteHandler(id, ctx)} class="button danger">Изтрий</button>
 `;
 
 const commentsTemplate = (data, ctx) => html`
 <div id="comments-container">
-    <button @click=${(e) => toggleComments(e)} style="margin-right: 60px;" class="button warning">Покажи коментарите</button>
-                    <div style="display: none;" class="details-comments">
-                        <h2>Коментари:</h2>
-                    <ul>
-                        ${data.length > 0 ? data.map(comment => html`
-                        <li class="comment">
-                            <p><a href="#">${comment.owner.username}</a> ${comment.createdAt.replace('T', ', ').substring(0, 20)}</p>     
-                            <p>${comment.content}</p>
-                        </li>`) : html`<p class="no-comments">Все още няма коментари за тази рецепта</p>`}
-                    </ul>
+    <button @click=${(e)=> toggleComments(e)} style="margin-right: 60px;" class="button warning">Покажи
+        коментарите</button>
+    <div style="display: none;" class="details-comments">
+        <h2>Коментари:</h2>
+        <ul>
+            ${data.length > 0 ? data.map(comment => html`
+            <li class="comment">
+                <p><a href="#">${comment.owner.username}</a> ${comment.createdAt.replace('T', ', ').substring(0, 20)}
+                </p>
+                <p>${comment.content}</p>
+            </li>`) : html`<p class="no-comments">Все още няма коментари за тази рецепта</p>`}
+        </ul>
 
-                    </div>
-                    <article style="display: none;" class="create-comment">
-                        <label>Добави коментар:</label>
-                        <form id="add-comment-form" class="form">
-                            <textarea id="comment-text" name="comment" placeholder="Comment......"> </textarea>
-                            <input @click=${(e) => addCommentHandler(e, ctx)} class="comment-btn" type="submit" value="Коментирай">
-                        </form>
-                    </article>
-                    </div>
+    </div>
+    <article style="display: none;" class="create-comment">
+        <label>Добави коментар:</label>
+        <form id="add-comment-form" class="form">
+            <textarea id="comment-text" name="comment" placeholder="Comment......"> </textarea>
+            <input @click=${(e)=> addCommentHandler(e, ctx)} class="comment-btn" type="submit" value="Коментирай">
+        </form>
+    </article>
+</div>
 `;
 
 const detailsTemplate = (data, ctx, commentData) => html`
-       <section id="meme-details">
-            <h1>Ястие: ${data.name}</h1>
-            <div class="meme-details">
-                <div class="meme-img">
-                    <img alt="meme-alt" src=${data.img}>
-                    ${sessionStorage.getItem('id') !== null ? commentsTemplate(commentData, ctx) : ''}
-                </div>
-                <div class="meme-description">
-                    <h2>Съставки:</h2>
-                        <ul>
-                            ${data.products.map(product => html`<li>${product}</li>`)}
-                        </ul>
-
-                        <h2>Начин на приготвяне:</h2>
-                        <ul>
-                            ${data.steps.map(step => html`<li>${step}</li>`)}
-                        </ul>
-
-                    ${sessionStorage.getItem('id') === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
+    <section id="meme-details">
+        <h1>Ястие: ${data.name}</h1>
+        <div class="meme-details">
+            <div class="meme-img">
+                <img alt="meme-alt" src=${data.img}>
+                ${commentsTemplate(commentData, ctx)}
             </div>
-                </div>
-        </section>
+            <div class="meme-description">
+                <h2>Съставки:</h2>
+                <ul>
+                    ${data.products.map(product => html`<li>${product}</li>`)}
+                </ul>
+    
+                <h2>Начин на приготвяне:</h2>
+                <ul>
+                    ${data.steps.map(step => html`<li>${step}</li>`)}
+                </ul>
+    
+                ${sessionStorage.getItem('id') === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
+            </div>
+        </div>
+    </section>
 `;
 
 export async function detailsPage(ctx) {
@@ -90,11 +92,18 @@ async function addCommentHandler(e, ctx) {
     const commentField = document.querySelector('#comment-text');
     const comment = commentField.value;
 
-    if (comment.trim() == ''){
+    if (comment.trim() == '') {
         return alert('Коментарът ви не трябва да е празен.');
     }
+
+    const response = await commentRecipe(ctx.params.id, { content: comment });
     
-    await commentRecipe(ctx.params.id, {content: comment});
+    if (response.code === 209) {
+        alert('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
+        alert('Ако не сте регистриран потребител можете да се регистрирате тук');
+        return alert('Ако вече сте регистриран потребител можете да влезнете в сайта от тук');
+    }
+    
     commentField.value = '';
     ctx.page.redirect(`/details/${ctx.params.id}`);
 }

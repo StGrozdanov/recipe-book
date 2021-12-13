@@ -103,7 +103,6 @@ export async function getCommentsForRecipe(recipeId) {
         headers: {
             'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
             'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
-            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
         }
     });
     const data = await response.json();
