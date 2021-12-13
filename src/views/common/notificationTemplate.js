@@ -11,8 +11,14 @@ export function notify(message, redirect) {
     liItem.className = 'notification';
 
     if (redirect) {
+        const btn = document.createElement('span');
+        btn.textContent = '\u2716'
+        btn.style = 'padding-left: 40px;';
+        btn.addEventListener('click', (e) => { e.target.parentNode.remove() });
         liItem.textContent = message;
-        liItem.addEventListener('click', () => redirectHandler(redirect))
+        liItem.appendChild(btn);
+
+        liItem.addEventListener('click', (e) => redirectHandler(e, redirect))
         list.appendChild(liItem);
     } else {
         liItem.textContent = message + ' \u2716';
@@ -28,12 +34,15 @@ function onClick(event) {
     }
 }
 
-function redirectHandler(redirect) {
-    const notifications = document.querySelectorAll('.notification');
+function redirectHandler(e, redirect) {
+    if (e.target.tagName == 'LI') {
 
-    for (const notification of notifications) {
-        notification.remove();
+        const notifications = document.querySelectorAll('.notification');
+
+        for (const notification of notifications) {
+            notification.remove();
+        }
+        redirect.ctx.page.redirect(`/${redirect.location}`);
+        sessionStorage.setItem('redirect', redirect.ctx.params.id);
     }
-    redirect.ctx.page.redirect(`/${redirect.location}`);
-    sessionStorage.setItem('redirect', redirect.ctx.params.id);
 }
