@@ -447,6 +447,7 @@ li {
 .formData form textarea {
 	border: none;
 	background: transparent;
+    font-size: larger;
 }
 
 .formData form fieldset {

@@ -62,7 +62,6 @@ const detailsTemplate = (data, ctx) => html`
 
 export async function detailsPage(ctx) {
     const data = await getSingle(ctx.params.id);
-    console.log(data);
     ctx.render(detailsTemplate(data, ctx));
 }
 
