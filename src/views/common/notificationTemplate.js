@@ -17,7 +17,7 @@ export function notify(message, redirect) {
     } else {
         liItem.textContent = message + ' \u2716';
         list.appendChild(liItem);
-        setTimeout(() => liItem.remove(), 6000);
+        setTimeout(() => liItem.remove(), 5000);
     }
 
 }

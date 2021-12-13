@@ -1,15 +1,16 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { commentRecipe, getCommentsForRecipe, getSingle, removeRecipe } from '../io/requests.js';
+import { showModal } from './common/modalDialogue.js';
 import { notify } from './common/notificationTemplate.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit/${id}">Редактирай</a>
-    <button @click=${()=> deleteHandler(id, ctx)} class="button danger">Изтрий</button>
+    <button @click=${() => deleteHandler(id, ctx)} class="button danger">Изтрий</button>
 `;
 
 const commentsTemplate = (data, ctx) => html`
 <div id="comments-container">
-    <button @click=${(e)=> toggleComments(e)} style="margin-right: 60px;" class="button warning">Покажи
+    <button @click=${(e) => toggleComments(e)} style="margin-right: 60px;" class="button warning">Покажи
         коментарите</button>
     <div style="display: none;" class="details-comments">
         <h2>Коментари:</h2>
@@ -27,7 +28,7 @@ const commentsTemplate = (data, ctx) => html`
         <label>Добави коментар:</label>
         <form id="add-comment-form" class="form">
             <textarea id="comment-text" name="comment" placeholder="Comment......"> </textarea>
-            <input @click=${(e)=> addCommentHandler(e, ctx)} class="comment-btn" type="submit" value="Коментирай">
+            <input @click=${(e) => addCommentHandler(e, ctx)} class="comment-btn" type="submit" value="Коментирай">
         </form>
     </article>
 </div>
@@ -65,11 +66,16 @@ export async function detailsPage(ctx) {
 }
 
 async function deleteHandler(id, ctx) {
-    const confirmed = confirm('Are you sure you want to delete this recipe?');
-    if (confirmed) {
-        await removeRecipe(id);
-        ctx.page.redirect('/');
+    showModal('Сигурни ли сте, че искате да изтриете тази рецепта?', onSelect);
+
+    async function onSelect(choice) {
+        if (choice) {
+            await removeRecipe(id);
+            ctx.page.redirect('/');
+            notify('Успешно изтрихте рецептата!');
+        }
     }
+
 }
 
 function toggleComments(e) {
@@ -98,13 +104,13 @@ async function addCommentHandler(e, ctx) {
     }
 
     const response = await commentRecipe(ctx.params.id, { content: comment });
-    
+
     if (response.code === 209) {
         notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
-        notify('Ако не сте регистриран потребител можете да се регистрирате тук', {ctx: ctx, location: 'register'});
-        return notify('Ако вече сте регистриран потребител можете да влезнете в сайта от тук', {ctx: ctx, location: 'login'});
+        notify('Ако не сте регистриран потребител можете да се регистрирате тук', { ctx: ctx, location: 'register' });
+        return notify('Ако вече сте регистриран потребител можете да влезнете в сайта от тук', { ctx: ctx, location: 'login' });
     }
-    
+
     commentField.value = '';
     ctx.page.redirect(`/details/${ctx.params.id}`);
 }
