@@ -6,14 +6,10 @@ const ownerTemplate = (id, ctx) => html`
     <button @click=${() => deleteHandler(id, ctx)} class="button danger">Изтрий</button>
 `;
 
-const detailsTemplate = (data, ctx) => html`
-       <section id="meme-details">
-            <h1>Ястие: ${data.name}</h1>
-            <div class="meme-details">
-                <div class="meme-img">
-                    <img alt="meme-alt" src=${data.img}>
-
-                    <div class="details-comments">
+const commentsTemplate = (data) => html`
+<div id="comments-container">
+    <button @click=${(e) => toggleComments(e)} style="margin-right: 60px;" class="button warning">Покажи коментарите</button>
+                    <div style="display: none;" class="details-comments">
                         <h2>Коментари:</h2>
                     <ul>
                         <li class="comment">
@@ -31,14 +27,23 @@ const detailsTemplate = (data, ctx) => html`
                     </ul>
 
                     </div>
-                    <article class="create-comment">
+                    <article style="display: none;" class="create-comment">
                         <label>Добави коментар:</label>
                         <form id="add-comment-form" class="form">
                             <textarea id="comment-text" name="comment" placeholder="Comment......"> </textarea>
                             <input class="comment-btn" type="submit" value="Коментирай">
                         </form>
                     </article>
+                    </div>
+`;
 
+const detailsTemplate = (data, ctx) => html`
+       <section id="meme-details">
+            <h1>Ястие: ${data.name}</h1>
+            <div class="meme-details">
+                <div class="meme-img">
+                    <img alt="meme-alt" src=${data.img}>
+                    ${commentsTemplate(data)}
                 </div>
                 <div class="meme-description">
                     <h2>Съставки:</h2>
@@ -54,7 +59,6 @@ const detailsTemplate = (data, ctx) => html`
                     ${sessionStorage.getItem('id') === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
             </div>
                 </div>
-                
         </section>
 `;
 
@@ -68,5 +72,20 @@ async function deleteHandler(id, ctx) {
     if (confirmed) {
         await removeRecipe(id);
         ctx.page.redirect('/');
+    }
+}
+
+function toggleComments(e) {
+    const comments = e.target.parentNode.querySelector('.details-comments');
+    const addCommentForm = e.target.parentNode.querySelector('.create-comment');
+
+    if (comments.style.display == 'none' && addCommentForm.style.display == 'none') {
+        comments.style.display = 'block';
+        addCommentForm.style.display = 'block';
+        e.target.textContent = 'Скрий коментарите';
+    } else {
+        comments.style.display = 'none';
+        addCommentForm.style.display = 'none';
+        e.target.textContent = 'Покажи коментарите';
     }
 }
