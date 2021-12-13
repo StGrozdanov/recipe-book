@@ -15,7 +15,7 @@ const commentsTemplate = (data, ctx) => html`
         <ul>
             ${data.length > 0 ? data.map(comment => html`
             <li class="comment">
-                <p><a href="#">${comment.owner.username}</a> ${comment.createdAt.replace('T', ', ').substring(0, 20)}
+                <p><a href="#">${comment.owner.username}</a> ${new Date(comment.createdAt).toLocaleString()}
                 </p>
                 <p>${comment.content}</p>
             </li>`) : html`<p class="no-comments">Все още няма коментари за тази рецепта</p>`}
