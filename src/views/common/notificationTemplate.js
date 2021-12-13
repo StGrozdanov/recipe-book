@@ -9,21 +9,19 @@ document.body.appendChild(container);
 export function notify(message, redirect) {
     const liItem = document.createElement('li');
     liItem.className = 'notification';
-
+    const btn = document.createElement('span');
+    btn.textContent = '\u2716'
+    btn.style = 'padding-left: 20px;';
+    btn.addEventListener('click', (e) => { e.target.parentNode.remove() });
+    liItem.textContent = message;
+    liItem.appendChild(btn);
+    
     if (redirect) {
-        const btn = document.createElement('span');
-        btn.textContent = '\u2716'
-        btn.style = 'padding-left: 40px;';
-        btn.addEventListener('click', (e) => { e.target.parentNode.remove() });
-        liItem.textContent = message;
-        liItem.appendChild(btn);
-
         liItem.addEventListener('click', (e) => redirectHandler(e, redirect))
         list.appendChild(liItem);
     } else {
-        liItem.textContent = message + ' \u2716';
         list.appendChild(liItem);
-        setTimeout(() => liItem.remove(), 5000);
+        setTimeout(() => liItem.remove(), 3400);
     }
 
 }
