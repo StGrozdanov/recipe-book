@@ -1,29 +1,22 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getSingle, removeRecipe } from '../io/requests.js';
+import { commentRecipe, getCommentsForRecipe, getSingle, removeRecipe } from '../io/requests.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit/${id}">Редактирай</a>
     <button @click=${() => deleteHandler(id, ctx)} class="button danger">Изтрий</button>
 `;
 
-const commentsTemplate = (data) => html`
+const commentsTemplate = (data, ctx) => html`
 <div id="comments-container">
     <button @click=${(e) => toggleComments(e)} style="margin-right: 60px;" class="button warning">Покажи коментарите</button>
                     <div style="display: none;" class="details-comments">
                         <h2>Коментари:</h2>
                     <ul>
+                        ${data.length > 0 ? data.map(comment => html`
                         <li class="comment">
-                    <p><a href="#">Шушана</a> 12/11/2021, 17:03:23</p>     
-                    <p>Ееее, браво бе, шушеее, велик си! Ти си гений!</p>
-                        </li>
-
-                        <li class="comment">
-                            <p><a href="#">Шушан</a> 12/11/2021, 17:05:33</p>    
-                            
-                    <p>Кажи ми нещо, което незнам. </p>
-                    
-                        </li>
-                        
+                            <p><a href="#">${comment.owner.username}</a> ${comment.createdAt.replace('T', ', ').substring(0, 20)}</p>     
+                            <p>${comment.content}</p>
+                        </li>`) : html`<p class="no-comments">Все още няма коментари за тази рецепта</p>`}
                     </ul>
 
                     </div>
@@ -31,19 +24,19 @@ const commentsTemplate = (data) => html`
                         <label>Добави коментар:</label>
                         <form id="add-comment-form" class="form">
                             <textarea id="comment-text" name="comment" placeholder="Comment......"> </textarea>
-                            <input class="comment-btn" type="submit" value="Коментирай">
+                            <input @click=${(e) => addCommentHandler(e, ctx)} class="comment-btn" type="submit" value="Коментирай">
                         </form>
                     </article>
                     </div>
 `;
 
-const detailsTemplate = (data, ctx) => html`
+const detailsTemplate = (data, ctx, commentData) => html`
        <section id="meme-details">
             <h1>Ястие: ${data.name}</h1>
             <div class="meme-details">
                 <div class="meme-img">
                     <img alt="meme-alt" src=${data.img}>
-                    ${commentsTemplate(data)}
+                    ${sessionStorage.getItem('id') !== null ? commentsTemplate(commentData, ctx) : ''}
                 </div>
                 <div class="meme-description">
                     <h2>Съставки:</h2>
@@ -64,7 +57,8 @@ const detailsTemplate = (data, ctx) => html`
 
 export async function detailsPage(ctx) {
     const data = await getSingle(ctx.params.id);
-    ctx.render(detailsTemplate(data, ctx));
+    const commentData = await getCommentsForRecipe(ctx.params.id);
+    ctx.render(detailsTemplate(data, ctx, commentData.results));
 }
 
 async function deleteHandler(id, ctx) {
@@ -88,4 +82,19 @@ function toggleComments(e) {
         addCommentForm.style.display = 'none';
         e.target.textContent = 'Покажи коментарите';
     }
+}
+
+async function addCommentHandler(e, ctx) {
+    e.preventDefault();
+
+    const commentField = document.querySelector('#comment-text');
+    const comment = commentField.value;
+
+    if (comment.trim() == ''){
+        return alert('Коментарът ви не трябва да е празен.');
+    }
+    
+    await commentRecipe(ctx.params.id, {content: comment});
+    commentField.value = '';
+    ctx.page.redirect(`/details/${ctx.params.id}`);
 }

@@ -338,6 +338,7 @@ li {
     margin-top: 22px;
     margin-bottom: 28px;
     padding: 5px;
+    font-size: larger;
 }
 
 .details-comments {
@@ -575,4 +576,10 @@ li {
 
 .formData .field .input:hover {
 	background: #c4c1c1;
+}
+
+.no-comments {
+    margin-left: 73px;
+    font-family: cursive;
+    font-size: medium;
 }

@@ -22,7 +22,6 @@ export async function getAll() {
     return data;
 }
 
-
 export async function create(recipe) {
     addOwner(recipe);
 
@@ -43,12 +42,11 @@ export async function create(recipe) {
 }
 
 export async function getSingle(id) {
-    const response = await fetch(REGISTRY_URL + endPoints.singleRecordOwnerDetails(id), {
+    const response = await fetch(REGISTRY_URL + endPoints.singleRecord(id), {
         method: 'GET',
         headers: {
             'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
             'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
-            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
         }
     });
     const data = await response.json();
@@ -104,7 +102,8 @@ export async function getCommentsForRecipe(recipeId) {
         method: 'GET',
         headers: {
             'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
-            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS'
+            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
         }
     });
     const data = await response.json();
