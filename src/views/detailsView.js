@@ -1,9 +1,9 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getSingle } from '../io/requests.js';
+import { getSingle, removeRecipe } from '../io/requests.js';
 
 const ownerTemplate = (id, ctx) => html`
-<a class="button warning" href="/edit/${id}">Edit</a>
-<button @click=${() => deleteHandler(id, ctx)} class="button danger">Delete</button>
+    <a class="button warning" href="/edit/${id}">Редактирай</a>
+    <button @click=${() => deleteHandler(id, ctx)} class="button danger">Изтрий</button>
 `;
 
 const detailsTemplate = (data, ctx) => html`
@@ -51,9 +51,7 @@ const detailsTemplate = (data, ctx) => html`
                             ${data.steps.map(step => html`<li>${step}</li>`)}
                         </ul>
 
-                    <!-- Buttons Edit/Delete should be displayed only for creator of this meme  -->
-                    <a class="button warning" href="#">Редактирай</a>
-                    <button class="button danger">Изтрий</button>
+                    ${sessionStorage.getItem('id') === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
             </div>
                 </div>
                 
@@ -66,9 +64,9 @@ export async function detailsPage(ctx) {
 }
 
 async function deleteHandler(id, ctx) {
-    const confirmed = confirm('Are you sure you want to delete this meme?');
+    const confirmed = confirm('Are you sure you want to delete this recipe?');
     if (confirmed) {
-        await remove(id);
-        ctx.page.redirect('/all-memes');
+        await removeRecipe(id);
+        ctx.page.redirect('/');
     }
 }

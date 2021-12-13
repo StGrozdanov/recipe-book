@@ -79,6 +79,5 @@ async function createHandler(e, context) {
         category: category
     }
     const createdRecipe = await create(createRecipe);
-    console.log(createRecipe);
     context.page.redirect(`/details/${createdRecipe.objectId}`);
 }
