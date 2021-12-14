@@ -643,6 +643,13 @@ li {
     margin-right: 15px;
     padding: 0rem 1rem 0rem 1rem;
     margin-top: 10px;
+    background-color: #d6ac77;
+}
+
+.page-btn:hover {
+    color: #212529;
+    background-color: #e7932d;
+    border-color: #e7932d;
 }
 
 .page-div {
