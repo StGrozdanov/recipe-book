@@ -1,5 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getAll, getRecepiesCount, RECEPIES_PER_PAGE } from '../io/requests.js';
+import { loaderTemplate } from './common/loadingTemplate.js';
 
 const pageTemplate = (count) => html`
     <a href="?page=${count}" class="button warning page-btn">${count}</a>
@@ -38,7 +39,7 @@ const singleRecordTemplate = (data) => html`
 `;
 
 export async function viewAllPage(ctx) {
-
+    ctx.render(loaderTemplate());
     const currentPage = Number(ctx.querystring.split('=')[1] || 1);
 
     let data = await getAll(currentPage);

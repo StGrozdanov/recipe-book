@@ -4,8 +4,8 @@ element.id = 'overlay';
 element.innerHTML = `
 <div id="modal">
     <p>Are you sure?</p>
-    <button class="modal-ok">OK</button>
-    <button class="modal-cancel">Cancel</button>
+    <button class="modal-ok">Потвърди</button>
+    <button class="modal-cancel">Отмени</button>
 </div>
 `;
 

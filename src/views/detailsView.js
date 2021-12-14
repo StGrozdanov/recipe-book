@@ -1,5 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { commentRecipe, getCommentsForRecipe, getSingle, removeRecipe } from '../io/requests.js';
+import { loaderTemplate } from './common/loadingTemplate.js';
 import { showModal } from './common/modalDialogue.js';
 import { notify } from './common/notificationTemplate.js';
 
@@ -60,6 +61,7 @@ const detailsTemplate = (data, ctx, commentData) => html`
 `;
 
 export async function detailsPage(ctx) {
+    ctx.render(loaderTemplate());
     const data = await getSingle(ctx.params.id);
     const commentData = await getCommentsForRecipe(ctx.params.id);
     ctx.render(detailsTemplate(data, ctx, commentData.results));
