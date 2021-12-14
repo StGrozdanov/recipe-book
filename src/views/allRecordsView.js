@@ -2,6 +2,37 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { filterByCategory, getAll, getRecepiesCount, RECEPIES_PER_PAGE, searchByName } from '../io/requests.js';
 import { loaderTemplate } from './common/loadingTemplate.js';
 
+const filtrationTemplate = () => html`
+<div class="middlecolumn">
+<input id="searchTxt" type="text" name="kw" placeholder="Търси тук по име на рецепта/продукт или използвай филтрите в ляво" aria-label="Търси тук по име на рецепта/продукт или използвай филтрите в ляво" data-role="clearfield">
+<span data-role="clearlink" class="clearlink" style="display: none;">
+<span class="icon icon-clearable">
+</span>
+</span>
+</div>
+<span data-role="submit" class="submit">
+<i class="zZ icon-search">
+</i>
+</span>
+</div>
+</div>
+</div>
+<div class="box s1">
+<div class="title">
+<span>Категория</span>
+</div>
+<div class="t2">
+<ul data-art="art" data-type="2">
+<li><label><input type="checkbox"><span>Агнешко месо</span></label><span class="count">(1014)</span></li>
+<li><label><input type="checkbox"><span>Алкохол</span></label><span class="count">(210)</span></li>
+<li><label><input type="checkbox"><span>Баница</span></label><span class="count">(2807)</span></li>
+<li><label><input type="checkbox"><span>Бебешки Храни</span></label><span class="count">(235)</span></li>
+<li><label><input type="checkbox"><span>Бутер Тесто</span></label><span class="count">(396)</span></li> 
+</ul>
+</div>
+</div>
+`
+
 const pageTemplate = (count) => html`
     <a href="?page=${count}" class="button warning page-btn">${count}</a>
 `
@@ -22,6 +53,7 @@ const noRecordsTemplate = () => html`
 
 const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages) => html`
 <section id="dasahboard-page" class="dashboard">
+    <!-- ${filtrationTemplate()} -->
     ${paginationTemplate(pages, currentPage, totalPagesCount)}
 <ul class="other-books-list">
     ${recepies ? recepies : noRecordsTemplate()}

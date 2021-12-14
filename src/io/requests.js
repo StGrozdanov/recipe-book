@@ -11,7 +11,8 @@ const endPoints = {
     commentsByRecipe: (recipeId) => { return `/classes/Comment?where=${createPointerQuery('recipe', 'Recipe', recipeId)}&include=owner` },
     comment: '/classes/Comment',
     searchByName: (query) => { return `/classes/Recipe?where=${createQuery({"name":{"$regex":`${query}`}})}` },
-    filterByCategory: (query) => { return `/classes/Recipe?where=${createQuery({"category": `${query}`})}` }
+    filterByCategory: (query) => { return `/classes/Recipe?where=${createQuery({"category": `${query}`})}` },
+    createRecord: '/classes/Recipe'
 }
 
 export async function getRecepiesCount() {
@@ -52,7 +53,7 @@ export async function create(recipe) {
         body: JSON.stringify(recipe)
     };
 
-    const response = await fetch(REGISTRY_URL + endPoints.allRecords, options);
+    const response = await fetch(REGISTRY_URL + endPoints.createRecord, options);
 
     return await response.json();
 }

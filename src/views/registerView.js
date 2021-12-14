@@ -64,7 +64,7 @@ async function registerHandler(e, context) {
     } else {
         context.page.redirect('/');
     }
-
+    notify('Регистрирахте се успешно!');
     const navigationHomeButton = document.querySelector('#catalogLink');
     navigationHomeButton.classList.add('active');
 }

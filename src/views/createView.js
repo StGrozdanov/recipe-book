@@ -80,7 +80,7 @@ async function createHandler(e, context) {
         img: img,
         category: category
     }
-    
+    notify('Успешно създадохте рецептата си! При нужда можете да я редактирате от бутончетата.');
     const createdRecipe = await create(createRecipe);
     context.page.redirect(`/details/${createdRecipe.objectId}`);
 }
