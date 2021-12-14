@@ -1,7 +1,10 @@
 import { REGISTRY_URL } from "./registry.js";
 
+export const RECEPIES_PER_PAGE = 3;
+
 const endPoints = {
-    allRecords: '/classes/Recipe',
+    allRecordsCount: '/classes/Recipe?count=1',
+    allRecords: (page) => `/classes/Recipe?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1) * RECEPIES_PER_PAGE}`,
     singleRecord: (id) => { return `/classes/Recipe/${id}` },
     singleRecordOwnerDetails: (id) => { return `/classes/Recipe/${id}?include=owner` },
     ownerPublications: (ownerId) => { return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}` },
@@ -9,9 +12,20 @@ const endPoints = {
     comment: '/classes/Comment',
 }
 
+export async function getRecepiesCount() {
+    const response = await fetch(REGISTRY_URL + endPoints.allRecordsCount, {
+        method: 'GET',
+        headers: {
+            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
+            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS'
+        }
+    });
+    const data = await response.json();
+    return data;
+}
 
-export async function getAll() {
-    const response = await fetch(REGISTRY_URL + endPoints.allRecords, {
+export async function getAll(page) {
+    const response = await fetch(REGISTRY_URL + endPoints.allRecords(page), {
         method: 'GET',
         headers: {
             'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
