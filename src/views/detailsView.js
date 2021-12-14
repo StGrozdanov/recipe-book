@@ -63,7 +63,11 @@ const detailsTemplate = (data, ctx, commentData) => html`
 export async function detailsPage(ctx) {
     ctx.render(loaderTemplate());
     const data = await getSingle(ctx.params.id);
+
+    data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
+    
     const commentData = await getCommentsForRecipe(ctx.params.id);
+
     ctx.render(detailsTemplate(data, ctx, commentData.results));
 }
 

@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getAll, getRecepiesCount, RECEPIES_PER_PAGE } from '../io/requests.js';
+import { filterByCategory, getAll, getRecepiesCount, RECEPIES_PER_PAGE, searchByName } from '../io/requests.js';
 import { loaderTemplate } from './common/loadingTemplate.js';
 
 const pageTemplate = (count) => html`
@@ -43,6 +43,8 @@ export async function viewAllPage(ctx) {
     const currentPage = Number(ctx.querystring.split('=')[1] || 1);
 
     let data = await getAll(currentPage);
+    addUppercase(data);
+    
     const singleRecords = data.results.map(singleRecordTemplate);
     
     const totalRecepies = await getRecepiesCount();
@@ -57,4 +59,18 @@ export async function viewAllPage(ctx) {
     
     const allRecords = allRecordsTemplate(singleRecords, currentPage, totalPagesCount, pageData);
     ctx.render(allRecords);
+
+    let criteria = 'МуС';
+
+    const search = await searchByName(criteria.toLowerCase());
+    console.log(search)
+
+    let category = 'Десерти';
+
+    const filter = await filterByCategory(category);
+    console.log(filter);
+}
+
+export function addUppercase(arr) {
+    arr.results.map(obj => obj.name = obj.name[0].toUpperCase() + obj.name.substring(1, obj.name.length));
 }

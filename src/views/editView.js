@@ -57,6 +57,7 @@ const editTemplate = (data, ctx) => html`
 
 export async function editPage(context) {
     const data = await getSingle(context.params.id);
+    data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
     context.render(editTemplate(data, context));
 }
 
@@ -74,7 +75,7 @@ async function editHandler(e, context) {
         return notify('All fields are required!');
     } 
     const editRecipe = {
-        name: name,
+        name: name.toLowerCase(),
         products: products,
         steps: steps,
         img: img,

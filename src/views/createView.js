@@ -63,7 +63,7 @@ async function createHandler(e, context) {
     e.preventDefault();
 
     const form = new FormData(document.getElementById('create-form'));
-    const name = form.get('name');
+    let name = form.get('name');
     const products = form.get('products').split('\n').map(content => content.trim());
     const steps = form.get('steps').split('\n').map(content => content.trim());
     const img = form.get('img');
@@ -72,13 +72,15 @@ async function createHandler(e, context) {
     if (name == '' || products.length === 0 || steps.length === 0 || img == '' || category == '') {
         return notify('Моля попълнете всички полета.');
     } 
+
     const createRecipe = {
-        name: name,
+        name: name.toLowerCase(),
         products: products,
         steps: steps,
         img: img,
         category: category
     }
+    
     const createdRecipe = await create(createRecipe);
     context.page.redirect(`/details/${createdRecipe.objectId}`);
 }

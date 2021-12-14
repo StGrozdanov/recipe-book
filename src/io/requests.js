@@ -10,6 +10,8 @@ const endPoints = {
     ownerPublications: (ownerId) => { return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}` },
     commentsByRecipe: (recipeId) => { return `/classes/Comment?where=${createPointerQuery('recipe', 'Recipe', recipeId)}&include=owner` },
     comment: '/classes/Comment',
+    searchByName: (query) => { return `/classes/Recipe?where=${createQuery({"name":{"$regex":`${query}`}})}` },
+    filterByCategory: (query) => { return `/classes/Recipe?where=${createQuery({"category": `${query}`})}` }
 }
 
 export async function getRecepiesCount() {
@@ -143,6 +145,29 @@ export async function commentRecipe(recipeId, comment) {
     return await response.json();
 }
 
+export async function searchByName(query) {
+    const response = await fetch(REGISTRY_URL + endPoints.searchByName(query), {
+        method: 'GET',
+        headers: {
+            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
+            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+        }
+    });
+    const data = await response.json();
+    return data;
+}
+
+export async function filterByCategory(query) {
+    const response = await fetch(REGISTRY_URL + endPoints.filterByCategory(query), {
+        method: 'GET',
+        headers: {
+            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
+            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+        }
+    });
+    const data = await response.json();
+    return data;
+}
 
 function createPointer(className, objectId) {
     return {
