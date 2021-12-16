@@ -90,7 +90,17 @@ a.active {
 
 /* header end */
 
-#dasahboard-page ul {
+element.style {
+    justify-content: end;
+    margin-right: -65px;
+}
+
+#dasahboard-page > ul {
+    justify-content: end;
+    margin-right: -65px;
+}
+
+#dasahboard-page .other-books-list {
     margin-left: -30px;
 }
 
@@ -662,3 +672,110 @@ li {
     left: 48%;
     width: 80px;
 }
+
+#myInput {
+    background-image: url('../images/istockphoto-1068237878-170667a-removebg-preview.png'); /* Add a search icon to input */
+    background-position: 0px 1px; /* Position the search icon */
+    background-size: contain;
+    background-repeat: no-repeat; /* Do not repeat the icon image */
+    width: 25%; /* Full-width */
+    font-size: 16px; /* Increase font-size */
+    padding: 12px 20px 12px 40px; /* Add some padding */
+    border: 1px solid #ddd; /* Add a grey border */
+    margin-bottom: 12px; /* Add some space below the input */
+  }
+
+  #myInput:hover {
+      border-color: black;
+  }
+  
+  #myUL {
+    /* Remove default list styling */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dropdown-toggle {
+    float: right;
+    background-image: url(../images/SeekPng.com_to-do-list-png_680914.png);
+    background-position: 10px;
+    background-size: 20px;
+    background-repeat: no-repeat;
+    width: 41%;
+    font-size: 15px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 4px;
+}
+
+.dropdown-toggle:hover {
+    cursor: pointer;
+    box-shadow: -8px -2px 28px -8px #000000;
+}
+
+.multiselect {
+    width: 200px;
+}
+
+.selectBox {
+    position: relative;
+}
+
+.selectBox select {
+    width: 125%;
+    font-weight: bold;
+    background-image: url(../images/740307-double-arrow-down-2-orange-down-arrow-white-alphabet-text-label-symbol-transparent-png-1026872.png);
+    background-position: 85px;
+    background-size: 13px;
+    background-repeat: no-repeat;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+.overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  
+  #checkboxes {
+    display: none;
+    float: right;
+  }
+  
+  #checkboxes label {
+    display: block;
+    margin-left: 56px;
+  }
+  
+  #checkboxes label:hover {
+    background-color: #c9995c;
+    color: white;
+    opacity: 0.8;
+  }
+  
+  label input {
+      display: none;
+  }
+
+  label span {
+    height: 11px;
+    width: 11px;
+    margin-right: 3px;
+    border: 1px solid #010101;
+    display: inline-block;
+    position: relative;
+    margin-top: 2px;
+  }
+
+  /* Style its checked state...with a ticked icon */
+  [type=checkbox]:checked + span:before {
+    content: '\2714';;
+    position: absolute;
+    top: -6px;
+    left: -2px;
+    width: 90%;
+  }

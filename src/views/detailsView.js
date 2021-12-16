@@ -1,4 +1,4 @@
-import { html } from '../../node_modules/lit-html/lit-html.js';
+import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { commentRecipe, getCommentsForRecipe, getSingle, removeRecipe } from '../io/requests.js';
 import { loaderTemplate } from './common/loadingTemplate.js';
 import { showModal } from './common/modalDialogue.js';
@@ -117,6 +117,6 @@ async function addCommentHandler(e, ctx) {
         return notify('Ако вече сте регистриран потребител можете да влезнете в сайта от тук', { ctx: ctx, location: 'login' });
     }
 
-    commentField.value = '';
+    commentField.value = '';    
     ctx.page.redirect(`/details/${ctx.params.id}`);
 }
