@@ -21,7 +21,7 @@ export function notify(message, redirect) {
         list.appendChild(liItem);
     } else {
         list.appendChild(liItem);
-        setTimeout(() => liItem.remove(), 3400);
+        setTimeout(() => liItem.remove(), 4500);
     }
 
 }

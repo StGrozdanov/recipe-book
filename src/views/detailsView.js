@@ -41,7 +41,9 @@ const detailsTemplate = (data, ctx, commentData) => html`
         <div class="meme-details">
             <div class="meme-img">
                 <img alt="meme-alt" src=${data.img}>
-                ${commentsTemplate(commentData, ctx)}
+                <div id="comment-container">
+                    ${commentsTemplate(commentData, ctx)}
+                </div>
             </div>
             <div class="meme-description">
                 <h2>Съставки:</h2>
@@ -118,5 +120,17 @@ async function addCommentHandler(e, ctx) {
     }
 
     commentField.value = '';    
-    ctx.page.redirect(`/details/${ctx.params.id}`);
+
+    const commentData = await getCommentsForRecipe(ctx.params.id);
+    const commentContainer = document.getElementById('comment-container');
+    const oldComment = document.getElementById('comments-container');
+    oldComment.remove();
+
+    render(commentsTemplate(commentData.results, ctx), commentContainer);
+    const comments = document.querySelector('.details-comments');
+    const addCommentForm = document.querySelector('.create-comment');
+    const button = document.querySelector('#comments-container button');
+    comments.style.display = 'block';
+    addCommentForm.style.display = 'block';
+    button.textContent = 'Скрий коментарите';
 }
