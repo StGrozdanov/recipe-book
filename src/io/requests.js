@@ -10,7 +10,7 @@ const endPoints = {
     ownerPublications: (ownerId) => { return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}` },
     commentsByRecipe: (recipeId) => { return `/classes/Comment?where=${createPointerQuery('recipe', 'Recipe', recipeId)}&include=owner` },
     comment: '/classes/Comment',
-    searchByName: (query) => { return `/classes/Recipe?where=${createQuery({"name":{"$regex":`${query}`}})}` },
+    searchByName: (page, query) => { return `/classes/Recipe?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1) * RECEPIES_PER_PAGE}&where=${createQuery({"name":{"$regex":`${query}`}})}` },
     filterByCategory: (query) => { return `/classes/Recipe?where=${createQuery({"category": `${query}`})}` },
     createRecord: '/classes/Recipe'
 }
@@ -146,8 +146,8 @@ export async function commentRecipe(recipeId, comment) {
     return await response.json();
 }
 
-export async function searchByName(query) {
-    const response = await fetch(REGISTRY_URL + endPoints.searchByName(query), {
+export async function searchByName(page, query) {
+    const response = await fetch(REGISTRY_URL + endPoints.searchByName(page, query), {
         method: 'GET',
         headers: {
             'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',

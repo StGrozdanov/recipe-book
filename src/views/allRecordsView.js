@@ -1,6 +1,7 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { filterByCategory, getAll, getRecepiesCount, RECEPIES_PER_PAGE, searchByName } from '../io/requests.js';
 import { loaderTemplate } from './common/loadingTemplate.js';
+import { notify } from './common/notificationTemplate.js';
 
 const pageTemplate = (count) => html`
     <a href="?page=${count}" class="button warning page-btn">${count}</a>
@@ -16,10 +17,11 @@ const paginationTemplate = (pages, currentPage, totalPagesCount) => html`
 `;
 
 const noRecordsTemplate = () => html`
-<p class="no-books">Все още няма рецепти. Ако желаете да добавите първата, кликнете <a href="add-recipe">тук</a></p>
+<p class="no-books">Все още няма такива рецепти. Ако желаете да добавите първата, кликнете <a href="add-recipe">тук</a>
+    или върнете нормалния изглед от <a href="/">тук</a></p>
 `;
 
-const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages) => html`
+const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) => html`
 <section id="dasahboard-page" class="dashboard">
     <span class="input">
         <form style="float:right; margin-left: -65px;">
@@ -59,7 +61,11 @@ const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages) => ht
             </div>
         </form>
     </span>
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Търсете по име на рецептата...">
+    <form @submit=${() => search(ctx)}>
+        <img @click=${() => search(ctx)} id="find-img"
+        src="../../static/images/istockphoto-1068237878-170667a-removebg-preview.png"> <input type="text" id="myInput"
+            placeholder="Търсете по име на рецептата...">
+    </form>
     ${paginationTemplate(pages, currentPage, totalPagesCount)}
     <ul class="other-books-list">
         ${recepies ? recepies : noRecordsTemplate()}
@@ -93,18 +99,52 @@ export async function viewAllPage(ctx) {
         pageData.push(pageTemplate(i));
     }
 
-    const allRecords = allRecordsTemplate(singleRecords, currentPage, totalPagesCount, pageData);
+    const allRecords = allRecordsTemplate(singleRecords, currentPage, totalPagesCount, pageData, ctx);
     ctx.render(allRecords);
-
-    let criteria = 'МуС';
-
-    const search = await searchByName(criteria.toLowerCase());
-    console.log(search)
 
     let category = 'Десерти';
 
     const filter = await filterByCategory(category);
     console.log(filter);
+
+}
+
+async function search(ctx) {
+    const inputField = document.getElementById('myInput');
+
+    let query = inputField.value.toLowerCase();
+
+    if (query.trim() !== '') {
+
+        ctx.render(loaderTemplate());
+
+        const currentPage = Number(ctx.querystring.split('=')[1] || 1);
+
+        const data = await searchByName(currentPage, query);
+
+        if (data.results.length > 0) {
+            addUppercase(data);
+
+            const singleRecords = data.results.map(singleRecordTemplate);
+
+            const totalRecepies = data.results.length;
+            const PAGE_SIZE = RECEPIES_PER_PAGE;
+            const totalPagesCount = Math.ceil(totalRecepies.count / PAGE_SIZE);
+
+            const pageData = [];
+
+            for (let i = 1; i <= totalPagesCount; i++) {
+                pageData.push(pageTemplate(i));
+            }
+
+            const allRecords = allRecordsTemplate(singleRecords, currentPage, totalPagesCount, pageData);
+            ctx.render(allRecords);
+        } else {
+            ctx.render(noRecordsTemplate());
+        }
+    } else {
+        notify('Добър опит! Сега пробвайте да въведете и буквички.')
+    }
 }
 
 export function addUppercase(arr) {
@@ -130,7 +170,7 @@ function showCheckboxes() {
 
 function selectHandler(e) {
     const checks = document.querySelectorAll('[type=checkbox]');
-    
+
     if (e.target.id === 'one') {
         checks[0].checked = true;
 

@@ -3,7 +3,7 @@ import { create } from '../io/requests.js';
 import { notify } from './common/notificationTemplate.js';
 
 const createTemplate = (ctx) => html`
- <section id="create-page" class="create formData">
+<section id="create-page" class="create formData">
     <form id="create-form" action="" method="">
         <fieldset>
             <legend>Нова рецепта</legend>
@@ -16,13 +16,15 @@ const createTemplate = (ctx) => html`
             <p class="field">
                 <label for="description">Продукти</label>
                 <span class="input">
-                    <textarea name="products" id="description" placeholder="Продукти и грамаж, всеки на нов ред"></textarea>
+                    <textarea name="products" id="description"
+                        placeholder="Продукти и грамаж, всеки на нов ред"></textarea>
                 </span>
             </p>
             <p class="field">
                 <label for="description">Стъпки за приготвяне</label>
                 <span class="input">
-                    <textarea name="steps" id="description" placeholder="Стъпки за приготвяне, всяка на нов ред"></textarea>
+                    <textarea name="steps" id="description"
+                        placeholder="Стъпки за приготвяне, всяка на нов ред"></textarea>
                 </span>
             </p>
             <p class="field">
@@ -49,14 +51,18 @@ const createTemplate = (ctx) => html`
                     </select>
                 </span>
             </p>
-            <input @click=${(e) => createHandler(e, ctx)} class="button submit" type="submit" value="Създай рецепта">
+            <input @click=${(e)=> createHandler(e, ctx)} class="button submit" type="submit" value="Създай рецепта">
         </fieldset>
     </form>
 </section>
 `;
 
 export function createPage(context) {
-    context.render(createTemplate(context));
+    if (sessionStorage.getItem('authToken') != null) {
+        context.render(createTemplate(context))
+    } else {
+        notify('Единствено регистрираните потребители могат да създават рецепти.');
+    }
 }
 
 async function createHandler(e, context) {
@@ -71,7 +77,7 @@ async function createHandler(e, context) {
 
     if (name == '' || products.length === 0 || steps.length === 0 || img == '' || category == '') {
         return notify('Моля попълнете всички полета.');
-    } 
+    }
 
     const createRecipe = {
         name: name.toLowerCase(),

@@ -674,15 +674,18 @@ li {
 }
 
 #myInput {
-    background-image: url('../images/istockphoto-1068237878-170667a-removebg-preview.png'); /* Add a search icon to input */
-    background-position: 0px 1px; /* Position the search icon */
-    background-size: contain;
-    background-repeat: no-repeat; /* Do not repeat the icon image */
     width: 25%; /* Full-width */
     font-size: 16px; /* Increase font-size */
     padding: 12px 20px 12px 40px; /* Add some padding */
     border: 1px solid #ddd; /* Add a grey border */
     margin-bottom: 12px; /* Add some space below the input */
+  }
+
+  #find-img {
+        width: 3%;
+        position: absolute;
+        margin-top: 2px;
+        cursor: pointer;
   }
 
   #myInput:hover {
