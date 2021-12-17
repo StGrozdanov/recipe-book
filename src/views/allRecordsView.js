@@ -1,4 +1,4 @@
-import { html } from '../../node_modules/lit-html/lit-html.js';
+import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { filterByCategory, getAll, getRecepiesCount, RECEPIES_PER_PAGE, searchByName } from '../io/requests.js';
 import { loaderTemplate } from './common/loadingTemplate.js';
 import { notify } from './common/notificationTemplate.js';
@@ -26,37 +26,37 @@ const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) 
     <span class="input">
         <form style="float:right; margin-left: -65px;">
             <div class="multiselect">
-                <div class="selectBox dropdown-toggle" @click=${showCheckboxes}>
+                <div @click=${showCheckboxes} class="selectBox dropdown-toggle">
                     <select style="border: none;">
                         <option>Категории...</option>
                     </select>
                     <div class="overSelect"></div>
                 </div>
-                <div id="checkboxes">
+                <div @change=${(e)=> categorize(e, ctx)} id="checkboxes">
                     <label for="one">
-                        <input type="checkbox" id="one" checked /><span></span>Всички</label>
+                        <input type="checkbox" id="one" value="Всички" checked /><span></span>Всички</label>
                     <label for="two">
-                        <input type="checkbox" id="two" /><span></span>Пилешко</label>
+                        <input type="checkbox" id="two" value="Пилешко" /><span></span>Пилешко</label>
                     <label for="three">
-                        <input type="checkbox" id="three" /><span></span>Свинско</label>
+                        <input type="checkbox" id="three" value="Свинско" /><span></span>Свинско</label>
                     <label>
-                        <input type="checkbox" /><span></span>Телешко</label>
+                        <input type="checkbox" value="Телешко" /><span></span>Телешко</label>
                     <label>
-                        <input type="checkbox" /><span></span>Телешко-свинско</label>
+                        <input type="checkbox" value="Телешко\-свинско" /><span></span>Телешко-свинско</label>
                     <label>
-                        <input type="checkbox" /><span></span>Риба</label>
+                        <input type="checkbox" value="Риба" /><span></span>Риба</label>
                     <label>
-                        <input type="checkbox" /><span></span>Други месни</label>
+                        <input type="checkbox" value="Други месни" /><span></span>Други месни</label>
                     <label>
-                        <input type="checkbox" /><span></span>Вегитариански</label>
+                        <input type="checkbox" value="Вегитариански" /><span></span>Вегитариански</label>
                     <label>
-                        <input type="checkbox" /><span></span>Салати</label>
+                        <input type="checkbox" value="Салати" /><span></span>Салати</label>
                     <label>
-                        <input type="checkbox" /><span></span>Тестени</label>
+                        <input type="checkbox" value="Тестени" /><span></span>Тестени</label>
                     <label>
-                        <input type="checkbox" /><span></span>Десерти</label>
+                        <input type="checkbox" value="Десерти" /><span></span>Десерти</label>
                     <label>
-                        <input type="checkbox" /><span></span>Други</label>
+                        <input type="checkbox" value="Други" /><span></span>Други</label>
                 </div>
             </div>
         </form>
@@ -66,10 +66,14 @@ const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) 
         src="../../static/images/istockphoto-1068237878-170667a-removebg-preview.png"> <input type="text" id="myInput"
             placeholder="Търсете по име на рецептата...">
     </form>
-    ${paginationTemplate(pages, currentPage, totalPagesCount)}
-    <ul class="other-books-list">
-        ${recepies ? recepies : noRecordsTemplate()}
-    </ul>
+    <div id="cards">
+    <div id="cards-content">
+        ${paginationTemplate(pages, currentPage, totalPagesCount)}
+        <ul class="other-books-list">
+            ${recepies ? recepies : noRecordsTemplate()}
+        </ul>
+    </div>
+    </div>
 </section>
 `;
 
@@ -78,6 +82,13 @@ const singleRecordTemplate = (data) => html`
                 <h3 style="color: #c28a44;">${data.name}</h3>
                 <p class="img"><img src=${data.img}></p>
             </a></li>
+`;
+
+const multiRecordTemplate = (recepies, currentPage, totalPagesCount, pages) => html`
+${paginationTemplate(pages, currentPage, totalPagesCount)}
+<ul class="other-books-list">
+    ${recepies ? recepies : noRecordsTemplate()}
+</ul>
 `;
 
 export async function viewAllPage(ctx) {
@@ -101,12 +112,6 @@ export async function viewAllPage(ctx) {
 
     const allRecords = allRecordsTemplate(singleRecords, currentPage, totalPagesCount, pageData, ctx);
     ctx.render(allRecords);
-
-    let category = 'Десерти';
-
-    const filter = await filterByCategory(category);
-    console.log(filter);
-
 }
 
 async function search(ctx) {
@@ -137,7 +142,7 @@ async function search(ctx) {
                 pageData.push(pageTemplate(i));
             }
 
-            const allRecords = allRecordsTemplate(singleRecords, currentPage, totalPagesCount, pageData);
+            const allRecords = allRecordsTemplate(singleRecords, currentPage, totalPagesCount, pageData, ctx);
             ctx.render(allRecords);
         } else {
             ctx.render(noRecordsTemplate());
@@ -171,23 +176,74 @@ function showCheckboxes() {
 function selectHandler(e) {
     const checks = document.querySelectorAll('[type=checkbox]');
 
-    if (e.target.id === 'one') {
-        checks[0].checked = true;
+    const checkedBoxesCount = Array.from(checks).filter(c => c.checked).length;
+
+    if (checkedBoxesCount <= 4 && e.target.id !== 'one') {
+
+        //if 'all' checbox is checked uncheck everything
+        if (e.target.id === 'one') {
+            checks[0].checked = true;
+
+            checks.forEach((c, index) => {
+                if (index > 0) {
+                    c.checked = false;
+                }
+            });
+        }
+        //if something else is checked 'all' checkbox is unchecked
+        let selected = true;
 
         checks.forEach((c, index) => {
             if (index > 0) {
-                c.checked = false;
+                c.checked === true ? selected = false : ''
             }
         });
+        selected ? checks[0].checked = true : checks[0].checked = false;
+    } else {
+        if (e.target.id !== 'one') {
+            e.target.checked = false;
+            notify('Можете да филтрирате до 4 категории рецепти.');
+        } else {
+            checks[0].checked = true;
+
+            checks.forEach((c, index) => {
+                if (index > 0) {
+                    c.checked = false;
+                }
+            });
+        }
+    }
+}
+
+let query = new Set();
+async function categorize(e, ctx) {
+    let oldContent = document.getElementById('cards-content');
+    oldContent.textContent = ''
+    let category = e.target.value;
+
+    if (e.target.checked && category != 'Всички') {
+        query.add(category);
+    } else if (!e.target.checked && category != 'Всички') {
+        query.delete(category);
     }
 
-    let selected = true;
+    const currentPage = Number(ctx.querystring.split('=')[1] || 1);
+    console.log(ctx.querystring)
 
-    checks.forEach((c, index) => {
-        if (index > 0) {
-            c.checked === true ? selected = false : ''
-        }
-    });
+    const data = await filterByCategory(currentPage, query);
+    addUppercase(data);
 
-    selected ? checks[0].checked = true : checks[0].checked = false;
+    const singleRecords = data.results.map(singleRecordTemplate);
+
+    const totalRecepies = data.results.length;
+    const PAGE_SIZE = RECEPIES_PER_PAGE;
+    const totalPagesCount = Math.ceil(totalRecepies.count / PAGE_SIZE);
+
+    const pageData = [];
+
+    for (let i = 1; i <= totalPagesCount; i++) {
+        pageData.push(pageTemplate(i));
+    }
+    const newContent = multiRecordTemplate(singleRecords, currentPage, totalPagesCount, pageData);
+    render(newContent, document.getElementById('cards'));
 }
