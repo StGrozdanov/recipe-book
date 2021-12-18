@@ -86,7 +86,7 @@ const singleRecordTemplate = (data) => html`
 
 const multiRecordTemplate = (recepies, currentPage, totalPagesCount, pages) => html`
 ${paginationTemplate(pages, currentPage, totalPagesCount)}
-<ul class="other-books-list">
+<ul class="other-books-list" style="display: block;">
     ${recepies ? recepies : noRecordsTemplate()}
 </ul>
 `;
@@ -125,7 +125,7 @@ async function search(ctx) {
 
         const currentPage = Number(ctx.querystring.split('=')[1] || 1);
 
-        const data = await searchByName(currentPage, query);
+        const data = await searchByName(query);
 
         if (data.results.length > 0) {
             addUppercase(data);
@@ -134,7 +134,7 @@ async function search(ctx) {
 
             const totalRecepies = data.results.length;
             const PAGE_SIZE = RECEPIES_PER_PAGE;
-            const totalPagesCount = Math.ceil(totalRecepies.count / PAGE_SIZE);
+            const totalPagesCount = Math.ceil(totalRecepies / PAGE_SIZE);
 
             const pageData = [];
 
@@ -228,16 +228,15 @@ async function categorize(e, ctx) {
     }
 
     const currentPage = Number(ctx.querystring.split('=')[1] || 1);
-    console.log(ctx.querystring)
 
-    const data = await filterByCategory(currentPage, query);
+    const data = await filterByCategory(query);
     addUppercase(data);
 
     const singleRecords = data.results.map(singleRecordTemplate);
 
     const totalRecepies = data.results.length;
     const PAGE_SIZE = RECEPIES_PER_PAGE;
-    const totalPagesCount = Math.ceil(totalRecepies.count / PAGE_SIZE);
+    const totalPagesCount = Math.ceil(totalRecepies / PAGE_SIZE);
 
     const pageData = [];
 
