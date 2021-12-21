@@ -9,9 +9,9 @@ const pageTemplate = (count) => html`
 
 const paginationTemplate = (pages, currentPage, totalPagesCount) => html`
 <div class="page-div">
-    <a href=${currentPage - 1> 0 ? `?page=${currentPage - 1 > 0 ? currentPage - 1 : 1}` : "javascript:void[0]"}
-        class="button warning page-btn"> < </a> ${pages} <a href=${currentPage + 1 <=totalPagesCount ?
-            `?page=${currentPage + 1 < totalPagesCount ? currentPage + 1 : totalPagesCount}` : 'javascript:void[0]' }
+    <a href=${currentPage - 1 > 0 ? `?page=${currentPage - 1 > 0 ? currentPage - 1 : 1}` : "javascript:void[0]"}
+        class="button warning page-btn"> < </a> ${pages} <a href=${currentPage + 1 <= totalPagesCount ?
+        `?page=${currentPage + 1 < totalPagesCount ? currentPage + 1 : totalPagesCount}` : 'javascript:void[0]'}
             class="button warning page-btn"> > </a>
 </div>
 `;
@@ -32,7 +32,7 @@ const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) 
                     </select>
                     <div class="overSelect"></div>
                 </div>
-                <div @change=${(e)=> categorize(e, ctx)} id="checkboxes">
+                <div @change=${(e) => categorize(e, ctx)} id="checkboxes">
                     <label for="one">
                         <input type="checkbox" id="one" value="Всички" checked /><span></span>Всички</label>
                     <label for="two">
@@ -61,18 +61,18 @@ const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) 
             </div>
         </form>
     </span>
-    <form @submit=${() => search(ctx)}>
-        <img @click=${() => search(ctx)} id="find-img"
+    <form @submit=${(e)=> search(e, ctx)}>
+        <img @click=${(e)=> search(e, ctx)} id="find-img"
         src="../../static/images/istockphoto-1068237878-170667a-removebg-preview.png"> <input type="text" id="myInput"
             placeholder="Търсете по име на рецептата...">
     </form>
     <div id="cards">
-    <div id="cards-content">
-        ${paginationTemplate(pages, currentPage, totalPagesCount)}
-        <ul class="other-books-list">
-            ${recepies ? recepies : noRecordsTemplate()}
-        </ul>
-    </div>
+        <div id="cards-content">
+            ${paginationTemplate(pages, currentPage, totalPagesCount)}
+            <ul class="other-books-list">
+                ${recepies ? recepies : noRecordsTemplate()}
+            </ul>
+        </div>
     </div>
 </section>
 `;
@@ -114,14 +114,14 @@ export async function viewAllPage(ctx) {
     ctx.render(allRecords);
 }
 
-async function search(ctx) {
+async function search(e, ctx) {
+    e.preventDefault();
     const inputField = document.getElementById('myInput');
 
     let query = inputField.value.toLowerCase();
 
     if (query.trim() !== '') {
-
-        ctx.render(loaderTemplate());
+        // ctx.render(loaderTemplate());
 
         const currentPage = Number(ctx.querystring.split('=')[1] || 1);
 
@@ -141,9 +141,10 @@ async function search(ctx) {
             for (let i = 1; i <= totalPagesCount; i++) {
                 pageData.push(pageTemplate(i));
             }
-
-            const allRecords = allRecordsTemplate(singleRecords, currentPage, totalPagesCount, pageData, ctx);
-            ctx.render(allRecords);
+            let oldContent = document.getElementById('cards-content');
+            oldContent.textContent = ''
+            const newContent = multiRecordTemplate(singleRecords, currentPage, totalPagesCount, pageData);
+            render(newContent, document.getElementById('cards'));
         } else {
             ctx.render(noRecordsTemplate());
         }
@@ -221,28 +222,35 @@ async function categorize(e, ctx) {
     oldContent.textContent = ''
     let category = e.target.value;
 
-    if (e.target.checked && category != 'Всички') {
+    if (e.target.checked) {
         query.add(category);
-    } else if (!e.target.checked && category != 'Всички') {
+    } else if (!e.target.checked) {
         query.delete(category);
     }
 
-    const currentPage = Number(ctx.querystring.split('=')[1] || 1);
+    document.getElementById('myInput').value = '';
 
-    const data = await filterByCategory(query);
-    addUppercase(data);
+    if (Array.from(query).length > 0 && !query.has('Всички')) {
+        const currentPage = Number(ctx.querystring.split('=')[1] || 1);
 
-    const singleRecords = data.results.map(singleRecordTemplate);
+        const data = await filterByCategory(query);
+        addUppercase(data);
 
-    const totalRecepies = data.results.length;
-    const PAGE_SIZE = RECEPIES_PER_PAGE;
-    const totalPagesCount = Math.ceil(totalRecepies / PAGE_SIZE);
+        const singleRecords = data.results.map(singleRecordTemplate);
 
-    const pageData = [];
+        const totalRecepies = data.results.length;
+        const PAGE_SIZE = RECEPIES_PER_PAGE;
+        const totalPagesCount = Math.ceil(totalRecepies / PAGE_SIZE);
 
-    for (let i = 1; i <= totalPagesCount; i++) {
-        pageData.push(pageTemplate(i));
+        const pageData = [];
+
+        for (let i = 1; i <= totalPagesCount; i++) {
+            pageData.push(pageTemplate(i));
+        }
+        const newContent = multiRecordTemplate(singleRecords, currentPage, totalPagesCount, pageData);
+        render(newContent, document.getElementById('cards'));
+    } else if (Array.from(query).length === 0 || query.has('Всички')) {
+        ctx.page.redirect('/');
+        query.clear();
     }
-    const newContent = multiRecordTemplate(singleRecords, currentPage, totalPagesCount, pageData);
-    render(newContent, document.getElementById('cards'));
 }
