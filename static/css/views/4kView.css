@@ -49,12 +49,16 @@
         width: 530px;
         height: 390px;
     }
-    
+
     .other-books-list img {
         height: 250px;
     }
-    
-    .detailsOtherBooks, .detailsMyBooks, .deleteBook, .otherBooks, .myBooks {
+
+    .detailsOtherBooks,
+    .detailsMyBooks,
+    .deleteBook,
+    .otherBooks,
+    .myBooks {
         max-width: 530px;
         max-height: 390px;
     }
@@ -70,6 +74,7 @@
     .details-comments li a {
         font-size: 50px;
     }
+
     h1 {
         font-size: 64px;
     }
@@ -86,7 +91,8 @@
         font-size: 32px;
     }
 
-    .fa-solid, .fas {
+    .fa-solid,
+    .fas {
         font-size: 38px;
     }
 
@@ -101,5 +107,35 @@
 
     #modal button {
         font-size: 30px;
+    }
+
+    #checkboxes {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 49%;
+        right: 10%;
+        max-width: 10.5%;
+        z-index: 1;
+        background: #d6ac7782;
+        color: black;
+    }
+
+    label span {
+        height: 33px;
+        width: 38px;
+        margin-right: 7px;
+        border: 1px solid #010101;
+        display: inline-block;
+        position: relative;
+        margin-top: 2px;
+    }
+
+    [type=checkbox]:checked+span:before {
+        content: '\2714';
+        position: absolute;
+        top: -8px;
+        left: -4px;
+        width: 90%;
     }
 }

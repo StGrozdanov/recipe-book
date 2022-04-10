@@ -130,6 +130,24 @@
     #comment-container .button {
         font-size: 12px;
     }
+
+    #checkboxes {
+        top: 58.5%;
+        right: 2.6%;
+        max-width: 25%;
+    }
+
+    label span {
+        height: 8px;
+        width: 8px;
+        margin-right: 3px;
+    }
+
+    [type=checkbox]:checked+span:before {
+        font-size: 11px;
+        top: -7px;
+        left: -3px;
+    }
 }
 
 @media all and (max-width: 376px) {
@@ -277,5 +295,12 @@
 
     .notification {
         width: 102%;
+    }
+
+    #checkboxes {
+        top: 48%;
+        right: -0.2%;
+        max-width: 28%;
+        font-size: 9px;
     }
 }

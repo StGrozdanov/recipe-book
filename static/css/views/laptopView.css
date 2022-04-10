@@ -27,6 +27,28 @@
     .formData form legend {
         width: 55%;
     }
+
+    #checkboxes {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 74%;
+        right: 10%;
+        max-width: 13.5%;
+        z-index: 1;
+        background: #d6ac7782;
+        color: black;
+    }
+
+    label span {
+        height: 13px;
+        width: 14px;
+        margin-right: 7px;
+        border: 1px solid #010101;
+        display: inline-block;
+        position: relative;
+        margin-top: 2px;
+    }
 }
 
 @media all and (max-width: 920px) {
@@ -110,7 +132,21 @@
         width: 40vw;
     }
 
-    .fa-bowl-rice, .fa-book-open, .fa-shoe-prints, .fa-utensils {
+    .fa-bowl-rice,
+    .fa-book-open,
+    .fa-shoe-prints,
+    .fa-utensils {
         font-size: 15px;
+    }
+
+    #checkboxes {
+        top: 87%;
+        right: 7.6%;
+        max-width: 16.5%;
+    }
+
+    label span {
+        height: 10px;
+        width: 11px;
     }
 }
