@@ -1,0 +1,112 @@
+
+
+#filtration-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+#find-img {
+    width: 3%;
+    position: absolute;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+#myInput {
+    border: 1px solid #ddd;
+    padding: 12px 20px 12px 40px;
+    width: 120%;
+}
+
+#myInput:hover {
+    border-color: black;
+}
+
+div .selectBox .dropdown-toggle {
+    width: 100%;
+}
+
+.multiselect {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.dropdown-toggle:hover {
+    cursor: pointer;
+    border-color: black;
+}
+
+.dropdown-toggle {
+    float: right;
+    background-image: url(../images/SeekPng.com_to-do-list-png_680914.png);
+    background-position: 10px;
+    background-size: 20px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+}
+
+.selectBox {
+    position: relative;
+}
+
+.selectBox select {
+    width: 125%;
+    font-weight: bold;
+    background-repeat: no-repeat;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: white;
+}
+
+.overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#checkboxes {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 93%;
+    right: 15%;
+    max-width: 10%;
+    z-index: 1;
+    background: #d6ac7782;
+    color: black;
+}
+
+#checkboxes label {
+    position: relative;
+}
+
+#checkboxes label:hover {
+    background-color: #c9995c;
+    color: white;
+    opacity: 0.8;
+}
+
+label span {
+    height: 12px;
+    width: 12px;
+    margin-right: 7px;
+    border: 1px solid #010101;
+    display: inline-block;
+    position: relative;
+    margin-top: 2px;
+}
+
+/* Style its checked state...with a ticked icon */
+[type=checkbox]:checked+span:before {
+    content: '\2714';
+    ;
+    position: absolute;
+    top: -6px;
+    left: -2px;
+    width: 90%;
+}

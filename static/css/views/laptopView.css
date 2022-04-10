@@ -1,0 +1,116 @@
+@media all and (max-width: 1280px) {
+    #nav-container {
+        width: 100%;
+    }
+
+    .detailsOtherBooks,
+    .detailsMyBooks,
+    .deleteBook,
+    .otherBooks,
+    .myBooks {
+        max-width: 233px;
+        margin: 19px 0px;
+    }
+
+    body {
+        width: 80%;
+    }
+
+    #myInput {
+        padding: 12px 20px 12px 31px;
+    }
+
+    .selectBox select {
+        background-position: 82px;
+    }
+
+    .formData form legend {
+        width: 55%;
+    }
+}
+
+@media all and (max-width: 920px) {
+    #nav-container {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        padding: 0px 50px 20px 50px;
+        width: 100%;
+    }
+
+    #myInput {
+        padding: 12px 10px 12px 30px;
+        font-size: 12px;
+    }
+
+    .dropdown-toggle {
+        background-position: 7px;
+        background-size: 18px;
+    }
+
+    .selectBox select {
+        background-size: 10px;
+        font-size: 12px;
+        font-weight: 500;
+        background-position: 72px;
+    }
+
+    body {
+        font-size: 12px;
+        width: 85%;
+    }
+
+    nav a {
+        margin-left: 4px;
+    }
+
+    #find-img {
+        width: 4%;
+    }
+
+    .page-btn {
+        margin-right: 15px;
+        padding: 0rem 1rem 0rem 1rem;
+        margin-top: 10px;
+        background-color: #d6ac77;
+        font-size: 12px;
+    }
+
+    .other-books-list {
+        justify-content: center;
+    }
+
+    .detailsOtherBooks,
+    .detailsMyBooks,
+    .deleteBook,
+    .otherBooks,
+    .myBooks {
+        margin: 19px 25px;
+    }
+
+    .create-comment label {
+        color: white;
+        font-size: 20px;
+        text-align: center;
+        font-weight: 700;
+        line-height: normal;
+        font-family: cursive;
+    }
+
+    .formData .button {
+        font-size: 14px;
+    }
+
+    section.formData {
+        margin: 40px 0px;
+        align-self: center;
+    }
+
+    .formData form fieldset {
+        width: 40vw;
+    }
+
+    .fa-bowl-rice, .fa-book-open, .fa-shoe-prints, .fa-utensils {
+        font-size: 15px;
+    }
+}

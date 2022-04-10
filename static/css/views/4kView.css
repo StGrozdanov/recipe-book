@@ -1,0 +1,105 @@
+@media all and (min-width: 1660px) {
+    #nav-container {
+        width: 95%;
+    }
+
+    #nav-container div {
+        display: flex;
+    }
+
+    body {
+        font-size: 32px;
+        width: 80%;
+    }
+
+    #myInput {
+        border: 1px solid #ddd;
+        padding: 12px 40px 12px 51px;
+        width: 120%;
+        font-size: 32px;
+    }
+
+    #find-img {
+        width: 2%;
+        position: absolute;
+        margin-top: 2px;
+        cursor: pointer;
+    }
+
+    .selectBox select {
+        font-size: 32px;
+        background-position: 199px;
+        background-size: 23px;
+    }
+
+    .page-btn {
+        font-size: 30px;
+    }
+
+    .dropdown-toggle {
+        float: right;
+        background-position: 5px;
+        background-size: 27px;
+        background-repeat: no-repeat;
+        padding: 12px 40px 12px 40px;
+        border: 1px solid #ddd;
+    }
+
+    .otherBooks a {
+        width: 530px;
+        height: 390px;
+    }
+    
+    .other-books-list img {
+        height: 250px;
+    }
+    
+    .detailsOtherBooks, .detailsMyBooks, .deleteBook, .otherBooks, .myBooks {
+        max-width: 530px;
+        max-height: 390px;
+    }
+
+    .meme-img {
+        width: 670px;
+    }
+
+    .button {
+        font-size: 32px;
+    }
+
+    .details-comments li a {
+        font-size: 50px;
+    }
+    h1 {
+        font-size: 64px;
+    }
+
+    .create-comment label {
+        font-size: 38px;
+    }
+
+    .comment-btn {
+        font-size: 32px;
+    }
+
+    .no-comments {
+        font-size: 32px;
+    }
+
+    .fa-solid, .fas {
+        font-size: 38px;
+    }
+
+    .formData .button {
+        font-size: 32px;
+    }
+
+    #modal {
+        width: 20vw;
+        font-size: 35px;
+    }
+
+    #modal button {
+        font-size: 30px;
+    }
+}

@@ -1,6 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { login, register } from '../io/registry.js'
-import { notify } from './common/notificationTemplate.js';
+import { notify } from './templates/notificationTemplate.js';
 
 const registerTemplate = (context) => html`
 <section id="register-page" class="register formData">
@@ -10,24 +10,28 @@ const registerTemplate = (context) => html`
             <p class="field">
                 <label for="email">Имейл</label>
                 <span class="input">
+                    <i class="fa-solid fa-envelope"></i>
                     <input type="text" name="email" id="email" placeholder="Email">
                 </span>
             </p>
             <p class="field">
                 <label for="username">Потребителско име</label>
                 <span class="input">
+                    <i class="fa-solid fa-user"></i>
                     <input type="text" name="username" id="username" placeholder="Username">
                 </span>
             </p>
             <p class="field">
                 <label for="password">Парола</label>
                 <span class="input">
+                    <i class="fa-solid fa-key"></i>
                     <input type="password" name="password" id="password" placeholder="Password">
                 </span>
             </p>
             <p class="field">
                 <label for="repeat-pass">Повтори паролата</label>
                 <span class="input">
+                    <i class="fa-solid fa-repeat"></i>
                     <input type="password" name="confirm-pass" id="repeat-pass" placeholder="Repeat Password">
                 </span>
             </p>

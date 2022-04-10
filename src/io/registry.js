@@ -1,4 +1,4 @@
-import { notify } from "../views/common/notificationTemplate.js";
+import { notify } from "../views/templates/notificationTemplate.js";
 
 export const REGISTRY_URL = 'https://parseapi.back4app.com';
 

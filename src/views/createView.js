@@ -1,6 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { create } from '../io/requests.js';
-import { notify } from './common/notificationTemplate.js';
+import { notify } from './templates/notificationTemplate.js';
 
 const createTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
@@ -10,12 +10,14 @@ const createTemplate = (ctx) => html`
             <p class="field">
                 <label for="title">Наименование</label>
                 <span class="input">
+                    <i class="fa-solid fa-bowl-rice"></i>
                     <input type="text" name="name" id="title" placeholder="Име на рецепта">
                 </span>
             </p>
             <p class="field">
                 <label for="description">Продукти</label>
                 <span class="input">
+                    <i class="fa-solid fa-book-open"></i>
                     <textarea name="products" id="description"
                         placeholder="Продукти и грамаж, всеки на нов ред"></textarea>
                 </span>
@@ -23,6 +25,7 @@ const createTemplate = (ctx) => html`
             <p class="field">
                 <label for="description">Стъпки за приготвяне</label>
                 <span class="input">
+                    <i class="fa-solid fa-shoe-prints"></i>
                     <textarea name="steps" id="description"
                         placeholder="Стъпки за приготвяне, всяка на нов ред"></textarea>
                 </span>
@@ -30,6 +33,7 @@ const createTemplate = (ctx) => html`
             <p class="field">
                 <label for="image">Картинка</label>
                 <span class="input">
+                    <i class="fa-solid fa-utensils"></i>
                     <input type="text" name="img" id="image" placeholder="Адрес на изображение">
                 </span>
             </p>

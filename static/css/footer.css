@@ -1,0 +1,22 @@
+body footer {
+    background: #cccccc;
+    display: flex;
+    justify-content: center;
+}
+
+body footer header {
+    padding: 0;
+    text-align: center;
+}
+
+body footer a {
+    color: black;
+}
+
+body footer i {
+    font-size: 19px;
+}
+
+body footer li {
+    margin-bottom: 5px;
+}

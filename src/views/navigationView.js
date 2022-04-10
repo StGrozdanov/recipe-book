@@ -24,7 +24,7 @@ const navigationTemplate = (ctx) => html`
             ? userViewTemplate(ctx)
             : guestViewTemplate()}
 </nav>
-        <img src="/static/images/nav-image.jpg" alt="broken img">
+<div><img src="/static/images/nav-image.jpg" alt="broken img"></div> 
 `;
 
 export function renderNavigation(ctx) {

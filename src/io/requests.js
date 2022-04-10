@@ -1,6 +1,6 @@
 import { REGISTRY_URL } from "./registry.js";
 
-export const RECEPIES_PER_PAGE = 3;
+export const RECEPIES_PER_PAGE = 6;
 
 const endPoints = {
     allRecordsCount: '/classes/Recipe?count=1',

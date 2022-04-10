@@ -1,6 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getSingle, update } from '../io/requests.js';
-import { notify } from './common/notificationTemplate.js';
+import { notify } from './templates/notificationTemplate.js';
 
 const editTemplate = (data, ctx) => html`
 <section id="edit-page" class="edit formData">

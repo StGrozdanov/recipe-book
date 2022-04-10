@@ -6,6 +6,5 @@ const mainRootElement = document.querySelector('.container');
 export function setUp(ctx, next) {
     renderNavigation(ctx);
     ctx.render = (content) => render(content, mainRootElement);
-
     next();
 }

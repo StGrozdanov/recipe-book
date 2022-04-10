@@ -1,0 +1,44 @@
+header {
+    display: flex;
+    justify-content: center;
+    background-color: #cccccc;
+}
+
+header div img {
+    width: 100%;
+}
+
+#nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 0px 100px 40px 100px;
+    width: 90%;
+}
+
+nav {
+    margin: 25px 0px;
+    align-self: end;
+    display: flex;
+    justify-content: flex-end;
+    max-width: 100%;
+}
+
+nav a {
+    display: inline-block;
+    background-color: #010101;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: white;
+    margin-left: 16px;
+}
+
+nav a:hover {
+    background-color: #c28a44;
+    color: white;
+}
+
+a.active {
+    background-color: #c28a44;
+    color: white;
+}

@@ -1,0 +1,98 @@
+#cards-section {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 0px;
+}
+
+#cards {
+    width: 100%;
+}
+
+.other-books-list {
+    display: flex;
+    padding: 0;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.otherBooks {
+    border-radius: 10px;
+    text-align: center;
+    height: auto;
+    margin-right: 60px;
+    transition: all 0.3s cubic-bezier(.50, .80, .25, 1);
+    box-shadow: -8px -2px 28px -8px #000000;
+    align-items: center;
+}
+
+.otherBooks a {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    width: 222px;
+    height: 208px;
+}
+
+.otherBooks:hover {
+    box-shadow: 30px 30px 100px 10px #000000;
+}
+
+h3 {
+    margin-bottom: 11px;
+    display: inline-block;
+    width: -15%;
+    margin-top: 0px;
+}
+
+.detailsOtherBooks,
+.detailsMyBooks,
+.deleteBook,
+.otherBooks,
+.myBooks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    max-width: 255px;
+    max-height: 280px;
+    margin: 19px 40px;
+    margin-bottom: 40px;
+}
+
+.detailsMyBooks>p:nth-child(2),
+.deleteBook>p:nth-child(2),
+.otherBooks>p:nth-child(2),
+.myBooks>p:nth-child(2) {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.img {
+    /* width: 158px; */
+    position: relative;
+    overflow: hidden;
+    /* padding: 17px; */
+    margin: 0;
+}
+
+.img::after {
+    display: block;
+    content: "";
+}
+
+.other-books-list img {
+    width: 100%;
+    height: 110px;
+}
+
+.no-books {
+    font-weight: bold;
+    font-size: large;
+    text-align: center;
+}

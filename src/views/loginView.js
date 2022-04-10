@@ -1,6 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { login } from '../io/registry.js';
-import { notify } from './common/notificationTemplate.js';
+import { notify } from './templates/notificationTemplate.js';
 
 const loginTemplate = (ctx) => html`
 <section id="login-page" class="login formData">
@@ -10,12 +10,14 @@ const loginTemplate = (ctx) => html`
             <p class="field">
                 <label for="username">Потребителско име</label>
                 <span class="input">
+                    <i class="fa-solid fa-user"></i>
                     <input type="text" name="username" id="username" placeholder="Username">
                 </span>
             </p>
             <p class="field">
                 <label for="password">Парола</label>
                 <span class="input">
+                    <i class="fa-solid fa-key"></i>
                     <input type="password" name="password" id="password" placeholder="Password">
                 </span>
             </p>

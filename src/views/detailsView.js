@@ -1,8 +1,8 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { commentRecipe, getCommentsForRecipe, getSingle, removeRecipe } from '../io/requests.js';
-import { loaderTemplate } from './common/loadingTemplate.js';
-import { showModal } from './common/modalDialogue.js';
-import { notify } from './common/notificationTemplate.js';
+import { loaderTemplate } from './templates/loadingTemplate.js';
+import { showModal } from './templates/modalDialogue.js';
+import { notify } from './templates/notificationTemplate.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit/${id}">Редактирай</a>
@@ -11,7 +11,7 @@ const ownerTemplate = (id, ctx) => html`
 
 const commentsTemplate = (data, ctx) => html`
 <div id="comments-container">
-    <button @click=${(e) => toggleComments(e)} style="margin-right: 60px;" class="button warning">Покажи
+    <button @click=${(e) => toggleComments(e)} class="button warning">Покажи
         коментарите</button>
     <div style="display: none;" class="details-comments">
         <h2>Коментари:</h2>
@@ -42,21 +42,20 @@ const detailsTemplate = (data, ctx, commentData) => html`
             <div class="meme-img">
                 <img alt="meme-alt" src=${data.img}>
                 <div id="comment-container">
+                ${sessionStorage.getItem('id') === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
                     ${commentsTemplate(commentData, ctx)}
                 </div>
             </div>
             <div class="meme-description">
-                <h2>Съставки:</h2>
                 <ul>
+                <h2>Съставки:</h2>
                     ${data.products.map(product => html`<li>${product}</li>`)}
                 </ul>
     
-                <h2>Начин на приготвяне:</h2>
                 <ul>
+                <h2>Начин на приготвяне:</h2>
                     ${data.steps.map(step => html`<li>${step}</li>`)}
                 </ul>
-    
-                ${sessionStorage.getItem('id') === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
             </div>
         </div>
     </section>
@@ -91,8 +90,8 @@ function toggleComments(e) {
     const addCommentForm = e.target.parentNode.querySelector('.create-comment');
 
     if (comments.style.display == 'none' && addCommentForm.style.display == 'none') {
-        comments.style.display = 'block';
-        addCommentForm.style.display = 'block';
+        comments.style.display = 'flex';
+        addCommentForm.style.display = 'flex';
         e.target.textContent = 'Скрий коментарите';
     } else {
         comments.style.display = 'none';
