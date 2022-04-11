@@ -30,7 +30,7 @@ export const singleRecordTemplate = (data) => html`
             </a></li>
 `;
 
-const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) => html`
+export const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) => html`
     ${filtrationTemplate(ctx)}
     ${paginationTemplate(pages, currentPage, totalPagesCount)}
     <section id="cards-section">

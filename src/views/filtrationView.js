@@ -1,7 +1,7 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { filterByCategory, searchByName } from '../io/requests.js';
 import { notify } from './templates/notificationTemplate.js';
-import { addUppercase, singleRecordTemplate, noRecordsTemplate } from './allRecordsView.js';
+import { addUppercase, singleRecordTemplate, noRecordsTemplate, allRecordsTemplate } from './allRecordsView.js';
 
 export const filtrationTemplate = (ctx) => html`
 <section id="filtration-section" class="dashboard">
@@ -60,49 +60,44 @@ async function search(e, ctx) {
     e.preventDefault();
     const inputField = document.getElementById('myInput');
 
-    let query = inputField.value.toLowerCase();
+    let query = inputField.value;
 
     if (query.trim() !== '') {
-        const data = await searchByName(query);
-
-        if (data.results.length > 0) {
-            addUppercase(data);
-
-            const singleRecords = data.results.map(singleRecordTemplate);
-
-            let oldContent = document.getElementById('cards-content');
-            oldContent.textContent = ''
-
-            hidePagination();
-
-            const newContent = multiRecordTemplate(singleRecords);
-            render(newContent, document.getElementById('cards'));
-        } else {
-            ctx.render(noRecordsTemplate());
-        }
+        console.log(query);
+        console.log(ctx);
+        ctx.page.redirect(`/search=${query}`);
     } else {
         notify('Добър опит! Сега пробвайте да въведете и буквички.')
     }
 }
 
-export async function searchPage(ctx) {
+export async function filtrationPage(ctx) {
     const params = ctx.pathname.split('=')[1] || '';
 
     if (params) {
         let query = params.toLowerCase();
         const data = await searchByName(query);
 
-        if (data.results.length > 0) {
-            addUppercase(data);
+        const singleRecords = data.results.map(singleRecordTemplate);
 
-            const singleRecords = data.results.map(singleRecordTemplate);
+        renderSearchResults(data, singleRecords, params, ctx);
+    }
+}
 
-            const newContent = multiRecordTemplate(singleRecords);
+function renderSearchResults(data, singleRecords, params, ctx) {
+    if (data.results.length > 0) {
+        addUppercase(data);
 
-            render(newContent, document.querySelector('.container'));
-        } else {
-            ctx.render(noRecordsTemplate());
-        }
+        const newContent = allRecordsTemplate(singleRecords, null, null, null, ctx);
+
+        render(newContent, document.querySelector('.container'));
+        hidePagination();
+        document.getElementById('myInput').value = params;
+    } else {
+        render(allRecordsTemplate(singleRecords, null, null, null, ctx), document.querySelector('.container'));
+        hidePagination();
+        document.getElementById('myInput').value = params;
+        notify('Все още няма такива рецепти :)')
     }
 }
 
@@ -195,6 +190,16 @@ async function categorize(e, ctx) {
         hidePagination();
 
         render(newContent, document.getElementById('cards'));
+
+        const path = `/categorize=${Array.from(query).join('&')}`;
+
+        let newurl = window.location.protocol + '//' + window.location.host + path;
+        
+        if (history.pushState) {
+            window.history.pushState({ path: newurl }, 'title', newurl)
+        } else {
+            window.history.replaceState({ path: newurl }, 'title', newurl)
+        }
     } else if (Array.from(query).length === 0 || query.has('Всички')) {
         ctx.page.redirect('/');
         query.clear();

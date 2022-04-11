@@ -6,7 +6,7 @@ import { registerPage } from './views/registerView.js';
 import { createPage } from './views/createView.js';
 import { detailsPage } from './views/detailsView.js';
 import { editPage } from './views/editView.js';
-import { searchPage } from './views/filtrationView.js';
+import { filtrationPage } from './views/filtrationView.js';
 
 page('/', setUp, viewAllPage)
 page('/login', setUp, loginPage);
@@ -14,6 +14,6 @@ page('/register', setUp, registerPage);
 page('/add-recipe', setUp, createPage);
 page('/details/:id', setUp, detailsPage);
 page('/edit/:id', setUp, editPage);
-page('/search=:query', setUp, searchPage)
+page('/search=:query', setUp, filtrationPage)
 
 page.start();
