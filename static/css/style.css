@@ -1,13 +1,16 @@
 @import 'typography.css';
+@import 'buttons.css';
 @import 'header.css';
-@import 'main.css';
+@import 'interactions.css';
 @import 'footer.css';
 @import 'filters.css';
 @import 'pagination.css';
 @import 'recepie-cards.css';
 @import 'details.css';
-@import 'formData.css';
+@import 'input-forms.css';
 
-@import './responsiveDesign/4kView.css';
-@import './responsiveDesign/laptopView.css';
-@import './responsiveDesign/mobileView.css';
+@import './responsive/monitors.css';
+@import './responsive/laptops.css';
+@import './responsive/tablets.css';
+@import './responsive/smartphones.css';
+@import './responsive/smaller-devices.css';
