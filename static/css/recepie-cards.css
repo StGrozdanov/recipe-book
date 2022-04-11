@@ -79,6 +79,8 @@ h3 {
     overflow: hidden;
     /* padding: 17px; */
     margin: 0;
+    max-width: 130px;
+    max-height: 110px;
 }
 
 .img::after {
