@@ -96,6 +96,15 @@
         font-size: 38px;
     }
 
+    .img {
+        max-width: 340px;
+        max-height: 270px;
+    }
+
+    h3 {
+        font-size: 32px;
+    }
+
     .formData .button {
         font-size: 32px;
     }
@@ -117,6 +126,10 @@
         display: inline-block;
         position: relative;
         margin-top: 2px;
+    }
+
+    .loader-spinner img {
+        width: 150px;
     }
 
     [type=checkbox]:checked+span:before {
