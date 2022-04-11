@@ -1,7 +1,7 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
-import { filterByCategory, RECEPIES_PER_PAGE, searchByName } from '../io/requests.js';
+import { filterByCategory, searchByName } from '../io/requests.js';
 import { notify } from './templates/notificationTemplate.js';
-import { addUppercase, singleRecordTemplate, pageTemplate, paginationTemplate, noRecordsTemplate, viewAllPage } from './allRecordsView.js';
+import { addUppercase, singleRecordTemplate, noRecordsTemplate } from './allRecordsView.js';
 
 export const filtrationTemplate = (ctx) => html`
 <section id="filtration-section" class="dashboard">
@@ -13,8 +13,9 @@ export const filtrationTemplate = (ctx) => html`
     <form>
         <div class="multiselect">
             <div @click=${showCheckboxes} class="selectBox dropdown-toggle">
+            <i class="fa-solid fa-circle-chevron-down"></i>
                 <select style="border: none;">
-                    <option>Категории...</option>
+                    <option>Категории</option>
                 </select>
                 <div class="overSelect"></div>
             </div>

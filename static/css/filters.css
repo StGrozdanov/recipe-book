@@ -17,7 +17,12 @@
 }
 
 #myInput:hover {
-    border-color: black;
+    border: none;
+    box-shadow: inset 0px -3px 6px 0px #c9995c;
+}
+
+#filtration-section > form:nth-child(2) {
+    width: 11vw;
 }
 
 .multiselect {
@@ -30,24 +35,19 @@
 
 .dropdown-toggle:hover {
     cursor: pointer;
-    border-color: black;
+    border: none;
+    box-shadow: inset 0px -3px 6px 0px #c9995c;
 }
 
 .dropdown-toggle {
-    float: right;
-    background-image: url(../images/SeekPng.com_to-do-list-png_680914.png);
-    background-position: 10px;
-    background-size: 20px;
-    background-repeat: no-repeat;
-    padding: 12px 20px 12px 40px;
+    padding: 9px 25px;
     border: 1px solid #ddd;
     width: 100%;
 }
 
 .selectBox select {
     width: 125%;
-    font-weight: bold;
-    background-repeat: no-repeat;
+    font-size: 15px;
     -moz-appearance: none;
     -webkit-appearance: none;
     background: white;
@@ -64,6 +64,7 @@
 #checkboxes {
     position: absolute;
     top: 99%;
+    width: 11vw;
     display: flex;
     flex-direction: column;
     z-index: 1;
@@ -96,10 +97,20 @@ label input {
 }
 
 [type=checkbox]:checked+span:before {
-    content: '\2714';
-    color: green;
+    content: '\e92f';
+    font-family: 'Material Icons';
+    color: #2a5e03;
     position: absolute;
-    top: -7px;
-    left: -3px;
-    width: 90%;
+    top: -11px;
+    left: -2px;
+    font-size: 18px;
+    -webkit-text-stroke: 0.8px;
+}
+
+.fa-solid.fa-circle-chevron-down {
+    position: absolute;
+    top: 50%;
+    left: 82%;
+    transform: translate(-50%, -50%);
+    color: #c9995c;
 }

@@ -13,8 +13,7 @@
     }
 
     .dropdown-toggle {
-        background-position: 7px;
-        background-size: 18px;
+        padding: 9px 25px;
     }
 
     .selectBox select {
@@ -41,7 +40,6 @@
         margin-right: 15px;
         padding: 0rem 1rem 0rem 1rem;
         margin-top: 10px;
-        background-color: #d6ac77;
         font-size: 12px;
     }
 
@@ -88,5 +86,13 @@
     label span {
         height: 10px;
         width: 11px;
+    }
+
+    #filtration-section > form:nth-child(2) {
+        width: 17vw;
+    }
+
+    #checkboxes {
+        width: 17vw;
     }
 }
