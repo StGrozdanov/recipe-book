@@ -65,8 +65,22 @@ export async function viewAllPage(ctx) {
 
     const allRecords = allRecordsTemplate(singleRecords, currentPage, totalPagesCount, pageData, ctx);
     ctx.render(allRecords);
+
+    lightUpCurrentPageButton(ctx);
 }
 
 export function addUppercase(arr) {
     arr.results.map(obj => obj.name = obj.name[0].toUpperCase() + obj.name.substring(1, obj.name.length));
+}
+
+function lightUpCurrentPageButton(ctx) {
+    const pageButtons = document.querySelectorAll('#pagination-section div a');
+
+    const currentPage = ctx.querystring.split('=')[1];
+
+    const targetButton = Array.from(pageButtons).find(button => button.textContent == currentPage);
+
+    if (targetButton) {
+        targetButton.classList.add('active-btn');
+    }
 }

@@ -5,7 +5,6 @@
 }
 
 #meme-details h1 {
-    font-family: cursive;
     font-weight: 650;
     line-height: 1.2;
 }
@@ -68,7 +67,6 @@
 }
 
 .details-comments h2 {
-    font-family: cursive;
     font-weight: 500;
     line-height: 1.2;
     color: inherit;
@@ -105,7 +103,6 @@
     text-align: center;
     font-weight: 700;
     line-height: normal;
-    font-family: cursive;
 }
 
 .comment-btn {
@@ -134,7 +131,6 @@
 }
 
 .no-comments {
-    font-family: cursive;
     font-size: medium;
 }
 
@@ -143,7 +139,6 @@
 }
 
 .meme-description h2 {
-    font-family: cursive;
     font-weight: 500;
     line-height: 1.2;
     color: inherit;
@@ -157,7 +152,6 @@
 }
 
 .meme-description li {
-    font-family: cursive;
     font-weight: 500;
     line-height: 1.9;
 }

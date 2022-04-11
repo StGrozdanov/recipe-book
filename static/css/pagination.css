@@ -20,3 +20,8 @@
     background-color: #e7932d;
     border-color: #e7932d;
 }
+
+.active-btn {
+    color: whitesmoke;
+    background-color: #e7932d;
+}
