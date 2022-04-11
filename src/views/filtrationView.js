@@ -18,7 +18,7 @@ export const filtrationTemplate = (ctx) => html`
                 </select>
                 <div class="overSelect"></div>
             </div>
-            <div @change=${(e)=> categorize(e, ctx)} id="checkboxes">
+            <div @change=${(e)=> categorize(e, ctx)} id="checkboxes" style="display: none;">
                 <label for="one">
                     <input type="checkbox" id="one" value="Всички" checked /><span></span>Всички</label>
                 <label for="two">
