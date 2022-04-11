@@ -22,15 +22,12 @@
     border-color: black;
 }
 
-div .selectBox .dropdown-toggle {
-    width: 100%;
-}
-
 .multiselect {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     align-items: flex-end;
+    position: relative;
 }
 
 .dropdown-toggle:hover {
@@ -46,10 +43,7 @@ div .selectBox .dropdown-toggle {
     background-repeat: no-repeat;
     padding: 12px 20px 12px 40px;
     border: 1px solid #ddd;
-}
-
-.selectBox {
-    position: relative;
+    width: 100%;
 }
 
 .selectBox select {
@@ -69,13 +63,23 @@ div .selectBox .dropdown-toggle {
     bottom: 0;
 }
 
-#checkboxes {
+/* #checkboxes {
     display: none;
     flex-direction: column;
     position: absolute;
     top: 93%;
     right: 15%;
     max-width: 10%;
+    z-index: 1;
+    background: #d6ac7782;
+    color: black;
+} */
+
+#checkboxes {
+    position: absolute;
+    top: 99%;
+    display: flex;
+    flex-direction: column;
     z-index: 1;
     background: #d6ac7782;
     color: black;
@@ -104,9 +108,9 @@ label span {
 /* Style its checked state...with a ticked icon */
 [type=checkbox]:checked+span:before {
     content: '\2714';
-    ;
+    color: green;
     position: absolute;
-    top: -6px;
-    left: -2px;
+    top: -7px;
+    left: -3px;
     width: 90%;
 }

@@ -8,6 +8,6 @@
 @import 'details.css';
 @import 'formData.css';
 
-@import './views/4kView.css';
-@import './views/laptopView.css';
-@import './views/mobileView.css';
+@import './responsiveDesign/4kView.css';
+@import './responsiveDesign/laptopView.css';
+@import './responsiveDesign/mobileView.css';

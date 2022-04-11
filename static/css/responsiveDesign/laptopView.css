@@ -28,7 +28,7 @@
         width: 55%;
     }
 
-    #checkboxes {
+    /* #checkboxes {
         display: none;
         flex-direction: column;
         position: absolute;
@@ -38,7 +38,7 @@
         z-index: 1;
         background: #d6ac7782;
         color: black;
-    }
+    } */
 
     label span {
         height: 13px;
@@ -139,11 +139,11 @@
         font-size: 15px;
     }
 
-    #checkboxes {
+    /* #checkboxes {
         top: 87%;
         right: 7.6%;
         max-width: 16.5%;
-    }
+    } */
 
     label span {
         height: 10px;

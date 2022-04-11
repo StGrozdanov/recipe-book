@@ -130,12 +130,12 @@
     #comment-container .button {
         font-size: 12px;
     }
-
+/* 
     #checkboxes {
         top: 58.5%;
         right: 2.6%;
         max-width: 25%;
-    }
+    } */
 
     label span {
         height: 8px;
@@ -297,10 +297,10 @@
         width: 102%;
     }
 
-    #checkboxes {
+    /* #checkboxes {
         top: 48%;
         right: -0.2%;
         max-width: 28%;
         font-size: 9px;
-    }
+    } */
 }
