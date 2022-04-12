@@ -2,6 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getAll, getRecepiesCount, RECEPIES_PER_PAGE } from '../io/requests.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { filtrationTemplate } from './filtrationView.js';
+import { categorizationTemplate } from './categorizationView.js';
 
 export const pageTemplate = (count) => html`
     <a href="?page=${count}" class="button warning page-btn">${count}</a>
@@ -31,7 +32,10 @@ export const singleRecordTemplate = (data) => html`
 `;
 
 export const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) => html`
+<section id="filtration-section" class="dashboard">
     ${filtrationTemplate(ctx)}
+    ${categorizationTemplate(ctx)}
+</section>
     ${paginationTemplate(pages, currentPage, totalPagesCount)}
     <section id="cards-section">
     <div id="cards">
