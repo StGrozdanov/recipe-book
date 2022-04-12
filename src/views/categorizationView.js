@@ -1,8 +1,8 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 
 import { filterByCategory } from '../io/requests.js';
-import { addUppercase, allRecordsTemplate, noRecordsTemplate, singleRecordTemplate } from './allRecordsView.js';
-import { filtrationTemplate, hidePagination } from './filtrationView.js';
+import { addUppercase, singleRecordTemplate } from './allRecordsView.js';
+import { filtrationTemplate } from './filtrationView.js';
 import { notify } from './templates/notificationTemplate.js';
 
 export const categorizationTemplate = (ctx) => html`
@@ -52,10 +52,10 @@ const filterByCategoryTemplate = (ctx, recepies) => html`
 </section>
 <section id="cards-section">
     <div id="cards">
-        <h2>Рецепти от категория: ${ctx.pathname.split('=')[1].replaceAll('&', ', ')}</h2>
+        <h2 class="filtration-heading">Рецепти от категория: ${ctx.pathname.split('=')[1].replaceAll('&', ', ')}</h2>
         <div id="cards-content">
             <ul class="other-books-list">
-                ${recepies ? recepies : noRecordsTemplate()}
+                ${recepies.length > 0 ? recepies :  html`<li><h3>Все още няма рецепти от тази категория</h3></li>`}
             </ul>
         </div>
     </div>

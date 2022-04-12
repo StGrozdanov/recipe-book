@@ -113,3 +113,14 @@ label input {
     transform: translate(-50%, -50%);
     color: #c9995c;
 }
+
+.filtration-heading {
+    text-align: center;
+}
+
+.return-anker::before {
+    content: '\e419';
+    font-family: 'Material Icons';
+    font-size: 24px;
+    color: #eda268;
+}

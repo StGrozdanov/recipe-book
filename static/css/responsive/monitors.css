@@ -124,4 +124,12 @@
     .fa-solid.fa-circle-chevron-down {
         font-size: 32px;
     }
+
+    .no-books {
+        font-size: 40px;
+    }
+
+    .return-anker::before {
+        font-size: 42px;
+    }
 }

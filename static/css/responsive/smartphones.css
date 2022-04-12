@@ -143,4 +143,12 @@
     #checkboxes {
         width: 30vw;
     }
+
+    .no-books {
+        font-size: 12px;
+    }
+
+    .return-anker::before {
+        font-size: 18px;
+    }
 }

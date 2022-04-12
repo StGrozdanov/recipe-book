@@ -20,8 +20,8 @@ export const paginationTemplate = (pages, currentPage, totalPagesCount) => html`
 `;
 
 export const noRecordsTemplate = () => html`
-<p class="no-books">Все още няма такива рецепти. Ако желаете да добавите първата, кликнете <a href="add-recipe">тук</a>
-    или върнете нормалния изглед от <a href="/">тук</a></p>
+<p class="no-books">Все още няма такива рецепти. Ако желаете да добавите първата, кликнете<a href="add-recipe">тук</a>
+    или се върнете на каталога<a class="return-anker" href="/"></a></p>
 `;
 
 export const singleRecordTemplate = (data) => html`
