@@ -21,15 +21,10 @@
 
     #find-img {
         width: 2%;
-        position: absolute;
-        margin-top: 2px;
-        cursor: pointer;
     }
 
     .selectBox select {
         font-size: 32px;
-        background-position: 199px;
-        background-size: 23px;
     }
 
     .page-btn {
@@ -37,12 +32,7 @@
     }
 
     .dropdown-toggle {
-        float: right;
-        background-position: 5px;
-        background-size: 27px;
-        background-repeat: no-repeat;
         padding: 12px 40px 12px 40px;
-        border: 1px solid #ddd;
     }
 
     .otherBooks a {

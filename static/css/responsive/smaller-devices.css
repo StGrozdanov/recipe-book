@@ -5,7 +5,6 @@
     }
 
     body footer a {
-        color: black;
         font-size: 10px;
     }
 
@@ -26,23 +25,15 @@
     }
 
     .details-comments li {
-        box-shadow: 8px 8px 8px 0 rgb(0 0 0 / 20%), 12px 12px 20px 0 rgb(0 0 0 / 19%);
-        border-radius: 16px;
-        background: #c28a44;
-        color: white;
         padding: 1px 6px;
         margin-bottom: 16px;
         width: 145px;
     }
 
     .create-comment {
-        flex-direction: column;
         margin: 0px 0px 10px 0px;
-        text-align: center;
         border-radius: 15px;
         padding: 10px;
-        background: #c28a44;
-        box-shadow: 4px 3px 20px 0px #55595c;
     }
 
     .create-comment label {
@@ -55,17 +46,14 @@
     }
 
     .create-comment .form textarea {
-        resize: none;
         width: 100%;
         height: 65px;
         margin-top: 10px;
         margin-bottom: 10px;
-        font-size: larger;
         border-radius: 5px;
     }
 
     .no-comments {
-        font-size: medium;
         font-size: 12px;
         text-align: center;
     }
@@ -91,13 +79,6 @@
     }
 
     .otherBooks a {
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        align-content: center;
-        justify-content: center;
-        align-items: center;
         width: 195px;
         height: 165px;
     }

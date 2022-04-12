@@ -26,10 +26,7 @@
     }
 
     .selectBox select {
-        background-size: 5px;
         font-size: 11px;
-        font-weight: 500;
-        background-position: 60px;
     }
 
     .page-btn {
@@ -72,12 +69,6 @@
     }
 
     .details-comments li {
-        box-shadow: 8px 8px 8px 0 rgb(0 0 0 / 20%), 12px 12px 20px 0 rgb(0 0 0 / 19%);
-        border-radius: 16px;
-        background: #c28a44;
-        color: white;
-        padding: 1px 25px;
-        margin-bottom: 20px;
         width: 190px;
     }
 
@@ -90,13 +81,8 @@
     }
 
     .create-comment .form textarea {
-        resize: none;
         width: 100%;
         height: 80px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        font-size: larger;
-        border-radius: 14px;
     }
 
     section.formData {
