@@ -1,6 +1,5 @@
 import { BASE_HEADERS, BASE_URL } from "./back4appService.js";
 import { addOwner, createPointer, createPointerQuery } from "./recipeService.js";
-import { REGISTRY_AUTHORIZATION_UPDATE_DELETE } from "./registryService.js";
 
 const COMMENT_END_POINTS = {
     CREATE_COMMENT: '/classes/Comment',
@@ -24,9 +23,16 @@ export async function commentRecipe(recipeId, comment) {
 
     const options = {
         method: 'POST',
-        headers: REGISTRY_AUTHORIZATION_UPDATE_DELETE,
+        headers: {
+            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
+            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(comment)
     };
+
+    console.log(options.headers);
 
     const response = await fetch(BASE_URL + COMMENT_END_POINTS.CREATE_COMMENT, options);
     return response.json();

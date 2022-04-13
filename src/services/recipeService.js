@@ -1,5 +1,4 @@
 import { BASE_HEADERS, BASE_URL } from "./back4appService.js";
-import { REGISTRY_AUTHORIZATION_UPDATE_DELETE } from "./registryService.js";
 
 export const RECEPIES_PER_PAGE = 6;
 
@@ -34,7 +33,12 @@ export async function createRecipe(recipe) {
 
     const options = {
         method: 'POST',
-        headers: REGISTRY_AUTHORIZATION_UPDATE_DELETE,
+        headers: {
+            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
+            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(recipe)
     };
     
@@ -54,7 +58,12 @@ export async function getSingleRecipe(id) {
 export async function updateRecipe(recipe, recipeId) {
     const options = {
         method: 'PUT',
-        headers: REGISTRY_AUTHORIZATION_UPDATE_DELETE,
+        headers: {
+            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
+            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(recipe)
     };
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(recipeId), options);
@@ -64,7 +73,11 @@ export async function updateRecipe(recipe, recipeId) {
 export async function removeRecipe(id) {
     const options = {
         method: 'DELETE',
-        headers: REGISTRY_AUTHORIZATION_UPDATE_DELETE
+        headers: {
+            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
+            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
+            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
+        }
     };
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), options);
     await response.json();

@@ -9,8 +9,3 @@ export const REGISTRY_HEADERS = {
     'X-Parse-Revocable-Session': '1',
     'Content-Type': 'application/json'
 }
-
-export const REGISTRY_HEADERS_CRUD = {
-    'X-Parse-Session-Token': `${sessionStorage.getItem('authToken')}`,
-    'Content-Type': 'application/json'
-}
