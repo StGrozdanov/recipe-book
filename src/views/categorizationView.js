@@ -1,14 +1,14 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { filterByCategory } from '../services/filtrationService.js';
-import { filtrationTemplate } from './filtrationView.js';
 import { notify } from '../utils/notification.js';
 import { addUppercase } from '../utils/capitalizator.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { categoryDropdownTemplate } from './templates/categoryDropdownTemplate.js';
+import { searchTemplate } from './templates/searchTemplate.js';
 
 const filterByCategoryTemplate = (ctx, recepies) => html`
 <section id="filtration-section" class="dashboard">
-    ${filtrationTemplate(ctx)}
+    ${searchTemplate(ctx)}
     ${categoryDropdownTemplate(ctx)}
 </section>
 <section id="cards-section">

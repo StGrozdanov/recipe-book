@@ -1,16 +1,16 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getAllRecepies } from '../services/recipeService.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
-import { filtrationTemplate } from './filtrationView.js';
 import { buildPagination, lightUpActivePaginationButton, paginationTemplate } from './templates/paginationTemplate.js';
 import { noSuchRecipesTemplate } from './templates/noRecepiesFoundTemplate.js';
 import { addUppercase } from '../utils/capitalizator.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { categoryDropdownTemplate } from './templates/categoryDropdownTemplate.js';
+import { searchTemplate } from './templates/searchTemplate.js';
 
 const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) => html`
 <section id="filtration-section" class="dashboard">
-    ${filtrationTemplate(ctx)}
+    ${searchTemplate(ctx)}
     ${categoryDropdownTemplate(ctx)}
 </section>
 ${paginationTemplate(pages, currentPage, totalPagesCount)}

@@ -66,11 +66,11 @@ export async function detailsPage(ctx) {
     ctx.render(loaderTemplate());
     const data = await getSingleRecipe(ctx.params.id);
 
-    data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
-    
-    const commentData = await getCommentsForRecipe(ctx.params.id);
+    capitalize(data);
 
-    ctx.render(detailsTemplate(data, ctx, commentData.results));
+    const recipeComments = await getCommentsForRecipe(ctx.params.id);
+
+    ctx.render(detailsTemplate(data, ctx, recipeComments.results));
 }
 
 async function deleteHandler(id, ctx) {
@@ -83,7 +83,6 @@ async function deleteHandler(id, ctx) {
             notify('Успешно изтрихте рецептата!');
         }
     }
-
 }
 
 function toggleComments(e) {
@@ -116,21 +115,36 @@ async function addCommentHandler(e, ctx) {
     if (response.code === 209) {
         notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
         notify('Ако не сте регистриран потребител можете да се регистрирате тук', { ctx: ctx, location: 'register' });
-        return notify('Ако вече сте регистриран потребител можете да влезнете в сайта от тук', { ctx: ctx, location: 'login' });
+        
+        return notify('Ако вече сте регистриран потребител можете да влезнете в сайта от тук', 
+        { ctx: ctx, location: 'login' });
     }
 
     commentField.value = '';    
 
-    const commentData = await getCommentsForRecipe(ctx.params.id);
-    const commentContainer = document.getElementById('comment-container');
-    const oldComment = document.getElementById('comments-container');
-    oldComment.remove();
+    refreshCommentSection(ctx);
+}
 
-    render(commentsTemplate(commentData.results, ctx), commentContainer);
+function capitalize(data) {
+    data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
+}
+
+async function refreshCommentSection(ctx) {
+    const refreshedCommentData = await getCommentsForRecipe(ctx.params.id);
+
+    const commentContainer = document.getElementById('comment-container');
+    
+    const oldComment = document.getElementById('comments-container');
+    oldComment.textContent = '';
+
+    render(commentsTemplate(refreshedCommentData.results, ctx), commentContainer);
+
     const comments = document.querySelector('.details-comments');
-    const addCommentForm = document.querySelector('.create-comment');
-    const button = document.querySelector('#comments-container button');
     comments.style.display = 'block';
+
+    const addCommentForm = document.querySelector('.create-comment');
     addCommentForm.style.display = 'block';
+
+    const button = document.querySelector('#comments-container button');
     button.textContent = 'Скрий коментарите';
 }

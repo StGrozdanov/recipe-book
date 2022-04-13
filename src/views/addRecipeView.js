@@ -2,7 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { createRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 
-const createTemplate = (ctx) => html`
+const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
     <form id="create-form" action="" method="">
         <fieldset>
@@ -61,9 +61,9 @@ const createTemplate = (ctx) => html`
 </section>
 `;
 
-export function createPage(context) {
+export function addRecipePage(context) {
     if (sessionStorage.getItem('authToken') != null) {
-        context.render(createTemplate(context))
+        context.render(createRecipeTemplate(context))
     } else {
         notify('Единствено регистрираните потребители могат да създават рецепти.');
     }
@@ -90,7 +90,9 @@ async function createHandler(e, context) {
         img: img,
         category: category
     }
+
     notify('Успешно създадохте рецептата си! При нужда можете да я редактирате от бутончетата.');
+    
     const createdRecipe = await createRecipe(newRecipe);
     context.page.redirect(`/details/${createdRecipe.objectId}`);
 }

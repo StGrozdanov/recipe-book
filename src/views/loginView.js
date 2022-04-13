@@ -47,6 +47,7 @@ async function loginHandler(e, ctx) {
         } else {
             ctx.page.redirect('/');
         }
+        
         notify(`Добре дошли, ${sessionStorage.getItem('username')}! Приятно прекарване!`)
         const navigationHomeButton = document.querySelector('#catalogLink');
         navigationHomeButton.classList.add('active');

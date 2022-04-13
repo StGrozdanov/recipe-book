@@ -2,7 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getSingleRecipe, updateRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 
-const editTemplate = (data, ctx) => html`
+const editRecipeTemplate = (data, ctx) => html`
 <section id="edit-page" class="edit formData">
     <form id="edit-form" action="#" method="">
         <fieldset>
@@ -57,8 +57,9 @@ const editTemplate = (data, ctx) => html`
 
 export async function editPage(context) {
     const data = await getSingleRecipe(context.params.id);
-    data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
-    context.render(editTemplate(data, context));
+    capitalize(data);
+    
+    context.render(editRecipeTemplate(data, context));
 }
 
 async function editHandler(e, context) {
@@ -81,6 +82,11 @@ async function editHandler(e, context) {
         img: img,
         category: category
     }
+    
     await updateRecipe(editRecipe, context.params.id);
     context.page.redirect(`/details/${context.params.id}`);
+}
+
+function capitalize(data) {
+    data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
 }

@@ -39,7 +39,6 @@ async function logoutHandler(ctx) {
 }
 
 function trackActiveLink(e) {
-    
     if (e.path[0].localName == 'a') {
         const navAnkerTags = Array.from(e.currentTarget.getElementsByTagName('a'));
         
