@@ -15,13 +15,13 @@ const editRecipeTemplate = (data, ctx) => html`
             </p>
             <p class="field">
                 <label for="description">Продукти</label>
-                <span class="input">
+                <span class="input edit-products-field">
                     <textarea name="products" id="description" placeholder="Продукти и грамаж, всеки на нов ред">${data.products.join('\n')}</textarea>
                 </span>
             </p>
             <p class="field">
                 <label for="description">Стъпки за приготвяне</label>
-                <span class="input">
+                <span class="input edit-steps-field">
                     <textarea name="steps" id="description" placeholder="Стъпки за приготвяне, всяка на нов ред">${data.steps.join('\n')}</textarea>
                 </span>
             </p>

@@ -58,7 +58,7 @@ section.formData {
     color: white;
     border-radius: 1rem;
     box-shadow: 0 0 1rem 0.1rem rgb(0 0 0 / 10%);
-    width: 40%;
+    width: 50%;
     padding: 0.5rem 1rem;
     left: -1px;
     top: -1.4rem;
@@ -135,7 +135,8 @@ section.formData {
 
 .formData form textarea {
     border-radius: 0.5rem;
-    padding: 0.8rem;
+    padding: 0.5rem;
+    height: 100%
 }
 
 .formData form textarea:focus {
@@ -187,4 +188,8 @@ section.formData {
 
 #register-form .fa-envelope {
     margin-left: 8px;
+}
+
+.edit-products-field, .edit-steps-field {
+    height: 50vh;
 }

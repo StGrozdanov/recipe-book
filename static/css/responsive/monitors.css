@@ -44,16 +44,12 @@
         height: 250px;
     }
 
-    .detailsOtherBooks,
-    .detailsMyBooks,
-    .deleteBook,
-    .recipe-card,
-    .myBooks {
+    .recipe-card {
         max-width: 530px;
         max-height: 390px;
     }
 
-    .meme-img {
+    .recipe-img {
         width: 670px;
     }
 

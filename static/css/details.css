@@ -1,29 +1,29 @@
-#meme-details {
+#recipe-details {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#meme-details h1 {
+#recipe-details h1 {
     font-weight: 650;
     line-height: 1.2;
 }
 
-.meme-details {
+.recipe-details-div {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
 }
 
-.meme-img {
+.recipe-img {
     max-width: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.meme-img img {
+.recipe-img img {
     padding: 0.25rem;
     background-color: #fff;
     border: 1px solid #dee2e6;
@@ -57,6 +57,11 @@
     color: white;
     padding: 1px 25px;
     margin-bottom: 20px;
+    max-width: 40vw;
+}
+
+.details-comments li p:last-child {
+    overflow-y: auto;
 }
 
 .details-comments li a {
@@ -134,24 +139,24 @@
     font-size: medium;
 }
 
-.meme-description {
+.recipe-description {
     max-width: 38%;
 }
 
-.meme-description h2 {
+.recipe-description h2 {
     font-weight: 500;
     line-height: 1.2;
     color: inherit;
     margin: 0px 0px 15px 0px;
 }
 
-.meme-description ul {
+.recipe-description ul {
     box-shadow: 2px 5px 13px 0px #000000, 8px -15px 31px -12px rgb(0 0 0 / 0%);
     padding: 30px;
     margin: 0px 0px 40px 0px;
 }
 
-.meme-description li {
+.recipe-description li {
     font-weight: 500;
     line-height: 1.9;
 }

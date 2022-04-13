@@ -1,4 +1,4 @@
-@media all and (max-width: 375px) {
+@media all and (max-width: 376px) {
     body {
         width: 100%;
         font-size: 10px;
@@ -6,9 +6,10 @@
 
     body footer a {
         font-size: 10px;
+        margin: 0px 3px;
     }
 
-    #meme-details h1 {
+    #recipe-details h1 {
         font-size: 20px;
     }
 
@@ -18,7 +19,7 @@
         margin-right: 0px;
     }
 
-    .meme-description ul {
+    .recipe-description ul {
         box-shadow: 2px 5px 13px 0px #000000, 8px -15px 31px -12px rgb(0 0 0 / 0%);
         padding: 5px;
         margin: 0px 0px 22px 0px;
@@ -83,7 +84,7 @@
         height: 165px;
     }
 
-    .detailsOtherBooks, .detailsMyBooks, .deleteBook, .recipe-card, .myBooks {
+    .recipe-card {
         max-width: 200px;
         max-height: 175px;
     }
@@ -98,13 +99,13 @@
         font-size: 12px;
     }
 
-    #meme-details h1 {
+    #recipe-details h1 {
         font-size: 20px;
         margin: 20px 5px;
     }
 
     .formData form legend {
-        width: 67%;
+        width: 70%;
     }
 
     .formData .button {

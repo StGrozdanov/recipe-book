@@ -3,11 +3,7 @@
         width: 100%;
     }
 
-    .detailsOtherBooks,
-    .detailsMyBooks,
-    .deleteBook,
-    .recipe-card,
-    .myBooks {
+    .recipe-card {
         max-width: 233px;
         margin: 19px 0px;
     }
@@ -25,7 +21,7 @@
     }
 
     .formData form legend {
-        width: 55%;
+        width: 62%;
     }
 
     #checkboxes label {

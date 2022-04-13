@@ -37,6 +37,7 @@ export async function createRecipe(recipe) {
         headers: REGISTRY_AUTHORIZATION_UPDATE_DELETE,
         body: JSON.stringify(recipe)
     };
+    
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.CREATE_RECIPE, options);
     return response.json();
 }

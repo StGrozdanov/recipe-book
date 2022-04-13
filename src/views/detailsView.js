@@ -37,17 +37,17 @@ const commentsTemplate = (data, ctx) => html`
 `;
 
 const detailsTemplate = (data, ctx, commentData) => html`
-    <section id="meme-details">
+    <section id="recipe-details">
         <h1>Ястие: ${data.name}</h1>
-        <div class="meme-details">
-            <div class="meme-img">
-                <img alt="meme-alt" src=${data.img}>
+        <div class="recipe-details-div">
+            <div class="recipe-img">
+                <img alt="recipe-alt" src=${data.img}>
                 <div id="comment-container">
                 ${sessionStorage.getItem('id') === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
                     ${commentsTemplate(commentData, ctx)}
                 </div>
             </div>
-            <div class="meme-description">
+            <div class="recipe-description">
                 <ul>
                 <h2>Съставки:</h2>
                     ${data.products.map(product => html`<li>${product}</li>`)}

@@ -50,11 +50,7 @@ h3 {
     margin-top: 0px;
 }
 
-.detailsOtherBooks,
-.detailsMyBooks,
-.deleteBook,
-.recipe-card,
-.myBooks {
+.recipe-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,19 +61,14 @@ h3 {
     margin-bottom: 40px;
 }
 
-.detailsMyBooks>p:nth-child(2),
-.deleteBook>p:nth-child(2),
-.recipe-card>p:nth-child(2),
-.myBooks>p:nth-child(2) {
+.recipe-card p:nth-child(2) {
     font-size: 1.2rem;
     font-weight: bold;
 }
 
 .img {
-    /* width: 158px; */
     position: relative;
     overflow: hidden;
-    /* padding: 17px; */
     margin: 0;
     max-width: 130px;
     max-height: 110px;
