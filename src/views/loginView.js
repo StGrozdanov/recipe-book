@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { login } from '../io/registry.js';
+import { login } from '../services/registryService.js';
 import { notify } from './templates/notificationTemplate.js';
 
 const loginTemplate = (ctx) => html`

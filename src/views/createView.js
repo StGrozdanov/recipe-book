@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { create } from '../io/requests.js';
+import { createRecipe } from '../services/recipeService.js';
 import { notify } from './templates/notificationTemplate.js';
 
 const createTemplate = (ctx) => html`
@@ -83,7 +83,7 @@ async function createHandler(e, context) {
         return notify('Моля попълнете всички полета.');
     }
 
-    const createRecipe = {
+    const newRecipe = {
         name: name.toLowerCase(),
         products: products,
         steps: steps,
@@ -91,6 +91,6 @@ async function createHandler(e, context) {
         category: category
     }
     notify('Успешно създадохте рецептата си! При нужда можете да я редактирате от бутончетата.');
-    const createdRecipe = await create(createRecipe);
+    const createdRecipe = await createRecipe(newRecipe);
     context.page.redirect(`/details/${createdRecipe.objectId}`);
 }

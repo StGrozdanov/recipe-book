@@ -1,6 +1,6 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 
-import { filterByCategory } from '../io/requests.js';
+import { filterByCategory } from '../services/filtrationService.js';
 import { addUppercase, singleRecordTemplate } from './allRecordsView.js';
 import { filtrationTemplate } from './filtrationView.js';
 import { notify } from './templates/notificationTemplate.js';
@@ -75,11 +75,11 @@ export async function categorizationPage(ctx) {
 
         const singleRecords = data.results.map(singleRecordTemplate);
 
-        renderCategorizationResults(data, singleRecords, query, ctx);
+        renderCategorizationResults(singleRecords, query, ctx);
     }
 }
 
-export function renderCategorizationResults(data, singleRecords, params, ctx) {
+export function renderCategorizationResults(singleRecords, params, ctx) {
         const newContent = filterByCategoryTemplate(ctx, singleRecords)
 
         render(newContent, document.querySelector('.container'));

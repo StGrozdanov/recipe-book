@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getAll, getRecepiesCount, RECEPIES_PER_PAGE } from '../io/requests.js';
+import { getAllRecepies, getRecepiesCount, RECEPIES_PER_PAGE } from '../services/recipeService.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { filtrationTemplate } from './filtrationView.js';
 import { categorizationTemplate } from './categorizationView.js';
@@ -52,7 +52,7 @@ export async function viewAllPage(ctx) {
     ctx.render(loaderTemplate());
     const currentPage = Number(ctx.querystring.split('=')[1] || 1);
 
-    let data = await getAll(currentPage);
+    let data = await getAllRecepies(currentPage);
     addUppercase(data);
 
     const singleRecords = data.results.map(singleRecordTemplate);

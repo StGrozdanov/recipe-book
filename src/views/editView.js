@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getSingle, update } from '../io/requests.js';
+import { getSingleRecipe, updateRecipe } from '../services/recipeService.js';
 import { notify } from './templates/notificationTemplate.js';
 
 const editTemplate = (data, ctx) => html`
@@ -56,7 +56,7 @@ const editTemplate = (data, ctx) => html`
 `;
 
 export async function editPage(context) {
-    const data = await getSingle(context.params.id);
+    const data = await getSingleRecipe(context.params.id);
     data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
     context.render(editTemplate(data, context));
 }
@@ -81,6 +81,6 @@ async function editHandler(e, context) {
         img: img,
         category: category
     }
-    await update(editRecipe, context.params.id);
+    await updateRecipe(editRecipe, context.params.id);
     context.page.redirect(`/details/${context.params.id}`);
 }

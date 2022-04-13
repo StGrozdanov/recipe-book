@@ -1,5 +1,5 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
-import { searchByName } from '../io/requests.js';
+import { searchByName } from '../services/filtrationService.js';
 import { notify } from './templates/notificationTemplate.js';
 import { addUppercase, singleRecordTemplate, noRecordsTemplate } from './allRecordsView.js';
 
