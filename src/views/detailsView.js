@@ -2,8 +2,8 @@ import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { commentRecipe, getCommentsForRecipe } from '../services/commentService.js';
 import { getSingleRecipe, removeRecipe } from '../services/recipeService.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
-import { showModal } from './templates/modalDialogue.js';
-import { notify } from './templates/notificationTemplate.js';
+import { showModal } from '../utils/modalDialogue.js';
+import { notify } from '../utils/notification.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit/${id}">Редактирай</a>

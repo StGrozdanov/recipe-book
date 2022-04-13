@@ -35,19 +35,19 @@
         padding: 12px 40px 12px 40px;
     }
 
-    .otherBooks a {
+    .recipe-card a {
         width: 530px;
         height: 390px;
     }
 
-    .other-books-list img {
+    .recipe-card-list img {
         height: 250px;
     }
 
     .detailsOtherBooks,
     .detailsMyBooks,
     .deleteBook,
-    .otherBooks,
+    .recipe-card,
     .myBooks {
         max-width: 530px;
         max-height: 390px;
@@ -125,7 +125,7 @@
         font-size: 32px;
     }
 
-    .no-books {
+    .no-recipes {
         font-size: 40px;
     }
 

@@ -1,7 +1,9 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { searchByName } from '../services/filtrationService.js';
-import { notify } from './templates/notificationTemplate.js';
-import { addUppercase, singleRecordTemplate, noRecordsTemplate } from './allRecordsView.js';
+import { addUppercase } from '../utils/capitalizator.js';
+import { notify } from '../utils/notification.js';
+import { noSuchRecipesTemplate } from './templates/noRecepiesFoundTemplate.js';
+import { recipeTemplate } from './templates/recipeTemplate.js';
 
 export const filtrationTemplate = (ctx) => html`
     <form @submit=${(e) => search(e, ctx)}>
@@ -19,8 +21,8 @@ export const searchResultsTemplate = (recepies, ctx, query) => html`
     <div id="cards">
         <h2 class="filtration-heading">Рецепти, съдържащи ${query} в името си:</h2>
         <div id="cards-content">
-            <ul class="other-books-list">
-                ${recepies.length > 0 ? recepies : noRecordsTemplate()}
+            <ul class="recipe-card-list">
+                ${recepies.length > 0 ? recepies : noSuchRecipesTemplate()}
             </ul>
         </div>
     </div>
@@ -48,14 +50,14 @@ export async function filtrationPage(ctx) {
         const data = await searchByName(query);
         addUppercase(data);
 
-        const singleRecords = data.results.map(singleRecordTemplate);
+        const recipes = data.results.map(recipeTemplate);
 
-        renderSearchResults(singleRecords, params, ctx);
+        renderSearchResults(recipes, params, ctx);
     }
 }
 
-export function renderSearchResults(singleRecords, params, ctx) {
-        const newContent = searchResultsTemplate(singleRecords, ctx, params);
+export function renderSearchResults(recipes, params, ctx) {
+        const newContent = searchResultsTemplate(recipes, ctx, params);
 
         render(newContent, document.querySelector('.container'));
 

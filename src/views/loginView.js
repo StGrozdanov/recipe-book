@@ -1,6 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { login } from '../services/registryService.js';
-import { notify } from './templates/notificationTemplate.js';
+import { notify } from '../utils/notification.js';
 
 const loginTemplate = (ctx) => html`
 <section id="login-page" class="login formData">

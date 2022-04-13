@@ -1,6 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getSingleRecipe, updateRecipe } from '../services/recipeService.js';
-import { notify } from './templates/notificationTemplate.js';
+import { notify } from '../utils/notification.js';
 
 const editTemplate = (data, ctx) => html`
 <section id="edit-page" class="edit formData">

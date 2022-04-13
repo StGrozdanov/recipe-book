@@ -1,6 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { register } from '../services/registryService.js'
-import { notify } from './templates/notificationTemplate.js';
+import { notify } from '../utils/notification.js';
 
 const registerTemplate = (context) => html`
 <section id="register-page" class="register formData">

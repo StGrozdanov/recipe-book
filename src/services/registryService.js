@@ -1,4 +1,4 @@
-import { notify } from "../views/templates/notificationTemplate.js";
+import { notify } from "../utils/notification.js";
 import { BASE_HEADERS, BASE_URL, REGISTRY_HEADERS, REGISTRY_HEADERS_CRUD } from "./back4appService.js";
 
 const REGISTRY_END_POINTS = {

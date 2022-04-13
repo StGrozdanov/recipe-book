@@ -36,7 +36,7 @@
         font-size: 11px;
     }
 
-    .other-books-list {
+    .recipe-card-list {
         margin: 0;
     }
 
@@ -144,7 +144,7 @@
         width: 30vw;
     }
 
-    .no-books {
+    .no-recipes {
         font-size: 12px;
     }
 

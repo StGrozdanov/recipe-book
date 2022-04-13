@@ -1,4 +1,4 @@
-import { viewAllPage } from './views/allRecordsView.js';
+import { cataloguePage } from './views/catalogueView.js';
 import page from '../node_modules/page/page.mjs';
 import { setUp } from './middlewares/setUpMidware.js';
 import { loginPage } from './views/loginView.js';
@@ -7,9 +7,9 @@ import { createPage } from './views/createView.js';
 import { detailsPage } from './views/detailsView.js';
 import { editPage } from './views/editView.js';
 import { filtrationPage } from './views/filtrationView.js';
-import { categorizationPage, categorize } from './views/categorizationView.js';
+import { categorizationPage } from './views/categorizationView.js';
 
-page('/', setUp, viewAllPage)
+page('/', setUp, cataloguePage)
 page('/login', setUp, loginPage);
 page('/register', setUp, registerPage);
 page('/add-recipe', setUp, createPage);

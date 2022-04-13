@@ -37,14 +37,14 @@
         font-size: 12px;
     }
 
-    .other-books-list {
+    .recipe-card-list {
         justify-content: center;
     }
 
     .detailsOtherBooks,
     .detailsMyBooks,
     .deleteBook,
-    .otherBooks,
+    .recipe-card,
     .myBooks {
         margin: 19px 25px;
     }

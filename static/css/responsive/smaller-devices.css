@@ -78,17 +78,17 @@
         margin: 0;
     }
 
-    .otherBooks a {
+    .recipe-card a {
         width: 195px;
         height: 165px;
     }
 
-    .detailsOtherBooks, .detailsMyBooks, .deleteBook, .otherBooks, .myBooks {
+    .detailsOtherBooks, .detailsMyBooks, .deleteBook, .recipe-card, .myBooks {
         max-width: 200px;
         max-height: 175px;
     }
 
-    .other-books-list img {
+    .recipe-card-list img {
         width: 100%;
         height: 100px;
     }

@@ -1,60 +1,21 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
-
 import { filterByCategory } from '../services/filtrationService.js';
-import { addUppercase, singleRecordTemplate } from './allRecordsView.js';
 import { filtrationTemplate } from './filtrationView.js';
-import { notify } from './templates/notificationTemplate.js';
-
-export const categorizationTemplate = (ctx) => html`
-<form>
-    <div class="multiselect">
-        <div @click=${showCheckboxes} class="selectBox dropdown-toggle">
-            <i class="fa-solid fa-circle-chevron-down"></i>
-            <select style="border: none;">
-                <option>Категории</option>
-            </select>
-            <div class="overSelect"></div>
-        </div>
-        <div @change=${(e) => categorize(e, ctx)} id="checkboxes" style="display: none;">
-            <label for="one">
-                <input type="checkbox" id="one" value="Всички" checked /><span></span>Всички</label>
-            <label for="two">
-                <input type="checkbox" id="two" value="Пилешко" /><span></span>Пилешко</label>
-            <label for="three">
-                <input type="checkbox" id="three" value="Свинско" /><span></span>Свинско</label>
-            <label>
-                <input type="checkbox" value="Телешко" /><span></span>Телешко</label>
-            <label>
-                <input type="checkbox" value="Телешко\-свинско" /><span></span>Телешко-свинско</label>
-            <label>
-                <input type="checkbox" value="Риба" /><span></span>Риба</label>
-            <label>
-                <input type="checkbox" value="Други месни" /><span></span>Други месни</label>
-            <label>
-                <input type="checkbox" value="Вегитариански" /><span></span>Вегитариански</label>
-            <label>
-                <input type="checkbox" value="Салати" /><span></span>Салати</label>
-            <label>
-                <input type="checkbox" value="Тестени" /><span></span>Тестени</label>
-            <label>
-                <input type="checkbox" value="Десерти" /><span></span>Десерти</label>
-            <label>
-                <input type="checkbox" value="Други" /><span></span>Други</label>
-        </div>
-    </div>
-</form>
-`;
+import { notify } from '../utils/notification.js';
+import { addUppercase } from '../utils/capitalizator.js';
+import { recipeTemplate } from './templates/recipeTemplate.js';
+import { categoryDropdownTemplate } from './templates/categoryDropdownTemplate.js';
 
 const filterByCategoryTemplate = (ctx, recepies) => html`
 <section id="filtration-section" class="dashboard">
     ${filtrationTemplate(ctx)}
-    ${categorizationTemplate(ctx)}
+    ${categoryDropdownTemplate(ctx)}
 </section>
 <section id="cards-section">
     <div id="cards">
         <h2 class="filtration-heading">Рецепти от категория: ${ctx.pathname.split('=')[1].replaceAll('&', ', ')}</h2>
         <div id="cards-content">
-            <ul class="other-books-list">
+            <ul class="recipe-card-list">
                 ${recepies.length > 0 ? recepies :  html`<li><h3>Все още няма рецепти от тази категория</h3></li>`}
             </ul>
         </div>
@@ -73,24 +34,17 @@ export async function categorizationPage(ctx) {
         const data = await filterByCategory(query);
         addUppercase(data);
 
-        const singleRecords = data.results.map(singleRecordTemplate);
+        const recipes = data.results.map(recipeTemplate);
 
-        renderCategorizationResults(singleRecords, query, ctx);
+        renderCategorizationResults(recipes, query, ctx);
     }
 }
 
-export function renderCategorizationResults(singleRecords, params, ctx) {
-        const newContent = filterByCategoryTemplate(ctx, singleRecords)
-
+function renderCategorizationResults(recipes, params, ctx) {
+        const newContent = filterByCategoryTemplate(ctx, recipes);
         render(newContent, document.querySelector('.container'));
 
-        const checks = document.querySelectorAll('[type=checkbox]');
-
-        Array.from(checks).filter(c => params.has(c.defaultValue)).map(element => element.checked = true);
-
-        document.getElementById('one').checked = false;
-
-        document.getElementById("checkboxes").style.display = 'flex';
+        expandCheckboxWithSelectedCategories(params);
 }
 
 export async function categorize(e, ctx) {
@@ -103,7 +57,7 @@ export async function categorize(e, ctx) {
         query.delete(category);
     }
 
-    document.getElementById('myInput').value = '';
+    clearSearchField();
 
     if (query.size > 0 && !query.has('Всички')) {
         ctx.page.redirect(`/categorize=${Array.from(query).join('&')}`);
@@ -113,28 +67,13 @@ export async function categorize(e, ctx) {
     }
 }
 
-let expanded = false;
-
-function showCheckboxes() {
-    const checkboxes = document.getElementById("checkboxes");
-
-    if (!expanded) {
-        checkboxes.style.display = "flex";
-        expanded = true;
-    } else {
-        checkboxes.style.display = "none";
-        expanded = false;
-    }
-}
-
 function selectHandler(e) {
     const checks = document.querySelectorAll('[type=checkbox]');
     const checkedBoxesCount = Array.from(checks).filter(c => c.checked).length;
 
-    if (checkedBoxesCount <= 4 && e.target.id !== 'one') {
-
+    if (checkedBoxesCount <= 4 && e.target.id !== 'all-categories') {
         //if 'all' checbox is checked uncheck everything
-        if (e.target.id === 'one') {
+        if (e.target.id === 'all-categories') {
             checks[0].checked = true;
 
             checks.forEach((c, index) => {
@@ -153,7 +92,7 @@ function selectHandler(e) {
         });
         selected ? checks[0].checked = true : checks[0].checked = false;
     } else {
-        if (e.target.id !== 'one') {
+        if (e.target.id !== 'all-categories') {
             e.target.checked = false;
             notify('Можете да филтрирате до 4 категории рецепти.');
         } else {
@@ -166,4 +105,18 @@ function selectHandler(e) {
             });
         }
     }
+}
+
+function expandCheckboxWithSelectedCategories(params) {
+    const checks = document.querySelectorAll('[type=checkbox]');
+
+    Array.from(checks).filter(c => params.has(c.defaultValue)).map(element => element.checked = true);
+
+    document.getElementById('all-categories').checked = false;
+
+    document.getElementById("checkboxes").style.display = 'flex';
+}
+
+function clearSearchField() {
+    document.getElementById('myInput').value = '';
 }

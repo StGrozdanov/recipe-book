@@ -1,6 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { createRecipe } from '../services/recipeService.js';
-import { notify } from './templates/notificationTemplate.js';
+import { notify } from '../utils/notification.js';
 
 const createTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
