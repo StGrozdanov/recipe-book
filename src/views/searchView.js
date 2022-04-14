@@ -1,7 +1,6 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { searchByName } from '../services/filtrationService.js';
 import { addUppercase } from '../utils/capitalizator.js';
-import { notify } from '../utils/notification.js';
 import { noSuchRecipesTemplate } from './templates/noRecepiesFoundTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { searchTemplate } from './templates/searchTemplate.js';
@@ -12,7 +11,8 @@ const searchPageTemplate = (recepies, ctx, query) => html`
 </section>
     <section id="cards-section">
     <div id="cards">
-        <h2 class="filtration-heading">Рецепти, съдържащи ${query} в името си:</h2>
+        <h2 class="filtration-heading">Рецепти, съдържащи "${query}" в името си:</h2>
+        <img class="search-img" src="../static/images/istockphoto-1209388288-612x612-removebg-preview.png">
         <div id="cards-content">
             <ul class="recipe-card-list">
                 ${recepies.length > 0 ? recepies : noSuchRecipesTemplate()}

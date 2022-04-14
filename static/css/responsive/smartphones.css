@@ -151,4 +151,8 @@
     .return-anker::before {
         font-size: 18px;
     }
+
+    .search-img {
+        max-width: 110%;
+    }
 }

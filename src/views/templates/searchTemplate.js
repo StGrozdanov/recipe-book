@@ -1,4 +1,5 @@
 import { html } from "../../../node_modules/lit-html/lit-html.js";
+import { notify } from "../../utils/notification.js"
 
 export const searchTemplate = (ctx) => html`
     <form @submit=${(e) => search(e, ctx)}>
@@ -17,6 +18,7 @@ async function search(e, ctx) {
     if (query.trim() !== '') {
         ctx.page.redirect(`/search=${query}`);
     } else {
+        console.log(notify);
         notify('Добър опит! Сега пробвайте да въведете и буквички.')
     }
 }
