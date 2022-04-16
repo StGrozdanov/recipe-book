@@ -9,3 +9,15 @@ export const REGISTRY_HEADERS = {
     'X-Parse-Revocable-Session': '1',
     'Content-Type': 'application/json'
 }
+
+export const USER_AUTHORIZATION_BASE_HEADERS = {
+    ...REGISTRY_HEADERS,
+    ...BASE_HEADERS
+}
+
+export default function MODIFIYNG_OPERATIONS_HEADERS(authorizationToken) {
+    return {
+        ...BASE_HEADERS,
+        "X-Parse-Session-Token": authorizationToken,
+    }
+}

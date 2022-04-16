@@ -1,7 +1,7 @@
 import { notify } from "../utils/notification.js";
-import { BASE_HEADERS, BASE_URL, REGISTRY_HEADERS } from "./back4appService.js";
+import MODIFIYNG_OPERATIONS_HEADERS, { USER_AUTHORIZATION_BASE_HEADERS, BASE_URL, } from "./back4appService.js";
 
-const REGISTRY_END_POINTS = {
+const USERS_END_POINTS = {
     REGISTER: '/users',
     LOGIN: '/login',
     LOGOUT: '/logout',
@@ -9,15 +9,10 @@ const REGISTRY_END_POINTS = {
     DELETE: (id) => { return `/users/${id}` },
 }
 
-const REGISTRY_AUTHORIZATION_BASE = {
-    ...REGISTRY_HEADERS,
-    ...BASE_HEADERS
-}
-
 export async function register(username, email, password) {
-    const response = await fetch(BASE_URL + REGISTRY_END_POINTS.REGISTER, {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.REGISTER, {
         method: 'POST',
-        headers: REGISTRY_AUTHORIZATION_BASE,
+        headers: USER_AUTHORIZATION_BASE_HEADERS,
         body: JSON.stringify({ username: username, email: email, password: password })
     });
     if (response.ok) {
@@ -31,9 +26,9 @@ export async function register(username, email, password) {
 }
 
 export async function login(username, password) {
-    const response = await fetch(BASE_URL + REGISTRY_END_POINTS.LOGIN, {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.LOGIN, {
         method: 'POST',
-        headers: REGISTRY_AUTHORIZATION_BASE,
+        headers: USER_AUTHORIZATION_BASE_HEADERS,
         body: JSON.stringify({ username: username, password: password })
     });
     if (response.ok) {
@@ -47,9 +42,9 @@ export async function login(username, password) {
 }
 
 export async function logout() {
-    const response = await fetch(BASE_URL + REGISTRY_END_POINTS.LOGOUT, {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.LOGOUT, {
         method: 'POST',
-        headers: REGISTRY_AUTHORIZATION_BASE
+        headers: USER_AUTHORIZATION_BASE_HEADERS
     });
     if (response.ok) {
         clearUserData();
@@ -61,12 +56,12 @@ export async function logout() {
 }
 
 export async function update(username, email, password, userId) {
-    const response = await fetch(BASE_URL + REGISTRY_END_POINTS.UPDATE(userId), {
+    const authorizationToken = sessionStorage.getItem('authToken');
+
+    const response = await fetch(BASE_URL + USERS_END_POINTS.UPDATE(userId), {
         method: 'PUT',
         headers: {
-            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea', 
-            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
-            'X-Parse-Session-Token': `${sessionStorage.getItem('authToken')}`,
+            ...MODIFIYNG_OPERATIONS_HEADERS(authorizationToken),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ username: username, email: email, password: password })
@@ -81,13 +76,11 @@ export async function update(username, email, password, userId) {
 }
 
 export async function remove(userId) {
-    const response = await fetch(BASE_URL + REGISTRY_END_POINTS.DELETE(userId), {
+    const authorizationToken = sessionStorage.getItem('authToken');
+
+    const response = await fetch(BASE_URL + USERS_END_POINTS.DELETE(userId), {
         method: 'DELETE',
-        headers: {
-            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea', 
-            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
-            'X-Parse-Session-Token': `${sessionStorage.getItem('authToken')}`,
-        }
+        headers: MODIFIYNG_OPERATIONS_HEADERS(authorizationToken)
     });
     if (response.ok) {
         clearUserData();

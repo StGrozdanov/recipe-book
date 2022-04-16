@@ -1,5 +1,5 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
-import { logout } from '../services/registryService.js'
+import { logout } from '../services/userService.js'
 
 const container = document.getElementById('nav-container');
 

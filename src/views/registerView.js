@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { register } from '../services/registryService.js'
+import { register } from '../services/userService.js'
 import { notify } from '../utils/notification.js';
 
 const registerTemplate = (context) => html`

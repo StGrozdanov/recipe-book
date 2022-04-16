@@ -1,4 +1,5 @@
 import { BASE_HEADERS, BASE_URL } from "./back4appService.js";
+import MODIFIYNG_OPERATIONS_HEADERS from "./back4appService.js";
 
 export const RECEPIES_PER_PAGE = 6;
 
@@ -29,14 +30,13 @@ export async function getAllRecepies(page) {
 }
 
 export async function createRecipe(recipe) {
+    const authorizationToken = sessionStorage.getItem('authToken');
     addOwner(recipe);
 
     const options = {
         method: 'POST',
         headers: {
-            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
-            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
-            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
+            ...MODIFIYNG_OPERATIONS_HEADERS(authorizationToken),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(recipe)
@@ -56,12 +56,12 @@ export async function getSingleRecipe(id) {
 }
 
 export async function updateRecipe(recipe, recipeId) {
+    const authorizationToken = sessionStorage.getItem('authToken');
+
     const options = {
         method: 'PUT',
         headers: {
-            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
-            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
-            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
+            ...MODIFIYNG_OPERATIONS_HEADERS(authorizationToken),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(recipe)
@@ -71,13 +71,11 @@ export async function updateRecipe(recipe, recipeId) {
 }
 
 export async function removeRecipe(id) {
+    const authorizationToken = sessionStorage.getItem('authToken');
+
     const options = {
         method: 'DELETE',
-        headers: {
-            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
-            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
-            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
-        }
+        headers: MODIFIYNG_OPERATIONS_HEADERS(authorizationToken)
     };
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), options);
     await response.json();

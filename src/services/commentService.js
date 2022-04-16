@@ -1,5 +1,6 @@
 import { BASE_HEADERS, BASE_URL } from "./back4appService.js";
 import { addOwner, createPointer, createPointerQuery } from "./recipeService.js";
+import MODIFIYNG_OPERATIONS_HEADERS from "./back4appService.js";
 
 const COMMENT_END_POINTS = {
     CREATE_COMMENT: '/classes/Comment',
@@ -18,22 +19,19 @@ export async function getCommentsForRecipe(recipeId) {
 }
 
 export async function commentRecipe(recipeId, comment) {
+    const authorizationToken = sessionStorage.getItem('authToken');
+
     comment.recipe = createPointer('Recipe', recipeId)
     addOwner(comment);
 
     const options = {
         method: 'POST',
         headers: {
-            'X-Parse-Application-Id': 'Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea',
-            'X-Parse-REST-API-Key': '5hjL2s81MAheTfmeu4ejBnR41hS2V0WHmkilsWiS',
-            'X-Parse-Session-Token': sessionStorage.getItem('authToken'),
+            ...MODIFIYNG_OPERATIONS_HEADERS(authorizationToken),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(comment)
     };
-
-    console.log(options.headers);
-
     const response = await fetch(BASE_URL + COMMENT_END_POINTS.CREATE_COMMENT, options);
     return response.json();
 }
