@@ -18,7 +18,7 @@ const userViewTemplate = (ctx) => html`
 `;
 
 const navigationTemplate = (ctx) => html`
-<nav @click=${trackActiveLink}>
+<nav>
             <a id="catalogLink" href="/" class="active">Списък с рецепти</a>
             ${userIsLoggedIn()
             ? userViewTemplate(ctx)
@@ -29,6 +29,7 @@ const navigationTemplate = (ctx) => html`
 
 export function renderNavigation(ctx) {
     render(navigationTemplate(ctx), container);
+    trackActiveLink(ctx);
 }
 
 async function logoutHandler(ctx) {
@@ -38,13 +39,18 @@ async function logoutHandler(ctx) {
     navigationHomeButton.classList.add('active');
 }
 
-function trackActiveLink(e) {
-    if (e.path[0].localName == 'a') {
-        const navAnkerTags = Array.from(e.currentTarget.getElementsByTagName('a'));
-        
-        navAnkerTags.forEach(tag => tag.classList.remove('active'));
-        
-        e.target.classList.add('active');
+function trackActiveLink(ctx) {
+    const currentPage = ctx.path;
+    const navLinks = document.querySelectorAll('nav a');
+
+    navLinks.forEach(navLink => navLink.classList.remove('active'));
+
+    const activeLink = Array.from(navLinks).find(navLink => navLink.attributes.href.value === currentPage);
+    
+    if (activeLink !== undefined) {
+        activeLink.classList.add('active');
+    } else {
+        navLinks[0].classList.add('active');
     }
 }
 
