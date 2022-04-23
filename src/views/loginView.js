@@ -48,6 +48,6 @@ async function loginHandler(e, ctx) {
         }
         notify(`Добре дошли, ${sessionStorage.getItem('username')}! Приятно прекарване!`);
     } else {
-        return notify('All fields are required!');
+        return notify('Всички полета са задължителни!');
     }
 }
