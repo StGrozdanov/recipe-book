@@ -23,7 +23,7 @@ export function notify(message, redirect) {
     }
 }
 
-function redirectHandler(e, redirect) {
+async function redirectHandler(e, redirect) {
     if (e.target.tagName == 'LI') {
         const notifications = document.querySelectorAll('.notification');
 
@@ -31,7 +31,9 @@ function redirectHandler(e, redirect) {
             notification.remove();
         }        
         redirect.ctx.page.redirect(`/${redirect.location}`);
+
         sessionStorage.setItem('redirect', redirect.ctx.params.id);
+        sessionStorage.setItem('comment', redirect.comment);
     }
 }
 

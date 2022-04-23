@@ -64,7 +64,6 @@ async function registerHandler(e, context) {
     
     if (sessionStorage.getItem('redirect') !== null) {
         context.page.redirect(`/details/${sessionStorage.getItem('redirect')}`);
-        sessionStorage.removeItem('redirect');
     } else {
         context.page.redirect('/');
     }

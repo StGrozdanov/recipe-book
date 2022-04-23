@@ -7,12 +7,12 @@ import { notify } from '../utils/notification.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit/${id}">Редактирай</a>
-    <button @click=${() => deleteHandler(id, ctx)} class="button danger">Изтрий</button>
+    <button @click=${()=> deleteHandler(id, ctx)} class="button danger">Изтрий</button>
 `;
 
 const commentsTemplate = (data, ctx) => html`
 <div id="comments-container">
-    <button @click=${(e) => toggleComments(e)} class="button warning">Покажи
+    <button @click=${(e)=> toggleComments(e)} class="button warning">Покажи
         коментарите</button>
     <div style="display: none;" class="details-comments">
         <h2>Коментари:</h2>
@@ -30,7 +30,7 @@ const commentsTemplate = (data, ctx) => html`
         <label>Добави коментар:</label>
         <form id="add-comment-form" class="form">
             <textarea id="comment-text" name="comment" placeholder="Comment......"> </textarea>
-            <input @click=${(e) => addCommentHandler(e, ctx)} class="comment-btn" type="submit" value="Коментирай">
+            <input @click=${(e)=> addCommentHandler(e, ctx)} class="comment-btn" type="submit" value="Коментирай">
         </form>
     </article>
 </div>
@@ -43,18 +43,18 @@ const detailsTemplate = (data, ctx, commentData) => html`
             <div class="recipe-img">
                 <img alt="recipe-alt" src=${data.img}>
                 <div id="comment-container">
-                ${sessionStorage.getItem('id') === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
+                    ${sessionStorage.getItem('id') === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
                     ${commentsTemplate(commentData, ctx)}
                 </div>
             </div>
             <div class="recipe-description">
                 <ul>
-                <h2>Съставки:</h2>
+                    <h2>Съставки:</h2>
                     ${data.products.map(product => html`<li>${product}</li>`)}
                 </ul>
     
                 <ul>
-                <h2>Начин на приготвяне:</h2>
+                    <h2>Начин на приготвяне:</h2>
                     ${data.steps.map(step => html`<li>${step}</li>`)}
                 </ul>
             </div>
@@ -71,6 +71,13 @@ export async function detailsPage(ctx) {
     const recipeComments = await getCommentsForRecipe(ctx.params.id);
 
     ctx.render(detailsTemplate(data, ctx, recipeComments.results));
+
+    if (sessionStorage.getItem('redirect') !== null) {
+        const previousComment = sessionStorage.getItem('comment');
+        refreshCommentSectionRedirect(ctx, previousComment);
+        sessionStorage.removeItem('redirect');
+        sessionStorage.removeItem('comment');
+    }
 }
 
 async function deleteHandler(id, ctx) {
@@ -114,13 +121,21 @@ async function addCommentHandler(e, ctx) {
 
     if (response.code == 209) {
         notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
-        notify('Ако не сте регистриран потребител можете да се регистрирате тук', { ctx: ctx, location: 'register' });
-        
-        return notify('Ако вече сте регистриран потребител можете да влезнете в сайта от тук', 
-        { ctx: ctx, location: 'login' });
+        notify('Ако не сте регистриран потребител можете да се регистрирате тук', { 
+            ctx: ctx, 
+            location: 'register',
+            comment: comment 
+        });
+
+        return notify('Ако вече сте регистриран потребител можете да влезнете в сайта от тук',
+        { 
+            ctx: ctx, 
+            location: 'login',
+            comment: comment 
+        });
     }
 
-    commentField.value = '';    
+    commentField.value = '';
 
     refreshCommentSection(ctx);
 }
@@ -129,15 +144,38 @@ function capitalize(data) {
     data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
 }
 
-async function refreshCommentSection(ctx) {
+export async function refreshCommentSection(ctx) {
     const refreshedCommentData = await getCommentsForRecipe(ctx.params.id);
 
     const commentContainer = document.getElementById('comment-container');
-    
+
     const oldComment = document.getElementById('comments-container');
     oldComment.textContent = '';
 
     render(commentsTemplate(refreshedCommentData.results, ctx), commentContainer);
+
+    const comments = document.querySelector('.details-comments');
+    comments.style.display = 'block';
+
+    const addCommentForm = document.querySelector('.create-comment');
+    addCommentForm.style.display = 'block';
+
+    const button = document.querySelector('#comments-container button');
+    button.textContent = 'Скрий коментарите';
+}
+
+export async function refreshCommentSectionRedirect(ctx, comment) {
+    const refreshedCommentData = await getCommentsForRecipe(ctx.params.id);
+
+    const commentContainer = document.getElementById('comment-container');
+
+    const oldComment = document.getElementById('comments-container');
+    oldComment.textContent = '';
+
+    render(commentsTemplate(refreshedCommentData.results, ctx), commentContainer);
+
+    const commentTextField = document.getElementById('comment-text');
+    commentTextField.textContent = comment;
 
     const comments = document.querySelector('.details-comments');
     comments.style.display = 'block';

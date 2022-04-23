@@ -43,7 +43,6 @@ async function loginHandler(e, ctx) {
         
         if (sessionStorage.getItem('redirect') !== null) {
             ctx.page.redirect(`/details/${sessionStorage.getItem('redirect')}`);
-            sessionStorage.removeItem('redirect');
         } else {
             ctx.page.redirect('/');
         }
