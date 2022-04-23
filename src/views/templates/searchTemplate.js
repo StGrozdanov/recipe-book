@@ -18,7 +18,6 @@ async function search(e, ctx) {
     if (query.trim() !== '') {
         ctx.page.redirect(`/search=${query}`);
     } else {
-        console.log(notify);
         notify('Добър опит! Сега пробвайте да въведете и буквички.')
     }
 }
