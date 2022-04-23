@@ -5,21 +5,21 @@ const pageButtonTemplate = (pageNumber) => html`
     <a href="?page=${pageNumber}" class="button warning page-btn"}>${pageNumber}</a>
 `
 export const paginationTemplate = (pages, currentPage, totalPagesCount) => html`
-<section id="pagination-section">
-<div class="page-div"}>
-    <a href=${
-        currentPage - 1 > 0 
-        ? `?page=${currentPage - 1 > 0 ? currentPage - 1 : 1}` 
-        : "javascript:void[0]"
-        }
+    <section id="pagination-section">
+        <div class="page-div"}>
+            <a href=${
+                currentPage - 1 > 0 
+                            ? `?page=${currentPage - 1 > 0 ? currentPage - 1 : 1}` 
+                            : "javascript:void[0]"
+            }
             class="button warning page-btn"> < </a> ${pages} <a href=${
             currentPage + 1 <= totalPagesCount 
-            ?`?page=${currentPage + 1 < totalPagesCount ? currentPage + 1 : totalPagesCount}` 
-            : 'javascript:void[0]'
+                            ?`?page=${currentPage + 1 < totalPagesCount ? currentPage + 1 : totalPagesCount}` 
+                            : 'javascript:void[0]'
             } 
             class="button warning page-btn"> > </a>
-</div>
-</section>
+        </div>
+    </section>
 `;
 
 export async function buildPagination() {
@@ -45,5 +45,7 @@ export function lightUpActivePaginationButton(ctx) {
 
     if (targetButton) {
         targetButton.classList.add('active-btn');
+    } else {
+        pageButtons[1].classList.add('active-btn');
     }
 }

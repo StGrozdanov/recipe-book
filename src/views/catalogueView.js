@@ -9,20 +9,20 @@ import { categoryDropdownTemplate } from './templates/categoryDropdownTemplate.j
 import { searchTemplate } from './templates/searchTemplate.js';
 
 const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) => html`
-<section id="filtration-section" class="dashboard">
-    ${searchTemplate(ctx)}
-    ${categoryDropdownTemplate(ctx)}
-</section>
-${paginationTemplate(pages, currentPage, totalPagesCount)}
-<section id="cards-section">
-    <div id="cards">
-        <div id="cards-content">
-            <ul class="recipe-card-list">
-                ${recepies.length > 0 ? recepies : noSuchRecipesTemplate()}
-            </ul>
+    <section id="filtration-section" class="dashboard">
+        ${searchTemplate(ctx)}
+        ${categoryDropdownTemplate(ctx)}
+    </section>
+    ${paginationTemplate(pages, currentPage, totalPagesCount)}
+    <section id="cards-section">
+        <div id="cards">
+            <div id="cards-content">
+                <ul class="recipe-card-list">
+                    ${recepies.length > 0 ? recepies : noSuchRecipesTemplate()}
+                </ul>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 `;
 
 export async function cataloguePage(ctx) {
@@ -46,6 +46,6 @@ export async function cataloguePage(ctx) {
     );
 
     ctx.render(allRecords);
- 
+
     lightUpActivePaginationButton(ctx);
 }

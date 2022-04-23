@@ -134,9 +134,7 @@ async function addCommentHandler(e, ctx) {
             comment: comment 
         });
     }
-
     commentField.value = '';
-
     refreshCommentSection(ctx);
 }
 
@@ -144,7 +142,7 @@ function capitalize(data) {
     data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
 }
 
-export async function refreshCommentSection(ctx) {
+async function refreshCommentSection(ctx) {
     const refreshedCommentData = await getCommentsForRecipe(ctx.params.id);
 
     const commentContainer = document.getElementById('comment-container');
@@ -164,7 +162,7 @@ export async function refreshCommentSection(ctx) {
     button.textContent = 'Скрий коментарите';
 }
 
-export async function refreshCommentSectionRedirect(ctx, comment) {
+async function refreshCommentSectionRedirect(ctx, comment) {
     const refreshedCommentData = await getCommentsForRecipe(ctx.params.id);
 
     const commentContainer = document.getElementById('comment-container');
