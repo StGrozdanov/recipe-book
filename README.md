@@ -24,7 +24,7 @@ I choosed lit-html because it's lite, simple and fast templating engine. I also 
 
 #### page
 
-Client side rooter is a must when creating an Single Page Application. Again - i chosed lite and simple router. Nothing too fancy, nothing too complicated about it.
+Client side router is a must when creating an Single Page Application. Again - i chosed lite and simple router. Nothing too fancy, nothing too complicated about it.
 
 #### webpack
 
