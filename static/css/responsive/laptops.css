@@ -1,11 +1,26 @@
-@media all and (max-width: 1280px) {
+@media all and (max-width: 1300px) {
     #nav-container {
         width: 100%;
     }
 
     .recipe-card {
         max-width: 233px;
-        margin: 19px 0px;
+        margin: 19px 20px;
+    }
+
+    body {
+        width: 80%;
+    }
+}
+
+@media all and (max-width: 1250px) {
+    #nav-container {
+        width: 100%;
+    }
+
+    .recipe-card {
+        max-width: 233px;
+        margin: 19px 15px;
     }
 
     body {

@@ -1,4 +1,88 @@
-@media all and (min-width: 1660px) {
+@media all and (min-width: 1500px) {
+    #myInput {
+        font-size: 16px;
+    }
+
+    #find-img {
+        width: 2.2%;
+    }
+
+    .selectBox select {
+        font-size: 16px;
+    }
+}
+
+@media all and (min-width: 1725px) {
+    #nav-container {
+        width: 95%;
+    }
+
+    #nav-container div {
+        display: flex;
+    }
+
+    body {
+        width: 80%;
+    }
+
+    .selectBox select {
+        font-size: 17px;
+    }
+
+    .fa-solid.fa-circle-chevron-down {
+        font-size: 17px;
+    }
+
+    nav a {
+        font-size: 18px;
+    }
+
+    #checkboxes label {
+        font-size: 17px;
+    }
+
+    .recipe-card {
+        max-width: 280px;
+        max-height: 250px;
+        margin: 20px 60px;
+    }
+
+    .recipe-card a {
+        width: 280px;
+        height: 250px;
+    }
+
+    .recipe-card-list img {
+        width: 100%;
+        height: 130px;
+    }
+
+    .img {
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        max-width: 160px;
+        max-height: 130px;
+    }
+
+    footer article ul {
+        font-size: 17px;
+    }
+
+    footer article footer {
+        font-size: 16px;
+    }
+
+    .formData form fieldset {
+        min-height: 35vh;
+    }
+
+    .formData .button {
+        margin-top: 20px;
+    }
+}
+
+@media all and (min-width: 2000px) {
     #nav-container {
         width: 95%;
     }
@@ -47,6 +131,7 @@
     .recipe-card {
         max-width: 530px;
         max-height: 390px;
+        margin: 40px;
     }
 
     .recipe-img {
@@ -127,5 +212,9 @@
 
     .return-anker::before {
         font-size: 42px;
+    }
+
+    nav a {
+        font-size: 30px;
     }
 }
