@@ -4,15 +4,16 @@ import { getSingleRecipe, removeRecipe } from '../services/recipeService.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import { notify } from '../utils/notification.js';
+import { buttonToTop } from '../utils/backToTopButton.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit/${id}">Редактирай</a>
-    <button @click=${()=> deleteHandler(id, ctx)} class="button danger">Изтрий</button>
+    <button @click=${() => deleteHandler(id, ctx)} class="button danger">Изтрий</button>
 `;
 
 const commentsTemplate = (data, ctx) => html`
 <div id="comments-container">
-    <button @click=${(e)=> toggleComments(e)} class="button warning">Покажи
+    <button @click=${(e) => toggleComments(e)} class="button warning">Покажи
         коментарите</button>
     <div style="display: none;" class="details-comments">
         <h2>Коментари:</h2>
@@ -30,7 +31,7 @@ const commentsTemplate = (data, ctx) => html`
         <label>Добави коментар:</label>
         <form id="add-comment-form" class="form">
             <textarea id="comment-text" name="comment" placeholder="Comment......"> </textarea>
-            <input @click=${(e)=> addCommentHandler(e, ctx)} class="comment-btn" type="submit" value="Коментирай">
+            <input @click=${(e) => addCommentHandler(e, ctx)} class="comment-btn" type="submit" value="Коментирай">
         </form>
     </article>
 </div>
@@ -59,6 +60,9 @@ const detailsTemplate = (data, ctx, commentData) => html`
                 </ul>
             </div>
         </div>
+        <a class='button-to-top'>
+            <i class="fa-solid fa-angle-up"></i>
+        </a>
     </section>
 `;
 
@@ -77,7 +81,8 @@ export async function detailsPage(ctx) {
         refreshCommentSectionRedirect(ctx, previousComment);
         sessionStorage.removeItem('redirect');
         sessionStorage.removeItem('comment');
-    }
+    }    
+    buttonToTop();
 }
 
 async function deleteHandler(id, ctx) {
@@ -121,18 +126,18 @@ async function addCommentHandler(e, ctx) {
 
     if (response.code == 209) {
         notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
-        notify('Ако не сте регистриран потребител можете да се регистрирате тук', { 
-            ctx: ctx, 
+        notify('Ако не сте регистриран потребител можете да се регистрирате тук', {
+            ctx: ctx,
             location: 'register',
-            comment: comment 
+            comment: comment
         });
 
         return notify('Ако вече сте регистриран потребител можете да влезнете в сайта от тук',
-        { 
-            ctx: ctx, 
-            location: 'login',
-            comment: comment 
-        });
+            {
+                ctx: ctx,
+                location: 'login',
+                comment: comment
+            });
     }
     commentField.value = '';
     refreshCommentSection(ctx);
