@@ -2,8 +2,16 @@ export function buttonToTop() {
     const backToTopButton = document.querySelector(".button-to-top");
 
     backToTopButton.addEventListener("click", () => {
+        let topPosition;
+
+        if (window.matchMedia('(max-device-width: 700px)').matches) {
+            topPosition = 0;
+        } else {
+            topPosition = 400;
+        }
+
         window.scrollTo({
-            top: 400,
+            top: topPosition,
             behavior: "smooth"
         });
     });
