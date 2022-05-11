@@ -36,25 +36,27 @@ This is the backend solution i choosed for this project. It's simple to use and 
 
 ### Features
 
-##### Fully responsive design from 320px width to 4k.
+##### 1. Single Page Application Architecture
 
-##### Single Page Application
+##### 2. Fully responsive design from 320px width to 4k monitors support.
 
-##### Users can create account, providing them with the rights to publish their own recipes and to comment.
+##### 3. Search feature
 
-##### Custom dropdown menu, build from scratch. 
+##### 4. Filtration feature
 
-##### Custom pagination, build from scratch.
+##### 5. Custom pagination, build from scratch.
 
-##### Search
+##### 6. Custom dropdown menu, build from scratch.
 
-##### Filtration
+##### 7. Modal dialogue
 
-##### Comments
+##### 8. Notifications of type A - regular, that will hide upon click and type B - redirect upon click
 
-##### Recipe owners can edit and delete their publications.
+##### 9. Every click on a functional component of the website reflects on the url bar, you can then send it to a friend in order for him to see the result you want him to see.
 
-##### Every click on a functional component of the website reflects on the url bar, you can then send it to a friend in order for him to see the result you want him to see.
+##### 10. Users can create account, providing them with the rights to publish their own recipes and to post comments.
+
+##### 11. Recipe owners can edit and delete their publications.
 
 ## How to Install and Run the Project
 
