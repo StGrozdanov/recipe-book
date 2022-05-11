@@ -52,11 +52,13 @@ This is the backend solution i choosed for this project. It's simple to use and 
 
 ##### 8. Notifications of type A - regular, that will hide upon click and type B - redirect upon click
 
-##### 9. Every click on a functional component of the website reflects on the url bar, you can then send it to a friend in order for him to see the result you want him to see.
+##### 9. Back to top button /on the recipe details page/
 
-##### 10. Users can create account, providing them with the rights to publish their own recipes and to post comments.
+##### 10. Every click on a functional component of the website reflects on the url bar, you can then send it to a friend in order for him to see the result you want him to see.
 
-##### 11. Recipe owners can edit and delete their publications.
+##### 11. Users can create account, providing them with the rights to publish their own recipes and to post comments.
+
+##### 12. Recipe owners can edit and delete their publications.
 
 ## How to Install and Run the Project
 
