@@ -89,4 +89,9 @@
     #checkboxes {
         width: 17vw;
     }
+
+    #modal {
+        width: 42vw;
+        height: 32vh;
+    }
 }

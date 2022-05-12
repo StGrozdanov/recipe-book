@@ -90,6 +90,12 @@
     }
 }
 
+@media all and (min-width: 1900px) {
+    #modal {
+        height: 26vh;
+    }
+}
+
 @media all and (min-width: 2000px) {
     #nav-container {
         width: 90%;
@@ -190,8 +196,7 @@
     }
 
     #modal {
-        width: 20vw;
-        font-size: 35px;
+        font-size: 32px;
     }
 
     #modal button {

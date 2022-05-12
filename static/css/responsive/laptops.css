@@ -1,4 +1,4 @@
-@media all and (max-width: 1300px) {
+@media all and (max-width: 1445px) {
     #nav-container {
         width: 100%;
     }
@@ -10,6 +10,11 @@
 
     body {
         width: 80%;
+    }
+
+    #modal {
+        width: 35vw;
+        height: 32vh;
     }
 }
 

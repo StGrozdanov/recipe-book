@@ -80,6 +80,7 @@
 #comments-container button {
     margin-top: 30px;
     margin-right: 0px;
+    margin-left: 20px;
 }
 
 .create-comment .form textarea {

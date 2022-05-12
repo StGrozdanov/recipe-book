@@ -25,32 +25,40 @@
 }
 
 #modal {
-    background-color: #cccccc;
-    width: 300px;
+    background-color: #c9995c;
+    width: 27vw;
+    height: 29vh;
+    color: white;
     margin: auto;
-    margin-top: 15vh;
+    margin-top: 25vh;
     border-radius: 16px;
     padding: 16px 32px;
     text-align: center;
-    box-shadow: 0 0 8px 8px rgba(0, 0, 0, 0.2), 12px 12px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 0 8px 8px rgb(0 0 0 / 20%), 12px 12px 20px 0 rgb(0 0 0 / 19%);
 }
 
 #modal p {
-    margin: 32px;
+    padding: 20px;
+    margin-bottom: 15px;
 }
 
 #modal button {
     border: none;
-    margin: auto;
-    background-color: #c9995c;
+    margin: 10px;
+    background-color: dimgrey;
     padding: 8px 16px;
     color: black;
+    color: white;
 }
 
 #modal button:hover {
     background-color: #6c8b47;
     color: white;
     cursor: pointer;
+}
+
+#modal .modal-cancel:hover {
+	background-color: #dc3545;
 }
 
 .loader-spinner img {

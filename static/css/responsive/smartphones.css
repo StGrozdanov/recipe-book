@@ -155,4 +155,9 @@
     .search-img {
         max-width: 110%;
     }
+
+    #modal {
+        width: 90vw;
+        height: 30vh;
+    }
 }

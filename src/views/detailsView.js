@@ -100,15 +100,18 @@ async function deleteHandler(id, ctx) {
 function toggleComments(e) {
     const comments = e.target.parentNode.querySelector('.details-comments');
     const addCommentForm = e.target.parentNode.querySelector('.create-comment');
+    const showCommentsButton = document.querySelector('#comments-container button');
 
     if (comments.style.display == 'none' && addCommentForm.style.display == 'none') {
         comments.style.display = 'flex';
         addCommentForm.style.display = 'flex';
         e.target.textContent = 'Скрий коментарите';
+        showCommentsButton.style.marginLeft = '0px';
     } else {
         comments.style.display = 'none';
         addCommentForm.style.display = 'none';
         e.target.textContent = 'Покажи коментарите';
+        showCommentsButton.style.marginLeft = '20px';
     }
 }
 
