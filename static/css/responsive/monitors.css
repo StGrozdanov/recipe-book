@@ -14,7 +14,7 @@
 
 @media all and (min-width: 1725px) {
     #nav-container {
-        width: 95%;
+        width: 90%;
     }
 
     #nav-container div {
@@ -27,6 +27,10 @@
 
     .selectBox select {
         font-size: 17px;
+    }
+
+    .dropdown-toggle:hover {
+        box-shadow: inset 0px -4px 7px 0px #c9995c;
     }
 
     .fa-solid.fa-circle-chevron-down {
@@ -80,11 +84,15 @@
     .formData .button {
         margin-top: 20px;
     }
+
+    .recipe-description li {
+        font-size: 20px;
+    }
 }
 
 @media all and (min-width: 2000px) {
     #nav-container {
-        width: 95%;
+        width: 90%;
     }
 
     #nav-container div {
@@ -92,7 +100,7 @@
     }
 
     body {
-        font-size: 32px;
+        font-size: 30px;
         width: 80%;
     }
 
@@ -108,11 +116,12 @@
     }
 
     .selectBox select {
-        font-size: 32px;
+        font-size: 30px;
     }
 
     .page-btn {
         font-size: 30px;
+        padding: 0rem 1.25rem 0rem 1.25rem;
     }
 
     .dropdown-toggle {
@@ -120,16 +129,16 @@
     }
 
     .recipe-card a {
-        width: 530px;
+        width: 450px;
         height: 390px;
     }
 
     .recipe-card-list img {
-        height: 250px;
+        height: 220px;
     }
 
     .recipe-card {
-        max-width: 530px;
+        max-width: 450px;
         max-height: 390px;
         margin: 40px;
     }
@@ -139,7 +148,7 @@
     }
 
     .button {
-        font-size: 32px;
+        font-size: 30px;
     }
 
     .details-comments li a {
@@ -155,11 +164,11 @@
     }
 
     .comment-btn {
-        font-size: 32px;
+        font-size: 30px;
     }
 
     .no-comments {
-        font-size: 32px;
+        font-size: 30px;
     }
 
     .fa-solid,
@@ -173,11 +182,11 @@
     }
 
     h3 {
-        font-size: 32px;
+        font-size: 30px;
     }
 
     .formData .button {
-        font-size: 32px;
+        font-size: 30px;
     }
 
     #modal {
@@ -190,8 +199,8 @@
     }
 
     label span {
-        height: 30px;
-        width: 30px;
+        height: 26px;
+        width: 26px;
     }
 
     .loader-spinner img {
@@ -199,11 +208,20 @@
     }
 
     [type=checkbox]:checked+span:before {
-        font-size: 36px;
+        font-size: 34px;
+        top: -15px;
     }
 
     .fa-solid.fa-circle-chevron-down {
-        font-size: 32px;
+        font-size: 28px;
+    }
+
+    .dropdown-toggle:hover {
+        box-shadow: inset 0px -6px 9px 0px #c9995c;
+    }
+
+    #checkboxes label {
+        font-size: 26px;
     }
 
     .no-recipes {
@@ -216,5 +234,13 @@
 
     nav a {
         font-size: 30px;
+    }
+
+    body footer a {
+        font-size: 26px;
+    }
+
+    footer article footer p {
+        font-size: 22px;
     }
 }
