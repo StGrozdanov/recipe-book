@@ -7,7 +7,7 @@ import { notify } from '../utils/notification.js';
 import { buttonToTop } from '../utils/backToTopButton.js';
 
 const ownerTemplate = (id, ctx) => html`
-    <a class="button warning" href="/edit/${id}">Редактирай</a>
+    <a class="button warning" href="/edit-${id}">Редактирай</a>
     <button @click=${() => deleteHandler(id, ctx)} class="button danger">Изтрий</button>
 `;
 

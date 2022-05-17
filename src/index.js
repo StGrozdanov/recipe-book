@@ -13,8 +13,8 @@ page('/', setUp, cataloguePage)
 page('/login', setUp, loginPage);
 page('/register', setUp, registerPage);
 page('/add-recipe', setUp, addRecipePage);
-page('/details/:id', setUp, detailsPage);
-page('/edit/:id', setUp, editPage);
+page('/details-:id', setUp, detailsPage);
+page('/edit-:id', setUp, editPage);
 page('/search=:query', setUp, searchPage)
 page('/categorize=:query', setUp, categorizationPage)
 
