@@ -42,7 +42,7 @@ async function loginHandler(e, ctx) {
         await login(username, password);
         
         if (sessionStorage.getItem('redirect') !== null) {
-            ctx.page.redirect(`/details/${sessionStorage.getItem('redirect')}`);
+            ctx.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);
         } else {
             ctx.page.redirect('/');
         }

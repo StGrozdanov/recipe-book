@@ -164,4 +164,8 @@
         width: 90vw;
         height: 30vh;
     }
+
+    .notification {
+        padding: 10px 5px;
+    }
 }

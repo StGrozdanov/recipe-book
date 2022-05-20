@@ -63,7 +63,7 @@ async function registerHandler(e, context) {
     await register(username, email, password);
     
     if (sessionStorage.getItem('redirect') !== null) {
-        context.page.redirect(`/details/${sessionStorage.getItem('redirect')}`);
+        context.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);
     } else {
         context.page.redirect('/');
     }
