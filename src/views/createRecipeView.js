@@ -94,5 +94,5 @@ async function createHandler(e, context) {
     notify('Успешно създадохте рецептата си! При нужда можете да я редактирате от бутончетата.');
     
     const createdRecipe = await createRecipe(newRecipe);
-    context.page.redirect(`/details/${createdRecipe.objectId}`);
+    context.page.redirect(`/details-${createdRecipe.objectId}`);
 }

@@ -84,7 +84,7 @@ async function editHandler(e, context) {
     }
     
     await updateRecipe(editRecipe, context.params.id);
-    context.page.redirect(`/details/${context.params.id}`);
+    context.page.redirect(`/details-${context.params.id}`);
 }
 
 function capitalize(data) {
