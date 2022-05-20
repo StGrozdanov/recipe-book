@@ -13,19 +13,25 @@ const ownerTemplate = (id, ctx) => html`
 
 const commentsTemplate = (data, ctx) => html`
 <div id="comments-container">
-    <button @click=${(e) => toggleComments(e)} class="button warning">Покажи
-        коментарите</button>
+    <button @click=${(e) => toggleComments(e)} class="button warning">Покажи коментарите</button>
     <div style="display: none;" class="details-comments">
         <h2>Коментари:</h2>
         <ul>
-            ${data.length > 0 ? data.map(comment => html`
-            <li class="comment">
-                <p><a href="#">${comment.owner.username}</a> ${new Date(comment.createdAt).toLocaleString()}
-                </p>
-                <p>${comment.content}</p>
-            </li>`) : html`<p class="no-comments">Все още няма коментари за тази рецепта</p>`}
+            ${
+                data.length > 0 
+                ? data.map(comment => html`
+                    <li class="comment">
+                        <p>
+                            <a @click=${() => ctx.page.redirect(`user-${comment.owner.objectId}`)} href='javascript: void[0]'>
+                                ${comment.owner.username}
+                            </a> 
+                            ${new Date(comment.createdAt).toLocaleString()}
+                        </p>
+                        <p>${comment.content}</p>
+                    </li>`) 
+                : html`<p class="no-comments">Все още няма коментари за тази рецепта</p>`
+            }
         </ul>
-
     </div>
     <article style="display: none;" class="create-comment">
         <label>Добави коментар:</label>
@@ -73,6 +79,7 @@ export async function detailsPage(ctx) {
     capitalize(data);
 
     const recipeComments = await getCommentsForRecipe(ctx.params.id);
+    console.log(recipeComments);
 
     ctx.render(detailsTemplate(data, ctx, recipeComments.results));
 

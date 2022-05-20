@@ -1,5 +1,5 @@
 import { notify } from "../utils/notification.js";
-import MODIFIYNG_OPERATIONS_HEADERS, { USER_AUTHORIZATION_BASE_HEADERS, BASE_URL, } from "./back4appService.js";
+import MODIFIYNG_OPERATIONS_HEADERS, { USER_AUTHORIZATION_BASE_HEADERS, BASE_URL, BASE_HEADERS } from "./back4appService.js";
 
 const USERS_END_POINTS = {
     REGISTER: '/users',
@@ -7,6 +7,7 @@ const USERS_END_POINTS = {
     LOGOUT: '/logout',
     UPDATE: (id) => { return `/users/${id}` },
     DELETE: (id) => { return `/users/${id}` },
+    USER_INFO: (id) => { return `/parse/users/${id}` },
 }
 
 export async function register(username, email, password) {
@@ -89,6 +90,15 @@ export async function remove(userId) {
         notify(error.error);
         throw new Error(error.error);
     }
+}
+
+export async function getUser(userId) {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.USER_INFO(userId), {
+        method: 'GET',
+        headers: BASE_HEADERS
+    });
+    const data = await response.json();
+    return data;
 }
 
 function saveUserData(data) {
