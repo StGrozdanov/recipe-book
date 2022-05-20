@@ -12,7 +12,8 @@ const guestViewTemplate = () => html`
 
 const userViewTemplate = (ctx) => html`
             <div id="user">
-                <a id="createLink" href="/add-recipe" >Създай рецепта</a>
+                <a id="createLink" href="/add-recipe">Създай рецепта</a>
+                <a id="createLink" href=${`/my-profile-${sessionStorage.getItem('id')}`}>Моят Профил</a>
                 <a @click=${() => logoutHandler(ctx)} id="logoutBtn" href="javascript:void(0)">Изход</a>
             </div>
             `;

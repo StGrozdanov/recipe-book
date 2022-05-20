@@ -95,10 +95,14 @@ function saveUserData(data) {
     sessionStorage.setItem('authToken', data.sessionToken);
     sessionStorage.setItem('id', data.objectId);
     sessionStorage.setItem('username', data.username);
+    sessionStorage.setItem('email', data.email);
+    sessionStorage.setItem('avatar', data.avatar);
 }
 
 function clearUserData() {
     sessionStorage.removeItem('authToken');
     sessionStorage.removeItem('id');
     sessionStorage.removeItem('username');
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('avatar');
 }

@@ -1,0 +1,19 @@
+.user-profile {
+    margin: 30px auto;
+}
+
+.user-profile-article {
+    display: flex;
+    align-items: center;
+}
+
+.user-profile-avatar {
+    width: 100%;
+}
+
+.user-profile-avatar-container {
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 250px;
+    margin-right: 10px;
+}

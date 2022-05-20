@@ -8,14 +8,16 @@ import { detailsPage } from './views/detailsView.js';
 import { editPage } from './views/editRecipeView.js';
 import { searchPage } from './views/searchView.js';
 import { categorizationPage } from './views/categorizationView.js';
+import { userProfilePage } from './views/userProfileView.js';
 
-page('/', setUp, cataloguePage)
+page('/', setUp, cataloguePage);
 page('/login', setUp, loginPage);
 page('/register', setUp, registerPage);
 page('/add-recipe', setUp, addRecipePage);
 page('/details-:id', setUp, detailsPage);
 page('/edit-:id', setUp, editPage);
-page('/search=:query', setUp, searchPage)
-page('/categorize=:query', setUp, categorizationPage)
+page('/search=:query', setUp, searchPage);
+page('/categorize=:query', setUp, categorizationPage);
+page('/my-profile-:id', setUp, userProfilePage);
 
 page.start();
