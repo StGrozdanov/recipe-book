@@ -4,14 +4,14 @@ import { notify } from '../utils/notification.js';
 
 const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
-    <form id="create-form" action="" method="">
+    <form id="create-form" action="" method="" autocomplete="off">
         <fieldset>
             <legend>Нова рецепта</legend>
             <p class="field">
                 <label for="title">Наименование</label>
                 <span class="input">
                     <i class="fa-solid fa-bowl-rice"></i>
-                    <input type="text" name="name" id="title" placeholder="Име на рецепта">
+                    <input type="text" name="name" id="title" placeholder="Име на рецепта" autocomplete="none">
                 </span>
             </p>
             <p class="field">

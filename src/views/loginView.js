@@ -11,7 +11,7 @@ const loginTemplate = (ctx) => html`
                 <label for="username">Потребителско име</label>
                 <span class="input">
                     <i class="fa-solid fa-user"></i>
-                    <input type="text" name="username" id="username" placeholder="Username">
+                    <input type="text" name="username" id="username" placeholder="Username" autocomplete="off">
                 </span>
             </p>
             <p class="field">
