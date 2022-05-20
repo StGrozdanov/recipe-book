@@ -69,7 +69,11 @@
     }
 
     .details-comments li {
-        width: 190px;
+        min-width: 310px;
+    }
+
+    .create-comment {
+        min-width: 310px;
     }
 
     .create-comment label {
