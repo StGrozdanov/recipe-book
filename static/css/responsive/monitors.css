@@ -91,6 +91,10 @@
 }
 
 @media all and (min-width: 1900px) {
+    #nav-container {
+        width: 80%;
+    }
+
     #modal {
         height: 26vh;
     }
@@ -98,7 +102,7 @@
 
 @media all and (min-width: 2000px) {
     #nav-container {
-        width: 90%;
+        width: 80%;
     }
 
     #nav-container div {
