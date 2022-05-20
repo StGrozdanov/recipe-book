@@ -11,7 +11,7 @@ const createRecipeTemplate = (ctx) => html`
                 <label for="title">Наименование</label>
                 <span class="input">
                     <i class="fa-solid fa-bowl-rice"></i>
-                    <input type="text" name="name" id="title" placeholder="Име на рецепта" autocomplete="none">
+                    <input type="search" name="name" id="title" placeholder="Име на рецепта" autocomplete="off">
                 </span>
             </p>
             <p class="field">
