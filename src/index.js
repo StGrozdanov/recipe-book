@@ -13,6 +13,7 @@ import { userProfilePage } from './views/userProfileView.js';
 import { myProfileNotificationsPage } from './views/myNotificationsView.js';
 import { myRecepiesPage } from './views/myRecepiesView.js';
 import { myFavouriteRecepiesPage } from './views/myFavouritesView.js';
+import { myProfileEditPage } from './views/myProfileEditView.js';
 
 page('/', setUp, cataloguePage);
 page('/login', setUp, loginPage);
@@ -26,7 +27,7 @@ page('/my-profile', setUp, myProfilePage);
 page('/my-profile/notifications', setUp, myProfileNotificationsPage);
 page('/my-profile/created-recepies', setUp, myRecepiesPage);
 page('/my-profile/favourite-recepies', setUp, myFavouriteRecepiesPage);
-page('/my-profile/edit', setUp, myProfileNotificationsPage);
+page('/my-profile/edit', setUp, myProfileEditPage);
 page('/user-:id', setUp, userProfilePage);
 
 page.start();

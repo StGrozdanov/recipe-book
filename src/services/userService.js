@@ -56,7 +56,7 @@ export async function logout() {
     }
 }
 
-export async function update(username, email, password, userId) {
+export async function update(userId, username, email, avatar, coverPhoto) {
     const authorizationToken = sessionStorage.getItem('authToken');
 
     const response = await fetch(BASE_URL + USERS_END_POINTS.UPDATE(userId), {
@@ -65,10 +65,12 @@ export async function update(username, email, password, userId) {
             ...MODIFIYNG_OPERATIONS_HEADERS(authorizationToken),
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: username, email: email, password: password })
+        body: JSON.stringify({ username: username, email: email, avatar: avatar, coverPhoto: coverPhoto })
     });
     if (response.ok) {
         clearUserData();
+        let userData = { username: username, email: email, avatar: avatar, coverPhoto: coverPhoto }
+        saveUserData(userData);
     } else {
         const error = await response.json();
         notify(error.error);
