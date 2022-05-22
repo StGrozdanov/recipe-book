@@ -11,6 +11,7 @@ import { categorizationPage } from './views/categorizationView.js';
 import { myProfilePage } from './views/myProfileView.js';
 import { userProfilePage } from './views/userProfileView.js';
 import { myProfileNotificationsPage } from './views/myProfileNotificationsView.js';
+import { myRecepiesPage } from './views/myRecepiesView.js';
 
 page('/', setUp, cataloguePage);
 page('/login', setUp, loginPage);
@@ -22,7 +23,7 @@ page('/search=:query', setUp, searchPage);
 page('/categorize=:query', setUp, categorizationPage);
 page('/my-profile', setUp, myProfilePage);
 page('/my-profile/notifications', setUp, myProfileNotificationsPage);
-page('/my-profile/created-recepies', setUp, myProfileNotificationsPage);
+page('/my-profile/created-recepies', setUp, myRecepiesPage);
 page('/my-profile/favourite-recepies', setUp, myProfileNotificationsPage);
 page('/my-profile/edit', setUp, myProfileNotificationsPage);
 page('/user-:id', setUp, userProfilePage);
