@@ -3,7 +3,7 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 
 const myProfileNotificationsTemplate = (notifications) => html`
     ${myProfileTemplate()}
-    ${notifications ? notifications : html`<h3 style="text-align: center;">Нямате нови известия</h3>`}
+    ${notifications ? notifications : html`<h2 class="user-recepies-heading">Нямате нови известия</h2>`}
 `;
 
 export function myProfileNotificationsPage(ctx) {

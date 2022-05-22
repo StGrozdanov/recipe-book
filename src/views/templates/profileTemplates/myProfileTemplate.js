@@ -20,13 +20,22 @@ export const myProfileTemplate = () => html`
 export function trackActiveLink(ctx) {
     const currentPage = ctx.path;
 
+    const mainNavLinks = document.querySelectorAll('nav a');
     const navLinks = document.querySelectorAll('.profile-navigation-button');
 
-    navLinks.forEach(navLink => navLink.classList.remove('active'));
+    removeActiveLinks(mainNavLinks);
+    removeActiveLinks(navLinks);
 
     const activeLink = Array.from(navLinks).find(navLink => navLink.attributes.href.value === currentPage);
 
     if (activeLink !== undefined) {
         activeLink.classList.add('active');
     }
+}
+
+function removeActiveLinks(target) {
+    target.forEach(navLink => {
+        if (navLink.attributes.href.value !== '/my-profile')
+        navLink.classList.remove('active')
+    });
 }
