@@ -107,6 +107,7 @@ function saveUserData(data) {
     sessionStorage.setItem('username', data.username);
     sessionStorage.setItem('email', data.email);
     sessionStorage.setItem('avatar', data.avatar);
+    sessionStorage.setItem('cover-photo', data.coverPhoto);
 }
 
 function clearUserData() {
@@ -115,4 +116,5 @@ function clearUserData() {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('email');
     sessionStorage.removeItem('avatar');
+    sessionStorage.removeItem('cover-photo');
 }

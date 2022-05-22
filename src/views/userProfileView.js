@@ -1,7 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getMyPublications } from '../services/recipeService.js';
 import { getUser } from '../services/userService.js';
-import { noSuchRecipesTemplate } from './templates/noRecepiesFoundTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 
 const userDoesNotHaveAnyRecepiesTemplate = () => html`

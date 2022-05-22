@@ -5,7 +5,19 @@ import { recipeTemplate } from './templates/recipeTemplate.js';
 
 const myPublicationsTemplate = (recepies) => html`
 <section class="user-profile">
+    <button class="profile-navigation-button"><i class="fa-solid fa-comment-dots"></i> Известия</button>
+    <button class="profile-navigation-button"><i class="fa-solid fa-utensils"></i> Моите рецепти</button>
+    <button class="profile-navigation-button"><i class="fa-regular fa-star"></i> Любими рецепти</button>
+    <button class="profile-navigation-button"><i class="fa-solid fa-user-pen"></i> Редактирай профила</button>
     <article class="user-profile-article">
+        <header class="user-profile-header">
+            <img class="user-profile-header-picture" src=${
+                                                                sessionStorage.getItem('cover-photo').includes('undefined')
+                                                                ? "../../static/images/user-profile-header.jpeg"
+                                                                : sessionStorage.getItem('cover-photo')
+                                                                    }
+            >
+        </header>
         <div class="user-profile-avatar-container">
             <img alt="user-profile" class="user-profile-avatar" src=${
                                                                 sessionStorage.getItem('avatar').includes('undefined')
@@ -14,11 +26,15 @@ const myPublicationsTemplate = (recepies) => html`
                                                                     }
             >
         </div>
-        <div class="user-profile-article-info">
-            <p>Username: ${sessionStorage.getItem('username')}</p>
-            <p>Email: ${sessionStorage.getItem('email')}</p>
-            <p>Брой Добавени Рецепти: ${recepies.length}</p>
-        </div>
+        <main class="user-profile-article-info">
+            <h3 class="username-header">${sessionStorage.getItem('username')}</h3>
+            <p><i class="fa-solid fa-bowl-rice"></i> ${recepies.length} created</p>
+            <p>
+                <a href="mailto:${sessionStorage.getItem('email')}">
+                    <i class="fa-solid fa-envelope"></i> ${sessionStorage.getItem('email')}
+                </a>
+            </p>
+        </main>
     </article>
 </section>
 <section id="cards-section">
