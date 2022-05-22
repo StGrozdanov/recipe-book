@@ -95,10 +95,13 @@ export async function remove(userId) {
 }
 
 export async function getUser(userId) {
+    const authorizationToken = sessionStorage.getItem('authToken');
+
     const response = await fetch(BASE_URL + USERS_END_POINTS.USER_INFO(userId), {
         method: 'GET',
-        headers: BASE_HEADERS
+        headers: authorizationToken ? MODIFIYNG_OPERATIONS_HEADERS(authorizationToken) : BASE_HEADERS
     });
+
     const data = await response.json();
     return data;
 }

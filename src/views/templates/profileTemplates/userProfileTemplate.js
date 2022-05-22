@@ -1,10 +1,10 @@
-import { html } from '../../../../node_modules/lit-html/lit-html.js';
+import { html, nothing } from '../../../../node_modules/lit-html/lit-html.js';
 
 export const userProfileTemplate = ({coverPhoto, avatar, username, email}, recipesCount) => html`
     <article class="user-profile-article">
         <header class="user-profile-header">
             <img class="user-profile-header-picture" src=${
-                                                                coverPhoto.includes('undefined')
+                                                                !coverPhoto || coverPhoto.includes('undefined')
                                                                 ? "../../static/images/user-profile-header.jpeg"
                                                                 : coverPhoto
                                                                     }
@@ -12,7 +12,7 @@ export const userProfileTemplate = ({coverPhoto, avatar, username, email}, recip
         </header>
         <div class="user-profile-avatar-container">
             <img alt="user-profile" class="user-profile-avatar" src=${
-                                                                avatar.includes('undefined')
+                                                                !avatar || avatar.includes('undefined')
                                                                 ? "../../static/images/Avatar.png"
                                                                 : avatar
                                                                     }
@@ -22,8 +22,9 @@ export const userProfileTemplate = ({coverPhoto, avatar, username, email}, recip
             <h3 class="username-header">${username}</h3>
             <p><i class="fa-solid fa-bowl-rice"></i> ${recipesCount} created</p>
             <p>
-                <a href="mailto:${email}">
-                    <i class="fa-solid fa-envelope"></i> ${email}
+                <a href=${email ? "mailto:${email}" : nothing}>
+                    <i class="fa-solid fa-envelope"></i> 
+                    ${email ? email : '(видим за потребители)'}
                 </a>
             </p>
         </main>
