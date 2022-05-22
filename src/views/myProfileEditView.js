@@ -105,10 +105,10 @@ async function editProfileHandler(e, ctx) {
     const email = formData.get('email');
 
     if (coverImage.trim() == '') {
-        coverImage = undefined;
+        coverImage = 'undefined';
     }
     if (avatar.trim() == '') {
-        avatar = undefined;
+        avatar = 'undefined';
     }
 
     if (email == '' || username == '') {
