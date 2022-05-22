@@ -10,7 +10,7 @@ import { searchPage } from './views/searchView.js';
 import { categorizationPage } from './views/categorizationView.js';
 import { myProfilePage } from './views/myProfileView.js';
 import { userProfilePage } from './views/userProfileView.js';
-import { myProfileNotifications } from './views/myProfileNotificationsView.js';
+import { myProfileNotificationsPage } from './views/myProfileNotificationsView.js';
 
 page('/', setUp, cataloguePage);
 page('/login', setUp, loginPage);
@@ -21,7 +21,10 @@ page('/edit-:id', setUp, editPage);
 page('/search=:query', setUp, searchPage);
 page('/categorize=:query', setUp, categorizationPage);
 page('/my-profile', setUp, myProfilePage);
-page('/my-profile/notifications', setUp, myProfileNotifications);
+page('/my-profile/notifications', setUp, myProfileNotificationsPage);
+page('/my-profile/created-recepies', setUp, myProfileNotificationsPage);
+page('/my-profile/favourite-recepies', setUp, myProfileNotificationsPage);
+page('/my-profile/edit', setUp, myProfileNotificationsPage);
 page('/user-:id', setUp, userProfilePage);
 
 page.start();

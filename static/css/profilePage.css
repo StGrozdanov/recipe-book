@@ -26,9 +26,10 @@
 }
 
 .profile-navigation-button {
-    padding: 12px 24px;
+    padding: 7px 14px;
     border-radius: 25px;
     border: 1px;
+    margin: 0;
     margin-right: 15px;
     background: #4b4a4f;
     color: white;
@@ -40,7 +41,7 @@
 }
 
 .profile-navigation-button i {
-    margin-right: 5px;
+    margin-right: 3px;
     font-size: 120%;
 }
 
