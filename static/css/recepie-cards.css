@@ -23,7 +23,7 @@
 }
 
 .recipe-card {
-    border-radius: 10px;
+    border-radius: 25px;
     text-align: center;
     height: auto;
     margin-right: 60px;
@@ -54,6 +54,7 @@ h3 {
     width: -15%;
     margin-top: 0px;
 }
+
 
 .recipe-card {
     display: flex;

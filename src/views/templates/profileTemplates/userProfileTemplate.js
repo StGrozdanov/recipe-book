@@ -20,7 +20,7 @@ export const userProfileTemplate = ({coverPhoto, avatar, username, email}, recip
         </div>
         <main class="user-profile-article-info">
             <h3 class="username-header">${username}</h3>
-            <p><i class="fa-solid fa-bowl-rice"></i> ${recipesCount} created</p>
+            <p><i class="fa-solid fa-bowl-rice"></i> ${recipesCount} рецепти</p>
             <p>
                 <a href=${email ? "mailto:${email}" : nothing}>
                     <i class="fa-solid fa-envelope"></i> 
