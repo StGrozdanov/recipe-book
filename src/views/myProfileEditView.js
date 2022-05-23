@@ -3,6 +3,7 @@ import { getMyPublicationsCount } from '../services/recipeService.js';
 import { logout, update } from '../services/userService.js';
 import { notify } from '../utils/notification.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
+import { loaderTemplate } from './templates/loadingTemplate.js';
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
     ${myProfileTemplate()}
@@ -67,6 +68,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
 `;
 
 export async function myProfileEditPage(ctx) {
+    ctx.render(loaderTemplate());
     const myRecepies = await getMyPublicationsCount(sessionStorage.getItem('id'));
 
     const myPublications = myPublicationsTemplate(myRecepies.count, ctx);
@@ -114,6 +116,8 @@ async function editProfileHandler(e, ctx) {
     if (email == '' || username == '') {
         return notify('Всички полета са задължителни!');
     }
+
+    ctx.render(loaderTemplate());
 
     await update(sessionStorage.getItem('id'), username, email, avatar, coverImage);
 

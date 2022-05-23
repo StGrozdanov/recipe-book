@@ -4,6 +4,7 @@ import { addUppercase } from '../utils/capitalizator.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { myRecepiesTemplate } from './templates/profileTemplates/myRecepiesTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
+import { loaderTemplate } from './templates/loadingTemplate.js';
 
 
 const myRecepiesCollectionTemplate = (recepies) => html`
@@ -12,6 +13,7 @@ const myRecepiesCollectionTemplate = (recepies) => html`
 `;
 
 export async function myRecepiesPage(ctx) {
+    ctx.render(loaderTemplate());
     const data = await getMyPublications(sessionStorage.getItem('id'));
 
     addUppercase(data);
