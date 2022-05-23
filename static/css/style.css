@@ -9,7 +9,8 @@
 @import 'details.css';
 @import 'input-forms.css';
 @import 'scrollbar.css';
-@import 'profilePage.css';
+@import 'profile-page.css';
+@import 'user-page.css';
 
 @import './responsive/monitors.css';
 @import './responsive/laptops.css';

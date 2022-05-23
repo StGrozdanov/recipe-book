@@ -7,8 +7,6 @@ import { addUppercase } from '../utils/capitalizator.js'
 
 const browseUserProfileTemplate = (user, recipes) => html`
 <section class="user-section">
-    ${userProfileTemplate(user, recipes.length)}
-    <h2 class="user-recepies-heading">Добавени рецепти:</h2>
     <section id="cards-section">
         <div id="cards">
             <div id="cards-content">
@@ -17,6 +15,9 @@ const browseUserProfileTemplate = (user, recipes) => html`
                 </ul>
             </div>
         </div>
+    </section>
+    <section class="user-section-profile">
+        ${userProfileTemplate(user, recipes.length)}
     </section>
 </section>
 `;

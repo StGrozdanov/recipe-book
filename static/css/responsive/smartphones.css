@@ -168,4 +168,8 @@
     .notification {
         padding: 10px 5px;
     }
+
+    .recipe-card {
+        border-radius: 10px;
+    }
 }
