@@ -1,6 +1,7 @@
-import { html, render } from '../../node_modules/lit-html/lit-html.js';
+import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
 import { commentRecipe, getCommentsForRecipe } from '../services/commentService.js';
 import { getSingleRecipe, removeRecipe } from '../services/recipeService.js';
+import { removeFromFavourites, addToFavourites } from '../services/favouritesService.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import { notify } from '../utils/notification.js';
@@ -79,7 +80,6 @@ export async function detailsPage(ctx) {
     capitalize(data);
 
     const recipeComments = await getCommentsForRecipe(ctx.params.id);
-    console.log(recipeComments);
 
     ctx.render(detailsTemplate(data, ctx, recipeComments.results));
 

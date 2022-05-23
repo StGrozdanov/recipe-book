@@ -9,8 +9,7 @@ const RECIPE_END_POINTS = {
     ALL_RECIPES: (page) => `/classes/Recipe?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1) * RECEPIES_PER_PAGE}`,
     SINGLE_RECIPE: (id) => { return `/classes/Recipe/${id}` },
     OWNER_PUBLICATIONS: (ownerId) => { return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}` },
-    OWNER_PUBLICATIONS_COUNT: (ownerId) => {return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}&count=1` },
-    USER_FAVOURITE_RECEPIES: (userId) => {return `/classes/Recipe?where=${createPointerQuery('favouritedBy', '_User', userId)}` },
+    OWNER_PUBLICATIONS_COUNT: (ownerId) => { return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}&count=1` },
 }
 
 export async function getRecepiesCount() {
@@ -43,7 +42,7 @@ export async function createRecipe(recipe) {
         },
         body: JSON.stringify(recipe)
     };
-    
+
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.CREATE_RECIPE, options);
     return response.json();
 }
@@ -101,19 +100,10 @@ export async function getMyPublicationsCount(userId) {
     return data;
 }
 
-export async function getMyFavouriteRecepies(userId) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.USER_FAVOURITE_RECEPIES(userId), {
-        method: 'GET',
-        headers: BASE_HEADERS
-    });
-    const data = await response.json();
-    return data;
-}
-
 export function addOwner(record) {
     const id = sessionStorage.getItem('id');
     record.owner = createPointer('_User', id);
-    
+
     return record;
 }
 

@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getMyFavouriteRecepies } from '../services/recipeService.js';
+import { getMyFavouriteRecepies } from '../services/favouritesService.js';
 import { addUppercase } from '../utils/capitalizator.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { myRecepiesTemplate } from './templates/profileTemplates/myRecepiesTemplate.js';
