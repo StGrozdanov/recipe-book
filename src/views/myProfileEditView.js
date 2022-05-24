@@ -4,6 +4,7 @@ import { logout, update } from '../services/userService.js';
 import { notify } from '../utils/notification.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
+import { showModal } from '../utils/modalDialogue.js';
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
 <section class="my-profile-section">
@@ -119,13 +120,15 @@ async function editProfileHandler(e, ctx) {
         return notify('Всички полета са задължителни!');
     }
 
-    ctx.render(loaderTemplate());
+    showModal('Сигурни ли сте, че искате да промените данните си?', onSelect);
 
-    await update(sessionStorage.getItem('id'), username, email, avatar, coverImage);
-
-    notify("Успешно редактирахте профила си! Моля влезте наново, за да отразите промените.")
-
-    await logout();
-
-    ctx.page.redirect('/login');
+    async function onSelect(choice) {
+        if (choice) {
+            ctx.render(loaderTemplate());
+            await update(sessionStorage.getItem('id'), username, email, avatar, coverImage);
+            notify("Успешно редактирахте профила си! Моля влезте наново, за да отразите промените.")
+            await logout();
+            ctx.page.redirect('/login');
+        }
+    }
 }
