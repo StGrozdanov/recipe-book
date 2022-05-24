@@ -75,6 +75,7 @@
     font-weight: 500;
     line-height: 1.2;
     color: inherit;
+    text-align: center;
 }
 
 #comments-container button {
@@ -170,4 +171,10 @@
 
 #comment-container .button {
     margin-top: 20px;
+}
+
+#recipe-details .fa-star {
+    font-size: 107%;
+    cursor: pointer;
+    color: #c28a449c;
 }

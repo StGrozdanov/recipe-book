@@ -1,7 +1,7 @@
 import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
 import { commentRecipe, getCommentsForRecipe } from '../services/commentService.js';
 import { getSingleRecipe, removeRecipe } from '../services/recipeService.js';
-import { removeFromFavourites, addToFavourites } from '../services/favouritesService.js';
+import { removeFromFavourites, addToFavourites, isFavouriteRecipe } from '../services/favouritesService.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import { notify } from '../utils/notification.js';
@@ -14,12 +14,12 @@ const ownerTemplate = (id, ctx) => html`
 
 const commentsTemplate = (data, ctx) => html`
 <div id="comments-container">
-    <button @click=${(e) => toggleComments(e)} class="button warning">Покажи коментарите</button>
+    <button @click=${(e) => toggleComments(e, ctx)} class="button warning">Покажи коментарите</button>
     <div style="display: none;" class="details-comments">
         <h2>Коментари:</h2>
         <ul>
             ${
-                data.length > 0 
+                data !== null && data.length > 0
                 ? data.map(comment => html`
                     <li class="comment">
                         <p>
@@ -30,7 +30,7 @@ const commentsTemplate = (data, ctx) => html`
                         </p>
                         <p>${comment.content}</p>
                     </li>`) 
-                : html`<p class="no-comments">Все още няма коментари за тази рецепта</p>`
+                : data !== null ? html`<p class="no-comments">Все още няма коментари за тази рецепта</p>` : nothing
             }
         </ul>
     </div>
@@ -44,9 +44,11 @@ const commentsTemplate = (data, ctx) => html`
 </div>
 `;
 
-const detailsTemplate = (data, ctx, commentData) => html`
+const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
     <section id="recipe-details">
-        <h1>Ястие: ${data.name}</h1>
+        <h1>Ястие: ${data.name} 
+        <i @click=${addToFavouritesHandler} class=${isFavourite ? "fa-solid fa-star" : "fa-regular fa-star"}></i>
+        </h1>
         <div class="recipe-details-div">
             <div class="recipe-img">
                 <img alt="recipe-alt" src=${data.img}>
@@ -77,11 +79,11 @@ export async function detailsPage(ctx) {
     ctx.render(loaderTemplate());
     const data = await getSingleRecipe(ctx.params.id);
 
+    const isFavourite = await isFavouriteRecipe(sessionStorage.getItem('id'), ctx.params.id);
+
     capitalize(data);
 
-    const recipeComments = await getCommentsForRecipe(ctx.params.id);
-
-    ctx.render(detailsTemplate(data, ctx, recipeComments.results));
+    ctx.render(detailsTemplate(data, ctx, null, isFavourite));
 
     if (sessionStorage.getItem('redirect') !== null) {
         const previousComment = sessionStorage.getItem('comment');
@@ -104,7 +106,7 @@ async function deleteHandler(id, ctx) {
     }
 }
 
-function toggleComments(e) {
+async function toggleComments(e, ctx) {
     const comments = e.target.parentNode.querySelector('.details-comments');
     const addCommentForm = e.target.parentNode.querySelector('.create-comment');
     const showCommentsButton = document.querySelector('#comments-container button');
@@ -114,6 +116,9 @@ function toggleComments(e) {
         addCommentForm.style.display = 'flex';
         e.target.textContent = 'Скрий коментарите';
         showCommentsButton.style.marginLeft = '0px';
+        
+        render(html`<div id="loading-comments" style="margin: 0 auto; font-size: 110%;">Loading...</div>`, comments);
+        refreshCommentSection(ctx)
     } else {
         comments.style.display = 'none';
         addCommentForm.style.display = 'none';
@@ -175,6 +180,10 @@ async function refreshCommentSection(ctx) {
 
     const button = document.querySelector('#comments-container button');
     button.textContent = 'Скрий коментарите';
+
+    let commentLoader = document.getElementById('loading-comments');
+
+    commentLoader ? commentLoader.textContent = '' : nothing;
 }
 
 async function refreshCommentSectionRedirect(ctx, comment) {
@@ -198,4 +207,10 @@ async function refreshCommentSectionRedirect(ctx, comment) {
 
     const button = document.querySelector('#comments-container button');
     button.textContent = 'Скрий коментарите';
+}
+
+async function addToFavouritesHandler(e) {
+    Array.from(e.target.classList).includes('fa-solid') 
+    ? e.target.classList.remove('fa-solid')
+    : e.target.classList.add('fa-solid');
 }

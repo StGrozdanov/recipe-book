@@ -46,6 +46,16 @@ export async function removeFromFavourites(recipeId) {
     return response.json();
 }
 
+export async function isFavouriteRecipe(userId, recipeId) {
+    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.USER_FAVOURITE_RECEPIES(userId), {
+        method: 'GET',
+        headers: BASE_HEADERS
+    });
+    const data = await response.json();
+    
+    return data.results.some(recipe => recipe.objectId === recipeId);
+}
+
 function updateFavouritesRelation(record, method) {
     const userId = sessionStorage.getItem('id');
 
