@@ -12,6 +12,18 @@
     }
 }
 
+@media all and (min-width: 1670px) {
+    .user-section #cards-section {
+        width: 40vw;
+    }
+
+    .user-section-profile {
+        width: 28vw;
+        align-content: center;
+        justify-content: center;
+    }
+}
+
 @media all and (min-width: 1725px) {
     #nav-container {
         width: 90%;
@@ -87,6 +99,37 @@
 
     .recipe-description li {
         font-size: 20px;
+    }
+
+    .user-section #cards-section {
+        width: 50vw;
+    }
+
+    .user-section-profile {
+        align-items: center;
+        width: 30vw;
+        align-content: center;
+        justify-content: center;
+    }
+
+    .user-section .recipe-card {
+        max-width: 400px;
+        max-height: 350px;
+    }
+
+    .user-section .recipe-card a {
+        width: 400px;
+        height: 280px;
+    }
+
+    .user-section .img {
+        max-width: 210px;
+        max-height: 140px;
+        width: 210px;
+    }
+
+    .user-section .recipe-card-list img {
+        height: 140px;
     }
 }
 

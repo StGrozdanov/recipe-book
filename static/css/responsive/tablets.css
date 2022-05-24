@@ -128,6 +128,23 @@
     .user-recepies-section .recipe-card-list {
         width: 260px;
     }
+
+    .user-section .recipe-card {
+        max-width: 215px;
+        max-height: 195px;
+    }
+
+    .user-section .img {
+        max-width: 125px;
+    }
+
+    .user-section .recipe-card a {
+        width: 230px;
+    }
+
+    .user-section .recipe-card-list img {
+        height: 90px;
+    }
 }
 
 @media all and (max-width: 730px) {
@@ -157,5 +174,22 @@
 
     .profile-navigation-button {
         margin-right: 0;
+    }
+}
+
+@media all and (max-width: 690px) {
+    .user-section {
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+    }
+
+    .user-section #cards-section {
+        width: inherit;
+        order: 1;
+    }
+
+    .user-section-profile {
+        margin-top: 10px;
     }
 }

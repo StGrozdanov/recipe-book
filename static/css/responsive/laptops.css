@@ -54,3 +54,23 @@
         font-size: 13px;
     }
 }
+
+@media all and (max-width: 1170px) {
+    .user-section #cards-section {
+        width: 40vw;
+    }
+    
+    .user-section .recipe-card {
+        max-width: 260px;
+        max-height: 205px;
+    }
+    
+    .user-section .img {
+        max-width: 140px;
+        max-height: 120px;
+    }
+    
+    .user-section .recipe-card-list img {
+        height: 105px;
+    }
+}
