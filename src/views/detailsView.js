@@ -46,8 +46,10 @@ const commentsTemplate = (data, ctx) => html`
 
 const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
     <section id="recipe-details">
-        <h1>Ястие: ${data.name} 
-        <i @click=${addToFavouritesHandler} class=${isFavourite ? "fa-solid fa-star" : "fa-regular fa-star"}></i>
+        <h1>
+            Ястие: 
+            ${data.name} 
+            <i @click=${(e) => addToFavouritesHandler(e, ctx, data.name)} class=${isFavourite ? "fa-solid fa-star" : "fa-regular fa-star"}></i>
         </h1>
         <div class="recipe-details-div">
             <div class="recipe-img">
@@ -209,8 +211,18 @@ async function refreshCommentSectionRedirect(ctx, comment) {
     button.textContent = 'Скрий коментарите';
 }
 
-async function addToFavouritesHandler(e) {
-    Array.from(e.target.classList).includes('fa-solid') 
-    ? e.target.classList.remove('fa-solid')
-    : e.target.classList.add('fa-solid');
+async function addToFavouritesHandler(e, ctx, recipeName) {
+    const recipeIsInUserFavorites = Array.from(e.target.classList).includes('fa-solid') 
+    
+    if (recipeIsInUserFavorites) {
+        e.target.classList.remove('fa-solid');
+        e.target.classList.add('fa-regular');
+        await removeFromFavourites(ctx.params.id);
+        notify(`Успешно премахнахте ${recipeName} от любимите ви рецепти.`);
+    } else {
+        e.target.classList.add('fa-solid');
+        e.target.classList.remove('fa-regular');
+        await addToFavourites(ctx.params.id);
+        notify(`Успешно добавихте ${recipeName} към любимите ви рецепти.`);
+    }
 }
