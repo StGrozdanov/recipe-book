@@ -154,3 +154,11 @@
 .profile-edit-section {
     height: 80vh;
 }
+
+.user-recepies-section form {
+    width: 83%;
+}
+
+.user-recepies-section .recipe-card h3 {
+	text-transform: capitalize;
+}

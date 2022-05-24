@@ -178,3 +178,8 @@
     cursor: pointer;
     color: #c28a449c;
 }
+
+#recipe-details .fa-star:hover {
+    font-size: 109%;
+    text-shadow: -2px 0px 3px;
+}

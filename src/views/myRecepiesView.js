@@ -7,9 +7,9 @@ import { recipeTemplate } from './templates/recipeTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 
 
-const myRecepiesCollectionTemplate = (recepies) => html`
+export const myRecepiesCollectionTemplate = (recepies, ctx) => html`
     ${myProfileTemplate()}
-    ${myRecepiesTemplate(recepies, "Създадени рецепти")}
+    ${myRecepiesTemplate(recepies, "Създадени рецепти", ctx)}
 `;
 
 export async function myRecepiesPage(ctx) {
@@ -20,7 +20,7 @@ export async function myRecepiesPage(ctx) {
 
     const myRecepies = data.results.map(recipeTemplate);
 
-    ctx.render(myRecepiesCollectionTemplate(myRecepies));
+    ctx.render(myRecepiesCollectionTemplate(myRecepies, ctx));
     
     trackActiveLink(ctx);
 }
