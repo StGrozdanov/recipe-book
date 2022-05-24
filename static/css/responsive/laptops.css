@@ -74,3 +74,17 @@
         height: 105px;
     }
 }
+
+@media all and (max-width: 1065px) {
+    nav a {
+        margin-left: 0px;
+    }
+
+    #user a {
+        margin-right: 0;
+    }
+
+    a {
+        margin: 0 5px;
+    }
+}
