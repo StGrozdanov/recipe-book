@@ -44,7 +44,7 @@ async function loginHandler(e, ctx) {
         if (sessionStorage.getItem('redirect') !== null) {
             ctx.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);
         } else {
-            ctx.page.redirect('/');
+            ctx.page.redirect('/my-profile');
         }
         notify(`Добре дошли, ${sessionStorage.getItem('username')}! Приятно прекарване!`);
     } else {

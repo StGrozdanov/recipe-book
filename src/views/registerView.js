@@ -65,7 +65,7 @@ async function registerHandler(e, context) {
     if (sessionStorage.getItem('redirect') !== null) {
         context.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);
     } else {
-        context.page.redirect('/');
+        context.page.redirect('/my-profile');
     }
     notify('Регистрирахте се успешно!');
 }

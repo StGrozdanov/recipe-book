@@ -20,7 +20,7 @@ const userViewTemplate = (ctx) => html`
 
 const navigationTemplate = (ctx) => html`
         <nav>
-            <a id="catalogLink" href="/" class="active">Списък с рецепти</a>
+            <a id="catalogLink" href="/" class="active">Всички рецепти</a>
             ${
                 userIsLoggedIn()
                         ? userViewTemplate(ctx)
