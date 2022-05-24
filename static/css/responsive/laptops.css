@@ -1,3 +1,9 @@
+@media all and (max-width: 1440px) {
+    .profile-edit-section {
+        height: 90vh;
+    }
+}
+
 @media all and (max-width: 1300px) {
     #nav-container {
         width: 100%;

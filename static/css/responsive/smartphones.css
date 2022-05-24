@@ -172,4 +172,13 @@
     .recipe-card {
         border-radius: 10px;
     }
+
+    .user-recepies-section form {
+        width: 48vw;
+    }
+
+    .user-profile-article {
+        width: 275px;
+        margin-bottom: 20px;
+    }
 }

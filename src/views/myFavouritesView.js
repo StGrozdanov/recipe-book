@@ -8,8 +8,10 @@ import { loaderTemplate } from './templates/loadingTemplate.js';
 
 
 export const myRecepiesCollectionTemplate = (recepies, ctx) => html`
+<section class="my-profile-section">
     ${myProfileTemplate()}
     ${myRecepiesTemplate(recepies, "Любими рецепти", ctx)}
+</section>
 `;
 
 export async function myFavouriteRecepiesPage(ctx) {

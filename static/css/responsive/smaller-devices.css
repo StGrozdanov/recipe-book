@@ -128,4 +128,8 @@
     .dropdown-toggle {
         padding: 9px 0px 9px 18px;
     }
+
+    .user-recepies-section form {
+        width: 50vw;
+    }
 }

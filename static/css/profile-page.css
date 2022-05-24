@@ -162,3 +162,8 @@
 .user-recepies-section .recipe-card h3 {
 	text-transform: capitalize;
 }
+
+.my-profile-section {
+    display: flex;
+    flex-direction: column;
+}

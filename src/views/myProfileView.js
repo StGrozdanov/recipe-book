@@ -5,8 +5,10 @@ import { userProfileTemplate } from './templates/profileTemplates/userProfileTem
 import { loaderTemplate } from './templates/loadingTemplate.js';
  
 const myPublicationsTemplate = (recepiesCount) => html`
+    <section class="my-profile-section">
     ${myProfileTemplate()}
     ${userProfileTemplate(sessionStorage, recepiesCount)}
+    </section>
 `;
 
 export async function myProfilePage(ctx) {

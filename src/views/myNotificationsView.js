@@ -3,8 +3,10 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { loaderTemplate } from './templates/loadingTemplate.js';
 
 const myProfileNotificationsTemplate = (notifications) => html`
+<section class="my-profile-section">
     ${myProfileTemplate()}
     ${notifications ? notifications : html`<h2 class="user-recepies-heading">Нямате нови известия</h2>`}
+</section>
 `;
 
 export function myProfileNotificationsPage(ctx) {
@@ -12,6 +14,6 @@ export function myProfileNotificationsPage(ctx) {
     const notifications = null;
 
     ctx.render(myProfileNotificationsTemplate(notifications));
-    
+
     trackActiveLink(ctx);
 }

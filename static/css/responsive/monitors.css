@@ -252,4 +252,32 @@
     footer article footer p {
         font-size: 22px;
     }
+
+    .user-profile-article {
+        width: 600px;
+        height: 800px;
+    }
+
+    .user-profile-header-picture {
+        max-height: 420px;
+    }
+
+    .user-profile-avatar-container {
+        width: 290px;
+        margin-top: -165px;
+    }
+
+    .edit-profile-form input {
+        height: 60px;
+        font-size: 110%;
+    }
+
+    .profile-edit-section .user-profile-header {
+        height: 400px;
+    }
+
+    .edit-profile-form .user-profile-article-info {
+        margin-top: 30px;
+        margin-bottom: 60px;
+    }
 }

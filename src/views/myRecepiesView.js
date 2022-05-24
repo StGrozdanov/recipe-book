@@ -8,8 +8,10 @@ import { loaderTemplate } from './templates/loadingTemplate.js';
 
 
 export const myRecepiesCollectionTemplate = (recepies, ctx) => html`
+<section class="my-profile-section">
     ${myProfileTemplate()}
     ${myRecepiesTemplate(recepies, "Създадени рецепти", ctx)}
+</section>
 `;
 
 export async function myRecepiesPage(ctx) {
@@ -21,6 +23,6 @@ export async function myRecepiesPage(ctx) {
     const myRecepies = data.results.map(recipeTemplate);
 
     ctx.render(myRecepiesCollectionTemplate(myRecepies, ctx));
-    
+
     trackActiveLink(ctx);
 }

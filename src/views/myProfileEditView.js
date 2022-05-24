@@ -6,6 +6,7 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { loaderTemplate } from './templates/loadingTemplate.js';
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
+<section class="my-profile-section">
     ${myProfileTemplate()}
 <section class="profile-edit-section">
     <article class="user-profile-article">
@@ -64,6 +65,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
         <button type="submit" class="button submit-btn"><i class="fa-solid fa-user-check"></i> Редактирай данните</button>
       </form>
     </article>
+</section>
 </section>
 `;
 
