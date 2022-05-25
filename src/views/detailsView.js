@@ -1,5 +1,5 @@
 import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
-import { commentRecipe, getCommentsForRecipe } from '../services/commentService.js';
+import { commentRecipe, editComment, getCommentsForRecipe, removeComment } from '../services/commentService.js';
 import { getSingleRecipe, removeRecipe } from '../services/recipeService.js';
 import { removeFromFavourites, addToFavourites, isFavouriteRecipe } from '../services/favouritesService.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
@@ -21,14 +21,23 @@ const commentsTemplate = (data, ctx) => html`
             ${
                 data !== null && data.length > 0
                 ? data.map(comment => html`
-                    <li class="comment">
+                    <li id=${comment.objectId} class="comment">
                         <p>
                             <a @click=${() => ctx.page.redirect(`user-${comment.owner.objectId}`)} href='javascript: void[0]'>
                                 ${comment.owner.username}
                             </a> 
                             ${new Date(comment.createdAt).toLocaleString()}
                         </p>
-                        <p>${comment.content}</p>
+                        <i @click=${deleteCommentHandler} class="fa-solid fa-trash-can" style="float: right; font-size: 100%; cursor: pointer;"></i>
+                        <i @click=${toggleEditCommentHandler} class="fa-solid fa-pen-to-square" style="float: right; margin-right: 5px; font-size: 100%; cursor: pointer;"></i>
+                        <i @click=${cancelEditCommentHandler} class="fa-solid fa-xmark" style="float: right; font-size: 110%; display: none; color: darkred; cursor: pointer;"></i>
+                        <form @submit=${editCommentHandler}>
+                        <button type="submit" style="margin: 0; border: none; background-color: inherit; float: right;">
+                        <i class="fa-solid fa-check" style="float: right; font-size: 110%; margin-right: 8px; display: none; margin-bottom: 5px; color: #62ff00; cursor: pointer;"></i>
+                        </button>
+                        <p class="comment-content">${comment.content}</p>
+                        <input style="display: none;" type="text" name="edit-comment" value=${comment.content} class="edit-comment" />
+                        </form>
                     </li>`) 
                 : data !== null ? html`<p class="no-comments">Все още няма коментари за тази рецепта</p>` : nothing
             }
@@ -225,4 +234,96 @@ async function addToFavouritesHandler(e, ctx, recipeName) {
         await addToFavourites(ctx.params.id);
         notify(`Успешно добавихте ${recipeName} към любимите ви рецепти.`);
     }
+}
+
+async function deleteCommentHandler(e) {
+    showModal('Сигурни ли сте, че искате да изтриете този коментар?', onSelect);
+    const targetComment = e.currentTarget.parentNode;
+
+    async function onSelect(choice) {
+        if (choice) {
+            await removeComment(targetComment.id);
+            targetComment.remove();
+            notify('Успешно изтрихте коментара!');
+        }
+    }
+}
+
+function toggleEditCommentHandler(e) {
+    const targetComment = e.currentTarget.parentNode;
+    let targetCommentContent = targetComment.querySelector('.comment-content');
+    targetCommentContent.style.display = 'none';
+
+    const editCommentInput = targetComment.querySelector('.edit-comment');
+    editCommentInput.style.display = 'block';
+
+    const editIcon = targetComment.querySelector('.fa-pen-to-square');
+    const deleteIcon = targetComment.querySelector('.fa-trash-can');
+
+    editIcon.style.display = 'none';
+    deleteIcon.style.display = 'none';
+
+    const confirmEditIcon = targetComment.querySelector('.fa-check');
+    const cancelEditIcon = targetComment.querySelector('.fa-xmark');
+
+    confirmEditIcon.style.display = 'block';
+    cancelEditIcon.style.display = 'block';
+}
+
+function cancelEditCommentHandler(e) {
+    const targetComment = e.currentTarget.parentNode;
+    let targetCommentContent = targetComment.querySelector('.comment-content');
+    targetCommentContent.style.display = 'block';
+
+    const editCommentInput = targetComment.querySelector('.edit-comment');
+    editCommentInput.style.display = 'none';
+
+    const editIcon = targetComment.querySelector('.fa-pen-to-square');
+    const deleteIcon = targetComment.querySelector('.fa-trash-can');
+
+    editIcon.style.display = 'block';
+    deleteIcon.style.display = 'block';
+
+    const confirmEditIcon = targetComment.querySelector('.fa-check');
+    const cancelEditIcon = targetComment.querySelector('.fa-xmark');
+
+    confirmEditIcon.style.display = 'none';
+    cancelEditIcon.style.display = 'none';
+}
+
+async function editCommentHandler(e) {
+    e.preventDefault();
+
+    const targetComment = e.currentTarget.parentNode;
+
+    let targetCommentContent = targetComment.querySelector('.comment-content');
+
+    const editCommentInput = targetComment.querySelector('.edit-comment');
+
+    const editIcon = targetComment.querySelector('.fa-pen-to-square');
+    const deleteIcon = targetComment.querySelector('.fa-trash-can');
+
+    const confirmEditIcon = targetComment.querySelector('.fa-check');
+    const cancelEditIcon = targetComment.querySelector('.fa-xmark');
+
+    const formData = new FormData(e.target);
+    const editedCommentValue = formData.get('edit-comment');
+
+    if (editedCommentValue.trim() !== '') {
+        await editComment(editedCommentValue, targetComment.id);
+        
+        targetCommentContent.textContent = editedCommentValue;
+        targetCommentContent.style.display = 'block';
+
+        editCommentInput.style.display = 'none';
+        editIcon.style.display = 'block';
+        deleteIcon.style.display = 'block';
+        confirmEditIcon.style.display = 'none';
+        cancelEditIcon.style.display = 'none';
+
+        notify('Успешно редактирахте коментара си.');
+    } else {
+        return notify('Коментарът ви не трябва да бъде празен!');
+    }
+
 }

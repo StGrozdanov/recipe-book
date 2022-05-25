@@ -183,3 +183,12 @@
     font-size: 109%;
     text-shadow: -2px 0px 3px;
 }
+
+.edit-comment {
+    width: 100%;
+    font-size: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    border-color: inherit;
+}
