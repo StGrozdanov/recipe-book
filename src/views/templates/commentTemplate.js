@@ -20,7 +20,7 @@ const ownerCommentTemplate = (comment) => html`
     style="float: right; font-size: 110%; display: none; color: darkred; cursor: pointer;"
     ></i>
     <form @submit=${editCommentHandler}>
-        <button type="submit" style="margin: 0; border: none; background-color: inherit; float: right;">
+        <button type="submit" style="margin: 0; border: none; background-color: inherit; float: right; font-size: 85%; padding: 0;">
         <i 
         class="fa-solid fa-check" 
         style="float: right; font-size: 110%; margin-right: 8px; display: none; margin-bottom: 5px; color: #62ff00; cursor: pointer;"
