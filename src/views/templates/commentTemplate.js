@@ -3,6 +3,44 @@ import { commentRecipe, editComment, getCommentsForRecipe, removeComment } from 
 import { showModal } from '../../utils/modalDialogue.js';
 import { notify } from '../../utils/notification.js';
 
+const ownerCommentTemplate = (comment) => html`
+    <i 
+    @click=${deleteCommentHandler} 
+    class="fa-solid fa-trash-can" 
+    style="float: right; font-size: 100%; cursor: pointer;"
+    ></i>
+    <i 
+    @click=${toggleEditCommentHandler} 
+    class="fa-solid fa-pen-to-square" 
+    style="float: right; margin-right: 5px; font-size: 100%; cursor: pointer;"
+    ></i>
+    <i 
+    @click=${cancelEditCommentHandler} 
+    class="fa-solid fa-xmark" 
+    style="float: right; font-size: 110%; display: none; color: darkred; cursor: pointer;"
+    ></i>
+    <form @submit=${editCommentHandler}>
+        <button type="submit" style="margin: 0; border: none; background-color: inherit; float: right;">
+        <i 
+        class="fa-solid fa-check" 
+        style="float: right; font-size: 110%; margin-right: 8px; display: none; margin-bottom: 5px; color: #62ff00; cursor: pointer;"
+        ></i>
+        </button>
+        <p class="comment-content">${comment.content}</p>
+        <input 
+        style="display: none;" 
+        type="text" 
+        name="edit-comment" 
+        value=${comment.content} 
+        class="edit-comment" 
+        />
+    </form>
+`;
+
+const unauthorizedCommentTemplate = (comment) => html`
+    <p class="comment-content">${comment.content}</p>
+`; 
+
 export const commentsTemplate = (data, ctx) => html`
 <div id="comments-container">
     <button @click=${(e) => toggleComments(e, ctx)} class="button warning">Покажи коментарите</button>
@@ -22,37 +60,11 @@ export const commentsTemplate = (data, ctx) => html`
                             </a> 
                             ${new Date(comment.createdAt).toLocaleString()}
                         </p>
-                        <i 
-                        @click=${deleteCommentHandler} 
-                        class="fa-solid fa-trash-can" 
-                        style="float: right; font-size: 100%; cursor: pointer;"
-                        ></i>
-                        <i 
-                        @click=${toggleEditCommentHandler} 
-                        class="fa-solid fa-pen-to-square" 
-                        style="float: right; margin-right: 5px; font-size: 100%; cursor: pointer;"
-                        ></i>
-                        <i 
-                        @click=${cancelEditCommentHandler} 
-                        class="fa-solid fa-xmark" 
-                        style="float: right; font-size: 110%; display: none; color: darkred; cursor: pointer;"
-                        ></i>
-                        <form @submit=${editCommentHandler}>
-                        <button type="submit" style="margin: 0; border: none; background-color: inherit; float: right;">
-                        <i 
-                        class="fa-solid fa-check" 
-                        style="float: right; font-size: 110%; margin-right: 8px; display: none; margin-bottom: 5px; color: #62ff00; cursor: pointer;"
-                        ></i>
-                        </button>
-                        <p class="comment-content">${comment.content}</p>
-                        <input 
-                        style="display: none;" 
-                        type="text" 
-                        name="edit-comment" 
-                        value=${comment.content} 
-                        class="edit-comment" 
-                        />
-                        </form>
+                        ${ 
+                            sessionStorage.getItem('id') === comment.owner.objectId 
+                            ? ownerCommentTemplate(comment)
+                            : unauthorizedCommentTemplate(comment)
+                        }
                     </li>`) 
                 : data !== null ? html`<p class="no-comments">Все още няма коментари за тази рецепта</p>` : nothing
             }
