@@ -15,6 +15,7 @@ import { myRecepiesPage } from './views/myRecepiesView.js';
 import { myFavouriteRecepiesPage } from './views/myFavouritesView.js';
 import { myProfileEditPage } from './views/myProfileEditView.js';
 import { isAuthenticated } from './middlewares/isAuthenticatedMidware.js';
+import { page404 } from './views/404pageView.js';
 
 page('/', setUp, cataloguePage);
 page('/login', setUp, isAuthenticated, loginPage);
@@ -30,5 +31,6 @@ page('/my-profile/created-recepies', setUp, isAuthenticated, myRecepiesPage);
 page('/my-profile/favourite-recepies', setUp, isAuthenticated, myFavouriteRecepiesPage);
 page('/my-profile/edit', setUp, isAuthenticated, myProfileEditPage);
 page('/user-:id', setUp, userProfilePage);
+page ('*', page404);
 
 page.start();
