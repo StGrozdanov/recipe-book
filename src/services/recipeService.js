@@ -9,7 +9,9 @@ const RECIPE_END_POINTS = {
     ALL_RECIPES: (page) => `/classes/Recipe?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1) * RECEPIES_PER_PAGE}`,
     SINGLE_RECIPE: (id) => { return `/classes/Recipe/${id}` },
     OWNER_PUBLICATIONS: (ownerId) => { return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}` },
-    OWNER_PUBLICATIONS_COUNT: (ownerId) => { return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}&count=1` },
+    OWNER_PUBLICATIONS_COUNT: (ownerId) => { 
+        return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}&count=1` 
+    },
 }
 
 export async function getRecepiesCount() {
