@@ -57,6 +57,12 @@ const editRecipeTemplate = (data, ctx) => html`
 
 export async function editPage(context) {
     const data = await getSingleRecipe(context.params.id);
+
+    if (sessionStorage.getItem('id') !== data.owner.objectId) {
+        context.page.redirect('/');
+        return notify('Тази рецепта не е ваша!');
+    }
+
     capitalize(data);
     
     context.render(editRecipeTemplate(data, context));
