@@ -160,10 +160,94 @@
 }
 
 .user-recepies-section .recipe-card h3 {
-	text-transform: capitalize;
+    text-transform: capitalize;
 }
 
 .my-profile-section {
     display: flex;
     flex-direction: column;
+}
+
+.profile-warning,
+.profile-check {
+    left: 56%;
+}
+
+.profile-check {
+    margin-bottom: 75px;
+}
+
+.profile-warning {
+    margin-bottom: 120px;
+}
+
+.profile-edit-msg {
+    position: absolute;
+    margin-top: 170px;
+}
+
+.second-warning {
+    left: 60%;
+}
+
+.email-edit-msg {
+    left: 50%;
+}
+
+.second-check {
+    font-size: 105% !important;
+    margin-bottom: -20px !important;
+    left: 60%;
+}
+
+@media all and (min-width: 2100px) {
+    .profile-warning {
+        margin-bottom: 227px;
+        left: 58%;
+    }
+
+    .profile-check {
+        margin-bottom: 140px;
+        left: 58%;
+    }
+
+    .second-warning,
+    .second-check {
+        left: 62%;
+    }
+}
+
+@media all and (max-width: 1280px) {
+    .profile-warning,
+    .profile-check {
+        left: 64%;
+    }
+}
+
+@media all and (max-width: 826px) {
+    .profile-warning,
+    .profile-check {
+        left: 79%;
+    }
+}
+
+@media all and (max-width: 730px) {
+    .profile-warning,
+    .profile-check {
+        left: 67%;
+    }
+}
+
+@media all and (max-width: 480px) {
+    .profile-warning,
+    .profile-check {
+        left: 77%;
+    }
+}
+
+@media all and (max-width: 380px) {
+    .profile-warning,
+    .profile-check {
+        left: 80%;
+    }
 }

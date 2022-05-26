@@ -48,9 +48,10 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
             autocomplete="off"
         />
         <main class="user-profile-article-info">
-                <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                <i class="fa-solid fa-triangle-exclamation warning-icon profile-warning" style="display: none;"></i>
+                <i class="fa-solid fa-square-check check-icon profile-check" style="display: none;"></i>
                 <input
+                    @input=${formDataValidator.profileEditValidateHandler}
                     type="text" 
                     placeholder="username" 
                     name="username" 
@@ -58,7 +59,6 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                     value=${sessionStorage.getItem('username')} 
                     autocomplete="off"
                 />
-                
                 <span class="invalid-input-text" style="display: none;">
                     Потребителското ви име трябва да е между 3 и 10 символа
                 </span>
@@ -67,8 +67,19 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                 </p>
                 <p>
                     <i class="fa-solid fa-envelope"></i>
-                    <input type="text" placeholder="email" name="email" value=${sessionStorage.getItem('email')} />
-                </p>
+                    <i class="fa-solid fa-triangle-exclamation second-warning warning-icon profile-warning" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon second-check profile-check" style="display: none;"></i>
+                    <input 
+                        @input=${formDataValidator.profileEditValidateHandler} 
+                        type="text" 
+                        placeholder="email" 
+                        name="email" 
+                        value=${sessionStorage.getItem('email')} 
+                    />
+                    <span class="invalid-input-text email-edit-msg" style="display: none;">
+                    Имейлът е невалиден
+                    </span>
+                </p> 
         </main>
         <button type="submit" class="button submit-btn"><i class="fa-solid fa-user-check"></i> Редактирай данните</button>
       </form>
@@ -125,6 +136,8 @@ async function editProfileHandler(e, ctx) {
 
     if (email == '' || username == '') {
         return notify('Всички полета са задължителни!');
+    } else if (formDataValidator.profileFormContainsInvalidInput(e.currentTarget)) {
+        return notify('Поправете невалидните полета.')
     }
 
     showModal('Сигурни ли сте, че искате да промените данните си?', onSelect);
