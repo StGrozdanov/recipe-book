@@ -74,10 +74,11 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                         type="text" 
                         placeholder="email" 
                         name="email" 
-                        value=${sessionStorage.getItem('email')} 
+                        value=${sessionStorage.getItem('email')}
+                        autocomplete="off"
                     />
                     <span class="invalid-input-text email-edit-msg" style="display: none;">
-                    Имейлът е невалиден
+                    Имейлът ви е невалиден
                     </span>
                 </p> 
         </main>

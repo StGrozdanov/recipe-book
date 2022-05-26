@@ -23,7 +23,7 @@ const registerTemplate = (context) => html`
                     <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
                     <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
-                <span class="invalid-input-text" style="display: none;">Имейлът ви е невалиден</span>
+                <span class="invalid-input-text" style="display: none;">Имейлът трябва да е валиден</span>
             </p>
             <p class="field">
                 <label for="username">Потребителско име</label>
