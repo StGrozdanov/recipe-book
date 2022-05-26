@@ -5,6 +5,7 @@ import { notify } from '../utils/notification.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
+import * as formDataValidator from '../utils/formDataValidator.js';
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
 <section class="my-profile-section">
@@ -47,7 +48,9 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
             autocomplete="off"
         />
         <main class="user-profile-article-info">
-                <input 
+                <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
+                <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                <input
                     type="text" 
                     placeholder="username" 
                     name="username" 
@@ -55,6 +58,10 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                     value=${sessionStorage.getItem('username')} 
                     autocomplete="off"
                 />
+                
+                <span class="invalid-input-text" style="display: none;">
+                    Потребителското ви име трябва да е между 3 и 10 символа
+                </span>
                 <p>
                     <i class="fa-solid fa-bowl-rice"></i> ${recepiesCount} created
                 </p>

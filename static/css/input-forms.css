@@ -125,23 +125,10 @@ section.formData {
     z-index: 1;
 }
 
-.formData .field .input input:focus {
-    border-color: #090;
-}
-
-.formData .field .input input:focus+.fas {
-    color: #090;
-}
-
 .formData form textarea {
     border-radius: 0.5rem;
     padding: 0.5rem;
     height: 100%
-}
-
-.formData form textarea:focus {
-    outline: none;
-    border-color: #090;
 }
 
 .formData .description {
@@ -173,11 +160,6 @@ section.formData {
     flex-direction: column;
 }
 
-.formData .field .input:hover {
-    background: #c4c1c1;
-    border: 0.1rem solid #234465;
-}
-
 .fa-user, .fa-key, .fa-repeat, .fa-bowl-rice, .fa-book-open, .fa-shoe-prints, .fa-utensils {
     margin-left: 8px;
 }
@@ -192,4 +174,36 @@ section.formData {
 
 .edit-products-field, .edit-steps-field {
     height: 50vh;
+}
+
+.invalid-input {
+    border: 2px solid red !important;
+    background: #ff00000d;
+}
+
+.fa-triangle-exclamation {
+    position: absolute;
+    left: 92%;
+    font-size: 110%;
+    color: #d73333;
+}
+
+.fa-square-check {
+    position: absolute;
+    left: 92%;
+    font-size: 110%;
+    color: #008000b8;
+}
+
+.valid-input {
+    border: 2px solid green !important;
+    background: #0080000f;
+}
+
+.invalid-input-text {
+    font-size: 90%;
+    color: red;
+    display: block;
+    font-weight: 600;
+    width: 106%;
 }

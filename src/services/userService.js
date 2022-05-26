@@ -10,7 +10,7 @@ const USERS_END_POINTS = {
     USER_INFO: (id) => { return `/parse/users/${id}` },
 }
 
-export async function register(username, email, password) {
+export async function register({ username, email, password }) {
     const response = await fetch(BASE_URL + USERS_END_POINTS.REGISTER, {
         method: 'POST',
         headers: USER_AUTHORIZATION_BASE_HEADERS,
@@ -26,7 +26,7 @@ export async function register(username, email, password) {
     }
 }
 
-export async function login(username, password) {
+export async function login({ username, password }) {
     const response = await fetch(BASE_URL + USERS_END_POINTS.LOGIN, {
         method: 'POST',
         headers: USER_AUTHORIZATION_BASE_HEADERS,

@@ -1,10 +1,11 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { login } from '../services/userService.js';
+import { formContainsEmptyFields } from '../utils/formDataValidator.js';
 import { notify } from '../utils/notification.js';
 
 const loginTemplate = (ctx) => html`
 <section id="login-page" class="login formData">
-    <form id="login-form" action="" method="">
+    <form @submit=${(e) => loginHandler(e, ctx)} id="login-form" action="" method="">
         <fieldset>
             <legend>Форма за вход</legend>
             <p class="field">
@@ -21,7 +22,7 @@ const loginTemplate = (ctx) => html`
                     <input type="password" name="password" id="password" placeholder="Password">
                 </span>
             </p>
-            <input @click=${(e) => loginHandler(e, ctx)} class="button submit" type="submit" value="Вход">
+            <input class="button submit" type="submit" value="Вход">
         </fieldset>
     </form>
 </section>
@@ -34,20 +35,20 @@ export function loginPage(ctx) {
 async function loginHandler(e, ctx) {
     e.preventDefault();
 
-    const form = new FormData(document.getElementById('login-form'));
-    const username = form.get('username');
-    const password = form.get('password');
+    const loginForm = e.target;
+    const formData = new FormData(loginForm);
 
-    if (username != '' && password != '') {
-        await login(username, password);
-        
-        if (sessionStorage.getItem('redirect') !== null) {
-            ctx.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);
-        } else {
-            ctx.page.redirect('/my-profile');
-        }
-        notify(`Добре дошли, ${sessionStorage.getItem('username')}! Приятно прекарване!`);
-    } else {
+    if (formContainsEmptyFields(formData)) {
         return notify('Всички полета са задължителни!');
     }
+
+    await login(Object.fromEntries(formData));
+
+    if (sessionStorage.getItem('redirect') !== null) {
+        ctx.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);
+    } else {
+        ctx.page.redirect('/my-profile');
+    }
+
+    notify(`Добре дошли, ${sessionStorage.getItem('username')}! Приятно прекарване!`);
 }

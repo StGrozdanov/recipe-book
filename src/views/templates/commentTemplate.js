@@ -53,7 +53,7 @@ export const commentsTemplate = (data, ctx) => html`
                     <li id=${comment.objectId} class="comment">
                         <p>
                             <a 
-                            @click=${() => ctx.page.redirect(`user-${comment.owner.objectId}`)} 
+                            @click=${() => ctx.page.redirect(`/user-${comment.owner.objectId}`)} 
                             href='javascript: void[0]'
                             >
                                 ${comment.owner.username}

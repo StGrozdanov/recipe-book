@@ -1,4 +1,4 @@
-import { html, render } from '../../node_modules/lit-html/lit-html.js';
+import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
 import { getSingleRecipe, removeRecipe } from '../services/recipeService.js';
 import { removeFromFavourites, addToFavourites, isFavouriteRecipe } from '../services/favouritesService.js';
 import { getCommentsForRecipe } from '../services/commentService.js'
@@ -13,12 +13,23 @@ const ownerTemplate = (id, ctx) => html`
     <button @click=${() => deleteHandler(id, ctx)} class="button danger">Изтрий</button>
 `;
 
+const recipeFavouritesTemplate = (ctx, data, isFavourite) => html`
+    <i 
+    @click=${(e) => addToFavouritesHandler(e, ctx, data.name)} 
+    class=${isFavourite ? "fa-solid fa-star" : "fa-regular fa-star"}
+    ></i>
+`;
+
 const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
     <section id="recipe-details">
         <h1>
             Ястие: 
             ${data.name} 
-            <i @click=${(e) => addToFavouritesHandler(e, ctx, data.name)} class=${isFavourite ? "fa-solid fa-star" : "fa-regular fa-star"}></i>
+            ${
+                sessionStorage.getItem('email')
+                ? recipeFavouritesTemplate(ctx, data, isFavourite)
+                : nothing                 
+            }
         </h1>
         <div class="recipe-details-div">
             <div class="recipe-img">
