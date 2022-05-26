@@ -14,7 +14,7 @@ export function inputValidateHandler(e) {
         username: (username) => { return username.length >= 3 && username.length <= 10 },
         password: (password) => { return password.length >= 4 },
         'confirm-pass': (confirmPass) => { return document.querySelector('#password').value === confirmPass },
-        name: (recipeName) => { return /^[а-яА-Я]+$/.test(recipeName) && recipeName.length >= 4 },
+        name: (recipeName) => { return /^[а-яА-Я\s]+$/.test(recipeName) && recipeName.length >= 4 },
         products: (recipeProducts) => { return processInputsOnANewLine(recipeProducts).length >= 3 },
         steps: (recipeSteps) => { return processInputsOnANewLine(recipeSteps).length >= 3 },
     }
