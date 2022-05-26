@@ -2,6 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { createRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
+import multiLineInputProcessor from '../utils/multiLineInputProcessor.js';
 
 const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
@@ -87,8 +88,8 @@ async function createHandler(e, context) {
 
     const form = new FormData(e.target);
     let name = form.get('name');
-    const products = form.get('products').split('\n').map(content => content.trim());
-    const steps = form.get('steps').split('\n').map(content => content.trim());
+    const products = multiLineInputProcessor.process(form.get('products'));
+    const steps = multiLineInputProcessor.process(form.get('steps'));
     const img = form.get('img');
     const category = form.get('category');
 

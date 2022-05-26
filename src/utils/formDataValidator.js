@@ -1,3 +1,5 @@
+import multiLineInputProcessor from "./multiLineInputProcessor.js";
+
 export function inputValidateHandler(e) {
     const inputField = e.target;
     const inputFieldName = inputField.name;
@@ -15,8 +17,8 @@ export function inputValidateHandler(e) {
         password: (password) => { return password.length >= 4 },
         'confirm-pass': (confirmPass) => { return document.querySelector('#password').value === confirmPass },
         name: (recipeName) => { return /^[а-яА-Я\s]+$/.test(recipeName) && recipeName.length >= 4 },
-        products: (recipeProducts) => { return processInputsOnANewLine(recipeProducts).length >= 3 },
-        steps: (recipeSteps) => { return processInputsOnANewLine(recipeSteps).length >= 3 },
+        products: (recipeProducts) => { return multiLineInputProcessor.process(recipeProducts).length >= 3 },
+        steps: (recipeSteps) => { return multiLineInputProcessor.process(recipeSteps).length >= 3 },
     }
 
     if (!validationsCriteria[inputFieldName](inputFieldValue)) {
@@ -104,11 +106,4 @@ export function profileFormContainsInvalidInput(formElement) {
     });
 
     return isInvalid;
-}
-
-function processInputsOnANewLine(input) {
-    return input
-                .split('\n')
-                .map(content => content.trim())
-                .filter(content => content.trim() !== '');
 }
