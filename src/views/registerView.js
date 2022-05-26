@@ -71,7 +71,7 @@ const registerTemplate = (context) => html`
 export function registerPage(context) {
     context.render(registerTemplate(context));
 }
-
+    
 async function registerHandler(e, context) {
     e.preventDefault();
 

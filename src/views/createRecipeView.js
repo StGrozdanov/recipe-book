@@ -1,34 +1,47 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { createRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
+import * as formDataValidator from '../utils/formDataValidator.js';
 
 const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
-    <form id="create-form" action="" method="" autocomplete="off">
+    <form @submit=${(e) => createHandler(e, ctx)} id="create-form" action="" method="" autocomplete="off">
         <fieldset>
             <legend>Нова рецепта</legend>
             <p class="field">
                 <label for="title">Наименование</label>
                 <span class="input">
                     <i class="fa-solid fa-bowl-rice"></i>
-                    <input type="search" name="name" id="title" placeholder="Име на рецепта" autocomplete="off">
+                    <input @input=${formDataValidator.inputValidateHandler} type="search" name="name" id="title"
+                        placeholder="Име на рецепта" autocomplete="off">
+                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                </span>
+                <span class="invalid-input-text" style="display: none;">
+                    Името трябва да е на български, минимум 4 букви, без символи.
                 </span>
             </p>
             <p class="field">
                 <label for="description">Продукти</label>
                 <span class="input">
                     <i class="fa-solid fa-book-open"></i>
-                    <textarea name="products" id="description"
+                    <textarea @input=${formDataValidator.inputValidateHandler} name="products" id="description"
                         placeholder="Продукти и грамаж, всеки на нов ред"></textarea>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
+                <span class="invalid-input-text" style="display: none;">Минимум 3 продукта</span>
             </p>
             <p class="field">
                 <label for="description">Стъпки за приготвяне</label>
                 <span class="input">
                     <i class="fa-solid fa-shoe-prints"></i>
-                    <textarea name="steps" id="description"
+                    <textarea @input=${formDataValidator.inputValidateHandler} name="steps" id="description"
                         placeholder="Стъпки за приготвяне, всяка на нов ред"></textarea>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
+                <span class="invalid-input-text" style="display: none;">Минимум 3 стъпки</span>
             </p>
             <p class="field">
                 <label for="image">Картинка</label>
@@ -55,7 +68,7 @@ const createRecipeTemplate = (ctx) => html`
                     </select>
                 </span>
             </p>
-            <input @click=${(e)=> createHandler(e, ctx)} class="button submit" type="submit" value="Създай рецепта">
+            <input class="button submit" type="submit" value="Създай рецепта">
         </fieldset>
     </form>
 </section>
@@ -72,15 +85,17 @@ export function addRecipePage(context) {
 async function createHandler(e, context) {
     e.preventDefault();
 
-    const form = new FormData(document.getElementById('create-form'));
+    const form = new FormData(e.target);
     let name = form.get('name');
     const products = form.get('products').split('\n').map(content => content.trim());
     const steps = form.get('steps').split('\n').map(content => content.trim());
     const img = form.get('img');
     const category = form.get('category');
 
-    if (name == '' || products.length === 0 || steps.length === 0 || img == '' || category == '') {
+    if (name.trim() == '' || products.length === 0 || steps.length === 0 || img.trim() == '' || category.trim() == '') {
         return notify('Моля попълнете всички полета.');
+    } else if (formDataValidator.formContainsInvalidInput(e.target)) {
+        return notify('Поправете невалидните полета.');
     }
 
     const newRecipe = {
@@ -90,9 +105,9 @@ async function createHandler(e, context) {
         img: img,
         category: category
     }
-    
+
     notify('Успешно създадохте рецептата си! При нужда можете да я редактирате от бутончетата.');
-    
+
     const createdRecipe = await createRecipe(newRecipe);
     context.page.redirect(`/details-${createdRecipe.objectId}`);
 }

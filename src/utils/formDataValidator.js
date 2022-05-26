@@ -14,6 +14,9 @@ export function inputValidateHandler(e) {
         username: (username) => { return username.length >= 3 && username.length <= 10 },
         password: (password) => { return password.length >= 4 },
         'confirm-pass': (confirmPass) => { return document.querySelector('#password').value === confirmPass },
+        name: (recipeName) => { return /^[а-яА-Я]+$/.test(recipeName) && recipeName.length >= 4 },
+        products: (recipeProducts) => { return processInputsOnANewLine(recipeProducts).length >= 3 },
+        steps: (recipeSteps) => { return processInputsOnANewLine(recipeSteps).length >= 3 },
     }
 
     if (!validationsCriteria[inputFieldName](inputFieldValue)) {
@@ -78,8 +81,6 @@ export function formContainsInvalidInput(formElement) {
 
     let isInvalid = false;
 
-    console.log(formInputFields);
-
     Array.from(formInputFields).forEach(input => {
         if (input.parentNode.classList.contains('invalid-input')) {
             isInvalid = true;
@@ -103,4 +104,11 @@ export function profileFormContainsInvalidInput(formElement) {
     });
 
     return isInvalid;
+}
+
+function processInputsOnANewLine(input) {
+    return input
+                .split('\n')
+                .map(content => content.trim())
+                .filter(content => content.trim() !== '');
 }

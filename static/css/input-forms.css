@@ -40,6 +40,10 @@ section.formData {
     width: 100%;
 }
 
+textarea:focus {
+    outline: none;
+}
+
 .formData form textarea {
     border: none;
     background: transparent;
@@ -160,11 +164,20 @@ section.formData {
     flex-direction: column;
 }
 
-.fa-user, .fa-key, .fa-repeat, .fa-bowl-rice, .fa-book-open, .fa-shoe-prints, .fa-utensils {
+.fa-user,
+.fa-key,
+.fa-repeat,
+.fa-bowl-rice,
+.fa-book-open,
+.fa-shoe-prints,
+.fa-utensils {
     margin-left: 8px;
 }
 
-.fa-bowl-rice, .fa-book-open, .fa-shoe-prints, .fa-utensils {
+.fa-bowl-rice,
+.fa-book-open,
+.fa-shoe-prints,
+.fa-utensils {
     font-size: 17px;
 }
 
@@ -172,7 +185,8 @@ section.formData {
     margin-left: 8px;
 }
 
-.edit-products-field, .edit-steps-field {
+.edit-products-field,
+.edit-steps-field {
     height: 50vh;
 }
 
