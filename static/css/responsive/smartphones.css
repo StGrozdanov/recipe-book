@@ -173,6 +173,7 @@
 
     .notification {
         padding: 10px 5px;
+        width: 120%;
     }
 
     .recipe-card {
