@@ -1,6 +1,6 @@
 import { html, nothing } from '../../node_modules/lit-html/lit-html.js';
 import { getMyPublicationsCount } from '../services/recipeService.js';
-import { logout, update } from '../services/userService.js';
+import { getCurrentUser, logout, update, userIsAuthenticated } from '../services/userService.js';
 import { notify } from '../utils/notification.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
@@ -19,7 +19,10 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
             id="cover-input" 
             style="display: none; margin-top: -300px; z-index: 2; position: absolute;" 
             placeholder="Адрес на картинка"
-            value=${sessionStorage.getItem('coverPhoto').includes('undefined') ? nothing : sessionStorage.getItem('coverPhoto')} 
+            value=${
+                sessionStorage.getItem('coverPhoto').includes('undefined') 
+                ? nothing 
+                : sessionStorage.getItem('coverPhoto')} 
             autocomplete="off"
         />
         <header @click=${pictureChangeHandler} id="user-profile-cover" class="user-profile-header">
@@ -74,7 +77,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                         type="text" 
                         placeholder="email" 
                         name="email" 
-                        value=${sessionStorage.getItem('email')}
+                        value=${userIsAuthenticated()}
                         autocomplete="off"
                     />
                     <span class="invalid-input-text email-edit-msg" style="display: none;">
@@ -91,7 +94,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
 
 export async function myProfileEditPage(ctx) {
     ctx.render(loaderTemplate());
-    const myRecepies = await getMyPublicationsCount(sessionStorage.getItem('id'));
+    const myRecepies = await getMyPublicationsCount(getCurrentUser());
 
     const myPublications = myPublicationsTemplate(myRecepies.count, ctx);
 
@@ -146,7 +149,7 @@ async function editProfileHandler(e, ctx) {
     async function onSelect(choice) {
         if (choice) {
             ctx.render(loaderTemplate());
-            await update(sessionStorage.getItem('id'), username, email, avatar, coverImage);
+            await update(getCurrentUser(), username, email, avatar, coverImage);
             notify("Успешно редактирахте профила си! Моля влезте наново, за да отразите промените.")
             await logout();
             ctx.page.redirect('/login');

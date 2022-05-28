@@ -4,6 +4,7 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { myRecepiesTemplate } from './templates/profileTemplates/myRecepiesTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
+import { getCurrentUser } from '../services/userService.js';
 
 
 export const myRecepiesCollectionTemplate = (recepies, ctx) => html`
@@ -15,7 +16,7 @@ export const myRecepiesCollectionTemplate = (recepies, ctx) => html`
 
 export async function myFavouriteRecepiesPage(ctx) {
     ctx.render(loaderTemplate());
-    const data = await getMyFavouriteRecepies(sessionStorage.getItem('id'));
+    const data = await getMyFavouriteRecepies(getCurrentUser());
 
     const myFavouriteRecepies = data.results.map(recipeTemplate);
 

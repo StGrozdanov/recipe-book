@@ -3,6 +3,7 @@ import { getMyPublicationsCount } from '../services/recipeService.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { userProfileTemplate } from './templates/profileTemplates/userProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
+import { getCurrentUser } from '../services/userService.js';
  
 const myPublicationsTemplate = (recepiesCount) => html`
     <section class="my-profile-section">
@@ -13,7 +14,7 @@ const myPublicationsTemplate = (recepiesCount) => html`
 
 export async function myProfilePage(ctx) {
     ctx.render(loaderTemplate());
-    const myRecepies = await getMyPublicationsCount(sessionStorage.getItem('id'));
+    const myRecepies = await getMyPublicationsCount(getCurrentUser());
 
     const myPublications = myPublicationsTemplate(myRecepies.count);
 

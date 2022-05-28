@@ -2,6 +2,7 @@ import { COULD_NOT_ADD_TO_FAVOURITE_RECIPES, COULD_NOT_FIND_FAVOURITE_RECIPES, C
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_URL, BASE_HEADERS } from "./back4appService.js";
 import { createPointerQuery, RECEPIES_END_POINT } from "./recipeService.js";
+import { getCurrentUser } from "./userService.js";
 
 const FAVOURITES_END_POINTS = {
     USER_FAVOURITE_RECEPIES: (userId) => {
@@ -58,14 +59,12 @@ export async function isFavouriteRecipe(userId, recipeId) {
 }
 
 function updateFavouritesRelation(record, method) {
-    const userId = sessionStorage.getItem('id');
-
     record.favouritedBy = {
         __op: method,
         objects: [{
             __type: 'Pointer',
             className: '_User',
-            objectId: userId
+            objectId: getCurrentUser()
         }]
     }
 

@@ -7,6 +7,7 @@ import { showModal } from '../utils/modalDialogue.js';
 import { notify } from '../utils/notification.js';
 import { buttonToTop } from '../utils/backToTopButton.js';
 import { commentsTemplate } from './templates/commentTemplate.js';
+import { getCurrentUser, userIsAuthenticated } from '../services/userService.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit-${id}">Редактирай</a>
@@ -26,7 +27,7 @@ const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
             Ястие: 
             ${data.name} 
             ${
-                sessionStorage.getItem('email')
+                userIsAuthenticated()
                 ? recipeFavouritesTemplate(ctx, data, isFavourite)
                 : nothing                 
             }
@@ -35,7 +36,7 @@ const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
             <div class="recipe-img">
                 <img alt="recipe-alt" src=${data.img}>
                 <div id="comment-container">
-                    ${sessionStorage.getItem('id') === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
+                    ${getCurrentUser() === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
                     ${commentsTemplate(commentData, ctx)}
                 </div>
             </div>
@@ -61,7 +62,7 @@ export async function detailsPage(ctx) {
     ctx.render(loaderTemplate());
     const data = await getSingleRecipe(ctx.params.id);
 
-    const isFavourite = await isFavouriteRecipe(sessionStorage.getItem('id'), ctx.params.id);
+    const isFavourite = await isFavouriteRecipe(getCurrentUser(), ctx.params.id);
 
     ctx.render(detailsTemplate(data, ctx, null, isFavourite));
 

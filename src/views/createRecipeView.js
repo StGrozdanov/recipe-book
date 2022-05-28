@@ -3,6 +3,7 @@ import { createRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import multiLineInputProcessor from '../utils/multiLineInputProcessor.js';
+import { getUserToken } from '../services/userService.js';
 
 const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
@@ -76,7 +77,7 @@ const createRecipeTemplate = (ctx) => html`
 `;
 
 export function addRecipePage(context) {
-    if (sessionStorage.getItem('authToken') != null) {
+    if (getUserToken() != null) {
         context.render(createRecipeTemplate(context))
     } else {
         notify('Единствено регистрираните потребители могат да създават рецепти.');

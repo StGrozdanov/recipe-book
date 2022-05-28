@@ -2,6 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getSingleRecipe, updateRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
+import { getCurrentUser } from '../services/userService.js';
 
 const editRecipeTemplate = (data, ctx) => html`
 <section id="edit-page" class="edit formData">
@@ -83,7 +84,7 @@ const editRecipeTemplate = (data, ctx) => html`
 export async function editPage(context) {
     const data = await getSingleRecipe(context.params.id);
 
-    if (sessionStorage.getItem('id') !== data.owner.objectId) {
+    if (getCurrentUser() !== data.owner.objectId) {
         context.page.redirect('/');
         return notify('Тази рецепта не е ваша!');
     }

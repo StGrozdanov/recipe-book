@@ -112,6 +112,10 @@ export function userIsAuthenticated() {
     return sessionStorage.getItem('email');
 }
 
+export function getCurrentUser() {
+    return sessionStorage.getItem('id');
+}
+
 async function handleUserRequest(requestResponse) {
     const data = await requestResponse.json();
 

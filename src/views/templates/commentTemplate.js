@@ -2,6 +2,7 @@ import { html, nothing, render } from '../../../node_modules/lit-html/lit-html.j
 import { commentRecipe, editComment, getCommentsForRecipe, removeComment } from '../../services/commentService.js';
 import { showModal } from '../../utils/modalDialogue.js';
 import { notify } from '../../utils/notification.js';
+import { getCurrentUser } from '../../services/userService.js'
 
 const ownerCommentTemplate = (comment) => html`
     <i 
@@ -67,7 +68,7 @@ export const commentsTemplate = (data, ctx) => html`
                             ${new Date(comment.createdAt).toLocaleString()}
                         </p>
                         ${ 
-                            sessionStorage.getItem('id') === comment.owner.objectId 
+                            getCurrentUser() === comment.owner.objectId 
                             ? ownerCommentTemplate(comment)
                             : unauthorizedCommentTemplate(comment)
                         }
