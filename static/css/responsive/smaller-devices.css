@@ -1,3 +1,9 @@
+@media all and (max-width: 396px) {
+    #comments-container button {
+        font-size: 10px !important;
+    }
+}
+
 @media all and (max-width: 376px) {
     body {
         width: 100%;
@@ -11,12 +17,6 @@
 
     #recipe-details h1 {
         font-size: 20px;
-    }
-
-    #comments-container button {
-        margin-top: 20px;
-        font-size: 9px;
-        margin-right: 0px;
     }
 
     .recipe-description ul {
