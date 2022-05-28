@@ -194,4 +194,43 @@
         margin-top: 10px;
         font-size: 10px;
     }
+
+    .recipe-img {
+        max-width: 70vw;
+        width: 70vw;
+    }
+
+    #comment-container .button {
+        font-size: 12px;
+        margin: 14px 5px;
+        width: 10em;
+        margin-bottom: 0;
+    }
+
+    #comments-container .button {
+        width: 14em;
+        margin: 0 0 25px 0;
+        padding: 0.6em;
+        font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "SF-Mono", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+
+    #comments-container {
+        margin-top: 20px;
+    }
+
+    .comment i {
+        font-size: 130% !important;
+    }
+
+    .fa-check {
+        margin-right: 16px !important;
+    }
+
+    .fa-pen-to-square {
+        margin-right: 10px !important;
+    }
+
+    .fa-xmark {
+        margin-bottom: 7px !important;
+    }
 }
