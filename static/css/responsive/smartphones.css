@@ -234,4 +234,11 @@
     .fa-xmark {
         margin-bottom: 7px !important;
     }
+
+    .login-form span:focus-within {
+        border: 2px solid #234465 !important;
+        box-shadow: -1px 2px 3px 0px #8080808c;
+        background: #2344650f;
+    }
+
 }
