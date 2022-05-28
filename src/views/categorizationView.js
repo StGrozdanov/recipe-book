@@ -1,7 +1,6 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { filterByCategory } from '../services/filtrationService.js';
 import { notify } from '../utils/notification.js';
-import { addUppercase } from '../utils/capitalizator.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { categoryDropdownTemplate } from './templates/categoryDropdownTemplate.js';
 import { searchTemplate } from './templates/searchTemplate.js';
@@ -32,7 +31,6 @@ export async function categorizationPage(ctx) {
         params.forEach(param => query.add(param));
 
         const data = await filterByCategory(query);
-        addUppercase(data);
 
         const recipes = data.results.map(recipeTemplate);
 

@@ -41,6 +41,12 @@ const unauthorizedCommentTemplate = (comment) => html`
     <p class="comment-content">${comment.content}</p>
 `; 
 
+const commentLoadingTemplate = () => html`
+    <div id="loading-comments" class="comment-loading-container">
+        <img src="../../../static/images/loading-spinner.gif" alt="Loading..." class="comment-loading"/>
+    </div>
+`;
+
 export const commentsTemplate = (data, ctx) => html`
 <div id="comments-container">
     <button @click=${(e) => toggleComments(e, ctx)} class="button warning">Покажи коментарите</button>
@@ -91,7 +97,7 @@ async function toggleComments(e, ctx) {
         e.target.textContent = 'Скрий коментарите';
         showCommentsButton.style.marginLeft = '0px';
         
-        render(html`<div id="loading-comments" style="margin: 0 auto; font-size: 110%;">Loading...</div>`, comments);
+        render(commentLoadingTemplate(), comments);
         refreshCommentSection(ctx)
     } else {
         comments.style.display = 'none';

@@ -1,65 +1,65 @@
-import { BASE_HEADERS, BASE_URL } from "./back4appService.js";
+import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./back4appService.js";
 import { addOwner, createPointer, createPointerQuery } from "./recipeService.js";
-import MODIFIYNG_OPERATIONS_HEADERS from "./back4appService.js";
+import { COULD_NOT_DELETE_COMMENT, COULD_NOT_EDIT_COMMENT, COULD_NOT_FETCH_COMMENTS } from "../constants/errorMessages.js";
+import { handleRequest } from "../utils/requestDataHandler.js";
+import { getUserToken } from "./userService.js";
 
-const COMMENT_END_POINTS = {
-    CREATE_COMMENT: '/classes/Comment',
-    GET_COMMENTS_BY_RECIPE: (recipeId) => { 
-        return `/classes/Comment?where=${createPointerQuery('recipe', 'Recipe', recipeId)}&include=owner` 
+const COMMENT_END_POINT = '/classes/Comment';
+
+const COMMENT_REQUEST_POINTS = {
+    CREATE_COMMENT: COMMENT_END_POINT,
+    GET_COMMENTS_BY_RECIPE: (recipeId) => {
+        return `${COMMENT_END_POINT}?where=${createPointerQuery('recipe', 'Recipe', recipeId)}&include=owner`
     },
-    GET_SINGLE_COMMENT: (id) => { return `/classes/Comment/${id}` },
-    EDIT_COMMENT: (id) => { return `/classes/Comment/${id}` },
+    GET_SINGLE_COMMENT: (id) => { return `${COMMENT_END_POINT}/${id}` },
+    EDIT_COMMENT: (id) => { return `${COMMENT_END_POINT}/${id}` },
 }
 
 export async function getCommentsForRecipe(recipeId) {
-    const response = await fetch(BASE_URL + COMMENT_END_POINTS.GET_COMMENTS_BY_RECIPE(recipeId), {
+    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_COMMENTS_BY_RECIPE(recipeId), {
         method: 'GET',
         headers: BASE_HEADERS
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response, COULD_NOT_FETCH_COMMENTS);
 }
 
 export async function commentRecipe(recipeId, comment) {
-    const authorizationToken = sessionStorage.getItem('authToken');
-
-    comment.recipe = createPointer('Recipe', recipeId)
+    comment.recipe = createPointer('Recipe', recipeId);
     addOwner(comment);
 
     const options = {
         method: 'POST',
         headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(authorizationToken),
+            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(comment)
     };
-    const response = await fetch(BASE_URL + COMMENT_END_POINTS.CREATE_COMMENT, options);
+
+    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.CREATE_COMMENT, options);
     return response.json();
 }
 
 export async function removeComment(id) {
-    const authorizationToken = sessionStorage.getItem('authToken');
-
     const options = {
         method: 'DELETE',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(authorizationToken)
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     };
-    const response = await fetch(BASE_URL + COMMENT_END_POINTS.GET_SINGLE_COMMENT(id), options);
-    await response.json();
+
+    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(id), options);
+    await handleRequest(response, COULD_NOT_DELETE_COMMENT);
 }
 
 export async function editComment(commentContent, commentId) {
-    const authorizationToken = sessionStorage.getItem('authToken');
-
     const options = {
         method: 'PUT',
         headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(authorizationToken),
+            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ content: commentContent })
     };
-    const response = await fetch(BASE_URL + COMMENT_END_POINTS.EDIT_COMMENT(commentId), options);
-    return response.json();
+
+    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.EDIT_COMMENT(commentId), options);
+    return handleRequest(response, COULD_NOT_EDIT_COMMENT);
 }

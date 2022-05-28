@@ -22,7 +22,7 @@ const recipeFavouritesTemplate = (ctx, data, isFavourite) => html`
 
 const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
     <section id="recipe-details">
-        <h1>
+        <h1 class="recipe-name">
             Ястие: 
             ${data.name} 
             ${
@@ -62,8 +62,6 @@ export async function detailsPage(ctx) {
     const data = await getSingleRecipe(ctx.params.id);
 
     const isFavourite = await isFavouriteRecipe(sessionStorage.getItem('id'), ctx.params.id);
-
-    capitalize(data);
 
     ctx.render(detailsTemplate(data, ctx, null, isFavourite));
 
@@ -125,8 +123,4 @@ async function refreshCommentSectionRedirect(ctx, comment) {
 
     const button = document.querySelector('#comments-container button');
     button.textContent = 'Скрий коментарите';
-}
-
-function capitalize(data) {
-    data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
 }

@@ -3,16 +3,20 @@ import { html } from '../../../../node_modules/lit-html/lit-html.js';
 export const myProfileTemplate = () => html`
 <section class="user-profile">
     <a href="/my-profile/notifications" class="profile-navigation-button">
-        <i class="fa-solid fa-comment-dots"></i> Известия
+        <i class="fa-solid fa-comment-dots"></i> 
+        Известия
     </a>
     <a href="/my-profile/created-recepies" class="profile-navigation-button">
-        <i class="fa-solid fa-utensils"></i> Моите рецепти
+        <i class="fa-solid fa-utensils"></i> 
+        Моите рецепти
     </a>
     <a href="/my-profile/favourite-recepies" class="profile-navigation-button">
-        <i class="fa-regular fa-star"></i> Любими рецепти
+        <i class="fa-regular fa-star"></i> 
+        Любими рецепти
     </a>
     <a href="/my-profile/edit" class="profile-navigation-button">
-        <i class="fa-solid fa-user-pen"></i> Редактирай профила
+        <i class="fa-solid fa-user-pen"></i> 
+        Редактирай профила
     </a>
 </section>
 `;

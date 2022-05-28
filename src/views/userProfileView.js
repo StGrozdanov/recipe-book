@@ -3,7 +3,6 @@ import { getMyPublications } from '../services/recipeService.js';
 import { getUser } from '../services/userService.js';
 import { userProfileTemplate } from './templates/profileTemplates/userProfileTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
-import { addUppercase } from '../utils/capitalizator.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 
 const browseUserProfileTemplate = (user, recipes) => html`
@@ -27,8 +26,6 @@ export async function userProfilePage(ctx) {
     ctx.render(loaderTemplate());
     const user = await getUser(ctx.params.id);
     const data = await getMyPublications(ctx.params.id);
-
-    addUppercase(data);
 
     const recipes = data.results.map(recipeTemplate);
 

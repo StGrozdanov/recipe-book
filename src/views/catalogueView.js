@@ -3,7 +3,6 @@ import { getAllRecepies } from '../services/recipeService.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { buildPagination, lightUpActivePaginationButton, paginationTemplate } from './templates/paginationTemplate.js';
 import { noSuchRecipesTemplate } from './templates/noRecepiesFoundTemplate.js';
-import { addUppercase } from '../utils/capitalizator.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { categoryDropdownTemplate } from './templates/categoryDropdownTemplate.js';
 import { searchTemplate } from './templates/searchTemplate.js';
@@ -31,7 +30,6 @@ export async function cataloguePage(ctx) {
     const currentPage = Number(ctx.querystring.split('=')[1] || 1);
 
     let data = await getAllRecepies(currentPage);
-    addUppercase(data);
 
     const recipes = data.results.map(recipeTemplate);
 

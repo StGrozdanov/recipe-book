@@ -192,3 +192,21 @@
     margin-top: 10px;
     border-color: inherit;
 }
+
+#loading-comments .comment-loading {
+    border: none;
+    box-shadow: none;
+    padding: none;
+    background: inherit;
+    width: 100%;
+}
+
+.comment-loading-container {
+    margin: 0 auto;
+    font-size: 110%;
+    width: 13%;
+    border: none;
+    box-shadow: none;
+    padding: none;
+    background: inherit;
+}

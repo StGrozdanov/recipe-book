@@ -1,12 +1,14 @@
+import { COULD_NOT_ADD_TO_FAVOURITE_RECIPES, COULD_NOT_FIND_FAVOURITE_RECIPES, COULD_NOT_REMOVE_FROM_FAVOURITE_RECIPES } from "../constants/errorMessages.js";
+import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_URL, BASE_HEADERS } from "./back4appService.js";
-import { createPointerQuery } from "./recipeService.js";
+import { createPointerQuery, RECEPIES_END_POINT } from "./recipeService.js";
 
 const FAVOURITES_END_POINTS = {
     USER_FAVOURITE_RECEPIES: (userId) => {
-        return `/classes/Recipe?where=${createPointerQuery('favouritedBy', '_User', userId)}`
+        return `${RECEPIES_END_POINT}?where=${createPointerQuery('favouritedBy', '_User', userId)}`
     },
-    ADD_RECIPE_TO_FAVOURITES: (recipeId) => `/classes/Recipe/${recipeId}`,
-    REMOVE_RECIPE_FROM_FAVOURITES: (recipeId) => `/classes/Recipe/${recipeId}`,
+    ADD_RECIPE_TO_FAVOURITES: (recipeId) => `${RECEPIES_END_POINT}/${recipeId}`,
+    REMOVE_RECIPE_FROM_FAVOURITES: (recipeId) => `${RECEPIES_END_POINT}/${recipeId}`,
 }
 
 export async function getMyFavouriteRecepies(userId) {
@@ -14,8 +16,7 @@ export async function getMyFavouriteRecepies(userId) {
         method: 'GET',
         headers: BASE_HEADERS
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response, COULD_NOT_FIND_FAVOURITE_RECIPES);
 }
 
 export async function addToFavourites(recipeId) {
@@ -29,7 +30,7 @@ export async function addToFavourites(recipeId) {
     };
 
     const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.ADD_RECIPE_TO_FAVOURITES(recipeId), options);
-    return response.json();
+    return handleRequest(response, COULD_NOT_ADD_TO_FAVOURITE_RECIPES);
 }
 
 export async function removeFromFavourites(recipeId) {
@@ -43,7 +44,7 @@ export async function removeFromFavourites(recipeId) {
     };
 
     const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.REMOVE_RECIPE_FROM_FAVOURITES(recipeId), options);
-    return response.json();
+    return handleRequest(response, COULD_NOT_REMOVE_FROM_FAVOURITE_RECIPES);
 }
 
 export async function isFavouriteRecipe(userId, recipeId) {
@@ -51,8 +52,8 @@ export async function isFavouriteRecipe(userId, recipeId) {
         method: 'GET',
         headers: BASE_HEADERS
     });
+
     const data = await response.json();
-    
     return data.results.some(recipe => recipe.objectId === recipeId);
 }
 

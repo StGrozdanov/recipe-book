@@ -88,8 +88,6 @@ export async function editPage(context) {
         return notify('Тази рецепта не е ваша!');
     }
 
-    capitalize(data);
-
     context.render(editRecipeTemplate(data, context));
 }
 
@@ -121,8 +119,4 @@ async function editHandler(e, context) {
 
     await updateRecipe(editRecipe, context.params.id);
     context.page.redirect(`/details-${context.params.id}`);
-}
-
-function capitalize(data) {
-    data.name = data.name[0].toUpperCase() + data.name.substring(1, data.name.length);
 }

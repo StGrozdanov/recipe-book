@@ -1,20 +1,20 @@
+import { userIsAuthenticated } from "../services/userService.js";
 import { notify } from "../utils/notification.js";
 
 export function isAuthenticated(ctx, next) {
-    const userIsAuthenticated = sessionStorage.getItem('email');
     const requestedPath = ctx.state.path;
 
-    if (userIsAuthenticated && requestedPath == '/login') {
+    if (userIsAuthenticated() && requestedPath == '/login') {
         handleLoginAccess(ctx, next);
-    } else if (userIsAuthenticated && requestedPath == '/register') {
+    } else if (userIsAuthenticated() && requestedPath == '/register') {
         handleRegisterAccess(ctx);
-    } else if (!userIsAuthenticated && requestedPath != '/login' && requestedPath != '/register') {
-        handleBaseAccess(ctx);
+    } else if (!userIsAuthenticated() && requestedPath != '/login' && requestedPath != '/register') {
+        handleUnauthenticatedAccess(ctx);
     }
     next();
 }
 
-function handleBaseAccess(ctx) {
+function handleUnauthenticatedAccess(ctx) {
     notify('Нямате достъп до тази страница.');
     ctx.page.redirect('/login');
     next();

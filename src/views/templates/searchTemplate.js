@@ -1,6 +1,5 @@
 import { html } from "../../../node_modules/lit-html/lit-html.js";
 import { searchByNameOfFavouriteRecipe, searchByRecipeNameAndOwner } from "../../services/filtrationService.js";
-import { addUppercase } from "../../utils/capitalizator.js";
 import { notify } from "../../utils/notification.js"
 import { myRecepiesCollectionTemplate as createdRecipesTemplate } from "../myRecepiesView.js";
 import { myRecepiesCollectionTemplate as favouriteRecipesTemplate } from "../myFavouritesView.js";
@@ -29,7 +28,6 @@ async function search(e, ctx, userCollectionSearch) {
 
             if (userCollectionSearch.request == 'Създадени рецепти') {
                 const data = await searchByRecipeNameAndOwner(query, currentUserId);
-                addUppercase(data);
                 recipes = data.results.map(recipeTemplate);
                 ctx.render(createdRecipesTemplate(recipes, ctx));
             } else {

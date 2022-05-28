@@ -15,9 +15,9 @@ export const USER_AUTHORIZATION_BASE_HEADERS = {
     ...BASE_HEADERS
 }
 
-export default function MODIFIYNG_OPERATIONS_HEADERS(authorizationToken) {
+export const MODIFIYNG_OPERATIONS_HEADERS = (userToken) => {
     return {
         ...BASE_HEADERS,
-        "X-Parse-Session-Token": authorizationToken,
+        "X-Parse-Session-Token": userToken,
     }
 }

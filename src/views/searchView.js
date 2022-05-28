@@ -1,6 +1,5 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { searchByName } from '../services/filtrationService.js';
-import { addUppercase } from '../utils/capitalizator.js';
 import { noSuchRecipesTemplate } from './templates/noRecepiesFoundTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { searchTemplate } from './templates/searchTemplate.js';
@@ -28,7 +27,6 @@ export async function searchPage(ctx) {
     if (params) {
         let query = params.toLowerCase();
         const data = await searchByName(query);
-        addUppercase(data);
 
         const recipes = data.results.map(recipeTemplate);
 

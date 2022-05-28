@@ -1,16 +1,19 @@
-import { BASE_HEADERS, BASE_URL } from "./back4appService.js";
-import MODIFIYNG_OPERATIONS_HEADERS from "./back4appService.js";
+import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE } from "../constants/errorMessages.js";
+import { handleRequest } from "../utils/requestDataHandler.js";
+import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./back4appService.js";
+import { getUserToken } from "./userService.js";
 
 export const RECEPIES_PER_PAGE = 6;
+export const RECEPIES_END_POINT = '/classes/Recipe';
 
 const RECIPE_END_POINTS = {
-    TOTAL_RECEPIES_COUNT: '/classes/Recipe?count=1',
-    CREATE_RECIPE: '/classes/Recipe',
-    ALL_RECIPES: (page) => `/classes/Recipe?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1) * RECEPIES_PER_PAGE}`,
-    SINGLE_RECIPE: (id) => { return `/classes/Recipe/${id}` },
-    OWNER_PUBLICATIONS: (ownerId) => { return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}` },
+    TOTAL_RECEPIES_COUNT: `${RECEPIES_END_POINT}?count=1`,
+    CREATE_RECIPE: RECEPIES_END_POINT,
+    ALL_RECIPES: (page) => `${RECEPIES_END_POINT}?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1) * RECEPIES_PER_PAGE}`,
+    SINGLE_RECIPE: (id) => { return `${RECEPIES_END_POINT}/${id}` },
+    OWNER_PUBLICATIONS: (ownerId) => { return `${RECEPIES_END_POINT}?where=${createPointerQuery('owner', '_User', ownerId)}` },
     OWNER_PUBLICATIONS_COUNT: (ownerId) => { 
-        return `/classes/Recipe?where=${createPointerQuery('owner', '_User', ownerId)}&count=1` 
+        return `${RECEPIES_END_POINT}?where=${createPointerQuery('owner', '_User', ownerId)}&count=1` 
     },
 }
 
@@ -19,8 +22,7 @@ export async function getRecepiesCount() {
         method: 'GET',
         headers: BASE_HEADERS
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
 export async function getAllRecepies(page) {
@@ -28,25 +30,23 @@ export async function getAllRecepies(page) {
         method: 'GET',
         headers: BASE_HEADERS
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
 export async function createRecipe(recipe) {
-    const authorizationToken = sessionStorage.getItem('authToken');
     addOwner(recipe);
 
     const options = {
         method: 'POST',
         headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(authorizationToken),
+            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(recipe)
     };
 
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.CREATE_RECIPE, options);
-    return response.json();
+    return handleRequest(response, COULD_NOT_CREATE_RECEPIE);
 }
 
 export async function getSingleRecipe(id) {
@@ -54,34 +54,29 @@ export async function getSingleRecipe(id) {
         method: 'GET',
         headers: BASE_HEADERS
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response, COULD_NOT_GET_RECEPIE);
 }
 
 export async function updateRecipe(recipe, recipeId) {
-    const authorizationToken = sessionStorage.getItem('authToken');
-
     const options = {
         method: 'PUT',
         headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(authorizationToken),
+            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(recipe)
     };
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(recipeId), options);
-    return response.json();
+    return handleRequest(response, COULD_NOT_EDIT_RECEPIE);
 }
 
 export async function removeRecipe(id) {
-    const authorizationToken = sessionStorage.getItem('authToken');
-
     const options = {
         method: 'DELETE',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(authorizationToken)
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     };
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), options);
-    await response.json();
+    await handleRequest(response, COULD_NOT_EDIT_RECEPIE);
 }
 
 export async function getMyPublications(userId) {
@@ -89,8 +84,7 @@ export async function getMyPublications(userId) {
         method: 'GET',
         headers: BASE_HEADERS
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
 export async function getMyPublicationsCount(userId) {
@@ -98,8 +92,7 @@ export async function getMyPublicationsCount(userId) {
         method: 'GET',
         headers: BASE_HEADERS
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
 export function addOwner(record) {
