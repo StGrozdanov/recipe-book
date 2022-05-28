@@ -5,7 +5,7 @@ import { notify } from '../utils/notification.js';
 
 const loginTemplate = (ctx) => html`
 <section id="login-page" class="login formData">
-    <form @submit=${(e) => loginHandler(e, ctx)} id="login-form" action="" method="">
+    <form @submit=${(e) => loginHandler(e, ctx)} id="login-form" action="" method="" class="login-form">
         <fieldset>
             <legend>Форма за вход</legend>
             <p class="field">

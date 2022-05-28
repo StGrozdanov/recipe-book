@@ -221,3 +221,9 @@ textarea:focus {
     font-weight: 600;
     width: 106%;
 }
+
+.login-form span:focus-within {
+    border: 2px solid #234465 !important;
+    box-shadow: -1px 2px 3px 0px grey;
+    background: #2344650f;
+}
