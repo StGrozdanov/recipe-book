@@ -84,10 +84,10 @@
 .landing-heading {
     padding: 12px 30px;
     background: darkgray;
-    color: white;    
+    color: white;
 }
 
-.landing-latest-recepies span {
+.landing-latest-recepies-span {
     border-bottom: 2.5px solid darkgray;
     padding: 0 40vw;
     position: absolute;
@@ -130,4 +130,81 @@
     background-color: white;
     border-top: 2.5px solid;
     padding: 15px 0;
+}
+
+.landing-most-viewed-recepies-span {
+    border-bottom: 2.5px solid darkgray;
+    padding: 0 20vw;
+    margin-top: 25px;
+    position: absolute;
+    z-index: -1;
+}
+
+.landing-most-viewed-latest-comments {
+    margin: 50px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-items: baseline;
+}
+
+.landing-most-viewed-latest-comments article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.landing-most-viewed-latest-comments h4 {
+    border-top: 2.5px solid darkgray;
+    padding: 20px;
+    transition: 0.4s;
+}
+
+.landing-most-viewed-latest-comments h4:hover {
+    cursor: pointer;
+    color: #b2775e;
+}
+
+.landing-most-viewed-latest-comments .landing-latest-recepies-article:first-child h4 {
+    border: none;
+    padding: none;
+}
+
+.landing-most-viewed-latest-comments .landing-latest-recepies-article:first-child {
+    margin-top: 0px;
+}
+
+.latest-comments-article {
+    display: flex;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: space-between;
+}
+
+.latest-comments-article header {
+    width: 100px;
+    height: 100px;
+}
+
+.comment-section {
+    margin-top: 60px; 
+    width: 100%;
+}
+
+.landing-comment-section {
+    text-align: center;
+}
+
+.landing-comment-section p {
+    margin: 5px 0;
+}
+
+.landing-comment-section a {
+    color: #4caf50;
+    transition: 0.6s;
+}
+
+.landing-comment-section a:hover {
+    color: rgb(3, 73, 3);
 }
