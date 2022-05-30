@@ -16,8 +16,10 @@ import { myFavouriteRecepiesPage } from './views/myFavouritesView.js';
 import { myProfileEditPage } from './views/myProfileEditView.js';
 import { isAuthenticated } from './middlewares/isAuthenticatedMidware.js';
 import { page404 } from './views/404pageView.js';
+import { landingPage } from './views/landingView.js';
 
 page('/', setUp, cataloguePage);
+page('/welcome', landingPage);
 page('/login', setUp, isAuthenticated, loginPage);
 page('/register', setUp, isAuthenticated, registerPage);
 page('/add-recipe', setUp, isAuthenticated, addRecipePage);

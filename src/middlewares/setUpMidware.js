@@ -1,7 +1,7 @@
 import { render } from '../../node_modules/lit-html/lit-html.js';
 import { renderNavigation } from "../views/navigationView.js";
 
-const mainRootElement = document.querySelector('.container');
+export const mainRootElement = document.querySelector('.container');
 
 export function setUp(ctx, next) {
     renderNavigation(ctx);
