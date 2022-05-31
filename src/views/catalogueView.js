@@ -1,4 +1,4 @@
-import { html } from '../../node_modules/lit-html/lit-html.js';
+import { html, nothing } from '../../node_modules/lit-html/lit-html.js';
 import { getAllRecepies } from '../services/recipeService.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { buildPagination, lightUpActivePaginationButton, paginationTemplate } from './templates/paginationTemplate.js';
@@ -6,6 +6,7 @@ import { noSuchRecipesTemplate } from './templates/noRecepiesFoundTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { categoryDropdownTemplate } from './templates/categoryDropdownTemplate.js';
 import { searchTemplate } from './templates/searchTemplate.js';
+import { navigateDownHandler } from './landingView.js';
 
 const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) => html`
     <section id="filtration-section" class="dashboard">
@@ -46,4 +47,9 @@ export async function cataloguePage(ctx) {
     ctx.render(allRecords);
 
     lightUpActivePaginationButton(ctx);
+
+    if (sessionStorage.getItem('landingRedirect')) {
+        sessionStorage.removeItem('landingRedirect');
+        navigateDownHandler();
+    }
 }

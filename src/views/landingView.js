@@ -1,11 +1,12 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
 import { mainRootElement } from "../middlewares/setUpMidware.js";
+import page from '../../node_modules/page/page.mjs';
 
 const landingPageTemplate = () => html`
 <section class="landing-page">
     <nav class="landing-nav">
         <img src="../static/images/cooking.png" alt="" />
-        <a href="https://recepti-na-shushanite.web.app/" class="landing-nav-link">Към рецептите на сайта</a>
+        <a @click=${() => navigateHandler()} href="javascript:void[0]" class="landing-nav-link">Към рецептите на сайта</a>
         <img src="../static/images/cooking.png" alt="" />
     </nav>
     <div>
@@ -199,9 +200,14 @@ function clearLandingPageStyles() {
     document.querySelector('body').style.width = '100%';
 }
 
+function resolvePageStyles() {
+    document.querySelector('header').style.display = 'block';
+    document.querySelector('body').style.width = '70%';
+}
+
 const SCROLL_DOWN_VIEWPORT_VALUE = 600;
 
-function navigateDownHandler() {
+export function navigateDownHandler() {
     let topPosition = SCROLL_DOWN_VIEWPORT_VALUE;
 
     window.scrollTo({
@@ -212,4 +218,10 @@ function navigateDownHandler() {
 
 function hoverHandler() {
     console.log('here');
+}
+
+function navigateHandler() {
+    page.redirect('/');
+    resolvePageStyles();
+    sessionStorage.setItem('landingRedirect', true);
 }

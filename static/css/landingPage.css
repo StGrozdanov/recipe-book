@@ -67,7 +67,7 @@
 .landing-nav-link {
     margin: 0 auto;
     height: 55%;
-    background: darkgray;
+    background: #c28a44;
 }
 
 .landing-nav-link:hover {
@@ -83,7 +83,7 @@
 
 .landing-heading {
     padding: 12px 30px;
-    background: darkgray;
+    background: #c28a44;
     color: white;
 }
 
@@ -206,5 +206,5 @@
 }
 
 .landing-comment-section a:hover {
-    color: rgb(3, 73, 3);
+    color: #b2775e;
 }
