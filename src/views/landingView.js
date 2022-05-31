@@ -1,6 +1,8 @@
 import { html, nothing, render } from "../../node_modules/lit-html/lit-html.js";
 import { mainRootElement } from "../middlewares/setUpMidware.js";
 import page from '../../node_modules/page/page.mjs';
+import { getRecepiesCount, getTheLastThreeRecepies } from "../services/recipeService.js";
+import { getTheLatestSixComments, getTotalCommentsCount } from "../services/commentService.js";
 
 const landingPageTemplate = () => html`
 <section class="landing-page">
@@ -194,9 +196,19 @@ const landingPageTemplate = () => html`
 
 const initialBodyWidth = document.querySelector('body').style.width;
 
-export function landingPage() {
+export async function landingPage() {
     resetBaseStyleArchitecture();
-    render(landingPageTemplate(), mainRootElement)
+
+    // const totalRecepiesCount = await getRecepiesCount();
+    // const lastThreeRecepies = await getTheLastThreeRecepies(totalRecepiesCount.count);
+
+    // const totalCommentsCount = await getTotalCommentsCount();
+    // const latestSixComments = await getTheLatestSixComments(totalCommentsCount.count);
+
+    // console.log(lastThreeRecepies.results);
+    // console.log(latestSixComments.results);
+
+    render(landingPageTemplate(), mainRootElement);
 }
 
 function resetBaseStyleArchitecture() {

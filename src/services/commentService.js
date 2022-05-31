@@ -12,11 +12,29 @@ const COMMENT_REQUEST_POINTS = {
         return `${COMMENT_END_POINT}?where=${createPointerQuery('recipe', 'Recipe', recipeId)}&include=owner`
     },
     GET_SINGLE_COMMENT: (id) => { return `${COMMENT_END_POINT}/${id}` },
+    GET_LAST_SIX_COMMENTS: (totalCommentsCount) => `${COMMENT_END_POINT}?skip=${totalCommentsCount - 6}`,
+    TOTAL_COMMENTS_COUNT: `${COMMENT_END_POINT}?count=1`,
     EDIT_COMMENT: (id) => { return `${COMMENT_END_POINT}/${id}` },
 }
 
 export async function getCommentsForRecipe(recipeId) {
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_COMMENTS_BY_RECIPE(recipeId), {
+        method: 'GET',
+        headers: BASE_HEADERS
+    });
+    return handleRequest(response, COULD_NOT_FETCH_COMMENTS);
+}
+
+export async function getTotalCommentsCount() {
+    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.TOTAL_COMMENTS_COUNT, {
+        method: 'GET',
+        headers: BASE_HEADERS
+    });
+    return handleRequest(response, COULD_NOT_FETCH_COMMENTS);
+}
+
+export async function getTheLatestSixComments(totalCommentsCount) {
+    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_LAST_SIX_COMMENTS(totalCommentsCount), {
         method: 'GET',
         headers: BASE_HEADERS
     });

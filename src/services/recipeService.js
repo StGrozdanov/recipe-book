@@ -10,6 +10,7 @@ const RECIPE_END_POINTS = {
     TOTAL_RECEPIES_COUNT: `${RECEPIES_END_POINT}?count=1`,
     CREATE_RECIPE: RECEPIES_END_POINT,
     ALL_RECIPES: (page) => `${RECEPIES_END_POINT}?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1) * RECEPIES_PER_PAGE}`,
+    LAST_THREE_RECIPES: (totalRecepiesCount) => `${RECEPIES_END_POINT}?skip=${totalRecepiesCount - 3}`,
     SINGLE_RECIPE: (id) => { return `${RECEPIES_END_POINT}/${id}` },
     OWNER_PUBLICATIONS: (ownerId) => { return `${RECEPIES_END_POINT}?where=${createPointerQuery('owner', '_User', ownerId)}` },
     OWNER_PUBLICATIONS_COUNT: (ownerId) => { 
@@ -55,6 +56,14 @@ export async function getSingleRecipe(id) {
         headers: BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_GET_RECEPIE);
+}
+
+export async function getTheLastThreeRecepies(totalRecepiesCount) {
+    const response = await fetch(BASE_URL + RECIPE_END_POINTS.LAST_THREE_RECIPES(totalRecepiesCount), {
+        method: 'GET',
+        headers: BASE_HEADERS
+    });
+    return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
 export async function updateRecipe(recipe, recipeId) {
