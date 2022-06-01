@@ -8,6 +8,7 @@ import { notify } from '../utils/notification.js';
 import { buttonToTop } from '../utils/backToTopButton.js';
 import { commentsTemplate } from './templates/commentTemplate.js';
 import { getCurrentUser, userIsAuthenticated } from '../services/userService.js';
+import { navigateDownHandler } from './landingView.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit-${id}">Редактирай</a>
@@ -73,7 +74,13 @@ export async function detailsPage(ctx) {
         refreshCommentSectionRedirect(ctx, previousComment);
         sessionStorage.removeItem('redirect');
         sessionStorage.removeItem('comment');
-    }    
+    }   
+    
+    if (sessionStorage.getItem('landingRedirect')) {
+        sessionStorage.removeItem('landingRedirect');
+        navigateDownHandler();
+    }
+
     buttonToTop();
 }
 
