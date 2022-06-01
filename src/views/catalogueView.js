@@ -30,17 +30,19 @@ export async function cataloguePage(ctx) {
 
     const currentPage = Number(ctx.querystring.split('=')[1] || 1);
 
-    let data = await getAllRecepies(currentPage);
+    let data = getAllRecepies(currentPage);
 
-    const recipes = data.results.map(recipeTemplate);
+    const pagination = buildPagination();
 
-    const pagination = await buildPagination();
+    const[recipeData, paginationData] = await Promise.all([data, pagination]);
+
+    const recipes = recipeData.results.map(recipeTemplate);
 
     const allRecords = allRecordsTemplate(
         recipes,
         currentPage,
-        pagination.totalPagesCount,
-        pagination.pageData,
+        paginationData.totalPagesCount,
+        paginationData.pageData,
         ctx
     );
 

@@ -60,11 +60,13 @@ const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
 
 export async function detailsPage(ctx) {
     ctx.render(loaderTemplate());
-    const data = await getSingleRecipe(ctx.params.id);
+    
+    const data = getSingleRecipe(ctx.params.id);
+    const isFavourite = isFavouriteRecipe(getCurrentUser(), ctx.params.id);
 
-    const isFavourite = await isFavouriteRecipe(getCurrentUser(), ctx.params.id);
+    const[recipeData, favouriteRecipeData] = await Promise.all([data, isFavourite]);
 
-    ctx.render(detailsTemplate(data, ctx, null, isFavourite));
+    ctx.render(detailsTemplate(recipeData, ctx, null, favouriteRecipeData));
 
     if (sessionStorage.getItem('redirect') !== null) {
         const previousComment = sessionStorage.getItem('comment');

@@ -24,12 +24,14 @@ const browseUserProfileTemplate = (user, recipes) => html`
 
 export async function userProfilePage(ctx) {
     ctx.render(loaderTemplate());
-    const user = await getUser(ctx.params.id);
-    const data = await getMyPublications(ctx.params.id);
+    const user = getUser(ctx.params.id);
+    const data = getMyPublications(ctx.params.id);
 
-    const recipes = data.results.map(recipeTemplate);
+    const[currentUser, publicationsData] = await Promise.all([user, data]);
 
-    const userData = browseUserProfileTemplate(user, recipes);
+    const recipes = publicationsData.results.map(recipeTemplate);
+
+    const userData = browseUserProfileTemplate(currentUser, recipes);
 
     ctx.render(userData);
 }

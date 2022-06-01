@@ -199,11 +199,15 @@ const initialBodyWidth = document.querySelector('body').style.width;
 export async function landingPage() {
     resetBaseStyleArchitecture();
 
-    // const totalRecepiesCount = await getRecepiesCount();
-    // const lastThreeRecepies = await getTheLastThreeRecepies(totalRecepiesCount.count);
+    // const totalRecepies = getRecepiesCount();
+    // const totalComments = getTotalCommentsCount();
 
-    // const totalCommentsCount = await getTotalCommentsCount();
-    // const latestSixComments = await getTheLatestSixComments(totalCommentsCount.count);
+    // const [totalRecepiesCount, totalCommentsCount] = await Promise.all([totalRecepies, totalComments]);
+
+    // const lastThreeRecipesData = getTheLastThreeRecepies(totalRecepiesCount.count);
+    // const latestSixCommentsData = getTheLatestSixComments(totalCommentsCount.count);
+
+    // const [lastThreeRecepies, latestSixComments] = await Promise.all([lastThreeRecipesData, latestSixCommentsData]);
 
     // console.log(lastThreeRecepies.results);
     // console.log(latestSixComments.results);
