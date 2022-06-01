@@ -4,6 +4,7 @@ import { getUser } from '../services/userService.js';
 import { userProfileTemplate } from './templates/profileTemplates/userProfileTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
+import { navigateDownHandler } from './landingView.js';
 
 const browseUserProfileTemplate = (user, recipes) => html`
 <section class="user-section">
@@ -34,4 +35,9 @@ export async function userProfilePage(ctx) {
     const userData = browseUserProfileTemplate(currentUser, recipes);
 
     ctx.render(userData);
+
+    if (sessionStorage.getItem('landingRedirect')) {
+        sessionStorage.removeItem('landingRedirect');
+        navigateDownHandler();
+    }
 }

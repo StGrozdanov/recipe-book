@@ -138,5 +138,7 @@ export function navigateDownHandler() {
 export function navigateHandler(location, catalogueRedirect) {
     page.redirect(location);
     resolvePageStyleArchitecture();
-    catalogueRedirect ? sessionStorage.setItem('landingRedirect', true) : nothing;
+
+    let currentScreenSize = window.matchMedia('(max-device-width: 1000px)').matches;
+    catalogueRedirect && !currentScreenSize ? sessionStorage.setItem('landingRedirect', true) : nothing;
 }
