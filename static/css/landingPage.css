@@ -187,7 +187,7 @@
 }
 
 .comment-section {
-    margin-top: 60px; 
+    margin-top: 60px;
     width: 100%;
 }
 
@@ -210,4 +210,201 @@
 
 .landing-comment-section a:hover {
     color: #b2775e;
+}
+
+@media all and (min-width: 1720px) {
+    .landing-description {
+        font-size: 120%;
+    }
+
+    .landing-most-viewed-latest-comments article {
+        font-size: 110%;
+    }
+
+    .latest-comments-article header {
+        width: 125px;
+        height: 125px;
+    }
+}
+
+@media all and (min-width: 2100px) {
+    .landing-welcome {
+        width: 800px;
+    }
+
+    .fa-angles-down {
+        font-size: 200%;
+    }
+
+    .landing-latest-recepies-article-picture-container {
+        width: 600px;
+        height: 380px;
+    }
+
+    .landing-latest-recepies-container {
+        margin-top: 70px;
+    }
+
+    .latest-comments-article header {
+        width: 200px;
+        height: 200px;
+    }
+
+    .comment-section {
+        margin-top: 90px;
+    }
+
+    .landing-nav img {
+        width: 100px;
+        margin: 60px;
+    }
+}
+
+@media all and (max-width: 1450px) {
+    .landing-welcome {
+        width: 500px;
+    }
+}
+
+@media all and (max-width: 1300px) {
+    .landing-nav-link {
+        font-size: 85%;
+    }
+
+    .landing-welcome {
+        width: 450px;
+    }
+
+    .fa-angles-down {
+        font-size: 240%;
+    }
+
+    .landing-description {
+        font-size: 85%;
+    }
+
+    .landing-page h3 {
+        font-size: 100%;
+    }
+
+    .landing-description h3 {
+        font-size: 130%;
+    }
+
+    .landing-latest-recepies-article-picture-container {
+        width: 320px;
+        height: 215px;
+    }
+
+    .comment-section {
+        font-size: 85%;
+    }
+}
+
+@media all and (max-width: 985px) {
+    .landing-description {
+        height: 100%;
+    }
+    
+    .landing-description-article-container {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+    
+    .landing-latest-recepies-container {
+        flex-direction: column;
+    }
+    
+    .landing-most-viewed-latest-comments {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .landing-most-viewed-latest-comments article {
+        margin-bottom: 50px;
+    }
+    
+    .landing-most-viewed-recepies-span {
+        padding: 0 40vw;
+        margin-top: 24px
+    }
+}
+
+@media all and (max-width: 800px) {
+    .comment-section {
+        font-size: 100%;
+    }
+    
+    .landing-description {
+        font-size: 100%;
+    }
+}
+
+@media all and (max-width: 480px) {
+    .landing-nav img {
+        width: 35px;
+        margin: 0px 20px;
+    }
+    
+    .landing-nav {
+        height: 13vh;
+    }
+    
+    .landing-nav-link {
+        font-size: 100%;
+        height: auto;
+        padding: 7px 14px;
+    }
+
+    .landing-description-article {
+        margin-top: 35px;
+        width: 85vw;
+    }
+    
+    .landing-most-viewed-latest-comments .landing-latest-recepies-article {
+        flex-direction: column !important;
+        align-items: center !important;
+        margin-bottom: 25px;
+    }
+    
+    .latest-comments-article header {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 15px;
+    }
+
+    .comment-section {
+        width: 85%;
+    }
+
+    .landing-welcome {
+        width: 360px;
+    }
+
+    .fa-angles-down {
+        top: 60%;
+        left: 48%;
+        font-size: 250%;
+    }
+}
+
+@media all and (max-width: 390px) {
+    .landing-welcome {
+        width: 280px;
+        top: 45%;
+    }
+
+    .landing-background {
+        height: 80vh;
+    }
+
+    .fa-angles-down {
+        top: 51%;
+    }
+
+    .landing-latest-recepies-article-picture-container {
+        width: 270px;
+        height: 195px;
+    }
 }

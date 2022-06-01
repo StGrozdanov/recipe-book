@@ -7,6 +7,7 @@ import { latestRecepieTemplate } from "./templates/landingTemplates/latestRecepi
 import { mostViewedRecepieTemplate } from "./templates/landingTemplates/mostViewedRecepieTemplate.js";
 import { latestCommentsTemplate } from "./templates/landingTemplates/latestCommentsTemplate.js";
 import { getUser } from "../services/userService.js";
+import { buttonToTop } from "../utils/backToTopButton.js";
 
 const landingPageTemplate = (recepies, comments) => html`
 <section class="landing-page">
