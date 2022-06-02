@@ -1,7 +1,12 @@
 import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
+import { socket } from '../services/socketioService.js';
 import { logout } from '../services/userService.js'
 
 const container = document.getElementById('nav-container');
+
+socket.on('receiveNotification', data => {
+    console.log(data);
+});
 
 const guestViewTemplate = () => html`
             <div id="guest">

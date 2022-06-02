@@ -3,6 +3,8 @@ import { commentRecipe, editComment, getCommentsForRecipe, removeComment } from 
 import { showModal } from '../../utils/modalDialogue.js';
 import { notify } from '../../utils/notification.js';
 import { getCurrentUser } from '../../services/userService.js'
+import { socket } from '../../services/socketioService.js';
+import { getSingleRecipe } from '../../services/recipeService.js';
 
 const ownerCommentTemplate = (comment) => html`
     <i 
@@ -134,6 +136,16 @@ async function addCommentHandler(e, ctx) {
     }
     commentField.value = '';
     refreshCommentSection(ctx);
+
+    const targetRecipe = await getSingleRecipe(ctx.params.id);
+    const recipeOwner = targetRecipe.owner.objectId;
+
+    socket.emit("sendNewMessageNotification", {
+        senderName: sessionStorage.getItem('username'),
+        senderAvatar: sessionStorage.getItem('avatar'),
+        senderId: sessionStorage.getItem('id'),
+        receiverId: recipeOwner,
+    });
 }
 
 async function refreshCommentSection(ctx) {

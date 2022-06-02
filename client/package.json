@@ -22,7 +22,8 @@
     "firebase": "^9.6.1",
     "lit-html": "^2.0.2",
     "lite-server": "^2.6.1",
-    "page": "^1.11.6"
+    "page": "^1.11.6",
+    "socket.io-client": "^4.5.1"
   },
   "devDependencies": {
     "webpack": "^5.65.0",

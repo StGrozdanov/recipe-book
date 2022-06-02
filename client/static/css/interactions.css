@@ -107,6 +107,7 @@
     left: 85%;
     bottom: 58%;
     font-size: 90%;
+    display: none;
 }
 
 .counter {
