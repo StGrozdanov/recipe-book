@@ -2,8 +2,9 @@ import { html } from '../../../../node_modules/lit-html/lit-html.js';
 
 export const myProfileTemplate = () => html`
 <section class="user-profile">
-    <a href="/my-profile/notifications" class="profile-navigation-button">
+    <a href="/my-profile/notifications" class="profile-navigation-button" style="position: relative;">
         <i class="fa-solid fa-comment-dots"></i> 
+        <span class="counter">2</span>
         Известия
     </a>
     <a href="/my-profile/created-recepies" class="profile-navigation-button">

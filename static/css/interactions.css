@@ -100,6 +100,26 @@
     background: transparent;
 }
 
+.fa-circle-exclamation {
+    color: orange;
+    margin-left: 3px;
+    position: absolute;
+    left: 85%;
+    bottom: 58%;
+    font-size: 90%;
+}
+
+.counter {
+    border: 1px solid red;
+    border-radius: 50%;
+    padding: 0px 5px;
+    background: red;
+    font-size: 80%;
+    position: absolute;
+    left: -2%;
+    bottom: 54%;
+}
+
 @media all and (min-width: 1700px) {
     .earth-container-404 {
         width: 280px;
@@ -111,6 +131,16 @@
     .earth-container-404 {
         width: 370px;
         right: 13%;
+    }
+
+    .counter {
+        padding: 2px 10px;
+    }
+
+    .fa-circle-exclamation {
+        left: 87%;
+        bottom: 60%;
+        font-size: 90% !important;
     }
 }
 
@@ -159,6 +189,12 @@
     .back-to-earth-404 {
         top: 10vw;
         left: 10vw;
+    }
+}
+
+@media all and (max-width: 450px) {
+    .counter {
+        padding: 1px 5px;
     }
 }
 

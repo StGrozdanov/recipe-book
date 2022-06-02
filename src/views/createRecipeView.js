@@ -51,6 +51,7 @@ const createRecipeTemplate = (ctx) => html`
                     <i class="fa-solid fa-utensils"></i>
                     <input type="text" name="img" id="image" placeholder="Адрес на изображение">
                 </span>
+                <!-- <input type="file" name="fileImg" id="fileImg" /> -->
             </p>
             <p class="field">
                 <label for="type">Категория</label>

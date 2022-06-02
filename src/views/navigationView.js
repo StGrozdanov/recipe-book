@@ -1,4 +1,4 @@
-import { html, render } from '../../node_modules/lit-html/lit-html.js';
+import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
 import { logout } from '../services/userService.js'
 
 const container = document.getElementById('nav-container');
@@ -13,7 +13,10 @@ const guestViewTemplate = () => html`
 const userViewTemplate = (ctx) => html`
             <div id="user">
                 <a id="createLink" href="/add-recipe">Създай рецепта</a>
-                <a id="createLink" href='/my-profile'>Моят профил</a>
+                <a @click=${notificationHandler} id="createLink" href='/my-profile' style="position: relative;">
+                    Моят профил
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </a>
                 <a @click=${() => logoutHandler(ctx)} id="logoutBtn" href="javascript:void(0)">Изход</a>
             </div>
             `;
@@ -57,4 +60,10 @@ function trackActiveLink(ctx) {
 
 function userIsLoggedIn() {
     return sessionStorage.getItem('authToken') !== null;
+}
+
+function notificationHandler(e) {
+    let notificationIcon = e.target.querySelector('i');
+
+    notificationIcon.style.display !== 'none' ? notificationIcon.style.display = 'none' : nothing;
 }
