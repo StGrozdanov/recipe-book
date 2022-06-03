@@ -58,14 +58,14 @@
 }
 
 #modal .modal-cancel:hover {
-	background-color: #dc3545;
+    background-color: #dc3545;
 }
 
 .loader-spinner img {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
     width: 80px;
 }
 
@@ -120,6 +120,39 @@
     left: -2%;
     bottom: 54%;
     display: none;
+}
+
+.notification-article {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background: #80808033;
+    padding: 15px;
+    width: 32vw;
+    border-radius: 25px;
+    margin-bottom: 25px;
+    box-shadow: 2px 2px 18px 0px #00000061;
+}
+
+.notification-article-header {
+    display: block;
+    background: none;
+    width: 100px;
+    border-radius: 50%;
+    box-shadow: 1px -6px 20px 0px #00000021;
+}
+
+.notification-article-header-image {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.notification-article main {
+    margin-left: 20px;
+}
+
+.notification-article main p {
+    margin: 5px 0;
 }
 
 @media all and (min-width: 1700px) {
@@ -204,6 +237,7 @@
     .message-404 {
         font-size: 20px;
     }
+
     .earth-container-404 {
         right: 5%;
     }

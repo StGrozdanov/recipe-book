@@ -144,7 +144,7 @@ async function addCommentHandler(e, ctx) {
         senderName: sessionStorage.getItem('username'),
         senderAvatar: sessionStorage.getItem('avatar'),
         senderId: sessionStorage.getItem('id'),
-        sendedOn: Date.now(),
+        sendedOn: new Date(Date.now()).toLocaleString(),
         locationId: targetRecipe.objectId,
         locationName: targetRecipe.name,
         action: 'коментар',
