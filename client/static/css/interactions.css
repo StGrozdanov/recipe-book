@@ -126,19 +126,20 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    background: #80808033;
+    background: #c28a44db;
     padding: 15px;
-    width: 32vw;
+    width: 33vw;
     border-radius: 25px;
     margin-bottom: 25px;
     box-shadow: 2px 2px 18px 0px #00000061;
     position: relative;
+    color: white;
 }
 
 .notification-article-header {
     display: block;
     background: none;
-    width: 100px;
+    width: 85px;
     border-radius: 50%;
     box-shadow: 1px -6px 20px 0px #00000021;
 }
@@ -157,10 +158,9 @@
 }
 
 .notification-article i {
-    font-size: 125%;
+    font-size: 140%;
     position: absolute;
-    left: 94%;
-    bottom: 77%;
+    left: 92%;
 }
 
 @media all and (min-width: 1700px) {

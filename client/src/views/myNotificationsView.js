@@ -3,6 +3,7 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { getMyNotifications, markNotificationAsRead } from '../services/notificationService.js';
 import { getCurrentUser } from '../services/userService.js';
+import { notify } from '../utils/notification.js';
 
 const notificationTemplate = (notification, ctx) => html`
     <article 
@@ -61,4 +62,6 @@ async function checkNotificationHandler(e) {
     notificationContainer.style.display = 'none';
 
     await markNotificationAsRead(notificationContainer.id);
+
+    notify('Отметнахте съобщението, като прочетено.');
 }
