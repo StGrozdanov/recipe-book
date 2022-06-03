@@ -1,7 +1,7 @@
 import { COULD_NOT_GET_NOTIFICATIONS, COULD_NOT_MARK_NOTIFICATION, COULD_NOT_POST_NOTIFICATION } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./back4appService.js";
-import { createPointerQuery, createQuery } from "./recipeService.js";
+import { createQuery } from "./recipeService.js";
 import { getUserToken } from "./userService.js";
 
 export const NOTIFICATION_END_POINT = '/classes/Notification';

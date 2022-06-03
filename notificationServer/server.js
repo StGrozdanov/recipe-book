@@ -41,7 +41,8 @@ io.on("connection", (socket) => {
         sendedOn, 
         locationId,
         locationName, 
-        action 
+        action,
+        objectId 
                     }) => {
         
         const receiver = getUser(receiverId);
@@ -58,7 +59,8 @@ io.on("connection", (socket) => {
                 senderAvatar,
                 receiverId,
                 locationId,
-                locationName 
+                locationName,
+                objectId
             }
 
             io.to(receiver.socketId).emit('receiveNotification', notificationContent);

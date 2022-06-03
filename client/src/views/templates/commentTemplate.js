@@ -152,9 +152,11 @@ async function addCommentHandler(e, ctx) {
         receiverId: recipeOwner,
     }
 
-    socket.emit("sendNewMessageNotification", notificationData);
+    const createdNotification = await createNotification(notificationData);
 
-    await createNotification(notificationData);
+    notificationData.objectId = createdNotification.objectId;
+
+    socket.emit("sendNewMessageNotification", notificationData);
 }
 
 async function refreshCommentSection(ctx) {

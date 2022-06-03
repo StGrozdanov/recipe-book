@@ -12,9 +12,6 @@ socket.on('receiveNotification', data => {
     let notificationCounterContainer = document.getElementById('myProfileNavNotificationCounter')
     notificationCounterContainer.style.display = 'inline-block';
     let counterValue = Number(notificationCounterContainer.textContent);
-
-    console.log(counterValue);
-
     let newCounterValue = counterValue + 1;
     notificationCounterContainer.textContent = newCounterValue;
 });

@@ -1,11 +1,15 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
-import { getMyNotifications } from '../services/notificationService.js';
+import { getMyNotifications, markNotificationAsRead } from '../services/notificationService.js';
 import { getCurrentUser } from '../services/userService.js';
 
 const notificationTemplate = (notification, ctx) => html`
-    <article @click=${() => notificationRedirectHandler(ctx, notification.locationId)} class="notification-article">
+    <article 
+        id=${notification.objectId} 
+        @click=${(e) => notificationRedirectHandler(e, ctx, notification.locationId)} 
+        class="notification-article"
+    >
         <header class="notification-article-header">
             <img class="notification-article-header-image" src=${notification.senderAvatar} alt="broken-avatar" />
         </header>
@@ -14,6 +18,7 @@ const notificationTemplate = (notification, ctx) => html`
             <p>${notification.locationName}</p>
             <p>${notification.createdAt}</p>
         </main>
+        <i @click=${checkNotificationHandler} class="fa-solid fa-xmark"></i>
     </article>
 `;
 
@@ -36,9 +41,24 @@ export async function myProfileNotificationsPage(ctx) {
     trackActiveLink(ctx);
 }
 
-function notificationRedirectHandler(ctx, locationId) {
+async function notificationRedirectHandler(e, ctx, locationId) {
+    let notificationContainer = e.currentTarget;
+    notificationContainer.style.display = 'none';
+
+    await markNotificationAsRead(notificationContainer.id);
+
     sessionStorage.setItem('redirect', '');
     sessionStorage.setItem('comment', '');
 
     ctx.page.redirect(`/details-${locationId}`);
+}
+
+async function checkNotificationHandler(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let notificationContainer = e.currentTarget.parentNode;
+    notificationContainer.style.display = 'none';
+
+    await markNotificationAsRead(notificationContainer.id);
 }

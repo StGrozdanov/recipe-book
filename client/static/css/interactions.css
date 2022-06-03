@@ -132,6 +132,7 @@
     border-radius: 25px;
     margin-bottom: 25px;
     box-shadow: 2px 2px 18px 0px #00000061;
+    position: relative;
 }
 
 .notification-article-header {
@@ -153,6 +154,13 @@
 
 .notification-article main p {
     margin: 5px 0;
+}
+
+.notification-article i {
+    font-size: 125%;
+    position: absolute;
+    left: 94%;
+    bottom: 77%;
 }
 
 @media all and (min-width: 1700px) {

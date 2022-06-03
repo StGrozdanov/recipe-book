@@ -3,6 +3,7 @@ import { html } from '../../../../node_modules/lit-html/lit-html.js';
 export const myProfileTemplate = () => html`
 <section class="user-profile">
     <a
+      @click=${checkNotificationHandler}
       href="/my-profile/notifications" 
       class="profile-navigation-button" 
       style="position: relative;"
@@ -47,4 +48,8 @@ function removeActiveLinks(target) {
         if (navLink.attributes.href.value !== '/my-profile')
         navLink.classList.remove('active')
     });
+}
+
+function checkNotificationHandler() {
+    document.getElementById('myProfileLinkNotificationIcon').style.display = 'none';
 }
