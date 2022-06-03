@@ -4,7 +4,7 @@ import { loaderTemplate } from './templates/loadingTemplate.js';
 import { userNotifications } from './navigationView.js';
 
 const notificationTemplate = (notification, ctx) => html`
-    <article @click=${() => ctx.page.redirect(`/details-${notification.locationId}`)} class="notification-article">
+    <article @click=${() => notificationRedirectHandler(ctx, notification.locationId)} class="notification-article">
         <header class="notification-article-header">
             <img class="notification-article-header-image" src=${notification.senderAvatar} alt="broken-avatar" />
         </header>
@@ -31,4 +31,11 @@ export function myProfileNotificationsPage(ctx) {
     ctx.render(myProfileNotificationsTemplate(notifications));
 
     trackActiveLink(ctx);
+}
+
+function notificationRedirectHandler(ctx, locationId) {
+    sessionStorage.setItem('redirect', '');
+    sessionStorage.setItem('comment', '');
+
+    ctx.page.redirect(`/details-${locationId}`);
 }

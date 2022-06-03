@@ -74,6 +74,7 @@ export async function detailsPage(ctx) {
         refreshCommentSectionRedirect(ctx, previousComment);
         sessionStorage.removeItem('redirect');
         sessionStorage.removeItem('comment');
+        navigateDownHandler();
     }   
     
     if (sessionStorage.getItem('landingRedirect')) {
