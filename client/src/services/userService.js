@@ -118,7 +118,6 @@ export function getCurrentUser() {
 
 async function handleUserRequest(requestResponse) {
     const data = await requestResponse.json();
-    console.log(data);
 
     if (requestResponse.ok) {
         saveUserData(data);

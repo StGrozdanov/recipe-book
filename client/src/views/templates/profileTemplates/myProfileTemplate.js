@@ -2,9 +2,14 @@ import { html } from '../../../../node_modules/lit-html/lit-html.js';
 
 export const myProfileTemplate = () => html`
 <section class="user-profile">
-    <a href="/my-profile/notifications" class="profile-navigation-button" style="position: relative;">
+    <a 
+      @click=${resetCounterHandler} 
+      href="/my-profile/notifications" 
+      class="profile-navigation-button" 
+      style="position: relative;"
+    >
         <i class="fa-solid fa-comment-dots"></i> 
-        <span class="counter">2</span>
+        <span id="myProfileNavNotificationCounter" class="counter">0</span>
         Известия
     </a>
     <a href="/my-profile/created-recepies" class="profile-navigation-button">
@@ -43,4 +48,10 @@ function removeActiveLinks(target) {
         if (navLink.attributes.href.value !== '/my-profile')
         navLink.classList.remove('active')
     });
+}
+
+function resetCounterHandler(e) {
+    let notificationCounterContainer = e.target.querySelector('#myProfileNavNotificationCounter');
+    notificationCounterContainer.textContent = 0;
+    notificationCounterContainer.style.display = 'none';
 }

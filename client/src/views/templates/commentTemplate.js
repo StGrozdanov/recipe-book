@@ -144,6 +144,10 @@ async function addCommentHandler(e, ctx) {
         senderName: sessionStorage.getItem('username'),
         senderAvatar: sessionStorage.getItem('avatar'),
         senderId: sessionStorage.getItem('id'),
+        sendedOn: Date.now(),
+        locationId: targetRecipe.objectId,
+        locationName: targetRecipe.name,
+        action: 'коментар',
         receiverId: recipeOwner,
     });
 }

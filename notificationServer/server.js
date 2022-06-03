@@ -5,7 +5,7 @@ const httpServer = createServer();
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["http://localhost:3000", "http://localhost:3004", "https://recepti-na-shushanite.web.app/"],
+        origin: ["http://localhost:3000", "http://localhost:3002", "https://recepti-na-shushanite.web.app/"],
         methods: ["GET", "POST"]
     }
 });
@@ -32,13 +32,27 @@ io.on("connection", (socket) => {
         connectUser(userId, socket.id);
     });
 
-    socket.on('sendNewMessageNotification', ({ senderName, senderAvatar, senderId, receiverId }) => {
+    socket.on('sendNewMessageNotification', ({ 
+        senderName, 
+        senderAvatar, 
+        senderId, 
+        receiverId, 
+        sendedOn, 
+        locationId,
+        locationName, 
+        action 
+                    }) => {
+        
         const receiver = getUser(receiverId);
 
         if (receiver) {
             io.to(receiver.socketId).emit('receiveNotification', {
                 senderName,
-                senderAvatar
+                senderAvatar,
+                sendedOn,
+                locationId,
+                locationName,
+                action
             });
         }
     });

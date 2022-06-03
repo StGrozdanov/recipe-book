@@ -4,8 +4,13 @@ import { logout } from '../services/userService.js'
 
 const container = document.getElementById('nav-container');
 
+export let userNotifications = [];
+
 socket.on('receiveNotification', data => {
-    console.log(data);
+    userNotifications.push(data);
+
+    let notificationIcon = document.getElementById('myProfileLinkNotificationIcon');
+    notificationIcon.style.display = 'inline-block';
 });
 
 const guestViewTemplate = () => html`
@@ -18,9 +23,9 @@ const guestViewTemplate = () => html`
 const userViewTemplate = (ctx) => html`
             <div id="user">
                 <a id="createLink" href="/add-recipe">Създай рецепта</a>
-                <a @click=${notificationHandler} id="createLink" href='/my-profile' style="position: relative;">
+                <a @click=${profileLinkClickHandler} id="myProfileLink" href='/my-profile' style="position: relative;">
                     Моят профил
-                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <i id="myProfileLinkNotificationIcon" class="fa-solid fa-circle-exclamation"></i>
                 </a>
                 <a @click=${() => logoutHandler(ctx)} id="logoutBtn" href="javascript:void(0)">Изход</a>
             </div>
@@ -67,7 +72,7 @@ function userIsLoggedIn() {
     return sessionStorage.getItem('authToken') !== null;
 }
 
-function notificationHandler(e) {
+function profileLinkClickHandler(e) {
     let notificationIcon = e.target.querySelector('i');
 
     notificationIcon.style.display !== 'none' ? notificationIcon.style.display = 'none' : nothing;
