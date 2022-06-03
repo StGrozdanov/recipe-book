@@ -12,3 +12,7 @@ export const COULD_NOT_CREATE_RECEPIE = 'Възникна грешка при с
 export const COULD_NOT_EDIT_RECEPIE = 'Възникна грешка при редактирането на рецептата. Моля, опитайте по-късно.';
 
 export const COULD_NOT_FIND_USER = 'Не успяхме да намерим търсения от вас потребител. Моля, опитайте по-късно.';
+
+export const COULD_NOT_GET_NOTIFICATIONS = 'Възникна грешка при откриването на нотификациите. Моля, опитайте по-късно.';
+export const COULD_NOT_POST_NOTIFICATION = 'Не успяхме да създадем нотификация до собственика на рецептата.';
+export const COULD_NOT_MARK_NOTIFICATION = 'Не успяхме да маркираме нотификацията като прочетена.';

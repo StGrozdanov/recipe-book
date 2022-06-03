@@ -5,6 +5,7 @@ import { notify } from '../../utils/notification.js';
 import { getCurrentUser } from '../../services/userService.js'
 import { socket } from '../../services/socketioService.js';
 import { getSingleRecipe } from '../../services/recipeService.js';
+import { createNotification } from '../../services/notificationService.js';
 
 const ownerCommentTemplate = (comment) => html`
     <i 
@@ -140,7 +141,7 @@ async function addCommentHandler(e, ctx) {
     const targetRecipe = await getSingleRecipe(ctx.params.id);
     const recipeOwner = targetRecipe.owner.objectId;
 
-    socket.emit("sendNewMessageNotification", {
+    const notificationData = {
         senderName: sessionStorage.getItem('username'),
         senderAvatar: sessionStorage.getItem('avatar'),
         senderId: sessionStorage.getItem('id'),
@@ -149,7 +150,11 @@ async function addCommentHandler(e, ctx) {
         locationName: targetRecipe.name,
         action: 'коментар',
         receiverId: recipeOwner,
-    });
+    }
+
+    socket.emit("sendNewMessageNotification", notificationData);
+
+    await createNotification(notificationData);
 }
 
 async function refreshCommentSection(ctx) {

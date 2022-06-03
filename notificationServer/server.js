@@ -46,14 +46,19 @@ io.on("connection", (socket) => {
         const receiver = getUser(receiverId);
 
         if (receiver) {
-            io.to(receiver.socketId).emit('receiveNotification', {
-                senderName,
+            const notificationContent = {
+                createdAt: sendedOn,
+                action,
+                isMarkedAsRead: false,
+                senderId, 
+                senderName, 
                 senderAvatar,
-                sendedOn,
+                receiverId,
                 locationId,
-                locationName,
-                action
-            });
+                locationName 
+            }
+
+            io.to(receiver.socketId).emit('receiveNotification', notificationContent);
         }
     });
 

@@ -2,8 +2,7 @@ import { html } from '../../../../node_modules/lit-html/lit-html.js';
 
 export const myProfileTemplate = () => html`
 <section class="user-profile">
-    <a 
-      @click=${resetCounterHandler} 
+    <a
       href="/my-profile/notifications" 
       class="profile-navigation-button" 
       style="position: relative;"
@@ -48,10 +47,4 @@ function removeActiveLinks(target) {
         if (navLink.attributes.href.value !== '/my-profile')
         navLink.classList.remove('active')
     });
-}
-
-function resetCounterHandler(e) {
-    let notificationCounterContainer = e.target.querySelector('#myProfileNavNotificationCounter');
-    notificationCounterContainer.textContent = 0;
-    notificationCounterContainer.style.display = 'none';
 }

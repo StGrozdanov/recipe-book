@@ -11,7 +11,7 @@ const notificationTemplate = (notification, ctx) => html`
         <main>
             <p><b>${notification.senderName}</b> публикува нов ${notification.action} в</p>
             <p>${notification.locationName}</p>
-            <p>${notification.sendedOn}</p>
+            <p>${notification.createdAt}</p>
         </main>
     </article>
 `;
@@ -26,7 +26,7 @@ const myProfileNotificationsTemplate = (notifications) => html`
 export function myProfileNotificationsPage(ctx) {
     ctx.render(loaderTemplate());
 
-    const notifications = userNotifications.map(notification => notificationTemplate(notification, ctx));
+    const notifications = userNotifications.results.map(notification => notificationTemplate(notification, ctx));
 
     ctx.render(myProfileNotificationsTemplate(notifications));
 

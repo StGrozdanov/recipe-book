@@ -1,13 +1,14 @@
 import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
+import { getMyNotifications } from '../services/notificationService.js';
 import { socket } from '../services/socketioService.js';
-import { logout } from '../services/userService.js'
+import { getCurrentUser, logout } from '../services/userService.js'
 
 const container = document.getElementById('nav-container');
 
-export let userNotifications = [];
+export let userNotifications = await getMyNotifications(getCurrentUser());
 
 socket.on('receiveNotification', data => {
-    userNotifications.push(data);
+    userNotifications.results.push(data);
 
     let notificationIcon = document.getElementById('myProfileLinkNotificationIcon');
     notificationIcon.style.display = 'inline-block';

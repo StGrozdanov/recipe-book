@@ -25,9 +25,9 @@ export async function myProfilePage(ctx) {
     trackActiveLink(ctx);
 
     let notificationCounterContainer = document.getElementById('myProfileNavNotificationCounter')
-    notificationCounterContainer.textContent = userNotifications.length;
+    notificationCounterContainer.textContent = userNotifications.results.length;
 
-    if (userNotifications.length > 0) {
+    if (userNotifications.results.length > 0) {
         notificationCounterContainer.style.display = 'inline-block';
     }
 
