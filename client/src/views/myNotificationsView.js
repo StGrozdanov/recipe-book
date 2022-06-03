@@ -1,7 +1,8 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
-import { userNotifications } from './navigationView.js';
+import { getMyNotifications } from '../services/notificationService.js';
+import { getCurrentUser } from '../services/userService.js';
 
 const notificationTemplate = (notification, ctx) => html`
     <article @click=${() => notificationRedirectHandler(ctx, notification.locationId)} class="notification-article">
@@ -23,12 +24,14 @@ const myProfileNotificationsTemplate = (notifications) => html`
     </section>
 `;
 
-export function myProfileNotificationsPage(ctx) {
+export async function myProfileNotificationsPage(ctx) {
     ctx.render(loaderTemplate());
 
-    const notifications = userNotifications.results.map(notification => notificationTemplate(notification, ctx));
+    const notifications = await getMyNotifications(getCurrentUser());
+    
+    let notificationResults = notifications.results.map(notification => notificationTemplate(notification, ctx));
 
-    ctx.render(myProfileNotificationsTemplate(notifications));
+    ctx.render(myProfileNotificationsTemplate(notificationResults));
 
     trackActiveLink(ctx);
 }

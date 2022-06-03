@@ -4,8 +4,7 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { userProfileTemplate } from './templates/profileTemplates/userProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { getCurrentUser } from '../services/userService.js';
-import { userNotifications } from './navigationView.js';
-import { socket } from '../services/socketioService.js';
+import { getMyNotifications } from '../services/notificationService.js'
 
 const myPublicationsTemplate = (recepiesCount) => html`
     <section class="my-profile-section">
@@ -16,7 +15,10 @@ const myPublicationsTemplate = (recepiesCount) => html`
 
 export async function myProfilePage(ctx) {
     ctx.render(loaderTemplate());
-    const myRecepies = await getMyPublicationsCount(getCurrentUser());
+    const createdRecepies = getMyPublicationsCount(getCurrentUser());
+    let myNotifications = getMyNotifications(getCurrentUser());
+
+    const [myRecepies, userNotifications] = await Promise.all([createdRecepies, myNotifications]);
 
     const myPublications = myPublicationsTemplate(myRecepies.count);
 
@@ -30,15 +32,4 @@ export async function myProfilePage(ctx) {
     if (userNotifications.results.length > 0) {
         notificationCounterContainer.style.display = 'inline-block';
     }
-
-    socket.on('receiveNotification', data => {
-        let notificationIcon = document.getElementById('myProfileLinkNotificationIcon');
-        notificationIcon.style.display = 'inline-block';
-
-        notificationCounterContainer.style.display = 'inline-block';
-        const counterValue = Number(notificationCounterContainer.textContent);
-        const newCounterValue = counterValue + 1;
-        notificationCounterContainer.textContent = newCounterValue;
-    });
 }
-

@@ -30,6 +30,7 @@ function getUser(userId) {
 io.on("connection", (socket) => {
     socket.on('newUser', (userId) => {
         connectUser(userId, socket.id);
+        console.log(`new user - ${userId} is connected!`);
     });
 
     socket.on('sendNewMessageNotification', ({ 
@@ -46,6 +47,8 @@ io.on("connection", (socket) => {
         const receiver = getUser(receiverId);
 
         if (receiver) {
+            console.log('receiver of notification is found');
+
             const notificationContent = {
                 createdAt: sendedOn,
                 action,
@@ -64,6 +67,7 @@ io.on("connection", (socket) => {
 
     socket.on('disconnect', () => {
         disconnectUser(socket.id);
+        console.log('user has left');
     });
 });
 
