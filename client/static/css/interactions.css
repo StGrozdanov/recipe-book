@@ -231,6 +231,10 @@
     .counter {
         padding: 1px 5px;
     }
+
+    .notification-article {
+        width: 93vw;
+    }
 }
 
 @media all and (max-width: 385px) {
