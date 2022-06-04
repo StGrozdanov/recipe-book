@@ -73,4 +73,4 @@ io.on("connection", (socket) => {
     });
 });
 
-httpServer.listen(3030);
+httpServer.listen(process.env.PORT || 3030);
