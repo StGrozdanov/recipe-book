@@ -12,7 +12,15 @@ const notificationTemplate = (notification, ctx) => html`
         class="notification-article"
     >
         <header class="notification-article-header">
-            <img class="notification-article-header-image" src=${notification.senderAvatar} alt="broken-avatar" />
+            <img 
+                class="notification-article-header-image" 
+                src=${
+                    !notification.senderAvatar || notification.senderAvatar.includes('undefined')
+                    ? "../static/images/Avatar.png"
+                    : notification.senderAvatar
+                } 
+                alt="broken-avatar" 
+            />
         </header>
         <main>
             <p><b>${notification.senderName}</b> публикува нов ${notification.action} в</p>

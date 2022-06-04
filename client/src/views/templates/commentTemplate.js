@@ -84,7 +84,12 @@ export const commentsTemplate = (data, ctx) => html`
         <label>Добави коментар:</label>
         <form id="add-comment-form" class="form">
             <textarea id="comment-text" name="comment" placeholder="Коментар......"> </textarea>
-            <input @click=${(e) => addCommentHandler(e, ctx)} class="comment-btn" type="submit" value="Коментирай">
+            <input 
+                @click=${(e) => addCommentHandler(e, ctx)} 
+                class="comment-btn" 
+                type="submit" 
+                value="Коментирай"
+            >
         </form>
     </article>
 </div>
@@ -114,11 +119,11 @@ async function addCommentHandler(e, ctx) {
     const commentField = document.querySelector('#comment-text');
     const comment = commentField.value;
 
+    const targetRecipe = await getSingleRecipe(ctx.params.id);
+
     if (comment.trim() == '') {
         return notify('Коментарът ви не трябва да е празен.');
     }
-
-    const targetRecipe = await getSingleRecipe(ctx.params.id);
 
     const createdComment = {
         content: comment,
@@ -144,10 +149,6 @@ async function addCommentHandler(e, ctx) {
                 comment: comment
             });
     }
-    commentField.value = '';
-    refreshCommentSection(ctx);
-
-    const recipeOwner = targetRecipe.owner.objectId;
 
     const notificationData = {
         senderName: sessionStorage.getItem('username'),
@@ -157,14 +158,40 @@ async function addCommentHandler(e, ctx) {
         locationId: targetRecipe.objectId,
         locationName: targetRecipe.name,
         action: 'коментар',
-        receiverId: recipeOwner,
+        receiverId: targetRecipe.owner.objectId,
     }
 
-    const createdNotification = await createNotification(notificationData);
+    commentField.value = '';
+    refreshCommentSection(ctx);
 
-    notificationData.objectId = createdNotification.objectId;
+    if (notificationData.senderId !== notificationData.receiverId) {
+        const createdNotification = await createNotification(notificationData);
 
-    socket.emit("sendNewMessageNotification", notificationData);
+        notificationData.objectId = createdNotification.objectId;
+        socket.emit("sendNewMessageNotification", notificationData);
+    }
+
+    let allRecepieComments = await getCommentsForRecipe(targetRecipe.objectId);
+
+    let uniqueCommentOwners = new Set();
+
+    allRecepieComments
+                    .results
+                    .filter(comment => comment.owner.objectId !== notificationData.senderId)
+                    .forEach(comment => uniqueCommentOwners.add(comment.owner.objectId));
+
+    uniqueCommentOwners.forEach(owner => {
+        notificationData.receiverId = owner;
+
+        sendNotification(notificationData);
+
+        async function sendNotification(notificationData) {
+            const createdNotification = await createNotification(notificationData);
+
+            notificationData.objectId = createdNotification.objectId;
+            socket.emit("sendNewMessageNotification", notificationData);
+        }
+    });
 }
 
 async function refreshCommentSection(ctx) {

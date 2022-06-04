@@ -6,7 +6,11 @@ export const latestCommentsTemplate = (comment) => html`
         <header @click=${()=> navigateHandler(`/user-${comment.owner.objectId}`, true)}
             class="landing-latest-recepies-article-picture-container"
         >
-            <img src=${comment.ownerAvatar} alt="profile-image" />
+            <img src=${
+                !comment.ownerAvatar || comment.ownerAvatar.includes('undefined')
+                ? "../../static/images/Avatar.png"
+                : comment.ownerAvatar
+                } alt="profile-image" />
         </header>
         <section class="landing-comment-section">
             <p>${comment.ownerName}</p>
