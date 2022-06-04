@@ -60,7 +60,7 @@ export async function categorize(e, ctx) {
     if (query.size > 0 && !query.has('Всички')) {
         ctx.page.redirect(`/categorize=${Array.from(query).join('&')}`);
     } else if (query.size === 0 || query.has('Всички')) {
-        ctx.page.redirect('/');
+        ctx.page.redirect('/catalogue');
         query.clear();
     }
 }

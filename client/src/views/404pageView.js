@@ -18,5 +18,5 @@ export function page404(ctx) {
 }
 
 function backToEarthHandler(ctx) {
-    ctx.page.redirect('/');
+    ctx.page.redirect('/catalogue');
 }

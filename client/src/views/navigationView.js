@@ -23,7 +23,7 @@ const userViewTemplate = (ctx) => html`
 
 const navigationTemplate = (ctx) => html`
         <nav>
-            <a id="catalogLink" href="/" class="active">Всички рецепти</a>
+            <a id="catalogLink" href="/catalogue" class="active">Всички рецепти</a>
             ${
                 userIsLoggedIn()
                         ? userViewTemplate(ctx)
@@ -40,7 +40,7 @@ export function renderNavigation(ctx) {
 
 async function logoutHandler(ctx) {
     await logout();
-    ctx.page.redirect('/');
+    ctx.page.redirect('/catalogue');
 }
 
 function trackActiveLink(ctx) {

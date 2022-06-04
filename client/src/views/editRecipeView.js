@@ -85,7 +85,7 @@ export async function editPage(context) {
     const data = await getSingleRecipe(context.params.id);
 
     if (getCurrentUser() !== data.owner.objectId) {
-        context.page.redirect('/');
+        context.page.redirect('/catalogue');
         return notify('Тази рецепта не е ваша!');
     }
 

@@ -8,12 +8,13 @@ import { mostViewedRecepieTemplate } from "./templates/landingTemplates/mostView
 import { latestCommentsTemplate } from "./templates/landingTemplates/latestCommentsTemplate.js";
 import { getUser } from "../services/userService.js";
 import { buttonToTop } from "../utils/backToTopButton.js";
+import { loaderTemplate } from "./templates/loadingTemplate.js";
 
 const landingPageTemplate = (recepies, comments) => html`
 <section class="landing-page">
     <nav class="landing-nav">
         <img src="../static/images/cooking.png" alt="" />
-        <a @click=${()=> navigateHandler('/', true)} href="javascript:void[0]" class="landing-nav-link">
+        <a @click=${()=> navigateHandler('/catalogue', true)} href="javascript:void[0]" class="landing-nav-link">
             Към рецептите на сайта
         </a>
         <img src="../static/images/cooking.png" alt="" />
@@ -39,10 +40,9 @@ const landingPageTemplate = (recepies, comments) => html`
                 се сдобива с потребителски профил, в който да създаде лична готварска книга на база съдържанието на
                 сайта.
                 Получава лесен и бърз достъп до всяка рецепта, обозначена като любима. Получава лесен и бърз достъп до
-                рецептите, които той е създал. Друго преимущество е възможността да се сдобие с дадена рецепта в pdf
-                формат и да я разпечата, ако му е нужна извън интернет пространството. Също така регистрираният
-                потребител
-                може да коментира и да изказва впечатлението/мнението си, за нещо което е изпробвал.
+                рецептите, които той е създал. Също така регистрираният потребител може да коментира и да изказва 
+                впечатлението/мнението си, за нещо което е изпробвал, а също и да получава нотификации за нови коментари
+                в реално време.
             </article>
         </section>
     </section>
@@ -80,6 +80,7 @@ const initialBodyWidth = document.querySelector('body').style.width;
 
 export async function landingPage() {
     resetBaseStyleArchitecture();
+    render(loaderTemplate(), mainRootElement);
 
     const totalRecepies = getRecepiesCount();
     const totalComments = getTotalCommentsCount();

@@ -90,7 +90,7 @@ async function deleteHandler(id, ctx) {
     async function onSelect(choice) {
         if (choice) {
             await removeRecipe(id);
-            ctx.page.redirect('/');
+            ctx.page.redirect('/catalogue');
             notify('Успешно изтрихте рецептата!');
         }
     }
