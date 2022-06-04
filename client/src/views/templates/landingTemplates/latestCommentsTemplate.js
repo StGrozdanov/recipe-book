@@ -6,16 +6,16 @@ export const latestCommentsTemplate = (comment) => html`
         <header @click=${()=> navigateHandler(`/user-${comment.owner.objectId}`, true)}
             class="landing-latest-recepies-article-picture-container"
         >
-            <img src=${comment.owner.avatar} alt="profile-image" />
+            <img src=${comment.ownerAvatar} alt="profile-image" />
         </header>
         <section class="landing-comment-section">
-            <p>${comment.owner.username}</p>
+            <p>${comment.ownerName}</p>
             <p>${new Date(comment.createdAt).toLocaleString()}</p>
             <a @click=${()=> navigateHandler(`/details-${comment.recipe.objectId}`, true)}
                 href="javascript:void[0]"
                 class="recipe-name"
             >
-                ${comment.recipe.name}
+                ${comment.recipeName}
             </a>
         </section>
     </article>

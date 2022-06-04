@@ -357,6 +357,20 @@
         padding: 7px 14px;
     }
 
+    .landing-background {
+        height: 80vh;
+    }
+
+    .landing-welcome {
+        width: 285px;
+        top: 45%;
+    }
+
+    .fa-angles-down {
+        top: 51%;
+        left: 48%;
+    }
+
     .landing-description-article {
         margin-top: 35px;
         width: 85vw;
@@ -377,32 +391,9 @@
     .comment-section {
         width: 85%;
     }
-
-    .landing-welcome {
-        width: 360px;
-    }
-
-    .fa-angles-down {
-        top: 60%;
-        left: 48%;
-        font-size: 250%;
-    }
 }
 
 @media all and (max-width: 390px) {
-    .landing-welcome {
-        width: 280px;
-        top: 45%;
-    }
-
-    .landing-background {
-        height: 80vh;
-    }
-
-    .fa-angles-down {
-        top: 51%;
-    }
-
     .landing-latest-recepies-article-picture-container {
         width: 270px;
         height: 195px;

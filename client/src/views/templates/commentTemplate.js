@@ -118,7 +118,16 @@ async function addCommentHandler(e, ctx) {
         return notify('Коментарът ви не трябва да е празен.');
     }
 
-    const response = await commentRecipe(ctx.params.id, { content: comment });
+    const targetRecipe = await getSingleRecipe(ctx.params.id);
+
+    const createdComment = {
+        content: comment,
+        ownerName: sessionStorage.getItem('username'),
+        ownerAvatar: sessionStorage.getItem('avatar'),
+        recipeName: targetRecipe.name
+    }
+
+    const response = await commentRecipe(ctx.params.id, createdComment);
 
     if (response.code == 209) {
         notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
@@ -138,7 +147,6 @@ async function addCommentHandler(e, ctx) {
     commentField.value = '';
     refreshCommentSection(ctx);
 
-    const targetRecipe = await getSingleRecipe(ctx.params.id);
     const recipeOwner = targetRecipe.owner.objectId;
 
     const notificationData = {

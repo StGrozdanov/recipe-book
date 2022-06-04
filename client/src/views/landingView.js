@@ -96,22 +96,7 @@ export async function landingPage() {
         // mostViewedRecepiesData
     ]);
 
-    const someComments = latestSixComments.results.map(async (comment) => {
-        const commentOwner = getUser(comment.owner.objectId);
-        const targetRecipe = getSingleRecipe(comment.recipe.objectId);
-
-        const [owner, recipe] = await Promise.all([commentOwner, targetRecipe]);
-
-        comment.owner.username = owner.username;
-        comment.owner.avatar = owner.avatar;
-        comment.recipe.name = recipe.name;
-
-        return comment;
-    });
-
-    let commentData = await Promise.all(someComments);
-
-    const landingTemplate = landingPageTemplate(lastThreeRecepies.results.reverse(), commentData.reverse());
+    const landingTemplate = landingPageTemplate(lastThreeRecepies.results.reverse(), latestSixComments.results.reverse());
 
     render(landingTemplate, mainRootElement);
 }
