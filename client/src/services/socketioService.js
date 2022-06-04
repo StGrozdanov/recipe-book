@@ -1,1 +1,1 @@
-export const socket = io("https://git.heroku.com/recepies-notifications-api.git");
+export const socket = io("https://recepies-notifications-api.herokuapp.com/");
