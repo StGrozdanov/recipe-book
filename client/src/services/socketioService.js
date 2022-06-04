@@ -1,1 +1,1 @@
-export const socket = io("http://localhost:3030");
+export const socket = io("https://git.heroku.com/recepies-notifications-api.git");
