@@ -17,7 +17,7 @@ const notificationTemplate = (notification, ctx) => html`
         <main>
             <p><b>${notification.senderName}</b> публикува нов ${notification.action} в</p>
             <p>${notification.locationName}</p>
-            <p>${notification.createdAt}</p>
+            <p>${new Date(notification.createdAt).toLocaleString()}</p>
         </main>
         <i @click=${checkNotificationHandler} class="fa-solid fa-xmark"></i>
     </article>
