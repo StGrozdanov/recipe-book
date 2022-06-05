@@ -1,13 +1,11 @@
 import { html, nothing, render } from "../../node_modules/lit-html/lit-html.js";
 import { mainRootElement } from "../middlewares/setUpMidware.js";
 import page from '../../node_modules/page/page.mjs';
-import { getRecepiesCount, getSingleRecipe, getTheLastThreeRecepies } from "../services/recipeService.js";
+import { getRecepiesCount, getTheLastThreeRecepies } from "../services/recipeService.js";
 import { getTheLatestSixComments, getTotalCommentsCount } from "../services/commentService.js";
 import { latestRecepieTemplate } from "./templates/landingTemplates/latestRecepieTemplate.js";
 import { mostViewedRecepieTemplate } from "./templates/landingTemplates/mostViewedRecepieTemplate.js";
 import { latestCommentsTemplate } from "./templates/landingTemplates/latestCommentsTemplate.js";
-import { getUser } from "../services/userService.js";
-import { buttonToTop } from "../utils/backToTopButton.js";
 import { loaderTemplate } from "./templates/loadingTemplate.js";
 
 const landingPageTemplate = (recepies, comments) => html`

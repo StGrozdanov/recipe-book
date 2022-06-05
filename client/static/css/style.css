@@ -12,6 +12,7 @@
 @import 'profile-page.css';
 @import 'user-page.css';
 @import 'landingPage.css';
+@import 'admin-panel.css';
 
 @import './responsive/monitors.css';
 @import './responsive/laptops.css';

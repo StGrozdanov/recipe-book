@@ -17,6 +17,7 @@ import { myProfileEditPage } from './views/myProfileEditView.js';
 import { isAuthenticated } from './middlewares/isAuthenticatedMidware.js';
 import { page404 } from './views/404pageView.js';
 import { landingPage } from './views/landingView.js';
+import { adminPanelPage } from './views/adminView.js';
 
 page('/', landingPage);
 page('/catalogue', setUp, cataloguePage);
@@ -33,6 +34,7 @@ page('/my-profile/created-recepies', setUp, isAuthenticated, myRecepiesPage);
 page('/my-profile/favourite-recepies', setUp, isAuthenticated, myFavouriteRecepiesPage);
 page('/my-profile/edit', setUp, isAuthenticated, myProfileEditPage);
 page('/user-:id', setUp, userProfilePage);
+page('/administrate/admin-panel', adminPanelPage);
 page ('*', page404);
 
 page.start();
