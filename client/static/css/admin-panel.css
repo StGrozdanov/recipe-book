@@ -269,3 +269,12 @@
     border: 2px solid white;
     width: 52vw;
 }
+
+.chart {
+    position: relative;
+    width: 94%;
+}
+
+.visitations-chart {
+    margin-left: 45px;
+}

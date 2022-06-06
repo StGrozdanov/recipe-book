@@ -1,5 +1,6 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
 import { mainRootElement } from "../middlewares/setUpMidware.js";
+import { drawVisitationsChart } from "../utils/visitationsChart.js";
 
 const adminPanelTemplate = (greeting, username, avatar, coverPhoto, recipesCount=12) => html`
     <section class="admin-panel-section">
@@ -93,7 +94,9 @@ const adminPanelTemplate = (greeting, username, avatar, coverPhoto, recipesCount
                     </article>
 
                     <article class="stats-graph">
-                        
+                        <div class="chart">
+                            <canvas class="visitations-chart"></canvas>
+                        </div>
                     </article>
                 </main>
             </article>
@@ -128,6 +131,7 @@ export async function adminPanelPage() {
     const avatar = sessionStorage.getItem('avatar');
 
     render(adminPanelTemplate(greeting, username, avatar), mainRootElement);
+    drawVisitationsChart();
 }
 
 function resetBaseStyleArchitecture() {
