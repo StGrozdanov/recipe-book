@@ -20,6 +20,8 @@ import { landingPage } from './views/landingView.js';
 import { adminPanelDashboardPage } from './views/adminDashboardView.js';
 import { adminSetUp } from './middlewares/adminPageMidware.js';
 import { adminPanelUsersPage } from './views/adminUsersView.js';
+import { adminPanelRecipesPage } from './views/adminRecipesView.js';
+import { adminPanelCommentsPage } from './views/adminCommentsView.js';
 
 page('/', landingPage);
 page('/catalogue', setUp, cataloguePage);
@@ -38,6 +40,8 @@ page('/my-profile/edit', setUp, isAuthenticated, myProfileEditPage);
 page('/user-:id', setUp, userProfilePage);
 page('/administrate/dashboard', adminSetUp, adminPanelDashboardPage);
 page('/administrate/users', adminSetUp, adminPanelUsersPage);
+page('/administrate/recipes', adminSetUp, adminPanelRecipesPage);
+page('/administrate/comments', adminSetUp, adminPanelCommentsPage);
 page ('*', page404);
 
 page.start();

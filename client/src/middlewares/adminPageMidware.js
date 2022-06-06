@@ -32,6 +32,8 @@ export function adminSetUp(ctx, next) {
 
     render(adminTemplate, mainRootElement);
 
+    trackActiveLink(ctx);
+
     next();
 }
 
@@ -39,4 +41,19 @@ function resetBaseStyleArchitecture() {
     document.querySelector('header').style.display = 'none';
     document.querySelector('body').style.width = '100%';
     document.querySelector('footer').style.display = 'none';
+}
+
+function trackActiveLink(ctx) {
+    const currentPage = ctx.path;
+    const navLinks = document.querySelectorAll('.nav-icon');
+
+    navLinks.forEach(navLink => navLink.classList.remove('admin-icon-selected'));
+
+    const activeLink = Array.from(navLinks).find(navLink => '/' + navLink.classList[0] === currentPage);
+    
+    if (activeLink !== undefined) {
+        activeLink.classList.add('admin-icon-selected');
+    } else {
+        navLinks[0].classList.add('admin-icon-selected');
+    }
 }

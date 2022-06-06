@@ -1,4 +1,5 @@
 import { html } from "../../../node_modules/lit-html/lit-html.js";
+import page from '../../../node_modules/page/page.mjs';
 
 export const adminPanelTemplate = (greeting, username, avatar) => html`
     <section class="admin-panel-section">
@@ -6,19 +7,19 @@ export const adminPanelTemplate = (greeting, username, avatar) => html`
             <img class="admin-panel-nav-logo" src="../static/images/cooking.png" alt="" />
             <ul class="admin-panel-nav-ul">
                 <li class="admin-panel-nav-li">
-                    <i class="fa-solid fa-chart-simple admin-icon-selected"></i>
+                    <i @click=${(e) => panelNavigateHandler(e)} class="administrate/dashboard fa-solid fa-chart-simple nav-icon admin-icon-selected"></i>
                 </li>
                 <li class="admin-panel-nav-li">
-                    <i class="fa-solid fa-user-large"></i>
+                    <i @click=${(e) => panelNavigateHandler(e)} class="administrate/users fa-solid fa-user-large nav-icon"></i>
                 </li>
                 <li class="admin-panel-nav-li">
-                    <i class="fa-solid fa-bowl-rice"></i>
+                    <i @click=${(e) => panelNavigateHandler(e)} class="administrate/recipes fa-solid fa-bowl-rice nav-icon"></i>
                 </li>
                 <li class="admin-panel-nav-li">
-                    <i class="fa-solid fa-comment-dots"></i>
+                    <i @click=${(e) => panelNavigateHandler(e)} class="administrate/comments fa-solid fa-comment-dots nav-icon"></i>
                 </li>
             </ul>
-            <i class="fa-solid fa-gear"></i>
+            <i @click=${(e) => panelNavigateHandler(e)} class="administrate/settings fa-solid fa-gear nav-icon"></i>
         </nav>
         <section class="admin-panel-section-wrapper">
             <article class="admin-panel-content">
@@ -55,4 +56,8 @@ function toggleSearchInputHandler(e) {
     const adminNav = e.target.parentNode.querySelector('.admin-panel-search-input');
 
     adminNav.style.display == 'none' ? adminNav.style.display = 'block' : adminNav.style.display = 'none';
+}
+
+function panelNavigateHandler(e) {
+    page.redirect(`/${e.target.classList[0]}`);
 }

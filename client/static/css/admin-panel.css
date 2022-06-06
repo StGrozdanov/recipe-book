@@ -105,8 +105,8 @@
     transition: background-size 0.4s ease-out;
 }
 
-.admin-panel-nav-li i:hover,
-.fa-gear:hover {
+.admin-panel-nav-li i:not(.admin-icon-selected):hover,
+.fa-gear:not(.admin-icon-selected):hover {
     background-size: 100% 0.15em;
 }
 
@@ -327,14 +327,21 @@ h4 {
     box-shadow: 0px 15px 20px 0px #808ada52;
     border-radius: 20px;
     border: 2px solid white;
+    max-height: 65vh;
 }
 
 .table-wrapper {
     width: 100%;
     height: 97%;
     border-radius: 20px;
-    overflow: hidden;
+    overflow-y: scroll;
     box-shadow: 0px 15px 20px 0px #808ada75;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.table-wrapper::-webkit-scrollbar {
+    display: none;
 }
 
 table {
@@ -365,6 +372,14 @@ thead tr th {
     padding: 10px;
 }
 
+tbody tr {
+    height: 50px;
+}
+
+tbody i {
+    font-size: 125%;
+}
+
 tbody tr:nth-child(2n+1) {
     background-color: white;
 }
@@ -381,7 +396,8 @@ tbody tr:hover {
 
 .user-status-online {
     padding: 5px 10px;
-    background-color: #2ac99138;;
+    background-color: #2ac99138;
+    ;
     border-radius: 20px;
     color: #2AC991;
     z-index: 2;
@@ -389,7 +405,8 @@ tbody tr:hover {
 
 .user-status-offline {
     padding: 5px 8px;
-    background-color: #ff00001c;;
+    background-color: #ff00001c;
+    ;
     border-radius: 20px;
     color: red;
     z-index: 2;
@@ -406,7 +423,8 @@ tbody tr:hover {
 
 .user-action-delete {
     padding: 5px 10px;
-    background-color: #ff00001c;;
+    background-color: #ff00001c;
+    ;
     border-radius: 20px;
     color: red;
     z-index: 2;
@@ -430,5 +448,5 @@ tbody tr:hover {
 }
 
 tbody tr td:nth-child(2) {
-    width: 10vw;
+    width: 13vw;
 }
