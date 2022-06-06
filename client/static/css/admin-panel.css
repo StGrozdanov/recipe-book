@@ -266,8 +266,10 @@
 
 .stats-graph {
     margin-top: 30px;
-    border: 2px solid white;
     width: 52vw;
+    border-radius: 20px;
+    background: #D7D9EF;
+    box-shadow: 2px 20px 20px 0px #808ada61;
 }
 
 .chart {
@@ -277,4 +279,42 @@
 
 .visitations-chart {
     margin-left: 45px;
+}
+
+.admin-panel-search-form {
+    margin-right: 20px;
+}
+
+.admin-panel-search-input {
+    width: 200px;
+    height: 35px;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 9px 20px 0px #808ada45;
+    padding: 10px 10px 10px 20px;
+    transition: width 2s;
+    display: none;
+}
+
+.slideFadeInUp {
+    -webkit-animation-duration: 1.5s;
+    animation-duration: 1.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: slideFadeInUp;
+    animation-name: slideFadeInUp;
+}
+
+@keyframes slideFadeInUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0,20%,0);
+        transform: translate3d(0,20%,0);
+    }
+    
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
 }

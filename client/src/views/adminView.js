@@ -30,7 +30,10 @@ const adminPanelTemplate = (greeting, username, avatar, coverPhoto, recipesCount
                         <p>Статистически данни за сайта</p>
                     </article>
                     <article class="admin-panel-content-header-nav-article">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <form class="admin-panel-search-form">
+                            <input class="admin-panel-search-input slideFadeInUp" type="search" autocomplete="off">
+                        </form>
+                        <i @click=${toggleSearchInputHandler} class="fa-solid fa-magnifying-glass"></i>
                         <i class="fa-regular fa-bell"></i>
                         <div class="admin-avatar-container">
                             <img 
@@ -98,6 +101,7 @@ const adminPanelTemplate = (greeting, username, avatar, coverPhoto, recipesCount
                             <canvas class="visitations-chart"></canvas>
                         </div>
                     </article>
+
                 </main>
             </article>
         </section>
@@ -138,4 +142,10 @@ function resetBaseStyleArchitecture() {
     document.querySelector('header').style.display = 'none';
     document.querySelector('body').style.width = '100%';
     document.querySelector('footer').style.display = 'none';
+}
+
+function toggleSearchInputHandler(e) {
+    const adminNav = e.target.parentNode.querySelector('.admin-panel-search-input');
+
+    adminNav.style.display == 'none' ? adminNav.style.display = 'block' : adminNav.style.display = 'none';
 }
