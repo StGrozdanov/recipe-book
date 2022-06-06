@@ -204,7 +204,8 @@
     background: #2ac99130;
 }
 
-.stats-card h5, h4 {
+.stats-card h5,
+h4 {
     margin: 5px 0;
 }
 
@@ -308,13 +309,126 @@
 @keyframes slideFadeInUp {
     0% {
         opacity: 0;
-        -webkit-transform: translate3d(0,20%,0);
-        transform: translate3d(0,20%,0);
+        -webkit-transform: translate3d(0, 20%, 0);
+        transform: translate3d(0, 20%, 0);
     }
-    
+
     100% {
         opacity: 1;
         -webkit-transform: none;
         transform: none;
     }
+}
+
+.wrapper-table-wrapper {
+    margin-top: 20px;
+    width: 95%;
+    min-height: 40vh;
+    box-shadow: 0px 15px 20px 0px #808ada52;
+    border-radius: 20px;
+    border: 2px solid white;
+}
+
+.table-wrapper {
+    width: 100%;
+    height: 97%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0px 15px 20px 0px #808ada75;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+    min-height: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-style: hidden;
+}
+
+table,
+td {
+    border-width: 1px;
+    border-color: rgb(221, 221, 221);
+    border-style: solid;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    position: relative;
+}
+
+thead {
+    background: white;
+}
+
+thead tr th {
+    padding: 10px;
+}
+
+tbody tr:nth-child(2n+1) {
+    background-color: white;
+}
+
+tbody tr:nth-child(1) {
+    border-radius: 20px;
+}
+
+tbody tr:hover {
+    background-color: #808ada43;
+    color: rgb(255, 255, 255);
+    z-index: 0;
+}
+
+.user-status-online {
+    padding: 5px 10px;
+    background-color: #2ac99138;;
+    border-radius: 20px;
+    color: #2AC991;
+    z-index: 2;
+}
+
+.user-status-offline {
+    padding: 5px 8px;
+    background-color: #ff00001c;;
+    border-radius: 20px;
+    color: red;
+    z-index: 2;
+}
+
+.user-action-edit {
+    padding: 5px 10px;
+    background-color: #ffa50047;
+    border-radius: 20px;
+    color: darkgoldenrod;
+    z-index: 2;
+    margin-right: 10px;
+}
+
+.user-action-delete {
+    padding: 5px 10px;
+    background-color: #ff00001c;;
+    border-radius: 20px;
+    color: red;
+    z-index: 2;
+}
+
+.user-action-block {
+    padding: 5px 10px;
+    background-color: #a9a9a93d;
+    border-radius: 20px;
+    color: darkgray;
+    z-index: 2;
+    margin-right: 10px;
+}
+
+.user-table-profile-avatar-container {
+    border-radius: 50%;
+    width: 30px;
+    position: absolute;
+    left: 0px;
+    bottom: 1px;
+}
+
+tbody tr td:nth-child(2) {
+    width: 10vw;
 }

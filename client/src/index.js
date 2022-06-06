@@ -17,7 +17,9 @@ import { myProfileEditPage } from './views/myProfileEditView.js';
 import { isAuthenticated } from './middlewares/isAuthenticatedMidware.js';
 import { page404 } from './views/404pageView.js';
 import { landingPage } from './views/landingView.js';
-import { adminPanelPage } from './views/adminView.js';
+import { adminPanelDashboardPage } from './views/adminDashboardView.js';
+import { adminSetUp } from './middlewares/adminPageMidware.js';
+import { adminPanelUsersPage } from './views/adminUsersView.js';
 
 page('/', landingPage);
 page('/catalogue', setUp, cataloguePage);
@@ -34,7 +36,8 @@ page('/my-profile/created-recepies', setUp, isAuthenticated, myRecepiesPage);
 page('/my-profile/favourite-recepies', setUp, isAuthenticated, myFavouriteRecepiesPage);
 page('/my-profile/edit', setUp, isAuthenticated, myProfileEditPage);
 page('/user-:id', setUp, userProfilePage);
-page('/administrate/admin-panel', adminPanelPage);
+page('/administrate/dashboard', adminSetUp, adminPanelDashboardPage);
+page('/administrate/users', adminSetUp, adminPanelUsersPage);
 page ('*', page404);
 
 page.start();
