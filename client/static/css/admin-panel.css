@@ -336,8 +336,10 @@ h4 {
     border-radius: 20px;
     overflow-y: scroll;
     box-shadow: 0px 15px 20px 0px #808ada75;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 .table-wrapper::-webkit-scrollbar {
@@ -439,6 +441,26 @@ tbody tr:hover {
     z-index: 2;
     margin-right: 10px;
     border: 1.5px solid #a9a9a9d1;
+}
+
+.user-current-status {
+    padding: 5px 10px;
+    background-color: #2ac9916e;
+    border-radius: 20px;
+    color: white;
+    z-index: 2;
+    border: 1.5px solid #2ac991db;
+    margin: 0 2px;
+}
+
+.user-possible-status {
+    padding: 5px 10px;
+    background-color: #3f51b52e;
+    border-radius: 20px;
+    color: #3f51b5;
+    z-index: 2;
+    border: 1.5px solid #3f51b5bd;
+    margin: 0 2px;
 }
 
 .user-table-profile-avatar-container {

@@ -22,6 +22,7 @@ import { adminSetUp } from './middlewares/adminPageMidware.js';
 import { adminPanelUsersPage } from './views/adminUsersView.js';
 import { adminPanelRecipesPage } from './views/adminRecipesView.js';
 import { adminPanelCommentsPage } from './views/adminCommentsView.js';
+import { adminPanelUsersSettingsPage } from './views/adminSettingsView.js';
 
 page('/', landingPage);
 page('/catalogue', setUp, cataloguePage);
@@ -42,6 +43,7 @@ page('/administrate/dashboard', adminSetUp, adminPanelDashboardPage);
 page('/administrate/users', adminSetUp, adminPanelUsersPage);
 page('/administrate/recipes', adminSetUp, adminPanelRecipesPage);
 page('/administrate/comments', adminSetUp, adminPanelCommentsPage);
+page('/administrate/settings', adminSetUp, adminPanelUsersSettingsPage);
 page ('*', page404);
 
 page.start();
