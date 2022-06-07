@@ -389,27 +389,27 @@ tbody tr:nth-child(1) {
 }
 
 tbody tr:hover {
-    background-color: #808ada43;
+    background-color: #808ada4e;
     color: rgb(255, 255, 255);
     z-index: 0;
 }
 
 .user-status-online {
     padding: 5px 10px;
-    background-color: #2ac99138;
-    ;
+    background-color: #2ac99117;
     border-radius: 20px;
     color: #2AC991;
     z-index: 2;
+    border: 1.5px solid #2ac991db;
 }
 
 .user-status-offline {
     padding: 5px 8px;
     background-color: #ff00001c;
-    ;
     border-radius: 20px;
     color: red;
     z-index: 2;
+    border: 1.5px solid #ff000070;
 }
 
 .user-action-edit {
@@ -419,15 +419,16 @@ tbody tr:hover {
     color: darkgoldenrod;
     z-index: 2;
     margin-right: 10px;
+    border: 1.5px solid #b8860b8c;
 }
 
 .user-action-delete {
     padding: 5px 10px;
     background-color: #ff00001c;
-    ;
     border-radius: 20px;
     color: red;
     z-index: 2;
+    border: 1.5px solid #ff000070;
 }
 
 .user-action-block {
@@ -437,6 +438,7 @@ tbody tr:hover {
     color: darkgray;
     z-index: 2;
     margin-right: 10px;
+    border: 1.5px solid #a9a9a9d1;
 }
 
 .user-table-profile-avatar-container {
