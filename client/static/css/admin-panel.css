@@ -167,8 +167,8 @@
     background: white;
     border-radius: 20px;
     margin-top: 20px;
-    width: 220px;
-    height: 105px;
+    width: 15vw;
+    height: 17vh;
     box-shadow: 2px 20px 20px 0px #808ada61;
     position: relative;
     z-index: 1;
@@ -212,7 +212,7 @@ h4 {
 .stats-card::after {
     border: 1px solid white;
     content: '';
-    width: 190px;
+    width: 90%;
     position: absolute;
     left: 11px;
     height: 15px;
@@ -222,7 +222,7 @@ h4 {
 
 .most-active-user .user-profile-article {
     width: 200px;
-    height: 320px;
+    height: 43vh;
     margin: 0;
     border-radius: 20px;
     margin-top: 30px;
@@ -271,15 +271,18 @@ h4 {
     border-radius: 20px;
     background: #D7D9EF;
     box-shadow: 2px 20px 20px 0px #808ada61;
+    max-height: 43vh;
 }
 
 .chart {
     position: relative;
     width: 94%;
+    max-height: 43vh;
 }
 
 .visitations-chart {
     margin-left: 45px;
+    max-height: 43vh;
 }
 
 .admin-panel-search-form {
@@ -477,4 +480,278 @@ tbody tr td:nth-child(2) {
 
 #admin-loader img {
     width: 260px;
+}
+
+@media all and (min-width: 1535px) {
+    .stats-card {
+        width: 16vw;
+        height: 14vh;
+    }
+
+    .most-active-user .user-profile-article {
+        width: 16vw;
+        height: 51vh;
+    }
+
+    .stats-graph {
+        width: 52vw;
+        max-height: 51vh;
+    }
+
+    .chart {
+        max-height: 51vh;
+    }
+
+    .visitations-chart {
+        max-height: 51vh;
+        height: 51vh !important;
+    }
+}
+
+@media all and (min-width: 1680px) {
+    .most-active-user .user-profile-avatar-container {
+        width: 130px;
+        margin-top: -60px;
+    }
+}
+
+@media all and (min-width: 1900px) {
+    .admin-panel-section {
+        font-size: 120%;
+    }
+}
+
+@media all and (min-width: 2200px) {
+    .admin-panel-section {
+        font-size: 105%;
+    }
+
+    .admin-panel-content-header-nav-article i {
+        font-size: 115%;
+    }
+
+    .admin-avatar-container {
+        width: 70px;
+    }
+
+    .admin-panel-search-input {
+        width: 300px;
+        height: 50px;
+        font-size: 100%;
+    }
+
+    .most-active-user .user-profile-avatar-container {
+        width: 180px;
+        margin-top: -82px;
+        box-shadow: none;
+    }
+}
+
+@media all and (max-width: 1390px) {
+    .admin-panel-section {
+        font-size: 90%;
+    }
+
+    .most-active-user .user-profile-avatar-container {
+        width: 65px;
+        margin-top: -26px;
+        box-shadow: none;
+    }
+}
+
+@media all and (max-width: 1050px) {
+    .admin-panel-section {
+        font-size: 70%;
+    }
+
+    .stats-card::after {
+        width: 86%;
+    }
+
+    .stats-card {
+        width: 16vw;
+        height: 15vh;
+    }
+
+    .most-active-user .user-profile-article {
+        width: 27vh;
+        height: 45vh;
+    }
+
+    .most-active-user .user-profile-avatar-container {
+        width: 70px;
+        margin-top: -32px;
+    }
+
+    .stats-graph {
+        max-height: 45vh;
+    }
+
+    .chart {
+        width: 100%;
+        max-height: 45vh;
+    }
+
+    .visitations-chart {
+        margin-left: 17px;
+        max-height: 45vh;
+    }
+}
+
+@media all and (max-width: 920px) {
+    .admin-panel-section {
+        padding: 0;
+        font-size: 90%;
+    }
+
+    .admin-panel-section-wrapper {
+        width: 88vw;
+    }
+
+    .admin-panel-content-header-nav-article i {
+        font-size: 150%;
+    }
+
+    .admin-avatar-container {
+        width: 40px;
+    }
+
+    .stats-card {
+        width: 19vw;
+        height: 14vh;
+    }
+
+    .stats-card i {
+        padding: 5px;
+    }
+
+    .stats-card::after {
+        width: 84%;
+    }
+
+    .stats-graph {
+        width: 62vw;
+        max-height: 47vh;
+    }
+
+    .most-active-user .user-profile-article {
+        width: 25vh;
+        height: 47vh;
+    }
+
+    .chart {
+        width: 100%;
+        max-height: 47vh;
+    }
+
+    .visitations-chart {
+        margin-left: 8px;
+        max-height: 47vh;
+    }
+}
+
+@media all and (max-width: 450px) {
+    .admin-panel-section {
+        flex-direction: column;
+    }
+
+    .admin-panel-nav {
+        margin: 0;
+        width: 90vw;
+        align-self: center;
+        height: 6.5vh;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        border: 2px;
+        border-radius: 20px;
+        background: #F0F2FF;
+        box-shadow: 1px 15px 20px 0px #808ada91;
+        position: fixed;
+        order: 1;
+        top: 91%;
+    }
+
+    .admin-panel-nav-logo {
+        width: 8%;
+        top: 10%;
+        left: 5%;
+    }
+
+    .admin-panel-nav-ul {
+        width: 72%;
+        display: flex;
+    }
+
+    .admin-panel-nav-li {
+        margin-bottom: 0;
+    }
+
+    .fa-gear {
+        right: 5%;
+        top: 1%;
+    }
+
+    .admin-panel-section-wrapper {
+        width: 96vw;
+        height: auto;
+    }
+
+    .admin-panel-content {
+        height: 98%;
+        margin-bottom: 9px;
+        margin-top: 6px;
+    }
+
+    .admin-panel-content-header-nav-article i {
+        margin-right: 11px;
+    }
+
+    .admin-panel-content-header-nav-article {
+        position: relative;
+    }
+
+    .admin-panel-search-form {
+        margin-right: 0px;
+        position: absolute;
+        top: 100%;
+        right: 60%;
+    }
+
+    .stats-card {
+        width: 41vw;
+        height: 10vh;
+    }
+
+    .stats-card i {
+        padding: 3.5px;
+    }
+
+    .most-active-user {
+        order: 2;
+        margin-bottom: 50px;
+    }
+
+    .most-active-user .user-profile-article {
+        width: 30vh;
+        height: 45vh;
+    }
+
+    .stats-graph {
+        width: 90vw;
+        max-height: auto;
+        order: 1;
+    }
+
+    .chart {
+        width: 100%;
+        max-height: auto;
+    }
+
+    .visitations-chart {
+        margin-left: 0;
+        max-height: auto;
+    }
 }
