@@ -39,7 +39,7 @@ page('/my-profile/created-recepies', setUp, isAuthenticated, myRecepiesPage);
 page('/my-profile/favourite-recepies', setUp, isAuthenticated, myFavouriteRecepiesPage);
 page('/my-profile/edit', setUp, isAuthenticated, myProfileEditPage);
 page('/user-:id', setUp, userProfilePage);
-page('/administrate/dashboard', adminSetUp, adminPanelDashboardPage);
+page('/administrate-dashboard', adminSetUp, adminPanelDashboardPage);
 page('/administrate/users', adminSetUp, adminPanelUsersPage);
 page('/administrate/recipes', adminSetUp, adminPanelRecipesPage);
 page('/administrate/comments', adminSetUp, adminPanelCommentsPage);

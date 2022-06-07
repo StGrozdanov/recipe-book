@@ -7,7 +7,7 @@ export const adminPanelTemplate = (greeting, username, avatar) => html`
             <img @click=${panelNavigateHandler} class="home admin-panel-nav-logo" src="../static/images/cooking.png" alt="" />
             <ul class="admin-panel-nav-ul">
                 <li class="admin-panel-nav-li">
-                    <i @click=${(e) => panelNavigateHandler(e)} class="administrate/dashboard fa-solid fa-chart-simple nav-icon admin-icon-selected"></i>
+                    <i @click=${(e) => panelNavigateHandler(e)} class="administrate-dashboard fa-solid fa-chart-simple nav-icon admin-icon-selected"></i>
                 </li>
                 <li class="admin-panel-nav-li">
                     <i @click=${(e) => panelNavigateHandler(e)} class="administrate/users fa-solid fa-user-large nav-icon"></i>
