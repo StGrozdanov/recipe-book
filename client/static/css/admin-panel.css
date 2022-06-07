@@ -545,6 +545,10 @@ tbody tr td:nth-child(2) {
         margin-top: -82px;
         box-shadow: none;
     }
+
+    table td i {
+        font-size: 10%;
+    }
 }
 
 @media all and (max-width: 1390px) {
@@ -648,6 +652,20 @@ tbody tr td:nth-child(2) {
         margin-left: 8px;
         max-height: 47vh;
     }
+
+    tbody tr td:nth-child(2) {
+        min-width: 20vw;
+    }
+
+    .user-table-profile-avatar-container {
+        width: 25px;
+        top: 30%;
+    }
+
+    .user-table-profile-avatar-container {
+        width: 27px;
+        top: 24%;
+    }
 }
 
 @media all and (max-width: 450px) {
@@ -672,6 +690,7 @@ tbody tr td:nth-child(2) {
         position: fixed;
         order: 1;
         top: 91%;
+        z-index: 3;
     }
 
     .admin-panel-nav-logo {
@@ -717,7 +736,7 @@ tbody tr td:nth-child(2) {
         margin-right: 0px;
         position: absolute;
         top: 100%;
-        right: 60%;
+        right: 50%;
     }
 
     .stats-card {
@@ -753,5 +772,42 @@ tbody tr td:nth-child(2) {
     .visitations-chart {
         margin-left: 0;
         max-height: auto;
+    }
+
+    .wrapper-table-wrapper {
+        width: 97%;
+        min-height: 70vh;
+        max-height: 65vh;
+        overflow-x: scroll;
+    }
+
+    .user-table-profile-avatar-container {
+        width: 25px;
+        top: 30%;
+    }
+
+    .user-action-edit,
+    .user-action-block,
+    .user-action-delete,
+    .user-status-online,
+    .user-status-offline,
+    .user-possible-status,
+    .user-current-status {
+        padding: 2px 4px;
+        margin-right: 0;
+    }
+
+    tbody tr td:nth-child(2) {
+        min-width: 29vw;
+    }
+
+    tbody tr td:last-child {
+        min-width: 56vw;
+    }
+}
+
+@media all and (max-width: 385px) {
+    .admin-panel-search-form {
+        right: 38%;
     }
 }
