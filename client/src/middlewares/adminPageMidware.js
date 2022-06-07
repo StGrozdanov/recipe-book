@@ -8,6 +8,8 @@ const timeParts = {
     "Добър вечер": [19, 20, 21, 22, 23, 0, 1, 2]
 }
 
+export const adminRootElement = document.getElementById('admin-root')
+
 export function adminSetUp(ctx, next) {
     resetBaseStyleArchitecture();
 

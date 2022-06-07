@@ -1,5 +1,6 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
 import { drawVisitationsChart } from "../utils/visitationsChart.js";
+import { loaderTemplate } from "./templates/adminLoadingTemplate.js";
 
 const dashboardTemplate = (avatar, recipesCount=12) => html`
                     <article class="stats-card">
@@ -57,6 +58,8 @@ const dashboardTemplate = (avatar, recipesCount=12) => html`
 `;
 
 export async function adminPanelDashboardPage() {
+    render(loaderTemplate(), document.getElementById('admin-root'));
+
     render(dashboardTemplate(undefined, 12), document.getElementById('admin-root'));
 
     drawVisitationsChart();

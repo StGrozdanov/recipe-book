@@ -1,4 +1,5 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
+import { loaderTemplate } from "./templates/adminLoadingTemplate.js";
 
 const applicationRecipesTemplate = () => html`
 <div class="wrapper-table-wrapper">
@@ -295,5 +296,7 @@ const applicationRecipesTemplate = () => html`
 `;
 
 export async function adminPanelRecipesPage() {
+    render(loaderTemplate(), document.getElementById('admin-root'));
+
     render(applicationRecipesTemplate(), document.getElementById('admin-root'));
 }

@@ -1,4 +1,5 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
+import { loaderTemplate } from "./templates/adminLoadingTemplate.js";
 
 const applicationUsersSettingsTemplate = () => html`
 <div class="wrapper-table-wrapper">
@@ -81,5 +82,7 @@ const applicationUsersSettingsTemplate = () => html`
 `;
 
 export async function adminPanelUsersSettingsPage() {
+    render(loaderTemplate(), document.getElementById('admin-root'));
+
     render(applicationUsersSettingsTemplate(), document.getElementById('admin-root'));
 }

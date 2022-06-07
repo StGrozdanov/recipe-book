@@ -1,4 +1,6 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
+import { adminRootElement } from "../middlewares/adminPageMidware.js";
+import { loaderTemplate } from "./templates/adminLoadingTemplate.js";
 
 const applicationCommentsTemplate = () => html`
 <div class="wrapper-table-wrapper">
@@ -295,5 +297,9 @@ const applicationCommentsTemplate = () => html`
 `;
 
 export async function adminPanelCommentsPage() {
-    render(applicationCommentsTemplate(), document.getElementById('admin-root'));
+    render(loaderTemplate(), document.getElementById('admin-root'));
+
+    setTimeout(() => {
+        render(applicationCommentsTemplate(), document.getElementById('admin-root'));
+    }, 1000)
 }

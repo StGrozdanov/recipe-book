@@ -474,3 +474,7 @@ tbody tr:hover {
 tbody tr td:nth-child(2) {
     width: 13vw;
 }
+
+#admin-loader img {
+    width: 260px;
+}
