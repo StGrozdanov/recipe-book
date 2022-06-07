@@ -32,7 +32,8 @@ export function adminSetUp(ctx, next) {
 
     render(adminTemplate, mainRootElement);
 
-    trackActiveLink(ctx);
+    trackActiveNavLink(ctx);
+    trackPageNaming(ctx);
 
     next();
 }
@@ -43,7 +44,7 @@ function resetBaseStyleArchitecture() {
     document.querySelector('footer').style.display = 'none';
 }
 
-function trackActiveLink(ctx) {
+function trackActiveNavLink(ctx) {
     const currentPage = ctx.path;
     const navLinks = document.querySelectorAll('.nav-icon');
 
@@ -56,4 +57,21 @@ function trackActiveLink(ctx) {
     } else {
         navLinks[0].classList.add('admin-icon-selected');
     }
+}
+
+function trackPageNaming(ctx) {
+    const currentPagePath = ctx.path;
+    const currentPageNaming = currentPagePath.split('/')[2];
+
+    const pageMessages = {
+        'dashboard': 'Статистически данни за сайта',
+        'users': 'Потребители на сайта',
+        'recipes': 'Колекция от рецепти',
+        'comments': 'Колекция от коментари',
+        'settings': 'Потребителски настройки',
+    }
+
+    const message = pageMessages[currentPageNaming];
+
+    document.querySelector('#page-message').textContent = message;
 }

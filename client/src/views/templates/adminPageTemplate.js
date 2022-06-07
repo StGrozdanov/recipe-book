@@ -26,7 +26,7 @@ export const adminPanelTemplate = (greeting, username, avatar) => html`
                 <header class="admin-panel-content-header">
                     <article class="admin-panel-content-header-greeting-article">
                         <h2>${greeting}, shushan</h2>
-                        <p>Статистически данни за сайта</p>
+                        <p id="page-message">Статистически данни за сайта</p>
                     </article>
                     <article class="admin-panel-content-header-nav-article">
                         <form class="admin-panel-search-form">
