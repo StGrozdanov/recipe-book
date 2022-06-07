@@ -4,7 +4,7 @@ import page from '../../../node_modules/page/page.mjs';
 export const adminPanelTemplate = (greeting, username, avatar) => html`
     <section class="admin-panel-section">
         <nav class="admin-panel-nav">
-            <img class="admin-panel-nav-logo" src="../static/images/cooking.png" alt="" />
+            <img @click=${panelNavigateHandler} class="home admin-panel-nav-logo" src="../static/images/cooking.png" alt="" />
             <ul class="admin-panel-nav-ul">
                 <li class="admin-panel-nav-li">
                     <i @click=${(e) => panelNavigateHandler(e)} class="administrate/dashboard fa-solid fa-chart-simple nav-icon admin-icon-selected"></i>
@@ -59,5 +59,10 @@ function toggleSearchInputHandler(e) {
 }
 
 function panelNavigateHandler(e) {
+    if (e.target.classList[0] == 'home') {
+        page.redirect('/'); 
+        document.querySelector('footer').style.display = 'flex';
+        return;
+    } 
     page.redirect(`/${e.target.classList[0]}`);
 }
