@@ -13,16 +13,16 @@ export default function LoginInput({ placeHolder }) {
             <TextInput
                 style={[loginStyles.input, inputIsFocused && { borderBottomWidth: 2, borderBottomColor: 'white' }]}
                 placeholder={ placeHolder }
-                placeholderTextColor={'white'}
-                selectionColor={'white'}
-                onBlur={ () => setInputIsFocused(false) }
+                placeholderTextColor={ 'white' }
+                selectionColor={ 'white' }
                 onFocus={ () => setInputIsFocused(true) }
+                onBlur={ () => setInputIsFocused(false) }
                 secureTextEntry={ placeHolder == 'Password' ? true : false }
             />
             <FontAwesomeIcon
                 style={ { color: 'white', position: 'absolute', top: 15, left: 0 } } 
                 icon={ placeHolder == 'Username' ? faUser : faKey }
-                size={16}
+                size={ 16 }
             />
         </View>
     );

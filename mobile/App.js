@@ -1,19 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
+import { globalStyles } from './AppStyleSheet';
 import Login from './components/Login/Login';
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
       <Login />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#EFEEFE',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

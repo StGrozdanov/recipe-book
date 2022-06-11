@@ -17,22 +17,6 @@ export const loginStyles = StyleSheet.create({
         justifyContent: 'center',
     },  
 
-    inputWrapper: {
-        width: '75%',
-        position: 'relative',
-    },  
-    
-    input: {
-        borderBottomColor: 'lightsteelblue',
-        borderBottomWidth: 0.8,
-        paddingVertical: 10,
-        paddingHorizontal: 25,
-        marginBottom: 20,
-        color: 'white',
-        position: 'relative',
-        fontSize: 18,
-    }, 
-    
     heading: {
         position: 'absolute',
         top: '16%',
@@ -67,6 +51,22 @@ export const loginStyles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
     },
+
+    inputWrapper: {
+        width: '75%',
+        position: 'relative',
+    },  
+    
+    input: {
+        borderBottomColor: 'lightsteelblue',
+        borderBottomWidth: 0.8,
+        paddingVertical: 10,
+        paddingHorizontal: 25,
+        marginBottom: 20,
+        color: 'white',
+        position: 'relative',
+        fontSize: 18,
+    }, 
     
     button: {
         marginTop: 30,
