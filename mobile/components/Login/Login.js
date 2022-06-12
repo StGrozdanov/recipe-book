@@ -2,7 +2,7 @@ import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import { loginStyles } from "./LoginStyleSheet";
 import LoginInput from "./LoginInput";
 
-export default function Login() {
+export default function Login({ navigation }) {
     return (
         <View style={loginStyles.container}>
             <ImageBackground
@@ -16,7 +16,7 @@ export default function Login() {
                 <View style={loginStyles.formWrapper}>
                     <LoginInput placeHolder='Username' />
                     <LoginInput placeHolder='Password' />
-                    <TouchableOpacity style={loginStyles.button}>
+                    <TouchableOpacity style={loginStyles.button} onPress={() => navigation.navigate('Dashboard')}>
                         <Text style={loginStyles.buttonText}>Login</Text>
                     </TouchableOpacity>
 
