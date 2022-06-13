@@ -17,19 +17,19 @@ export default function App() {
 
         <Stack.Screen name='Home' component={Login} />
         <Stack.Screen name="Dashboard">
-          {(props) => <Panel {...props} text={<Dashboard />} />}
+          {(props) => <Panel {...props} content={<Dashboard />} />}
         </Stack.Screen>
         <Stack.Screen name="Users">
-          {(props) => <Panel {...props} text={<Users />} />}
+          {(props) => <Panel {...props} content={<Users />} />}
         </Stack.Screen>
         <Stack.Screen name="Recipes">
-          {(props) => <Panel {...props} text={<Recipes />} />}
+          {(props) => <Panel {...props} content={<Recipes />} />}
         </Stack.Screen>
         <Stack.Screen name="Comments">
-          {(props) => <Panel {...props} text={<Comments />} />}
+          {(props) => <Panel {...props} content={<Comments />} />}
         </Stack.Screen>
         <Stack.Screen name="Settings">
-          {(props) => <Panel {...props} text={<Settings />} />}
+          {(props) => <Panel {...props} content={<Settings />} />}
         </Stack.Screen>
 
       </Stack.Navigator>
