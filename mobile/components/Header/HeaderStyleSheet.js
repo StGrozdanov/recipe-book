@@ -65,6 +65,7 @@ export const headerStyle = StyleSheet.create({
         width: 200,
         padding: 1,
         textAlign: 'center',
+        borderRadius: 20,
     }
 
 });
