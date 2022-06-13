@@ -18,23 +18,23 @@ export default function Navigation() {
         <View style={adminPanelNav.navigation}>
                 <Image style={adminPanelNav.websiteLogo} source={require('../../assets/cooking.png')} />
                 <TouchableOpacity onPress={() => navigator.navigate('Dashboard')}>
-                    <FontAwesomeIcon style={adminPanelNav.navItem} size={24} icon={faChartSimple} />
+                    <FontAwesomeIcon style={adminPanelNav.navItem} size={26} icon={faChartSimple} />
                     <ImageBackground style={currentPageName == 'Dashboard' && adminPanelNav.selected} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigator.navigate('Users')}>
-                    <FontAwesomeIcon style={adminPanelNav.navItem} size={24} icon={faUserLarge} />
+                    <FontAwesomeIcon style={adminPanelNav.navItem} size={26} icon={faUserLarge} />
                     <ImageBackground style={currentPageName == 'Users' && adminPanelNav.selected} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigator.navigate('Recipes')}>
-                    <FontAwesomeIcon style={adminPanelNav.navItem} size={24} icon={faBowlRice} />
+                    <FontAwesomeIcon style={adminPanelNav.navItem} size={26} icon={faBowlRice} />
                     <ImageBackground style={currentPageName == 'Recipes' && adminPanelNav.selected} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigator.navigate('Comments')}>
-                    <FontAwesomeIcon style={adminPanelNav.navItem} size={24} icon={faCommentDots} />
+                    <FontAwesomeIcon style={adminPanelNav.navItem} size={26} icon={faCommentDots} />
                     <ImageBackground style={currentPageName == 'Comments' && adminPanelNav.selected} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigator.navigate('Settings')}>
-                    <FontAwesomeIcon style={adminPanelNav.navItem} size={24} icon={faGear} />
+                    <FontAwesomeIcon style={adminPanelNav.navItem} size={26} icon={faGear} />
                     <ImageBackground style={currentPageName == 'Settings' && adminPanelNav.selected} />
                 </TouchableOpacity>            
             </View>

@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const adminPanelNav = StyleSheet.create({
     navigation: {
-        flex: 0.05,
+        flex: 0.07,
         flexDirection: 'row',
         alignContent: 'space-between',
         justifyContent: 'space-around',
@@ -32,8 +32,8 @@ export const adminPanelNav = StyleSheet.create({
     selected: {
         backgroundColor: '#6f42c1',
         position: 'absolute',
-        width: 24,
+        width: 25.5,
         height: 4,
-        top: '85%',
+        top: '81%',
     }
 });
