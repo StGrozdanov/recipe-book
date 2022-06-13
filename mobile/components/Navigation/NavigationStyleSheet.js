@@ -34,6 +34,6 @@ export const adminPanelNav = StyleSheet.create({
         position: 'absolute',
         width: 25.5,
         height: 4,
-        top: '81%',
+        bottom: '-25%',
     }
 });

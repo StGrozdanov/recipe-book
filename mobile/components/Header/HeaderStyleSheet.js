@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const headerStyle = StyleSheet.create({
     container: {
-        flex: 0.15,
+        flex: 0.19,
         marginTop: 40,
         borderBottomWidth: 5,
         borderEndWidth: 1,
@@ -33,11 +33,15 @@ export const headerStyle = StyleSheet.create({
         color: '#55595c',
     },  
 
+    leftSection: {
+        width: '42%',
+    },
+
     rightSection: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: "space-around",
-        width: '42%'
+        width: '44%'
     },
 
     currentPage: {
@@ -45,25 +49,24 @@ export const headerStyle = StyleSheet.create({
         fontStyle: 'italic',
         color: '#55595c',
         fontSize: 12,
+        textAlign: 'center',
     },
 
     greetingText: {
         fontWeight: '800',
-        fontSize: 18,
+        fontSize: 16,
         color: '#55595c',
         marginBottom: 5,
         textAlign: 'center',
-        
     },
 
     searchBar: {
         position: 'absolute',
-        top: '60%',
+        top: '58%',
         right: '50%',
         backgroundColor: 'white',
-        zIndex: 2,
         width: 200,
-        padding: 1,
+        padding: 5,
         textAlign: 'center',
         borderRadius: 20,
     }
