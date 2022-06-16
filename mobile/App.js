@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
-import Panel from './components/Panel/Panel';
+import Panel from './components/ApplicationPanel/Panel';
 import Users from './components/Users/Users';
 import Recipes from './components/Recipes/Recipes';
 import Comments from './components/Comments/Comments';
