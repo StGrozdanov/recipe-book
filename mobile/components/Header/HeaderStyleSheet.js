@@ -62,7 +62,7 @@ export const headerStyle = StyleSheet.create({
 
     searchBar: {
         position: 'absolute',
-        top: '58%',
+        top: '60%',
         right: '50%',
         backgroundColor: 'white',
         width: 200,

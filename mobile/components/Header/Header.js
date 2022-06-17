@@ -33,7 +33,7 @@ export default function Header() {
                 <Text style={headerStyle.currentPage}>{headerMessageGenerator.message}</Text>
             </View>
             <View style={headerStyle.rightSection}>
-                <View style={{ position: "absolute", top: "55%", left: "50%" }} >
+                <View style={{ position: "absolute", top: "59%", left: "50%" }} >
                     <TextInput
                         style={showSearchBar ? headerStyle.searchBar : { display: 'none' }}
                         placeholder='type to search...'

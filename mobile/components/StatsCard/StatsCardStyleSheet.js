@@ -5,7 +5,7 @@ export const statsCardStyles = StyleSheet.create({
         width: '44%',
         backgroundColor: 'white',
         borderRadius: 20,
-        paddingTop: 12,
+        paddingTop: 20,
         position: "relative",
         marginBottom: 20,
         shadowColor: '#808adad9',
