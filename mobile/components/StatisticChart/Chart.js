@@ -3,17 +3,20 @@ import { chartStyles } from "./ChartStyleSheet";
 import { LineChart } from "react-native-chart-kit";
 
 const chartData = {
-        labels: ["Януари", "Февуари", "Март", "Април", "Май", "Юни", "Юли", "Август"],
-        datasets: [
-            {
-                data: [1200, 2100, 1340, 1600, 900, 1700, 1500, 2100],
-            }
-        ]
+    labels: ["Март", "Април", "Май", "Юни", "Юли", "Август"],
+    datasets: [
+        {
+            data: [
+                1340, 1200, 500, 1700, 1500, 2100,
+            ],
+        }
+    ],
 }
 
 const chartConfig = {
     backgroundGradientFrom: "#D7D9EF",
     backgroundGradientTo: "#cacce6",
+    decimalPlaces: 0, 
     backgroundGradientToOpacity: 0.85,
     fillShadowGradientTo: "rgba(111,115,255,1)",
     fillShadowGradientToOpacity: 0,
@@ -37,11 +40,16 @@ export default function Chart({ title }) {
             <Text style={chartStyles.title}>{title}</Text>
             <LineChart
                 data={chartData}
-                width={Dimensions.get("window").width - 20}
-                height={Dimensions.get("window").height * 0.25}
+                width={Dimensions.get("window").width * 1.1}
+                height={Dimensions.get("window").height * 0.3}
                 chartConfig={chartConfig}
-                bezier
+                bezier={true}
                 style={{ borderRadius: 20 }}
+                withOuterLines={false}
+                withVerticalLines={false}
+                fromZero={true}
+                transparent={true}
+                segments={3}
             />
         </View>
     );

@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const chartStyles = StyleSheet.create({
     container: {
-        paddingHorizontal: 10,
+        marginStart: -10
     },
 
     title: {

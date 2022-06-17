@@ -12,7 +12,7 @@ export default function Dashboard({ navigation }) {
                 <StatsCard text={"КОМЕНТАРИ"} value={8} />
                 <StatsCard text={"ПОСЕЩЕНИЯТА ДНЕС"} value={131} />
             </View>
-            <Chart title={"Месечни посещения"} />
+            <Chart title={"Посещения за последните 6 месеца"} />
         </View>
     );
 }
