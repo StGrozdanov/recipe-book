@@ -1,17 +1,7 @@
 import { View, Text, ImageBackground } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons/faFileCirclePlus";
-import { faUsers } from "@fortawesome/free-solid-svg-icons/faUsers";
-import { faComments } from "@fortawesome/free-solid-svg-icons/faComments";
-import { faEye } from "@fortawesome/free-solid-svg-icons/faEye";
 import { statsCardStyles } from "./StatsCardStyleSheet";
-
-const cardIcons = {
-    ПУБЛИКАЦИИ: faFileCirclePlus,
-    ПОТРЕБИТЕЛИ: faUsers,
-    КОМЕНТАРИ: faComments,
-    ПОСЕЩЕНИЯТАДНЕС: faEye,
-}
+import { CARD_ICONS } from "../../constants/statsCardsIcons";
 
 const cardIconsStyles = {
     ПУБЛИКАЦИИ: statsCardStyles.publications,
@@ -29,7 +19,7 @@ export default function StatsCard({ text, value }) {
                     <FontAwesomeIcon
                         style={[statsCardStyles.icons, cardIconsStyles[iconKey]]}
                         size={13}
-                        icon={cardIcons[iconKey]}
+                        icon={CARD_ICONS[iconKey]}
                     />
                 </View>
                 <Text style={[statsCardStyles.textContent, statsCardStyles.cardHeading]}>{text}</Text>

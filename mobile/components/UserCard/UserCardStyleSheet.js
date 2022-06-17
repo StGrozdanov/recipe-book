@@ -1,0 +1,83 @@
+import { StyleSheet } from "react-native";
+
+export const userCardStyles = StyleSheet.create({
+    card: {
+        borderRadius: 25,
+        height: 320,
+        width: '50%',
+        alignSelf: 'center',
+        marginVertical: 40,
+        backgroundColor: 'rgba(111,115,255, 0.061)',
+        shadowColor: 'rgba(111,115,255, 0.2)',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.4,
+        shadowRadius: 20,
+        elevation: 80,
+        position: "relative",
+    }, 
+
+    cardTextSection: {
+        paddingVertical: 30,
+        backgroundColor: 'white',
+        borderRadius: 25,
+        height: '45%',
+    },
+
+    title: {
+        textAlign: "center",
+        marginBottom: 5,
+        color: '#55595c',
+    },
+
+    userName: {
+        fontWeight: '600',
+        fontSize: 15,
+    },
+
+    publications: {
+        fontWeight: '600',
+        fontSize: 15,
+        marginBottom: 25,
+        marginTop: 60,
+    },
+
+    publicationsCounts: {
+        fontSize: 12,
+    },
+
+    cardMainSection: {
+        height: '50%',
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25,
+        padding: 12,
+    },
+
+    publicationStats: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    
+    icons: {
+        alignSelf: 'center',
+        color: '#483d8bba',
+    },
+
+    avatar: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 50,
+    },
+
+    avatarContainer: {
+        backgroundColor: 'white',
+        zIndex: 1,
+        width: '60%',
+        height: '35%',
+        borderRadius: 50,
+        position: "absolute",
+        top: "26%",
+        left: "20%",
+        paddingHorizontal: 20,
+    }
+});

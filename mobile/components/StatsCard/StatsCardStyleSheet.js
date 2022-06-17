@@ -1,12 +1,11 @@
 import { StyleSheet } from "react-native";
 
 export const statsCardStyles = StyleSheet.create({
-    //#808adabd
     card: {
         width: '44%',
         backgroundColor: 'white',
         borderRadius: 20,
-        paddingTop: 8,
+        paddingTop: 12,
         position: "relative",
         marginBottom: 20,
         shadowColor: '#808adad9',

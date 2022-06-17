@@ -33,11 +33,13 @@ export default function Header() {
                 <Text style={headerStyle.currentPage}>{headerMessageGenerator.message}</Text>
             </View>
             <View style={headerStyle.rightSection}>
-                <TextInput
-                    style={showSearchBar ? headerStyle.searchBar : { display: 'none' }}
-                    placeholder='type to search...'
-                    selectionColor={ '#55595c' }
-                />
+                <View style={{ position: "absolute", top: "55%", left: "50%" }} >
+                    <TextInput
+                        style={showSearchBar ? headerStyle.searchBar : { display: 'none' }}
+                        placeholder='type to search...'
+                        selectionColor={'#55595c'}
+                    />
+                </View>
                 <TouchableOpacity style={headerStyle.iconContainer} onPress={searchBarHandler}>
                     <FontAwesomeIcon style={headerStyle.icons} size={18} icon={faMagnifyingGlass} />
                 </TouchableOpacity>
