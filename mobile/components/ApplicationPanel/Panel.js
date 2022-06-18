@@ -7,9 +7,7 @@ export default function Panel({ navigation, content }) {
     return (
         <View style={adminPanel.container}>
             <Header />
-            <ScrollView style={{flex: 1}}>
                 { content }
-            </ScrollView>
             <Navigation />
         </View>
     );

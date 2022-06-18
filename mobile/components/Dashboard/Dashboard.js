@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { dashboardStyles } from "./DashboardStyleSheet";
 import StatsCard from "../StatsCard/StatsCard";
 import Chart from "../StatisticChart/Chart";
@@ -17,7 +17,7 @@ const chartData = {
 
 export default function Dashboard({ navigation }) {
     return (
-        <View>
+        <ScrollView style={{ flex: 1 }}>
             <View style={dashboardStyles.statsCardContainer}>
                 <StatsCard text={"ПУБЛИКАЦИИ"} value={19} />
                 <StatsCard text={"ПОТРЕБИТЕЛИ"} value={5} />
@@ -26,6 +26,6 @@ export default function Dashboard({ navigation }) {
             </View>
             <Chart title={"Посещения за последните 6 месеца"} data={chartData} />
             <UserCard mostActiveUserName={'shushan'} />
-        </View>
+        </ScrollView>
     );
 }
