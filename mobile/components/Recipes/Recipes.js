@@ -35,6 +35,8 @@ export default function Recepies() {
                     isEven={item.id % 2 === 0}
                     isFirst={DATA[0].id === item.id}
                     isLast={DATA[DATA.length - 1].id === item.id}
+                    approveAction={item.Status == 'Approved' ? false : 'recipe'}
+                    removeAction={'recipe'}
                 />
             )}
         />
