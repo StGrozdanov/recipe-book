@@ -53,7 +53,7 @@ export default function Header() {
                         icon={colorTheme == 'light' ? faMoon : faLightbulb}
                     />
                 </TouchableOpacity>
-                <Image style={headerStyle.avatar} source={require('../../assets/Avatar.png')} />
+                <Image style={headerStyle.avatar} source={require('../../assets/avatar.png')} />
             </View>
         </View>
     );

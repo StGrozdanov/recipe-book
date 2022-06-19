@@ -12,7 +12,7 @@ export default function UserCard({ mostActiveUserName, totalPublications, recipe
                 <Text style={[userCardStyles.title, userCardStyles.userName]}>{mostActiveUserName}</Text>
             </View>
             <View style={ userCardStyles.avatarContainer }>
-                <Image style={userCardStyles.avatar} source={require('../../assets/Avatar.png')} />
+                <Image style={userCardStyles.avatar} source={require('../../assets/avatar.png')} />
             </View>
             <View style={userCardStyles.cardMainSection}>
                 <Text

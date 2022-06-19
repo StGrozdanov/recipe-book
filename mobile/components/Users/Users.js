@@ -14,10 +14,12 @@ export default function Users() {
     return (
         <FlatList
             style={userStyles.container}
+            key={DATA.id}
             data={DATA}
             renderItem={({ item }) => (
                 <Table
                     name={item.username}
+                    pictureType={'avatar'}
                     data={item}
                     isEven={item.id % 2 === 0}
                     isFirst={DATA[0].id === item.id}

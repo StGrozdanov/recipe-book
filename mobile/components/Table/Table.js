@@ -3,7 +3,7 @@ import ActionsDropdown from '../ActionsDropdown/ActionsDropdown';
 import TableHead from '../Table/TableHead/TableHead'
 import TableBody from '../Table/TableBody/TableBody';
 
-export default function User({ isEven, isFirst, isLast, name, data }) {
+export default function User({ isEven, isFirst, isLast, name, data, pictureType, pictureSource }) {
     const [isToggled, setIsToggled] = useState(false);
     const [dropdownIsExpanded, setDropdownIsExpanded] = useState(false);
 
@@ -28,6 +28,8 @@ export default function User({ isEven, isFirst, isLast, name, data }) {
     return (
         <>
             <TableHead
+                pictureSource={pictureSource}
+                pictureType={pictureType}
                 contentName={name}
                 isEven={isEven}
                 isFirst={isFirst}
