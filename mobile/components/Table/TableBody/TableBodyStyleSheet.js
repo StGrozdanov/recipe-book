@@ -27,23 +27,38 @@ export const tableBodyStyles = StyleSheet.create({
 
     online: {
         color: 'green',
-        fontWeight: '400',
-        borderWidth: 0.8,
-        borderRadius: 15,
-        paddingVertical: 5,
-        paddingHorizontal: 8,
         backgroundColor: "#2ac99111",
         borderColor: "green",
     },
 
     offline: {
         color: 'red',
+        backgroundColor: "#ff000010",
+        borderColor: "red",
+    },
+
+    Pending: {
+        color: 'darkgoldenrod',
+        backgroundColor: "#ffa50047",
+        borderColor: "#b8860b8c",
+    },
+
+    Approved: {
+        color: 'green',
+        backgroundColor: "#2ac99111",
+        borderColor: "green",
+    },
+
+    status: {
         fontWeight: '400',
         borderWidth: 0.8,
         borderRadius: 15,
         paddingVertical: 5,
         paddingHorizontal: 8,
-        backgroundColor: "#ff000010",
-        borderColor: "red",
     },
+
+    icons: {
+        alignSelf: "center",
+        color: "midnightblue",
+    }
 });

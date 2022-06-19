@@ -1,8 +1,15 @@
 import { View } from "react-native";
 import { tableBodyStyles } from "./TableBodyStyleSheet";
-import Cell from './TableBodyCell';
-import Status from './TableBodyStatus';
+import Cell from './TableBodyTypes/TableBodyCell';
+import Status from './TableBodyTypes/TableBodyStatus';
+import Owner from "./TableBodyTypes/TableBodyOwner";
+import Location from "./TableBodyTypes/TableBodyLocation";
 
+const CELL_TYPES = {
+    Status: (cellData) => <Status status={cellData} />,
+    Owner: (location) => <Owner pointer={location} />,
+    Location: (location) => <Location pointer={location} />,
+}
 
 export default function TableBody({ isToggled, data }) {
     data = Object.entries(data).slice(2);
@@ -12,9 +19,12 @@ export default function TableBody({ isToggled, data }) {
         <View style={[tableBodyStyles.additionalData, !isToggled && tableBodyStyles.toggledData]}>
             {
                 data.map(content => {
-                    return content[0] == 'Status'
-                        ? <Status status={content[1]} />
-                        : <Cell heading={content[0]} data={content[1]} />
+                    const cellHeading = content[0];
+                    const cellData = content[1];
+
+                    return CELL_TYPES.hasOwnProperty(cellHeading)
+                        ? CELL_TYPES[cellHeading](cellData)
+                        : <Cell heading={cellHeading} data={cellData} />
                 })
             }
         </View>
