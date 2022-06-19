@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { tableBodyStyles } from "./TableBodyStyleSheet";
+import { tableBodyStyles } from "../TableBodyStyleSheet";
 
 export default function Cell({ heading, data }) {
     return (

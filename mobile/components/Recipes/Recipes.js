@@ -3,21 +3,21 @@ import { userStyles } from "../Users/UserStyleSheet";
 import Table from "../Table/Table";
 
 const DATA = [
-    { id: 1, name: 'Кекс', Owner: 'some@email', Location: 'some avatar', Status: 'Approved', imgUrl: 'https://www.supichka.com/files/images/2565/bananov_keks_s_karamelena_glazura.jpg'},
-    { id: 2, name: 'Болонезе', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
-    { id: 3, name: 'Мусака', Owner: 'some@email', Location: 'some avatar', Status: 'Pending'},
-    { id: 4, name: 'Баклава', Owner: 'some@email', Location: 'some avatar', Status: 'Pending'},
-    { id: 5, name: 'Тиквеник', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
-    { id: 6, name: 'Тутманик', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
-    { id: 7, name: 'Картофена крем супа', Owner: 'some@email', Location: 'some avatar', Status: 'Pending'},
-    { id: 8, name: 'Малиново суфле', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
-    { id: 9, name: 'Рикота-рол с шамфъстък', Owner: 'some@email', Location: 'some avatar', Status: 'Pending'},
-    { id: 10, name: 'Тирамису', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
-    { id: 11, name: 'Ябълкова натрошенка', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
-    { id: 12, name: 'Салата цезар', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
-    { id: 13, name: 'Брускети с доматени кюфтенца по италиански', Owner: 'some@email', Location: 'some avatar', Status: 'Pending'},
-    { id: 14, name: 'Телешки бургер', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
-    { id: 15, name: 'Палачинки', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
+    { id: 1, name: 'Кекс', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: 'https://www.supichka.com/files/images/2565/bananov_keks_s_karamelena_glazura.jpg'},
+    { id: 2, name: 'Болонезе', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: 'https://cdn.pro-nails.ru/kuchnia/9457043/spaghetti_bolognese_przepis_oryginalny_na_sos_pomidorowy_do_makaronu.jpg.webp'},
+    { id: 3, name: 'Мусака', Owner: 'redirect', Location: 'redirect', Status: 'Pending', imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFigbee7U_EsyaP0GE6Gs-s6SQVV9tvG14fA&usqp=CAU'},
+    { id: 4, name: 'Баклава', Owner: 'redirect', Location: 'redirect', Status: 'Pending', imgUrl: ''},
+    { id: 5, name: 'Тиквеник', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: ''},
+    { id: 6, name: 'Тутманик', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: ''},
+    { id: 7, name: 'Картофена крем супа', Owner: 'redirect', Location: 'redirect', Status: 'Pending', imgUrl: ''},
+    { id: 8, name: 'Малиново суфле', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: ''},
+    { id: 9, name: 'Рикота-рол с шамфъстък', Owner: 'redirect', Location: 'redirect', Status: 'Pending', imgUrl: ''},
+    { id: 10, name: 'Тирамису', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: ''},
+    { id: 11, name: 'Ябълкова натрошенка', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: ''},
+    { id: 12, name: 'Салата цезар', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: ''},
+    { id: 13, name: 'Брускети с доматени кюфтенца по италиански', Owner: 'redirect', Location: 'redirect', Status: 'Pending', imgUrl: ''},
+    { id: 14, name: 'Телешки бургер', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: ''},
+    { id: 15, name: 'Палачинки', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: ''},
 ];
 
 export default function Recepies() {
