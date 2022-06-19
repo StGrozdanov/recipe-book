@@ -3,7 +3,7 @@ import { userStyles } from "../Users/UserStyleSheet";
 import Table from "../Table/Table";
 
 const DATA = [
-    { id: 1, name: 'Кекс', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
+    { id: 1, name: 'Кекс', Owner: 'some@email', Location: 'some avatar', Status: 'Approved', imgUrl: 'https://www.supichka.com/files/images/2565/bananov_keks_s_karamelena_glazura.jpg'},
     { id: 2, name: 'Болонезе', Owner: 'some@email', Location: 'some avatar', Status: 'Approved'},
     { id: 3, name: 'Мусака', Owner: 'some@email', Location: 'some avatar', Status: 'Pending'},
     { id: 4, name: 'Баклава', Owner: 'some@email', Location: 'some avatar', Status: 'Pending'},
@@ -30,6 +30,7 @@ export default function Recepies() {
                 <Table
                     name={item.name}
                     pictureType={'food'}
+                    pictureSource={item.imgUrl}
                     data={item}
                     isEven={item.id % 2 === 0}
                     isFirst={DATA[0].id === item.id}

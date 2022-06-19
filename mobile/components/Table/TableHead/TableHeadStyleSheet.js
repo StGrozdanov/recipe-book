@@ -58,11 +58,11 @@ export const tableHeadStyles = StyleSheet.create({
         height: 35,
         borderRadius: 50,
         backgroundColor: 'white',
-        marginRight: 30,
+        marginRight: 20,
     },
 
     text: {
-        fontSize: 17,
+        fontSize: 15,
         fontWeight: '300',
     },
 

@@ -32,16 +32,21 @@ export default function TableHead({
                     size={17.5}
                 />
                 <View style={tableHeadStyles.leftUserSectionContent}>
-                    <Image
-                        style={tableHeadStyles.avatar}
-                        source={
-                            pictureType && !pictureSource
-                                ? pictureType == 'avatar'
-                                    ? require('../../../assets/avatar.png')
-                                    : require('../../../assets/food.jpg')
-                                : pictureSource
-                        }
-                    />
+                    {
+                        pictureSource
+                            ? <Image
+                                source={{ uri: pictureSource }}
+                                style={tableHeadStyles.avatar}
+                            />
+                            : <Image
+                                style={tableHeadStyles.avatar}
+                                source={
+                                    pictureType == 'avatar'
+                                        ? require('../../../assets/avatar.png')
+                                        : require('../../../assets/food.jpg')
+                                }
+                            />
+                    }
                     <Text style={[isEven && tableHeadStyles.whiteText, tableHeadStyles.text]}>{contentName}</Text>
                 </View>
                 <TouchableOpacity style={[tableHeadStyles.rightUserSectionContent]} onPress={optionsHandler}>
