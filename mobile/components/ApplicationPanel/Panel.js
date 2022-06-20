@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View } from "react-native";
 import { adminPanel } from "./PanelStyleSheet";
 import Navigation from "../Navigation/Navigation";
 import Header from "../Header/Header";

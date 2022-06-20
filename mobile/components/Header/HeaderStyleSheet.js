@@ -14,6 +14,10 @@ export const headerStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
+
+        borderBottomColor: '#999',
+        borderEndColor: '#111',
+        borderStartColor: '#111',
     },
 
     avatar: {
@@ -26,11 +30,15 @@ export const headerStyle = StyleSheet.create({
         borderRadius: 50,
         padding: 8,
         backgroundColor: 'white',
+
+        backgroundColor: '#111',
     },
 
     icons: {
         borderRadius: 50,
         color: '#55595c',
+
+        color: '#999',
     },  
 
     leftSection: {
@@ -50,6 +58,8 @@ export const headerStyle = StyleSheet.create({
         color: '#55595c',
         fontSize: 12,
         textAlign: 'center',
+
+        color: 'floralwhite',
     },
 
     greetingText: {
@@ -58,6 +68,8 @@ export const headerStyle = StyleSheet.create({
         color: '#55595c',
         marginBottom: 5,
         textAlign: 'center',
+
+        color: 'floralwhite',
     },
 
     searchBar: {
@@ -69,6 +81,61 @@ export const headerStyle = StyleSheet.create({
         padding: 5,
         textAlign: 'center',
         borderRadius: 20,
-    }
+
+        backgroundColor: 'floralwhite',
+    },
+
+    darkContainer: {
+        flex: 0.19,
+        marginTop: 40,
+        borderBottomWidth: 5,
+        borderEndWidth: 1,
+        borderStartWidth: 1,
+        borderRadius: 25,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        borderBottomColor: '#999',
+        borderEndColor: '#111',
+        borderStartColor: '#111',
+    },
+
+    darkIconContainer: {
+        borderRadius: 50,
+        padding: 8,
+        backgroundColor: '#111',
+    },
+
+    darkIcons: {
+        borderRadius: 50,        
+        color: '#999',
+    }, 
+
+    darkCurrentPage: {
+        fontWeight: '400',
+        fontStyle: 'italic',
+        fontSize: 12,
+        textAlign: 'center',
+        color: 'floralwhite',
+    },
+
+    darkGreetingText: {
+        fontWeight: '800',
+        fontSize: 16,
+        marginBottom: 5,
+        textAlign: 'center',
+        color: 'floralwhite',
+    },
+
+    darkSearchBar: {
+        position: 'absolute',
+        top: '60%',
+        right: '50%',
+        width: 200,
+        padding: 5,
+        textAlign: 'center',
+        borderRadius: 20,
+        backgroundColor: 'floralwhite',
+    },
 
 });
