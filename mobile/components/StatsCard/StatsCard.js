@@ -10,7 +10,7 @@ const cardIconsStyles = {
     ПОСЕЩЕНИЯТАДНЕС: statsCardStyles.visitations,
 }
 
-export default function StatsCard({ text, value }) {
+export default function     StatsCard({ text, value }) {
     let iconKey = text.replace(' ', '')
 
     return (
