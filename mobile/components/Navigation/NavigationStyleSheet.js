@@ -18,20 +18,15 @@ export const adminPanelNav = StyleSheet.create({
         elevation: 20,
         borderWidth: 0.4,
         borderColor: '#808ada82',
-
-        borderColor: 'rgba(124,113,192,0.65)',
     },
 
     websiteLogo: {
         width: 37,
         height: 37,
-        opacity: 0.55,
     },
 
     navItem: {
         color: '#483d8bba',
-
-        color: "rgba(124,113,192,0.65)",
     },
     
     selected: {
@@ -63,5 +58,11 @@ export const adminPanelNav = StyleSheet.create({
 
     darkNavItem: {        
         color: "rgba(124,113,192,0.65)",
+    },
+
+    darkWebsiteLogo: {
+        width: 37,
+        height: 37,
+        opacity: 0.55,
     },
 });

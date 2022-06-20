@@ -14,10 +14,6 @@ export const userCardStyles = StyleSheet.create({
         shadowRadius: 25,
         elevation: 80,
         position: "relative",
-
-        backgroundColor: "#111",
-        borderColor: 'rgba(124,113,192,0.65)',
-        borderWidth: 0.3,
     }, 
 
     cardTextSection: {
@@ -25,16 +21,12 @@ export const userCardStyles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 25,
         height: '45%',
-
-        backgroundColor: 'rgba(124,113,192,0.32)'
     },
 
     title: {
         textAlign: "center",
         marginBottom: 5,
         color: '#55595c',
-
-        color: "floralwhite",
     },
 
     userName: {
@@ -47,8 +39,6 @@ export const userCardStyles = StyleSheet.create({
         fontSize: 15,
         marginBottom: 25,
         marginTop: 60,
-
-        marginTop: 80,
     },
 
     publicationsCounts: {
@@ -89,8 +79,6 @@ export const userCardStyles = StyleSheet.create({
         top: "26%",
         left: "20%",
         paddingHorizontal: 20,
-
-        backgroundColor: 'floralwhite',
     },
 
     darkCard: {

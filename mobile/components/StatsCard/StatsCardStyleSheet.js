@@ -14,10 +14,6 @@ export const statsCardStyles = StyleSheet.create({
         shadowOpacity: 0.4,
         shadowRadius: 35,
         elevation: 23,
-
-        backgroundColor: '#111',
-        borderWidth: 0.35,
-        borderColor: 'rgba(124,113,192,0.65)'
     },
 
     iconContainer: {
@@ -57,8 +53,6 @@ export const statsCardStyles = StyleSheet.create({
         textAlign: "center",
         marginBottom: 8,
         color: '#55595c',
-
-        color: 'floralwhite',
     },
 
     cardHeading: {
@@ -72,13 +66,9 @@ export const statsCardStyles = StyleSheet.create({
         borderRadius: 20,
         width: "87%",
         height: 25,
-        top: "31%",
+        top: "37%",
         left: "7%",
         zIndex: -1,
-
-        borderColor: 'rgba(124,113,192,0.65)',
-        borderWidth: 0,
-        borderBottomWidth: 2,
     },
 
     darkCard: {

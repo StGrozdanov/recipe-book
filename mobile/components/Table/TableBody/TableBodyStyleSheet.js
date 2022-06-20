@@ -7,27 +7,18 @@ export const tableBodyStyles = StyleSheet.create({
         alignContent: "center",
         justifyContent: "space-evenly",
         paddingVertical: 30,
-
-        borderLeftWidth: 1.5,
-        borderRightWidth: 1.5,
-        borderStartColor: 'rgba(124,113,192,0.6)',
-        borderEndColor: 'rgba(124,113,192,0.6)',
     },
 
     additionalDataHeading: {
         marginBottom: 10,
         fontWeight: '400',
         textAlign: 'center',
-
-        color: 'floralwhite',
     },
 
     additionalDataContent: {
         textAlign: "center",
         fontWeight: "300",
         fontSize: 12,
-
-        color: 'rgba(124,113,192,1)'
     },
 
     toggledData: {
@@ -44,9 +35,6 @@ export const tableBodyStyles = StyleSheet.create({
         color: 'red',
         backgroundColor: "#ff000010",
         borderColor: "red",
-
-        color: 'darkred',
-        borderColor: 'darkred',
     },
 
     Pending: {
@@ -72,7 +60,43 @@ export const tableBodyStyles = StyleSheet.create({
     icons: {
         alignSelf: "center",
         color: "midnightblue",
+    },
 
+    darkAdditionalData: {
+        flexDirection: "row",
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "space-evenly",
+        paddingVertical: 30,
+        borderLeftWidth: 1.5,
+        borderRightWidth: 1.5,
+        borderStartColor: 'rgba(124,113,192,0.6)',
+        borderEndColor: 'rgba(124,113,192,0.6)',
+    },
+
+    darkAdditionalDataHeading: {
+        marginBottom: 10,
+        fontWeight: '400',
+        textAlign: 'center',
+        color: 'floralwhite',
+    },
+
+    darkAdditionalDataContent: {
+        textAlign: "center",
+        fontWeight: "300",
+        fontSize: 12,
+        color: 'rgba(124,113,192,1)'
+    },
+
+    darkOffline: {
+        backgroundColor: "#ff000010",
+        color: 'darkred',
+        borderColor: 'darkred',
+    },
+
+    darkIcons: {
+        alignSelf: "center",
         color: 'rgba(124,113,192,0.8)',
-    }
+    },
+
 });

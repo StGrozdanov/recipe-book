@@ -14,10 +14,6 @@ export const headerStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
-
-        borderBottomColor: 'rgba(124,113,192,0.65)',
-        borderEndColor: '#111',
-        borderStartColor: '#111',
     },
 
     avatar: {
@@ -30,15 +26,11 @@ export const headerStyle = StyleSheet.create({
         borderRadius: 50,
         padding: 8,
         backgroundColor: 'white',
-
-        backgroundColor: '#111',
     },
 
     icons: {
         borderRadius: 50,
         color: '#55595c',
-
-        color: 'rgba(124,113,192,0.65)',
     },  
 
     leftSection: {
@@ -58,8 +50,6 @@ export const headerStyle = StyleSheet.create({
         color: '#55595c',
         fontSize: 12,
         textAlign: 'center',
-
-        color: 'floralwhite',
     },
 
     greetingText: {
@@ -68,8 +58,6 @@ export const headerStyle = StyleSheet.create({
         color: '#55595c',
         marginBottom: 5,
         textAlign: 'center',
-
-        color: 'floralwhite',
     },
 
     searchBar: {
@@ -81,8 +69,6 @@ export const headerStyle = StyleSheet.create({
         padding: 5,
         textAlign: 'center',
         borderRadius: 20,
-
-        backgroundColor: 'rgba(124,113,192,1)',
     },
 
     darkContainer: {

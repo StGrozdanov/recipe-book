@@ -4,8 +4,6 @@ export const adminPanel = StyleSheet.create({
     container: {
         backgroundColor: '#EFEEFE',
         flex: 1,
-
-        backgroundColor: '#111',
     },
 
     darkContainer: {
