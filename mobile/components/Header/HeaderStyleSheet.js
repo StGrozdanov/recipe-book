@@ -82,7 +82,7 @@ export const headerStyle = StyleSheet.create({
         textAlign: 'center',
         borderRadius: 20,
 
-        backgroundColor: 'floralwhite',
+        backgroundColor: 'rgba(124,113,192,1)',
     },
 
     darkContainer: {

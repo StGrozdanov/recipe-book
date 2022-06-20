@@ -25,6 +25,7 @@ export const adminPanelNav = StyleSheet.create({
     websiteLogo: {
         width: 37,
         height: 37,
+        opacity: 0.55,
     },
 
     navItem: {
