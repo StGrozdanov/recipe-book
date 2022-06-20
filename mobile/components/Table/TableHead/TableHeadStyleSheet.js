@@ -74,7 +74,7 @@ export const tableHeadStyles = StyleSheet.create({
         justifyContent: "space-between",
         alignContent: "center",
         position: "relative",
-        backgroundColor: "floralwhite",
+        backgroundColor: "lightgrey",
     },
 
     darkEvenItem: {
