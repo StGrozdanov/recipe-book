@@ -4,6 +4,7 @@ import Cell from './TableBodyTypes/TableBodyCell';
 import Status from './TableBodyTypes/TableBodyStatus';
 import Owner from "./TableBodyTypes/TableBodyOwner";
 import Location from "./TableBodyTypes/TableBodyLocation";
+import { useThemeContext } from "../../../contexts/ThemeContext";
 
 const CELL_TYPES = {
     Status: (cellData) => <Status status={cellData} />,
@@ -14,9 +15,10 @@ const CELL_TYPES = {
 export default function TableBody({ isToggled, data }) {
     data = Object.entries(data).slice(2);
     data.pop();
+    const { theme } = useThemeContext();
 
     return (
-        <View style={[tableBodyStyles.additionalData, !isToggled && tableBodyStyles.toggledData]}>
+        <View style={[tableBodyStyles[theme + 'AdditionalData'], !isToggled && tableBodyStyles.toggledData]}>
             {
                 data.map(content => {
                     const cellHeading = content[0];

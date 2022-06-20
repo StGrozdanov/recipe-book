@@ -2,6 +2,7 @@ import { View, Text, ImageBackground } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { statsCardStyles } from "./StatsCardStyleSheet";
 import { CARD_ICONS } from "../../constants/statsCardsIcons";
+import { useThemeContext } from "../../contexts/ThemeContext";
 
 const cardIconsStyles = {
     ПУБЛИКАЦИИ: statsCardStyles.publications,
@@ -12,9 +13,10 @@ const cardIconsStyles = {
 
 export default function StatsCard({ text, value }) {
     let iconKey = text.replace(' ', '')
+    const { theme } = useThemeContext();
 
     return (
-            <View style={statsCardStyles.card}>
+            <View style={statsCardStyles[theme + 'Card']}>
                 <View style={[statsCardStyles.iconContainer, cardIconsStyles[iconKey]]}>
                     <FontAwesomeIcon
                         style={[statsCardStyles.icons, cardIconsStyles[iconKey]]}
@@ -22,9 +24,9 @@ export default function StatsCard({ text, value }) {
                         icon={CARD_ICONS[iconKey]}
                     />
                 </View>
-                <Text style={[statsCardStyles.textContent, statsCardStyles.cardHeading]}>{text}</Text>
-                <Text style={statsCardStyles.textContent}>{value}</Text>
-                <ImageBackground style={statsCardStyles.afterElement} />
+                <Text style={[statsCardStyles[theme + 'TextContent'], statsCardStyles.cardHeading]}>{text}</Text>
+                <Text style={statsCardStyles[theme + 'TextContent']}>{value}</Text>
+                <ImageBackground style={statsCardStyles[theme + 'AfterElement']} />
             </View>
     );
 }

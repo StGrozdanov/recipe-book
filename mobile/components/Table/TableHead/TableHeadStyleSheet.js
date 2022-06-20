@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const tableHeadStyles = StyleSheet.create({
-    section: {
+    lightSection: {
         paddingHorizontal: 40,
         paddingVertical: 10,
         backgroundColor: 'white',
@@ -12,16 +12,16 @@ export const tableHeadStyles = StyleSheet.create({
         position: "relative",
     },
 
-    evenItem: {
+    lightEvenItem: {
         backgroundColor: 'rgba(124,113,192,0.28)',
     },
 
-    firstItem: {
+    lightFirstItem: {
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
     },
 
-    lastItem: {
+    lightLastItem: {
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
     },
@@ -32,7 +32,7 @@ export const tableHeadStyles = StyleSheet.create({
         left: '3%',
     },  
 
-    whiteText: {
+    lightWhiteText: {
         color: 'white',
     },
 
@@ -53,7 +53,7 @@ export const tableHeadStyles = StyleSheet.create({
         alignContent: "center",
     },
 
-    avatar: {
+    lightAvatar: {
         width: 35,
         height: 35,
         borderRadius: 50,
@@ -64,6 +64,51 @@ export const tableHeadStyles = StyleSheet.create({
     text: {
         fontSize: 15,
         fontWeight: '300',
+    },
+
+    darkSection: {
+        paddingHorizontal: 40,
+        paddingVertical: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        alignContent: "center",
+        position: "relative",
+        backgroundColor: "lightgrey",
+    },
+
+    darkEvenItem: {
+        backgroundColor: 'rgba(124,113,192,0.6)',
+    },
+
+    darkFirstItem: {
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+        borderTopWidth: 5,
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
+        borderColor: 'rgba(124,113,192,0.6)'
+    },
+
+    darkLastItem: {
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25,
+        borderBottomWidth: 5,
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
+        borderColor: 'rgba(124,113,192,0.6)'
+    },
+
+    darkWhiteText: {
+        color: 'floralwhite',
+    },
+
+    darkAvatar: {
+        width: 35,
+        height: 35,
+        borderRadius: 50,
+        marginRight: 20,
+        backgroundColor: 'floralwhite',
     },
 
 }); 

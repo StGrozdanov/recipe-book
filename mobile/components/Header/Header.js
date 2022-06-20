@@ -8,18 +8,26 @@ import { faLightbulb } from '@fortawesome/free-regular-svg-icons/faLightbulb';
 import { headerStyle } from "./HeaderStyleSheet";
 import { greetingGenerator } from "../../helpers/headerGreetingGenerator";
 import { useState } from "react";
+import { useThemeContext } from "../../contexts/ThemeContext";
 
 export default function Header() {
     const [colorTheme, setColorTheme] = useState('light');
     const [showSearchBar, setShowSearchBar] = useState(false);
+    const { theme, changeTheme } = useThemeContext();
     const navigationRoute = useRoute();
 
     const currentPageName = navigationRoute.name;
     const currentHour = new Date(Date.now()).getHours();
     const headerMessageGenerator = greetingGenerator(currentPageName, currentHour);
 
-    function changeThemeHandler() {
-        colorTheme == 'light' ? setColorTheme('dark') : setColorTheme('light');
+    async function changeThemeHandler() {
+        if (colorTheme == 'light') {
+            setColorTheme('dark');
+            await changeTheme('dark');
+        } else {
+            setColorTheme('light');
+            await changeTheme('light');
+        }
     }
 
     function searchBarHandler() {
@@ -27,28 +35,28 @@ export default function Header() {
     }
 
     return (
-        <View style={headerStyle.container}>
+        <View style={headerStyle[theme + 'Container']}>
             <View style={headerStyle.leftSection}>
-                <Text style={headerStyle.greetingText}>{headerMessageGenerator.greeting}, shushan</Text>
-                <Text style={headerStyle.currentPage}>{headerMessageGenerator.message}</Text>
+                <Text style={headerStyle[theme + 'GreetingText']}>{headerMessageGenerator.greeting}, shushan</Text>
+                <Text style={headerStyle[theme + 'CurrentPage']}>{headerMessageGenerator.message}</Text>
             </View>
             <View style={headerStyle.rightSection}>
                 <View style={{ position: "absolute", top: "59%", left: "50%" }} >
                     <TextInput
-                        style={showSearchBar ? headerStyle.searchBar : { display: 'none' }}
+                        style={showSearchBar ? headerStyle[theme + 'SearchBar'] : { display: 'none' }}
                         placeholder='type to search...'
                         selectionColor={'#55595c'}
                     />
                 </View>
-                <TouchableOpacity style={headerStyle.iconContainer} onPress={searchBarHandler}>
-                    <FontAwesomeIcon style={headerStyle.icons} size={18} icon={faMagnifyingGlass} />
+                <TouchableOpacity style={headerStyle[theme + 'IconContainer']} onPress={searchBarHandler}>
+                    <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={18} icon={faMagnifyingGlass} />
                 </TouchableOpacity>
-                <TouchableOpacity style={headerStyle.iconContainer}>
-                    <FontAwesomeIcon style={headerStyle.icons} size={20} icon={faBell} />
+                <TouchableOpacity style={headerStyle[theme + 'IconContainer']}>
+                    <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={20} icon={faBell} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={changeThemeHandler} >
                     <FontAwesomeIcon
-                        style={headerStyle.icons}
+                        style={headerStyle[theme + 'Icons']}
                         size={22}
                         icon={colorTheme == 'light' ? faMoon : faLightbulb}
                     />

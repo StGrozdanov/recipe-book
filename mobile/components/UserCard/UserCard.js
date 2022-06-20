@@ -3,20 +3,23 @@ import { userCardStyles } from './UserCardStyleSheet';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBowlRice } from '@fortawesome/free-solid-svg-icons/faBowlRice';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots';
+import { useThemeContext } from "../../contexts/ThemeContext";
 
 export default function UserCard({ mostActiveUserName, totalPublications, recipesCount, commentsCount }) {
+    const { theme } = useThemeContext();
+
     return (
-        <View style={userCardStyles.card}>
-            <View style={userCardStyles.cardTextSection}>
-                <Text style={userCardStyles.title}>Най-активен потребител:</Text>
-                <Text style={[userCardStyles.title, userCardStyles.userName]}>{mostActiveUserName}</Text>
+        <View style={userCardStyles[theme + 'Card']}>
+            <View style={userCardStyles[theme + 'CardTextSection']}>
+                <Text style={userCardStyles[theme + 'Title']}>Най-активен потребител:</Text>
+                <Text style={[userCardStyles[theme + 'Title'], userCardStyles.userName]}>{mostActiveUserName}</Text>
             </View>
-            <View style={ userCardStyles.avatarContainer }>
+            <View style={ userCardStyles[theme + 'AvatarContainer'] }>
                 <Image style={userCardStyles.avatar} source={require('../../assets/avatar.png')} />
             </View>
             <View style={userCardStyles.cardMainSection}>
                 <Text
-                    style={[userCardStyles.title, userCardStyles.publications]}
+                    style={[userCardStyles[theme + 'Title'], userCardStyles[theme + 'Publications']]}
                 >
                     {totalPublications} Публикации
                 </Text>
@@ -24,7 +27,7 @@ export default function UserCard({ mostActiveUserName, totalPublications, recipe
                     <View>
                         <FontAwesomeIcon icon={faBowlRice} style={userCardStyles.icons} size={20} />
                         <Text
-                            style={[userCardStyles.title, userCardStyles.publicationsCounts]}
+                            style={[userCardStyles[theme + 'Title'], userCardStyles.publicationsCounts]}
                         >
                             {recipesCount}12 рецепети
                         </Text>
@@ -32,7 +35,7 @@ export default function UserCard({ mostActiveUserName, totalPublications, recipe
                     <View>
                         <FontAwesomeIcon icon={faCommentDots} style={userCardStyles.icons} size={20} />
                         <Text
-                            style={[userCardStyles.title, userCardStyles.publicationsCounts]}
+                            style={[userCardStyles[theme + 'Title'], userCardStyles.publicationsCounts]}
                         >
                             {commentsCount}12 коментара
                         </Text>

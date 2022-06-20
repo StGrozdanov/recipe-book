@@ -3,7 +3,8 @@ import { StyleSheet } from "react-native";
 export const userStyles = StyleSheet.create({
     container: {
         flex: 1,
-        marginVertical: 30,
+        marginTop: 10,
+        marginBottom: 5,
         marginHorizontal: 10,
         borderRadius: 25,
         shadowColor: '#808adad9',

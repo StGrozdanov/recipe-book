@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const statsCardStyles = StyleSheet.create({
-    card: {
+    lightCard: {
         width: '44%',
         backgroundColor: 'white',
         borderRadius: 20,
@@ -49,7 +49,7 @@ export const statsCardStyles = StyleSheet.create({
         backgroundColor: '#2ac99130',
     },
 
-    textContent: {
+    lightTextContent: {
         textAlign: "center",
         marginBottom: 8,
         color: '#55595c',
@@ -59,9 +59,42 @@ export const statsCardStyles = StyleSheet.create({
         fontSize: 11,
     },
 
-    afterElement: {
+    lightAfterElement: {
         borderWidth: 1.5,
         borderColor: "white",
+        position: "absolute",
+        borderRadius: 20,
+        width: "87%",
+        height: 25,
+        top: "37%",
+        left: "7%",
+        zIndex: -1,
+    },
+
+    darkCard: {
+        width: '44%',
+        borderRadius: 20,
+        paddingTop: 20,
+        paddingBottom: 5,
+        position: "relative",
+        marginBottom: 20,
+        shadowColor: '#808adad9',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.4,
+        shadowRadius: 35,
+        elevation: 23,
+        backgroundColor: '#111',
+        borderWidth: 0.35,
+        borderColor: 'rgba(124,113,192,0.65)'
+    },
+
+    darkTextContent: {
+        textAlign: "center",
+        marginBottom: 8,
+        color: 'floralwhite',
+    },
+
+    darkAfterElement: {
         position: "absolute",
         borderRadius: 20,
         width: "87%",
@@ -69,6 +102,8 @@ export const statsCardStyles = StyleSheet.create({
         top: "31%",
         left: "7%",
         zIndex: -1,
+        borderColor: 'rgba(124,113,192,0.65)',
+        borderBottomWidth: 2,
     },
 
 });

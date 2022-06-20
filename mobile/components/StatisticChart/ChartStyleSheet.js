@@ -11,9 +11,15 @@ export const chartStyles = StyleSheet.create({
         borderRadius: 25
     },
 
-    title: {
+    lightTitle: {
         textAlign: "center",
         marginTop: 30,
         color: 'rgba(124,113,192, 0.65)',
+    },
+
+    darkTitle: {
+        textAlign: "center",
+        marginTop: 30,
+        color: "floralwhite",
     },
 });

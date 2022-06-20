@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const userCardStyles = StyleSheet.create({
-    card: {
+    lightCard: {
         borderRadius: 25,
         height: 390,
         width: '57%',
@@ -16,14 +16,14 @@ export const userCardStyles = StyleSheet.create({
         position: "relative",
     }, 
 
-    cardTextSection: {
+    lightCardTextSection: {
         paddingVertical: 30,
         backgroundColor: 'white',
         borderRadius: 25,
         height: '45%',
     },
 
-    title: {
+    lightTitle: {
         textAlign: "center",
         marginBottom: 5,
         color: '#55595c',
@@ -34,7 +34,7 @@ export const userCardStyles = StyleSheet.create({
         fontSize: 15,
     },
 
-    publications: {
+    lightPublications: {
         fontWeight: '600',
         fontSize: 15,
         marginBottom: 25,
@@ -69,7 +69,7 @@ export const userCardStyles = StyleSheet.create({
         borderRadius: 50,
     },
 
-    avatarContainer: {
+    lightAvatarContainer: {
         backgroundColor: 'white',
         zIndex: 1,
         width: '60%',
@@ -79,5 +79,55 @@ export const userCardStyles = StyleSheet.create({
         top: "26%",
         left: "20%",
         paddingHorizontal: 20,
-    }
+    },
+
+    darkCard: {
+        borderRadius: 25,
+        height: 390,
+        width: '57%',
+        alignSelf: 'center',
+        marginVertical: 40,
+        shadowColor: 'rgba(111,115,255, 0.2)',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.6,
+        shadowRadius: 25,
+        elevation: 80,
+        position: "relative",
+        backgroundColor: "#111",
+        borderColor: 'rgba(124,113,192,0.65)',
+        borderWidth: 0.3,
+    },
+
+    darkCardTextSection: {
+        paddingVertical: 30,
+        borderRadius: 25,
+        height: '45%',
+        backgroundColor: 'rgba(124,113,192,0.32)'
+    },
+
+    darkTitle: {
+        textAlign: "center",
+        marginBottom: 5,
+        color: "floralwhite",
+    },
+
+    darkPublications: {
+        fontWeight: '600',
+        fontSize: 15,
+        marginBottom: 25,
+        marginTop: 80,
+    },
+
+    darkAvatarContainer: {
+        zIndex: 1,
+        width: '60%',
+        height: '35%',
+        borderRadius: 50,
+        position: "absolute",
+        top: "26%",
+        left: "20%",
+        paddingHorizontal: 20,
+        backgroundColor: 'floralwhite',
+    },
+
 });
