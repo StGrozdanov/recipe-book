@@ -15,7 +15,7 @@ export const headerStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
 
-        borderBottomColor: '#999',
+        borderBottomColor: 'rgba(124,113,192,0.65)',
         borderEndColor: '#111',
         borderStartColor: '#111',
     },
@@ -38,7 +38,7 @@ export const headerStyle = StyleSheet.create({
         borderRadius: 50,
         color: '#55595c',
 
-        color: '#999',
+        color: 'rgba(124,113,192,0.65)',
     },  
 
     leftSection: {
@@ -95,7 +95,7 @@ export const headerStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
-        borderBottomColor: '#999',
+        borderBottomColor: 'rgba(124,113,192,0.65)',
         borderEndColor: '#111',
         borderStartColor: '#111',
     },
@@ -108,7 +108,7 @@ export const headerStyle = StyleSheet.create({
 
     darkIcons: {
         borderRadius: 50,        
-        color: '#999',
+        color: 'rgba(124,113,192,0.65)',
     }, 
 
     darkCurrentPage: {
