@@ -2,11 +2,13 @@ import { StyleSheet } from "react-native";
 
 export const actionStyles = StyleSheet.create({
     action: {
-        borderWidth: 0.5,
         borderColor: 'white',
-        paddingVertical: 13,
+        paddingVertical: 11,
         paddingHorizontal: 38,
         flexDirection: "row",
+        borderBottomEndRadius: 10,
+        borderBottomStartRadius: 10,
+        borderBottomWidth: 0.5,
     },
 
     text: {
