@@ -4,6 +4,7 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons/faAngleDown';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons/faEllipsis';
 import { tableHeadStyles } from "./TableHeadStyleSheet";
+import { useThemeContext } from "../../../contexts/ThemeContext";
 
 export default function TableHead({
     isEven,
@@ -16,19 +17,21 @@ export default function TableHead({
     optionsHandler,
     isToggled
 }) {
+    const { theme } = useThemeContext();
+
     return (
         <TouchableOpacity onPress={toggleHandler}>
             <View
                 style={[
-                    tableHeadStyles.section,
-                    isEven && tableHeadStyles.evenItem,
-                    isFirst && tableHeadStyles.firstItem,
-                    isLast && tableHeadStyles.lastItem,
+                    tableHeadStyles[theme + 'Section'],
+                    isEven && tableHeadStyles[theme + 'EvenItem'],
+                    isFirst && tableHeadStyles[theme + 'FirstItem'],
+                    isLast && tableHeadStyles[theme + 'LastItem'],
                 ]}
             >
                 <FontAwesomeIcon
                     icon={isToggled ? faAngleDown : faAngleRight}
-                    style={[tableHeadStyles.icon, isEven ? tableHeadStyles.whiteText : tableHeadStyles.iconText]}
+                    style={[tableHeadStyles.icon, isEven ? tableHeadStyles[theme + 'WhiteText'] : tableHeadStyles.iconText]}
                     size={17.5}
                 />
                 <View style={tableHeadStyles.leftUserSectionContent}>
@@ -36,10 +39,10 @@ export default function TableHead({
                         pictureSource
                             ? <Image
                                 source={{ uri: pictureSource }}
-                                style={tableHeadStyles.avatar}
+                                style={tableHeadStyles[theme + 'Avatar']}
                             />
                             : <Image
-                                style={tableHeadStyles.avatar}
+                                style={tableHeadStyles[theme + 'Avatar']}
                                 source={
                                     pictureType == 'avatar'
                                         ? require('../../../assets/avatar.png')
@@ -47,12 +50,12 @@ export default function TableHead({
                                 }
                             />
                     }
-                    <Text style={[isEven && tableHeadStyles.whiteText, tableHeadStyles.text]}>{contentName}</Text>
+                    <Text style={[isEven && tableHeadStyles[theme + 'WhiteText'], tableHeadStyles.text]}>{contentName}</Text>
                 </View>
                 <TouchableOpacity style={[tableHeadStyles.rightUserSectionContent]} onPress={optionsHandler}>
                     <FontAwesomeIcon
                         icon={faEllipsis}
-                        style={[isEven ? tableHeadStyles.whiteText : tableHeadStyles.iconText]}
+                        style={[isEven ? tableHeadStyles[theme + 'WhiteText'] : tableHeadStyles.iconText]}
                         size={20}
                     />
                 </TouchableOpacity>

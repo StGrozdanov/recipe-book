@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const headerStyle = StyleSheet.create({
-    container: {
+    lightContainer: {
         flex: 0.19,
         marginTop: 40,
         borderBottomWidth: 5,
@@ -22,13 +22,13 @@ export const headerStyle = StyleSheet.create({
         borderRadius: 50,
     },
 
-    iconContainer: {
+    lightIconContainer: {
         borderRadius: 50,
         padding: 8,
         backgroundColor: 'white',
     },
 
-    icons: {
+    lightIcons: {
         borderRadius: 50,
         color: '#55595c',
     },  
@@ -44,7 +44,7 @@ export const headerStyle = StyleSheet.create({
         width: '44%'
     },
 
-    currentPage: {
+    lightCurrentPage: {
         fontWeight: '400',
         fontStyle: 'italic',
         color: '#55595c',
@@ -52,7 +52,7 @@ export const headerStyle = StyleSheet.create({
         textAlign: 'center',
     },
 
-    greetingText: {
+    lightGreetingText: {
         fontWeight: '800',
         fontSize: 16,
         color: '#55595c',
@@ -60,7 +60,7 @@ export const headerStyle = StyleSheet.create({
         textAlign: 'center',
     },
 
-    searchBar: {
+    lightSearchBar: {
         position: 'absolute',
         top: '60%',
         right: '50%',
@@ -121,7 +121,7 @@ export const headerStyle = StyleSheet.create({
         padding: 5,
         textAlign: 'center',
         borderRadius: 20,
-        backgroundColor: 'floralwhite',
+        backgroundColor: 'rgba(124,113,192,1)',
     },
 
 });

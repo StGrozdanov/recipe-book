@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const statsCardStyles = StyleSheet.create({
-    card: {
+    lightCard: {
         width: '44%',
         backgroundColor: 'white',
         borderRadius: 20,
@@ -49,7 +49,7 @@ export const statsCardStyles = StyleSheet.create({
         backgroundColor: '#2ac99130',
     },
 
-    textContent: {
+    lightTextContent: {
         textAlign: "center",
         marginBottom: 8,
         color: '#55595c',
@@ -59,7 +59,7 @@ export const statsCardStyles = StyleSheet.create({
         fontSize: 11,
     },
 
-    afterElement: {
+    lightAfterElement: {
         borderWidth: 1.5,
         borderColor: "white",
         position: "absolute",

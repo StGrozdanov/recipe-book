@@ -3,7 +3,6 @@ import { dashboardStyles } from "./DashboardStyleSheet";
 import StatsCard from "../StatsCard/StatsCard";
 import Chart from "../StatisticChart/Chart";
 import UserCard from "../UserCard/UserCard";
-import { useThemeContext } from "../../contexts/ThemeContext";
 
 const chartData = {
     labels: ["Март", "Април", "Май", "Юни", "Юли", "Август"],
@@ -17,10 +16,6 @@ const chartData = {
 }
 
 export default function Dashboard({ navigation }) {
-    const { theme } = useThemeContext();
-
-    console.log(theme);
-
     return (
         <ScrollView style={{ flex: 1 }}>
             <View style={dashboardStyles.statsCardContainer}>

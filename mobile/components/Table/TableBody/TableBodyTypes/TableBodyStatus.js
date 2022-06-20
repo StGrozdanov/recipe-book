@@ -1,13 +1,16 @@
 import { View, Text } from "react-native";
 import { tableBodyStyles } from "../TableBodyStyleSheet";
+import { useThemeContext } from "../../../../contexts/ThemeContext";
 
 export default function Status({ status }) {
+    const { theme } = useThemeContext();
+
     return (
         <View>
-            <Text style={[tableBodyStyles.additionalDataHeading]}>Status</Text>
+            <Text style={[tableBodyStyles[theme + 'AdditionalDataHeading']]}>Status</Text>
             <Text
                 style={[
-                    tableBodyStyles.additionalDataContent, 
+                    tableBodyStyles[theme + 'AdditionalDataContent'], 
                     tableBodyStyles.status,
                     tableBodyStyles[status]
                 ]}

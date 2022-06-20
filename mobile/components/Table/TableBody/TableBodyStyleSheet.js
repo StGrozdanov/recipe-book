@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const tableBodyStyles = StyleSheet.create({
-    additionalData: {
+    lightAdditionalData: {
         flexDirection: "row",
         alignItems: "center",
         alignContent: "center",
@@ -9,13 +9,13 @@ export const tableBodyStyles = StyleSheet.create({
         paddingVertical: 30,
     },
 
-    additionalDataHeading: {
+    lightAdditionalDataHeading: {
         marginBottom: 10,
         fontWeight: '400',
         textAlign: 'center',
     },
 
-    additionalDataContent: {
+    lightAdditionalDataContent: {
         textAlign: "center",
         fontWeight: "300",
         fontSize: 12,
@@ -32,9 +32,9 @@ export const tableBodyStyles = StyleSheet.create({
     },
 
     offline: {
-        color: 'red',
+        color: 'darkred',
         backgroundColor: "#ff000010",
-        borderColor: "red",
+        borderColor: "darkred",
     },
 
     Pending: {
@@ -57,7 +57,7 @@ export const tableBodyStyles = StyleSheet.create({
         paddingHorizontal: 8,
     },
 
-    icons: {
+    lightIcons: {
         alignSelf: "center",
         color: "midnightblue",
     },

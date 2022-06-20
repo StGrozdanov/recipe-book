@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const userCardStyles = StyleSheet.create({
-    card: {
+    lightCard: {
         borderRadius: 25,
         height: 390,
         width: '57%',
@@ -16,14 +16,14 @@ export const userCardStyles = StyleSheet.create({
         position: "relative",
     }, 
 
-    cardTextSection: {
+    lightCardTextSection: {
         paddingVertical: 30,
         backgroundColor: 'white',
         borderRadius: 25,
         height: '45%',
     },
 
-    title: {
+    lightTitle: {
         textAlign: "center",
         marginBottom: 5,
         color: '#55595c',
@@ -34,7 +34,7 @@ export const userCardStyles = StyleSheet.create({
         fontSize: 15,
     },
 
-    publications: {
+    lightPublications: {
         fontWeight: '600',
         fontSize: 15,
         marginBottom: 25,
@@ -69,7 +69,7 @@ export const userCardStyles = StyleSheet.create({
         borderRadius: 50,
     },
 
-    avatarContainer: {
+    lightAvatarContainer: {
         backgroundColor: 'white',
         zIndex: 1,
         width: '60%',

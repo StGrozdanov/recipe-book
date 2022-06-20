@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const adminPanelNav = StyleSheet.create({
-    navigation: {
+    lightNavigation: {
         flex: 0.07,
         flexDirection: 'row',
         alignContent: 'space-between',
@@ -20,12 +20,12 @@ export const adminPanelNav = StyleSheet.create({
         borderColor: '#808ada82',
     },
 
-    websiteLogo: {
+    lightWebsiteLogo: {
         width: 37,
         height: 37,
     },
 
-    navItem: {
+    lightNavItem: {
         color: '#483d8bba',
     },
     

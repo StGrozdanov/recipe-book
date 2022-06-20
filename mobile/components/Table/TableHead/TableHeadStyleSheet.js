@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const tableHeadStyles = StyleSheet.create({
-    section: {
+    lightSection: {
         paddingHorizontal: 40,
         paddingVertical: 10,
         backgroundColor: 'white',
@@ -12,16 +12,16 @@ export const tableHeadStyles = StyleSheet.create({
         position: "relative",
     },
 
-    evenItem: {
+    lightEvenItem: {
         backgroundColor: 'rgba(124,113,192,0.28)',
     },
 
-    firstItem: {
+    lightFirstItem: {
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
     },
 
-    lastItem: {
+    lightLastItem: {
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
     },
@@ -32,7 +32,7 @@ export const tableHeadStyles = StyleSheet.create({
         left: '3%',
     },  
 
-    whiteText: {
+    lightWhiteText: {
         color: 'white',
     },
 
@@ -53,7 +53,7 @@ export const tableHeadStyles = StyleSheet.create({
         alignContent: "center",
     },
 
-    avatar: {
+    lightAvatar: {
         width: 35,
         height: 35,
         borderRadius: 50,
