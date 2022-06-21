@@ -1,7 +1,8 @@
-import { FlatList } from "react-native";
+import { FlatList, RefreshControl } from "react-native";
 import { userStyles } from "../Users/UserStyleSheet";
 import Table from "../Table/Table";
 import { summary } from "../../helpers/contentSummary";
+import { useCallback, useState } from "react";
 
 const DATA = [
     { id: 1, content: 'ако е онова на Шушата е ТОП!', Owner: 'redirect', Location: 'redirect', imgUrl: '' },
@@ -18,8 +19,18 @@ const DATA = [
 ];
 
 export default function Comments() {
+    const [refreshData, setRefreshData] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshData(true);
+        setTimeout(() => {
+            setRefreshData(false)
+        }, 2000)
+    }, []);
+
     return (
         <FlatList
+            refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
             style={userStyles.container}
             keyExtractor={item => item.id}
             data={DATA}
