@@ -21,7 +21,7 @@ export default function Comments() {
     return (
         <FlatList
             style={userStyles.container}
-            key={DATA.id}
+            keyExtractor={item => item.id}
             data={DATA}
             renderItem={({ item }) => (
                 <Table
