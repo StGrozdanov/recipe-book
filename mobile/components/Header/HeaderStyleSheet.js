@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 export const headerStyle = StyleSheet.create({
     lightContainer: {
@@ -62,13 +62,18 @@ export const headerStyle = StyleSheet.create({
 
     lightSearchBar: {
         position: 'absolute',
-        top: '60%',
-        right: '50%',
         backgroundColor: 'white',
         width: 200,
         padding: 5,
         textAlign: 'center',
-        borderRadius: 20,
+        opacity: 1,
+        zIndex: 5,
+        borderTopLeftRadius: Platform.OS == 'android' ? 30 : 20,
+        borderTopRightRadius: Platform.OS == 'android' ? 30 : 20,
+        borderBottomRightRadius: Platform.OS == 'android' ? 10 : 20,
+        borderBottomLeftRadius: Platform.OS == 'android' ? 10 : 20,
+        top: Platform.OS == 'ios' ? '60%' : '41%',
+        right: Platform.OS == 'ios' ? '50%' : '50%',
     },
 
     darkContainer: {
@@ -115,13 +120,17 @@ export const headerStyle = StyleSheet.create({
 
     darkSearchBar: {
         position: 'absolute',
-        top: '60%',
-        right: '50%',
         width: 200,
         padding: 5,
         textAlign: 'center',
-        borderRadius: 20,
-        backgroundColor: 'rgba(124,113,192,1)',
+        zIndex: 5,
+        backgroundColor: Platform.OS == 'android' ? 'rgba(124,113,192,0.86)' : 'rgba(124,113,192,1)',
+        borderTopLeftRadius: Platform.OS == 'android' ? 30 : 20,
+        borderTopRightRadius: Platform.OS == 'android' ? 30 : 20,
+        borderBottomRightRadius: Platform.OS == 'android' ? 10 : 20,
+        borderBottomLeftRadius: Platform.OS == 'android' ? 10 : 20,
+        top: Platform.OS == 'ios' ? '60%' : '41%',
+        right: Platform.OS == 'ios' ? '50%' : '50%',
     },
 
 });
