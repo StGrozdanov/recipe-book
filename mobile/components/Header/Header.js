@@ -11,7 +11,6 @@ import { useState } from "react";
 import { useThemeContext } from "../../contexts/ThemeContext";
 
 export default function Header() {
-    const [colorTheme, setColorTheme] = useState('light');
     const [showSearchBar, setShowSearchBar] = useState(false);
     const { theme, changeTheme } = useThemeContext();
     const navigationRoute = useRoute();
@@ -21,11 +20,9 @@ export default function Header() {
     const headerMessageGenerator = greetingGenerator(currentPageName, currentHour);
 
     async function changeThemeHandler() {
-        if (colorTheme == 'light') {
-            setColorTheme('dark');
+        if (theme == 'light') {
             await changeTheme('dark');
         } else {
-            setColorTheme('light');
             await changeTheme('light');
         }
     }
@@ -56,7 +53,7 @@ export default function Header() {
                     <FontAwesomeIcon
                         style={headerStyle[theme + 'Icons']}
                         size={22}
-                        icon={colorTheme == 'light' ? faMoon : faLightbulb}
+                        icon={theme == 'light' ? faMoon : faLightbulb}
                     />
                 </TouchableOpacity>
                 <Image style={headerStyle.avatar} source={require('../../assets/avatar.png')} />

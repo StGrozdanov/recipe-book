@@ -1,7 +1,7 @@
 import { Text, View, Dimensions } from "react-native";
 import { chartStyles } from "./ChartStyleSheet";
 import { LineChart } from "react-native-chart-kit";
-import { CHART_CONFIGURATION } from "../../constants/chartConfig";
+import { CHART_CONFIGURATION } from "../../configurations/chartConfig";
 import { useThemeContext } from "../../contexts/ThemeContext";
 
 export default function Chart({ title, data }) {
