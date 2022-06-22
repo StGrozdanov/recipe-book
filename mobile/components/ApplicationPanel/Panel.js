@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { adminPanel } from "./PanelStyleSheet";
-import { useThemeContext } from "../../contexts/ThemeContext";
+import { useThemeContext } from "../../hooks/useThemeContext";
 import Navigation from "../Navigation/Navigation";
 import Header from "../Header/Header";
 import { StatusBar } from "expo-status-bar";

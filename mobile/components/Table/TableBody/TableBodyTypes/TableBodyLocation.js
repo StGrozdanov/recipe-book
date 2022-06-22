@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { tableBodyStyles } from "../TableBodyStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons/faLocationArrow";
-import { useThemeContext } from "../../../../contexts/ThemeContext";
+import { useThemeContext } from "../../../../hooks/useThemeContext";
 
 export default function Location({ pointer }) {
     const { theme } = useThemeContext();

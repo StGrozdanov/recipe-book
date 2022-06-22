@@ -1,8 +1,12 @@
 import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import { loginStyles } from "./LoginStyleSheet";
 import LoginInput from "./LoginInput";
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 export default function Login({ navigation }) {
+    const { user } = useAuthContext();
+    console.log(user);
+
     return (
         <View style={loginStyles.container}>
             <ImageBackground

@@ -8,13 +8,13 @@ import Users from './components/Users/Users';
 import Recipes from './components/Recipes/Recipes';
 import Comments from './components/Comments/Comments';
 import Settings from './components/Settings/Settings';
-import { StatusBar, StatusBarStyle } from 'expo-status-bar';
+import { AuthProvider } from './contexts/AuthContext';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <>
+    <AuthProvider>
       <ThemeProvider>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false, animation: 'none' }}>
@@ -39,6 +39,6 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>
-    </>
+    </AuthProvider>
   );
 }

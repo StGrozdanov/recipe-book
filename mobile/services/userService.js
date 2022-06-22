@@ -1,6 +1,7 @@
 import { COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
 import { handleRequest } from "../helpers/requestDataHandler.js";
 import { USER_AUTHORIZATION_BASE_HEADERS, BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS } from "./back4appService.js";
+import { handleRequest } from "../helpers/requestDataHandler.js";
 
 const USERS_END_POINTS = {
     LOGIN: '/login',
@@ -15,7 +16,7 @@ export async function login({ username, password }) {
         headers: USER_AUTHORIZATION_BASE_HEADERS,
         body: JSON.stringify({ username: username, password: password })
     });
-    await handleUserRequest(response);
+    return handleRequest(response);
 }
 
 export async function update(userId, username, email, avatar, coverPhoto) {
@@ -27,13 +28,7 @@ export async function update(userId, username, email, avatar, coverPhoto) {
         },
         body: JSON.stringify({ username: username, email: email, avatar: avatar, coverPhoto: coverPhoto })
     });
-    if (response.ok) {
-        clearUserData();
-        let userData = { username: username, email: email, avatar: avatar, coverPhoto: coverPhoto }
-        saveUserData(userData);
-    } else {
-        await handleUserRequestError(response);
-    }
+    handleRequest(response, COULD_NOT_FIND_USER);
 }
 
 export async function remove(userId) {
@@ -41,11 +36,7 @@ export async function remove(userId) {
         method: 'DELETE',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     });
-    if (response.ok) {
-        clearUserData();
-    } else {
-        await handleUserRequestError(response);
-    }
+    handleRequest(response, COULD_NOT_FIND_USER);
 }
 
 export async function getUser(userId) {
@@ -54,57 +45,4 @@ export async function getUser(userId) {
         headers: getUserToken() ? MODIFIYNG_OPERATIONS_HEADERS(getUserToken()) : BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_FIND_USER);
-}
-
-function saveUserData(data) {
-    sessionStorage.setItem('authToken', data.sessionToken);
-    sessionStorage.setItem('id', data.objectId);
-    sessionStorage.setItem('username', data.username);
-    sessionStorage.setItem('email', data.email);
-    sessionStorage.setItem('avatar', data.avatar);
-    sessionStorage.setItem('coverPhoto', data.coverPhoto);
-}
-
-function clearUserData() {
-    sessionStorage.removeItem('authToken');
-    sessionStorage.removeItem('id');
-    sessionStorage.removeItem('username');
-    sessionStorage.removeItem('email');
-    sessionStorage.removeItem('avatar');
-    sessionStorage.removeItem('coverPhoto');
-}
-
-export function getUserToken() {
-    const userToken = sessionStorage.getItem('authToken');
-
-    if (userToken) {
-        return userToken;
-    }
-
-    return null;
-}
-
-export function userIsAuthenticated() {
-    return sessionStorage.getItem('email');
-}
-
-export function getCurrentUser() {
-    return sessionStorage.getItem('id');
-}
-
-async function handleUserRequest(requestResponse) {
-    const data = await requestResponse.json();
-
-    if (requestResponse.ok) {
-        saveUserData(data);
-    } else {
-        console.log(data.error);
-        throw new Error(data.error);
-    }
-}
-
-async function handleUserRequestError(requestResponse) {
-    const error = await response.json();
-    console.log(error.error);
-    throw new Error(error.error);
 }

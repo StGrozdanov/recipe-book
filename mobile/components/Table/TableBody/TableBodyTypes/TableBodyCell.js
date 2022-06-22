@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import { tableBodyStyles } from "../TableBodyStyleSheet";
-import { useThemeContext } from "../../../../contexts/ThemeContext";
+import { useThemeContext } from "../../../../hooks/useThemeContext";
 
 const VALID_CELLS = [
     'Email',

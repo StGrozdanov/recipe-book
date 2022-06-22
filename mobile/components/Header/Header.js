@@ -8,7 +8,7 @@ import { faLightbulb } from '@fortawesome/free-regular-svg-icons/faLightbulb';
 import { headerStyle } from "./HeaderStyleSheet";
 import { greetingGenerator } from "../../helpers/headerGreetingGenerator";
 import { useState } from "react";
-import { useThemeContext } from "../../contexts/ThemeContext";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 export default function Header() {
     const [showSearchBar, setShowSearchBar] = useState(false);

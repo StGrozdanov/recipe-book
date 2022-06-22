@@ -4,7 +4,7 @@ import Cell from './TableBodyTypes/TableBodyCell';
 import Status from './TableBodyTypes/TableBodyStatus';
 import Owner from "./TableBodyTypes/TableBodyOwner";
 import Location from "./TableBodyTypes/TableBodyLocation";
-import { useThemeContext } from "../../../contexts/ThemeContext";
+import { useThemeContext } from "../../../hooks/useThemeContext";
 
 const CELL_TYPES = {
     Status: (cellData, cellKey) => <Status status={cellData} key={cellKey} />,

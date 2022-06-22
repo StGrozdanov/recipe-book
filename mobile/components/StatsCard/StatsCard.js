@@ -2,7 +2,7 @@ import { View, Text, ImageBackground } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { statsCardStyles } from "./StatsCardStyleSheet";
 import { CARD_ICONS } from "../../constants/statsCardsIcons";
-import { useThemeContext } from "../../contexts/ThemeContext";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 const cardIconsStyles = {
     ПУБЛИКАЦИИ: statsCardStyles.publications,

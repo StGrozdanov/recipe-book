@@ -7,7 +7,7 @@ import { faBowlRice } from '@fortawesome/free-solid-svg-icons/faBowlRice';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots';
 import { faGear } from '@fortawesome/free-solid-svg-icons/faGear';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { useThemeContext } from "../../contexts/ThemeContext";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 export default function Navigation() {
     const navigationRoute = useRoute();

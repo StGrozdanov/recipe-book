@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const ThemeContext = createContext();
@@ -7,7 +7,13 @@ export const ThemeProvider = ({ children }) => {
     const [theme, setTheme] = useState('none');
 
     AsyncStorage.getItem('theme')
-        .then(theme => setTheme(JSON.parse(theme)))
+        .then(theme => {
+            if (theme == null) {
+                changeTheme('light').then(res => console.log('user theme has fallen back to default value'));
+            } else {
+                setTheme(JSON.parse(theme));
+            }
+        })
         .catch((e) => {
             console.log(`the user does not have saved theme - ${e}`);
             setTheme('light');
@@ -29,9 +35,3 @@ export const ThemeProvider = ({ children }) => {
         </ThemeContext.Provider>
     );
 };
-
-export const useThemeContext = () => {
-    const themeState = useContext(ThemeContext);
-
-    return themeState;
-}

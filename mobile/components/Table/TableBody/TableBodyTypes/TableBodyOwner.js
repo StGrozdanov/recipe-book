@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { tableBodyStyles } from "../TableBodyStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faShareFromSquare } from "@fortawesome/free-solid-svg-icons/faShareFromSquare";
-import { useThemeContext } from "../../../../contexts/ThemeContext";
+import { useThemeContext } from "../../../../hooks/useThemeContext";
 
 export default function Owner({ pointer }) {
     const { theme } = useThemeContext();
