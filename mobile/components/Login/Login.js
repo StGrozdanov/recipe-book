@@ -2,10 +2,16 @@ import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import { loginStyles } from "./LoginStyleSheet";
 import LoginInput from "./LoginInput";
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useEffect } from "react";
 
 export default function Login({ navigation }) {
     const { user } = useAuthContext();
-    console.log(user);
+
+    useEffect(() => {
+        if (user.username == 'shushan' || user.username == 'ani') {
+            navigation.navigate('Dashboard');
+        }
+    }, []);
 
     return (
         <View style={loginStyles.container}>
