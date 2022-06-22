@@ -7,32 +7,31 @@ import { faMoon } from '@fortawesome/free-regular-svg-icons/faMoon';
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons/faLightbulb';
 import { headerStyle } from "./HeaderStyleSheet";
 import { greetingGenerator } from "../../helpers/headerGreetingGenerator";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
-// import { socket } from '../../services/socketioService';
+import socket from "../../services/socketioService";
 
 export default function Header() {
     const [showSearchBar, setShowSearchBar] = useState(false);
+    const [notificationsCount, setNotificationsCount] = useState(0);
     const { theme, changeTheme } = useThemeContext();
     const { user } = useAuthContext();
     const navigationRoute = useRoute();
 
+    useEffect(() => {
+        socket.emit("newUser", user.objectId);
+    }, []);
+
+    socket.on('receiveNotification', data => {
+        setNotificationsCount(() => {
+            return notificationsCount + 1;
+        });
+    });
+
     const currentPageName = navigationRoute.name;
     const currentHour = new Date(Date.now()).getHours();
     const headerMessageGenerator = greetingGenerator(currentPageName, currentHour);
-
-    // socket.emit("newUser", user.objectId);
-    // socket.on("receiveNotification", data => {
-    //     let notificationIcon = document.getElementById('myProfileLinkNotificationIcon');
-    //     notificationIcon.style.display = 'inline-block';
-    
-    //     let notificationCounterContainer = document.getElementById('myProfileNavNotificationCounter')
-    //     notificationCounterContainer.style.display = 'inline-block';
-    //     let counterValue = Number(notificationCounterContainer.textContent);
-    //     let newCounterValue = counterValue + 1;
-    //     notificationCounterContainer.textContent = newCounterValue;
-    // });
 
     async function changeThemeHandler() {
         if (theme == 'light') {
@@ -66,7 +65,9 @@ export default function Header() {
                     <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={18} icon={faMagnifyingGlass} />
                 </TouchableOpacity>
                 <TouchableOpacity style={headerStyle[theme + 'IconContainer']}>
-                    <Text style={headerStyle.notificationCounter}>5</Text>
+                    {notificationsCount > 0 &&
+                        <Text style={headerStyle.notificationCounter}>{notificationsCount}</Text>
+                    }
                     <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={20} icon={faBell} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={changeThemeHandler} >
