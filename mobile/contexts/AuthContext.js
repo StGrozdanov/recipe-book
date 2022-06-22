@@ -36,8 +36,10 @@ export const AuthProvider = ({ children }) => {
         setUser(initialUserState);
     };
 
-    const userIsAuthenticated = () => {
-        return user.id !== null;
+    const userIsAuthenticated = async () => {
+        const storageResponse = await AsyncStorage.getItem('user');
+        const user = JSON.parse(storageResponse);
+        return user.username === 'shushan' || user.username === 'ani';
     }
 
     return (
