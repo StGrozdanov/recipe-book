@@ -7,27 +7,15 @@ import { faMoon } from '@fortawesome/free-regular-svg-icons/faMoon';
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons/faLightbulb';
 import { headerStyle } from "./HeaderStyleSheet";
 import { greetingGenerator } from "../../helpers/headerGreetingGenerator";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import socket from "../../services/socketioService";
 
-export default function Header() {
+export default function Header({ notificationsCount, navigation, markNotificationsAsSeen }) {
     const [showSearchBar, setShowSearchBar] = useState(false);
-    const [notificationsCount, setNotificationsCount] = useState(0);
     const { theme, changeTheme } = useThemeContext();
     const { user } = useAuthContext();
     const navigationRoute = useRoute();
-
-    useEffect(() => {
-        socket.emit("newUser", user.objectId);
-    }, []);
-
-    socket.on('receiveNotification', data => {
-        setNotificationsCount(() => {
-            return notificationsCount + 1;
-        });
-    });
 
     const currentPageName = navigationRoute.name;
     const currentHour = new Date(Date.now()).getHours();
@@ -43,6 +31,12 @@ export default function Header() {
 
     function searchBarHandler() {
         showSearchBar ? setShowSearchBar(false) : setShowSearchBar(true);
+    }
+
+    function showNotificationsHandler() {
+        TODO:'navigation navigate ...';
+        
+        markNotificationsAsSeen();
     }
 
     return (
@@ -64,7 +58,7 @@ export default function Header() {
                 <TouchableOpacity style={headerStyle[theme + 'IconContainer']} onPress={searchBarHandler}>
                     <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={18} icon={faMagnifyingGlass} />
                 </TouchableOpacity>
-                <TouchableOpacity style={headerStyle[theme + 'IconContainer']}>
+                <TouchableOpacity style={headerStyle[theme + 'IconContainer']} onPress={showNotificationsHandler}>
                     {notificationsCount > 0 &&
                         <Text style={headerStyle.notificationCounter}>{notificationsCount}</Text>
                     }
