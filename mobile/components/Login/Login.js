@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
+import { View, Text, ImageBackground, TouchableOpacity, Image } from "react-native";
 import { loginStyles } from "./LoginStyleSheet";
 import LoginInput from "./LoginInput";
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -10,14 +10,20 @@ export default function Login({ navigation }) {
     const [password, setPassword] = useState('');
     const [invalidInput, setInvalidInput] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const { login, userIsAuthenticated } = useAuthContext();
 
-    TODO: 'loading spinners'
-
     useEffect(() => {
-        if (userIsAuthenticated()) {
-            navigation.navigate('Dashboard');
-        }
+        setIsLoading(true);
+        userIsAuthenticated()
+            .then(isAuthenticated => {
+                if (isAuthenticated == true) {
+                    setIsLoading(false);
+                    navigation.navigate('Dashboard');
+                } else {
+                    setIsLoading(false);
+                }
+            })
     }, []);
 
     function LoginHandler() {
@@ -28,11 +34,13 @@ export default function Login({ navigation }) {
 
         setInvalidInput(false);
         setErrorMessage('');
+        setIsLoading(true);
 
         userService.login({ username, password })
             .then(authData => {
                 if (authData.username === 'shushan' || authData.username === 'ani') {
                     login(authData)
+                        .then(setIsLoading(false))
                         .then(navigation.navigate('Dashboard'));
                 } else {
                     indicateLoginError('You don\'t have a permission to use this app.');
@@ -46,6 +54,7 @@ export default function Login({ navigation }) {
     function indicateLoginError(message) {
         setInvalidInput(true);
         setErrorMessage(message);
+        setIsLoading(false);
     }
 
     return (
@@ -59,6 +68,9 @@ export default function Login({ navigation }) {
                 <Text style={loginStyles.secondHeading}>Welcome Back,</Text>
                 <Text style={loginStyles.thirdHeading}>Sign in to continue</Text>
                 <Text style={loginStyles.errorHeading}>{errorMessage}</Text>
+                {isLoading &&
+                    <Image source={require('../../assets/admin-panel-loading.gif')} style={loginStyles.loadingSpinner} />
+                }
                 <View style={loginStyles.formWrapper}>
                     <LoginInput placeHolder='Username' setFieldValue={setUsername} invalidInput={invalidInput} />
                     <LoginInput placeHolder='Password' setFieldValue={setPassword} invalidInput={invalidInput} />

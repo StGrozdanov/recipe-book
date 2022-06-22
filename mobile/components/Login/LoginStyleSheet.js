@@ -1,4 +1,8 @@
 import { StyleSheet } from "react-native";
+import { Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const loginStyles = StyleSheet.create({
     background: {
@@ -88,5 +92,13 @@ export const loginStyles = StyleSheet.create({
     buttonText: {
         color: 'black',
         textAlign: 'center',
+    },
+
+    loadingSpinner: {
+        width: 200,
+        height: 200,
+        position: 'absolute',
+        top: windowHeight * 0.25,
+        left: windowWidth * 0.25,
     }
 })
