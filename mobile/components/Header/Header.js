@@ -9,10 +9,12 @@ import { headerStyle } from "./HeaderStyleSheet";
 import { greetingGenerator } from "../../helpers/headerGreetingGenerator";
 import { useState } from "react";
 import { useThemeContext } from "../../hooks/useThemeContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 export default function Header() {
     const [showSearchBar, setShowSearchBar] = useState(false);
     const { theme, changeTheme } = useThemeContext();
+    const { user } = useAuthContext();
     const navigationRoute = useRoute();
 
     const currentPageName = navigationRoute.name;
@@ -34,7 +36,11 @@ export default function Header() {
     return (
         <View style={headerStyle[theme + 'Container']}>
             <View style={headerStyle.leftSection}>
-                <Text style={headerStyle[theme + 'GreetingText']}>{headerMessageGenerator.greeting}, shushan</Text>
+                <Text
+                    style={headerStyle[theme + 'GreetingText']}
+                >
+                    {headerMessageGenerator.greeting}, {user.username}
+                </Text>
                 <Text style={headerStyle[theme + 'CurrentPage']}>{headerMessageGenerator.message}</Text>
             </View>
             <View style={headerStyle.rightSection}>
@@ -56,7 +62,17 @@ export default function Header() {
                         icon={theme == 'light' ? faMoon : faLightbulb}
                     />
                 </TouchableOpacity>
-                <Image style={headerStyle.avatar} source={require('../../assets/avatar.png')} />
+                {
+                    user.avatar !== undefined
+                        ? <Image
+                            source={{ uri: user.avatar }}
+                            style={headerStyle[theme + 'Avatar']}
+                        />
+                        : <Image
+                            style={headerStyle[theme + 'Avatar']}
+                            source={require('../../assets/avatar.png')}
+                        />
+                }
             </View>
         </View>
     );

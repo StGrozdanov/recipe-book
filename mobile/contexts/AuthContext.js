@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }) => {
             setUser(initialUserState);
         });
 
-
     const login = async (authData) => {
         await AsyncStorage.setItem('user', JSON.stringify(authData));
         setUser(authData);

@@ -16,7 +16,7 @@ export const headerStyle = StyleSheet.create({
         justifyContent: 'space-around',
     },
 
-    avatar: {
+    lightAvatar: {
         width: 45,
         height: 45,
         borderRadius: 50,
@@ -131,6 +131,13 @@ export const headerStyle = StyleSheet.create({
         borderBottomLeftRadius: Platform.OS == 'android' ? 10 : 20,
         top: Platform.OS == 'ios' ? '60%' : '41%',
         right: Platform.OS == 'ios' ? '50%' : '50%',
+    },
+
+    darkAvatar: {
+        width: 45,
+        height: 45,
+        borderRadius: 50,
+        opacity: 0.8,
     },
 
 });
