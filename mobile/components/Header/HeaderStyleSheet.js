@@ -76,6 +76,20 @@ export const headerStyle = StyleSheet.create({
         right: Platform.OS == 'ios' ? '50%' : '50%',
     },
 
+    notificationCounter: {
+        color: 'white',
+        borderRadius: 50,
+        backgroundColor: 'red',
+        textAlign: 'center',
+        paddingVertical: 3,
+        fontSize: 8,
+        width: 17,
+        height: 17,
+        position: 'absolute',
+        top: -7,
+        right: 0,
+    },
+
     darkContainer: {
         flex: 0.19,
         marginTop: 40,

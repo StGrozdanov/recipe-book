@@ -10,6 +10,7 @@ import { greetingGenerator } from "../../helpers/headerGreetingGenerator";
 import { useState } from "react";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+// import { socket } from '../../services/socketioService';
 
 export default function Header() {
     const [showSearchBar, setShowSearchBar] = useState(false);
@@ -20,6 +21,18 @@ export default function Header() {
     const currentPageName = navigationRoute.name;
     const currentHour = new Date(Date.now()).getHours();
     const headerMessageGenerator = greetingGenerator(currentPageName, currentHour);
+
+    // socket.emit("newUser", user.objectId);
+    // socket.on("receiveNotification", data => {
+    //     let notificationIcon = document.getElementById('myProfileLinkNotificationIcon');
+    //     notificationIcon.style.display = 'inline-block';
+    
+    //     let notificationCounterContainer = document.getElementById('myProfileNavNotificationCounter')
+    //     notificationCounterContainer.style.display = 'inline-block';
+    //     let counterValue = Number(notificationCounterContainer.textContent);
+    //     let newCounterValue = counterValue + 1;
+    //     notificationCounterContainer.textContent = newCounterValue;
+    // });
 
     async function changeThemeHandler() {
         if (theme == 'light') {
@@ -53,6 +66,7 @@ export default function Header() {
                     <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={18} icon={faMagnifyingGlass} />
                 </TouchableOpacity>
                 <TouchableOpacity style={headerStyle[theme + 'IconContainer']}>
+                    <Text style={headerStyle.notificationCounter}>5</Text>
                     <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={20} icon={faBell} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={changeThemeHandler} >
