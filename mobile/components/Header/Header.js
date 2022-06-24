@@ -35,7 +35,7 @@ export default function Header({ notificationsCount, navigation, markNotificatio
     }
 
     function showNotificationsHandler() {
-        navigator.navigate('Notifications');        
+        navigator.navigate('Notifications');
         markNotificationsAsSeen();
     }
 
@@ -56,18 +56,26 @@ export default function Header({ notificationsCount, navigation, markNotificatio
                     selectionColor={'#55595c'}
                 />
                 <TouchableOpacity style={headerStyle[theme + 'IconContainer']} onPress={searchBarHandler}>
-                    <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={18} icon={faMagnifyingGlass} />
+                    <FontAwesomeIcon
+                        style={headerStyle[theme + 'Icons']}
+                        size={theme == 'light' ? 18 : 21.5}
+                        icon={faMagnifyingGlass}
+                    />
                 </TouchableOpacity>
                 <TouchableOpacity style={headerStyle[theme + 'IconContainer']} onPress={showNotificationsHandler}>
                     {notificationsCount > 0 &&
-                        <Text style={headerStyle.notificationCounter}>{notificationsCount}</Text>
+                        <Text style={headerStyle[theme + 'NotificationCounter']}>{notificationsCount}</Text>
                     }
-                    <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={20} icon={faBell} />
+                    <FontAwesomeIcon
+                        style={headerStyle[theme + 'Icons']}
+                        size={theme == 'light' ? 20 : 24}
+                        icon={faBell}
+                    />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={changeThemeHandler} >
                     <FontAwesomeIcon
                         style={headerStyle[theme + 'Icons']}
-                        size={22}
+                        size={theme == 'light' ? 20 : 24}
                         icon={theme == 'light' ? faMoon : faLightbulb}
                     />
                 </TouchableOpacity>

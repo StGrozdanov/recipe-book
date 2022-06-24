@@ -76,7 +76,7 @@ export const headerStyle = StyleSheet.create({
         right: Platform.OS == 'ios' ? '50%' : '50%',
     },
 
-    notificationCounter: {
+    lightNotificationCounter: {
         color: 'white',
         borderRadius: 50,
         backgroundColor: 'red',
@@ -107,7 +107,7 @@ export const headerStyle = StyleSheet.create({
 
     darkIconContainer: {
         borderRadius: 50,
-        padding: 8,
+        padding: 0,
         backgroundColor: '#111',
     },
 
@@ -115,6 +115,20 @@ export const headerStyle = StyleSheet.create({
         borderRadius: 50,        
         color: 'rgba(124,113,192,0.65)',
     }, 
+
+    darkNotificationCounter: {
+        color: 'white',
+        borderRadius: 50,
+        backgroundColor: 'red',
+        textAlign: 'center',
+        paddingVertical: 3,
+        fontSize: 8,
+        width: 17,
+        height: 17,
+        position: 'absolute',
+        top: -15,
+        right: -8,
+    },
 
     darkCurrentPage: {
         fontWeight: '400',
@@ -138,7 +152,7 @@ export const headerStyle = StyleSheet.create({
         padding: Platform.OS == 'android' ? 2 : 5,
         textAlign: 'center',
         zIndex: 5,
-        backgroundColor: Platform.OS == 'android' ? 'rgba(124,113,192,0.86)' : 'rgba(124,113,192,1)',
+        backgroundColor: Platform.OS == 'android' ? 'rgba(124,113,192,0.88)' : 'rgba(124,113,192,1)',
         borderTopLeftRadius: Platform.OS == 'android' ? 25 : 20,
         borderTopRightRadius: Platform.OS == 'android' ? 25 : 20,
         borderBottomRightRadius: Platform.OS == 'android' ? 0 : 20,
