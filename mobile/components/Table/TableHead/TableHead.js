@@ -4,7 +4,7 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons/faAngleDown';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons/faEllipsis';
 import { tableHeadStyles } from "./TableHeadStyleSheet";
-import { useThemeContext } from "../../../contexts/ThemeContext";
+import { useThemeContext } from "../../../hooks/useThemeContext";
 
 export default function TableHead({
     isEven,

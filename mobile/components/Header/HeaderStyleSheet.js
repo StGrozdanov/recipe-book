@@ -16,7 +16,7 @@ export const headerStyle = StyleSheet.create({
         justifyContent: 'space-around',
     },
 
-    avatar: {
+    lightAvatar: {
         width: 45,
         height: 45,
         borderRadius: 50,
@@ -64,16 +64,30 @@ export const headerStyle = StyleSheet.create({
         position: 'absolute',
         backgroundColor: 'white',
         width: 200,
-        padding: 5,
+        padding: Platform.OS == 'android' ? 2 : 5,
         textAlign: 'center',
         opacity: 1,
         zIndex: 5,
-        borderTopLeftRadius: Platform.OS == 'android' ? 30 : 20,
-        borderTopRightRadius: Platform.OS == 'android' ? 30 : 20,
-        borderBottomRightRadius: Platform.OS == 'android' ? 10 : 20,
-        borderBottomLeftRadius: Platform.OS == 'android' ? 10 : 20,
-        top: Platform.OS == 'ios' ? '60%' : '41%',
+        borderTopLeftRadius: Platform.OS == 'android' ? 25 : 20,
+        borderTopRightRadius: Platform.OS == 'android' ? 25 : 20,
+        borderBottomRightRadius: Platform.OS == 'android' ? 0 : 20,
+        borderBottomLeftRadius: Platform.OS == 'android' ? 0 : 20,
+        top: Platform.OS == 'ios' ? '60%' : '46%',
         right: Platform.OS == 'ios' ? '50%' : '50%',
+    },
+
+    notificationCounter: {
+        color: 'white',
+        borderRadius: 50,
+        backgroundColor: 'red',
+        textAlign: 'center',
+        paddingVertical: 3,
+        fontSize: 8,
+        width: 17,
+        height: 17,
+        position: 'absolute',
+        top: -7,
+        right: 0,
     },
 
     darkContainer: {
@@ -121,16 +135,23 @@ export const headerStyle = StyleSheet.create({
     darkSearchBar: {
         position: 'absolute',
         width: 200,
-        padding: 5,
+        padding: Platform.OS == 'android' ? 2 : 5,
         textAlign: 'center',
         zIndex: 5,
         backgroundColor: Platform.OS == 'android' ? 'rgba(124,113,192,0.86)' : 'rgba(124,113,192,1)',
-        borderTopLeftRadius: Platform.OS == 'android' ? 30 : 20,
-        borderTopRightRadius: Platform.OS == 'android' ? 30 : 20,
-        borderBottomRightRadius: Platform.OS == 'android' ? 10 : 20,
-        borderBottomLeftRadius: Platform.OS == 'android' ? 10 : 20,
-        top: Platform.OS == 'ios' ? '60%' : '41%',
+        borderTopLeftRadius: Platform.OS == 'android' ? 25 : 20,
+        borderTopRightRadius: Platform.OS == 'android' ? 25 : 20,
+        borderBottomRightRadius: Platform.OS == 'android' ? 0 : 20,
+        borderBottomLeftRadius: Platform.OS == 'android' ? 0 : 20,
+        top: Platform.OS == 'ios' ? '60%' : '46%',
         right: Platform.OS == 'ios' ? '50%' : '50%',
+    },
+
+    darkAvatar: {
+        width: 45,
+        height: 45,
+        borderRadius: 50,
+        opacity: 0.8,
     },
 
 });

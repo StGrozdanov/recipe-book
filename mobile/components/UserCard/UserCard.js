@@ -3,7 +3,7 @@ import { userCardStyles } from './UserCardStyleSheet';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBowlRice } from '@fortawesome/free-solid-svg-icons/faBowlRice';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots';
-import { useThemeContext } from "../../contexts/ThemeContext";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 export default function UserCard({ mostActiveUserName, totalPublications, recipesCount, commentsCount }) {
     const { theme } = useThemeContext();

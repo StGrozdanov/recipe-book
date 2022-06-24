@@ -1,5 +1,5 @@
 import { View, Text, TextInput, Image, TouchableOpacity } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell';
@@ -8,24 +8,24 @@ import { faLightbulb } from '@fortawesome/free-regular-svg-icons/faLightbulb';
 import { headerStyle } from "./HeaderStyleSheet";
 import { greetingGenerator } from "../../helpers/headerGreetingGenerator";
 import { useState } from "react";
-import { useThemeContext } from "../../contexts/ThemeContext";
+import { useThemeContext } from "../../hooks/useThemeContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
-export default function Header() {
-    const [colorTheme, setColorTheme] = useState('light');
+export default function Header({ notificationsCount, navigation, markNotificationsAsSeen }) {
     const [showSearchBar, setShowSearchBar] = useState(false);
     const { theme, changeTheme } = useThemeContext();
+    const { user } = useAuthContext();
     const navigationRoute = useRoute();
+    const navigator = useNavigation()
 
     const currentPageName = navigationRoute.name;
     const currentHour = new Date(Date.now()).getHours();
     const headerMessageGenerator = greetingGenerator(currentPageName, currentHour);
 
     async function changeThemeHandler() {
-        if (colorTheme == 'light') {
-            setColorTheme('dark');
+        if (theme == 'light') {
             await changeTheme('dark');
         } else {
-            setColorTheme('light');
             await changeTheme('light');
         }
     }
@@ -34,10 +34,19 @@ export default function Header() {
         showSearchBar ? setShowSearchBar(false) : setShowSearchBar(true);
     }
 
+    function showNotificationsHandler() {
+        navigator.navigate('Notifications');        
+        markNotificationsAsSeen();
+    }
+
     return (
         <View style={headerStyle[theme + 'Container']}>
             <View style={headerStyle.leftSection}>
-                <Text style={headerStyle[theme + 'GreetingText']}>{headerMessageGenerator.greeting}, shushan</Text>
+                <Text
+                    style={headerStyle[theme + 'GreetingText']}
+                >
+                    {headerMessageGenerator.greeting}, {user.username}
+                </Text>
                 <Text style={headerStyle[theme + 'CurrentPage']}>{headerMessageGenerator.message}</Text>
             </View>
             <View style={headerStyle.rightSection}>
@@ -49,17 +58,30 @@ export default function Header() {
                 <TouchableOpacity style={headerStyle[theme + 'IconContainer']} onPress={searchBarHandler}>
                     <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={18} icon={faMagnifyingGlass} />
                 </TouchableOpacity>
-                <TouchableOpacity style={headerStyle[theme + 'IconContainer']}>
+                <TouchableOpacity style={headerStyle[theme + 'IconContainer']} onPress={showNotificationsHandler}>
+                    {notificationsCount > 0 &&
+                        <Text style={headerStyle.notificationCounter}>{notificationsCount}</Text>
+                    }
                     <FontAwesomeIcon style={headerStyle[theme + 'Icons']} size={20} icon={faBell} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={changeThemeHandler} >
                     <FontAwesomeIcon
                         style={headerStyle[theme + 'Icons']}
                         size={22}
-                        icon={colorTheme == 'light' ? faMoon : faLightbulb}
+                        icon={theme == 'light' ? faMoon : faLightbulb}
                     />
                 </TouchableOpacity>
-                <Image style={headerStyle.avatar} source={require('../../assets/avatar.png')} />
+                {
+                    user.avatar !== undefined
+                        ? <Image
+                            source={{ uri: user.avatar }}
+                            style={headerStyle[theme + 'Avatar']}
+                        />
+                        : <Image
+                            style={headerStyle[theme + 'Avatar']}
+                            source={require('../../assets/avatar.png')}
+                        />
+                }
             </View>
         </View>
     );

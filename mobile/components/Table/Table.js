@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ActionsDropdown from '../ActionsDropdown/ActionsDropdown';
 import TableHead from '../Table/TableHead/TableHead'
 import TableBody from '../Table/TableBody/TableBody';
+import { useRoute } from '@react-navigation/native';
 
 export default function Table({
     isEven,
@@ -18,8 +19,13 @@ export default function Table({
     approveAction,
     changeRoleAction,
 }) {
+    const route = useRoute();
     const [isToggled, setIsToggled] = useState(false);
     const [dropdownIsExpanded, setDropdownIsExpanded] = useState(false);
+
+    useEffect(() => {
+        setIsToggled(route.params.itemId == data.id);
+    }, [route.params]);
 
     function toggleHandler() {
         if (isToggled) {

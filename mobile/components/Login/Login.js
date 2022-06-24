@@ -1,8 +1,62 @@
-import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
+import { View, Text, ImageBackground, TouchableOpacity, Image } from "react-native";
 import { loginStyles } from "./LoginStyleSheet";
 import LoginInput from "./LoginInput";
+import { useAuthContext } from '../../hooks/useAuthContext';
+import { useEffect, useState } from "react";
+import * as userService from "../../services/userService";
 
 export default function Login({ navigation }) {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [invalidInput, setInvalidInput] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const { login, userIsAuthenticated } = useAuthContext();
+
+    useEffect(() => {
+        setIsLoading(true);
+        userIsAuthenticated()
+            .then(isAuthenticated => {
+                if (isAuthenticated == true) {
+                    setIsLoading(false);
+                    navigation.navigate('Dashboard');
+                } else {
+                    setIsLoading(false);
+                }
+            })
+    }, []);
+
+    function LoginHandler() {
+        if (username.trim() === '' || password.trim() === '') {
+            indicateLoginError('All fields are required.')
+            return;
+        }
+
+        setInvalidInput(false);
+        setErrorMessage('');
+        setIsLoading(true);
+
+        userService.login({ username, password })
+            .then(authData => {
+                if (authData.username === 'shushan' || authData.username === 'ani') {
+                    login(authData)
+                        .then(setIsLoading(false))
+                        .then(navigation.navigate('Dashboard'));
+                } else {
+                    indicateLoginError('You don\'t have a permission to use this app.');
+                }
+            })
+            .catch(err => {
+                indicateLoginError(err.message);
+            });
+    }
+
+    function indicateLoginError(message) {
+        setInvalidInput(true);
+        setErrorMessage(message);
+        setIsLoading(false);
+    }
+
     return (
         <View style={loginStyles.container}>
             <ImageBackground
@@ -13,10 +67,14 @@ export default function Login({ navigation }) {
                 <Text style={loginStyles.heading}>Login.</Text>
                 <Text style={loginStyles.secondHeading}>Welcome Back,</Text>
                 <Text style={loginStyles.thirdHeading}>Sign in to continue</Text>
+                <Text style={loginStyles.errorHeading}>{errorMessage}</Text>
+                {isLoading &&
+                    <Image source={require('../../assets/admin-panel-loading.gif')} style={loginStyles.loadingSpinner} />
+                }
                 <View style={loginStyles.formWrapper}>
-                    <LoginInput placeHolder='Username' />
-                    <LoginInput placeHolder='Password' />
-                    <TouchableOpacity style={loginStyles.button} onPress={() => navigation.navigate('Dashboard')}>
+                    <LoginInput placeHolder='Username' setFieldValue={setUsername} invalidInput={invalidInput} />
+                    <LoginInput placeHolder='Password' setFieldValue={setPassword} invalidInput={invalidInput} />
+                    <TouchableOpacity style={loginStyles.button} onPress={LoginHandler}>
                         <Text style={loginStyles.buttonText}>Login</Text>
                     </TouchableOpacity>
 
