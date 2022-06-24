@@ -9,6 +9,7 @@ import Recipes from './components/Recipes/Recipes';
 import Comments from './components/Comments/Comments';
 import Settings from './components/Settings/Settings';
 import { AuthProvider } from './contexts/AuthContext';
+import Notifications from './components/Notifications/Notifications';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,11 +30,14 @@ export default function App() {
             <Stack.Screen name="Recipes">
               {(props) => <Panel {...props} content={<Recipes />} />}
             </Stack.Screen>
-            <Stack.Screen name="Comments">
+            <Stack.Screen name="Comments" initialParams={{ itemId: 0 }}>
               {(props) => <Panel {...props} content={<Comments />} />}
             </Stack.Screen>
             <Stack.Screen name="Settings">
               {(props) => <Panel {...props} content={<Settings />} />}
+            </Stack.Screen>
+            <Stack.Screen name="Notifications">
+              {(props) => <Panel {...props} content={<Notifications />} />}
             </Stack.Screen>
 
           </Stack.Navigator>

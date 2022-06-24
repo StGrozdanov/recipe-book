@@ -29,12 +29,10 @@ export default function Panel({ navigation, content }) {
         socket.emit("newUser", user.objectId);
     }, [user]);
 
-    useEffect(() => {
-        socket.on('receiveNotification', data => {
-            let newCount = notificationsCount + 1;
-            setNotificationsCount(newCount);
-        });
-    }, [socket]);
+    socket.on('receiveNotification', data => {
+        let newCount = notificationsCount + 1;
+        setNotificationsCount(newCount);
+    });
 
     function markNotificationsAsSeen() {
         setNotificationsCount(0);

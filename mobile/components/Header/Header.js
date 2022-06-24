@@ -1,5 +1,5 @@
 import { View, Text, TextInput, Image, TouchableOpacity } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell';
@@ -16,6 +16,7 @@ export default function Header({ notificationsCount, navigation, markNotificatio
     const { theme, changeTheme } = useThemeContext();
     const { user } = useAuthContext();
     const navigationRoute = useRoute();
+    const navigator = useNavigation()
 
     const currentPageName = navigationRoute.name;
     const currentHour = new Date(Date.now()).getHours();
@@ -34,8 +35,7 @@ export default function Header({ notificationsCount, navigation, markNotificatio
     }
 
     function showNotificationsHandler() {
-        TODO:'navigation navigate ...';
-        
+        navigator.navigate('Notifications');        
         markNotificationsAsSeen();
     }
 
