@@ -3,9 +3,9 @@ import { StyleSheet } from "react-native";
 export const notificationStyles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 10,
+        marginTop: 30,
         marginBottom: 5,
-        marginHorizontal: 10,
+        marginHorizontal: 30,
         borderRadius: 25,
         shadowColor: '#808adad9',
         shadowOffset: { width: 0, height: 8 },
@@ -14,9 +14,11 @@ export const notificationStyles = StyleSheet.create({
     },
 
     section: {
-        paddingHorizontal: 40,
+        borderRadius: 25,
+        marginBottom: 20,
+        paddingHorizontal: 20,
         paddingVertical: 10,
-        backgroundColor: 'orange',
+        backgroundColor: 'rgba(124,113,192,0.6)',
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
@@ -42,13 +44,18 @@ export const notificationStyles = StyleSheet.create({
         height: 35,
         borderRadius: 50,
         backgroundColor: 'white',
-        marginRight: 20,
+        marginRight: 12,
     },
 
     text: {
-        fontSize: 15,
+        fontSize: 13,
         fontWeight: '300',
-        color: 'white'
+        color: 'white',
     },
+
+    sender: {
+        fontSize: 15,
+        fontWeight: '400',
+    },  
 
 });

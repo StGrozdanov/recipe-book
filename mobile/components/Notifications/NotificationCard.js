@@ -13,12 +13,15 @@ export default function NotificationCard({ action, locationId, objectId, senderA
         let collectionName = action.split(' ')[1];
         const path = collectionName.substring(0, 1).toUpperCase() + collectionName.substring(1, collectionName.length) + 's';
 
+        TODO: //request to modify notification and mark it as read by the supplied notificationId
+
         navigator.navigate(path, {
             itemId: locationId,
         });
     }
 
     function dismissHandler(notificationId) {
+        TODO: //request to modify notification and mark it as read by the supplied notificationId
         setNotificationDismissed(true);
     }
 
@@ -41,7 +44,8 @@ export default function NotificationCard({ action, locationId, objectId, senderA
                                 />
                         }
                         <Text style={notificationStyles.text}>
-                            {senderName + ' ' + action + ' at ' + createdAt}
+                            <Text style={notificationStyles.sender}>{senderName + ' '}</Text>
+                            {action + ' at ' + createdAt}
                         </Text>
                     </View>
                     <TouchableOpacity
@@ -51,7 +55,6 @@ export default function NotificationCard({ action, locationId, objectId, senderA
                         <FontAwesomeIcon
                             icon={faXmark}
                             style={notificationStyles.text}
-                            size={20}
                         />
                     </TouchableOpacity>
                 </View>
