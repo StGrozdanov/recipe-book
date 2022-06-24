@@ -13,15 +13,12 @@ export default function NotificationCard({ action, locationId, objectId, senderA
         let collectionName = action.split(' ')[1];
         const path = collectionName.substring(0, 1).toUpperCase() + collectionName.substring(1, collectionName.length) + 's';
 
-        TODO: //request to modify notification and mark it as read by the supplied notificationId
-
         navigator.navigate(path, {
             itemId: locationId,
         });
     }
 
     function dismissHandler(notificationId) {
-        TODO: //request to modify notification and mark it as read by the supplied notificationId
         setNotificationDismissed(true);
     }
 

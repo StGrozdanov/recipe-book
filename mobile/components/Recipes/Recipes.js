@@ -2,6 +2,8 @@ import { FlatList, RefreshControl } from "react-native";
 import { userStyles } from "../Users/UserStyleSheet";
 import Table from "../Table/Table";
 import { useCallback, useState } from "react";
+import { useRoute } from "@react-navigation/native";
+import { useDataParamSort } from "../../hooks/useDataParamSort";
 
 const DATA = [
     { id: 1, name: 'Кекс', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: 'https://www.supichka.com/files/images/2565/bananov_keks_s_karamelena_glazura.jpg' },
@@ -23,6 +25,8 @@ const DATA = [
 
 export default function Recepies() {
     const [refreshData, setRefreshData] = useState(false);
+    const route = useRoute();
+    const sortedData = useDataParamSort(DATA, route.params.itemId);
 
     const onRefresh = useCallback(() => {
         setRefreshData(true);
@@ -36,7 +40,7 @@ export default function Recepies() {
             refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
             style={userStyles.container}
             keyExtractor={item => item.id}
-            data={DATA}
+            data={sortedData}
             renderItem={({ item }) => (
                 <Table
                     name={item.name}
@@ -44,8 +48,8 @@ export default function Recepies() {
                     pictureSource={item.imgUrl}
                     data={item}
                     isEven={item.id % 2 === 0}
-                    isFirst={DATA[0].id === item.id}
-                    isLast={DATA[DATA.length - 1].id === item.id}
+                    isFirst={sortedData[0].id === item.id}
+                    isLast={sortedData[sortedData.length - 1].id === item.id}
                     approveAction={item.Status == 'Approved' ? false : 'recipe'}
                     removeAction={'recipe'}
                 />

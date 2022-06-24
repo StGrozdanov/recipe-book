@@ -24,10 +24,10 @@ export default function App() {
             <Stack.Screen name="Dashboard">
               {(props) => <Panel {...props} content={<Dashboard />} />}
             </Stack.Screen>
-            <Stack.Screen name="Users">
+            <Stack.Screen name="Users" initialParams={{ itemId: 0 }}>
               {(props) => <Panel {...props} content={<Users />} />}
             </Stack.Screen>
-            <Stack.Screen name="Recipes">
+            <Stack.Screen name="Recipes" initialParams={{ itemId: 0 }}>
               {(props) => <Panel {...props} content={<Recipes />} />}
             </Stack.Screen>
             <Stack.Screen name="Comments" initialParams={{ itemId: 0 }}>
