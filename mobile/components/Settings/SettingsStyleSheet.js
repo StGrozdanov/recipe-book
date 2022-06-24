@@ -19,7 +19,7 @@ export const settingsStyles = StyleSheet.create({
         width: 180,
         justifyContent: "space-evenly",
         alignItems: "center",
-        marginBottom: 20,
+        marginBottom: 40,
     },
 
     lightLogoutText: {

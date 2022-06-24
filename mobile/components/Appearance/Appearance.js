@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, TouchableOpacity } from "react-native"
 import RadioButton from "../RadioButton/RadioButton"
-import { settingsStyles } from "../Settings/SettingsStyleSheet";
+import { appearanceStyles } from "./AppearanceStyleSheet";
 
 export default function Appearance() {
     const [selectedRemember, setSelectedRemember] = useState(true);
@@ -31,13 +31,13 @@ export default function Appearance() {
 
     return (
         <View>
-            <TouchableOpacity onPress={selectRememberHandler} style={settingsStyles.touchable}>
+            <TouchableOpacity onPress={selectRememberHandler} style={appearanceStyles.container}>
                 <RadioButton selected={selectedRemember} text={"Remember my last theme choice"} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={selectSystemHandler} style={settingsStyles.touchable}>
+            <TouchableOpacity onPress={selectSystemHandler} style={appearanceStyles.container}>
                 <RadioButton selected={selectedSystem} text={"Adjust depending on system settings"} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={selectTimeHandler} style={settingsStyles.touchable}>
+            <TouchableOpacity onPress={selectTimeHandler} style={appearanceStyles.container}>
                 <RadioButton selected={selectedTime} text={"Select timestamps"} />
             </TouchableOpacity>
         </View>
