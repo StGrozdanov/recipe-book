@@ -26,11 +26,11 @@ export default function Settings() {
 
     return (
         <View style={settingsStyles.container}>
-            <TouchableOpacity style={settingsStyles.touchable} onPress={logoutHandler}>
+            <TouchableOpacity style={settingsStyles[theme + 'Touchable']} onPress={logoutHandler}>
                 <FontAwesomeIcon icon={faPowerOff} size={26} style={settingsStyles[theme + 'Icon']} />
                 <Text style={settingsStyles[theme + 'LogoutText']}>Logout</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={settingsStyles.touchable} onPress={appearanceHandler}>
+            <TouchableOpacity style={settingsStyles[theme + 'Touchable']} onPress={appearanceHandler}>
                 <FontAwesomeIcon icon={faPalette} size={26} style={settingsStyles[theme + 'Icon']} />
                 <Text style={settingsStyles[theme + 'LogoutText']}>Appearance</Text>
             </TouchableOpacity>

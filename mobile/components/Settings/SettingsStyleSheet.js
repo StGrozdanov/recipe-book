@@ -14,11 +14,16 @@ export const settingsStyles = StyleSheet.create({
         alignItems: "center",
     },
 
-    touchable: {
+    lightTouchable: {
         flexDirection: "row",
         width: 180,
         justifyContent: "space-evenly",
         alignItems: "center",
+        paddingBottom: 13,
+        borderBottomWidth: 5,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        borderBottomColor: 'white',
         marginBottom: 40,
     },
 
@@ -32,6 +37,7 @@ export const settingsStyles = StyleSheet.create({
         color: 'rgba(124,113,192,1)',
         position: "absolute",
         left: 0,
+        top: 0,
     },
 
     darkLogoutText: {
@@ -44,5 +50,19 @@ export const settingsStyles = StyleSheet.create({
         color: 'rgba(124,113,192,0.6)',
         position: "absolute",
         left: 0,
-    }
+        top: 0,
+    },
+
+    darkTouchable: {
+        flexDirection: "row",
+        width: 180,
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        paddingBottom: 13,
+        borderBottomWidth: 2,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        borderBottomColor: 'rgba(124,113,192,1)',
+        marginBottom: 40,
+    },
 });
