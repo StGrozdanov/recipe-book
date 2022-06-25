@@ -1,8 +1,8 @@
 import { View, Text, ImageBackground, TouchableOpacity, Image } from "react-native";
 import { loginStyles } from "./LoginStyleSheet";
-import LoginInput from "./LoginInput";
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import LoginInput from "./LoginInput";
 import * as userService from "../../services/userService";
 
 export default function Login({ navigation }) {
@@ -11,20 +11,7 @@ export default function Login({ navigation }) {
     const [invalidInput, setInvalidInput] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { login, userIsAuthenticated } = useAuthContext();
-
-    useEffect(() => {
-        setIsLoading(true);
-        userIsAuthenticated()
-            .then(isAuthenticated => {
-                if (isAuthenticated == true) {
-                    setIsLoading(false);
-                    navigation.navigate('Dashboard');
-                } else {
-                    setIsLoading(false);
-                }
-            })
-    }, []);
+    const { login } = useAuthContext();
 
     function LoginHandler() {
         if (username.trim() === '' || password.trim() === '') {

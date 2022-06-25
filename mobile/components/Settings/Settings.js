@@ -20,7 +20,7 @@ export default function Settings() {
     }
 
     async function logoutHandler() {
-        navigator.navigate("Home");
+        navigator.navigate("Login");
         await logout();
     }
 
