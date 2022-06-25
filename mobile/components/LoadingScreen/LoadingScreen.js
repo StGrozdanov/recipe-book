@@ -12,13 +12,9 @@ export default function LoadingScreen() {
         userIsAuthenticated()
             .then(isAuthenticated => {
                 if (isAuthenticated == true) {
-                    setTimeout(() => {
-                        navigation.navigate('Dashboard');
-                    }, 5000);
+                    navigation.navigate('Dashboard');
                 } else {
-                    setTimeout(() => {
-                        navigation.navigate('Login');
-                    }, 5000);
+                    navigation.navigate('Login');
                 }
             })
     }, []);
