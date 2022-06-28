@@ -1,3 +1,4 @@
+import registerNNPushToken from 'native-notify';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -15,6 +16,7 @@ import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  registerNNPushToken(3094, 'pEa4I5l9hs6NeKhmJUSoIA');
   return (
       <AuthProvider>
         <ThemeProvider>

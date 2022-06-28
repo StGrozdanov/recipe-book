@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     const userIsAuthenticated = async () => {
         const storageResponse = await AsyncStorage.getItem('user');
         const user = JSON.parse(storageResponse);
-        return user.username === 'shushan' || user.username === 'ani';
+        return user !== null && user.username === 'shushan' || user !== null && user.username === 'ani';
     }
 
     return (

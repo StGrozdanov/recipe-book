@@ -6,6 +6,7 @@ import { getCurrentUser } from '../../services/userService.js'
 import { socket } from '../../services/socketioService.js';
 import { getSingleRecipe } from '../../services/recipeService.js';
 import { createNotification } from '../../services/notificationService.js';
+import { createMobilePushNotification } from '../../services/mobilePushNotificationService.js';
 
 const ownerCommentTemplate = (comment) => html`
     <i 
@@ -163,6 +164,8 @@ async function addCommentHandler(e, ctx) {
 
     commentField.value = '';
     refreshCommentSection(ctx);
+
+    await createMobilePushNotification('Нов коментар', notificationData.senderName + ' публикува нов коментар');
 
     if (notificationData.senderId !== notificationData.receiverId) {
         const createdNotification = await createNotification(notificationData);
