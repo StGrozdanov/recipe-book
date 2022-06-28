@@ -15,8 +15,9 @@ import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+export default function App() {  
   registerNNPushToken(3094, 'pEa4I5l9hs6NeKhmJUSoIA');
+  
   return (
       <AuthProvider>
         <ThemeProvider>

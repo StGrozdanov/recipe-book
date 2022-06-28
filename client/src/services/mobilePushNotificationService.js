@@ -1,5 +1,4 @@
 import { APP_ID, APP_TOKEN, BASE_URL } from "./nativeNotifyService.js";
-import { handleRequest } from "../utils/requestDataHandler.js";
 
 export async function createMobilePushNotification(subject, content) {
     const options = {
@@ -11,10 +10,9 @@ export async function createMobilePushNotification(subject, content) {
             appId: APP_ID,
             appToken: APP_TOKEN,
             title: subject,
-            body: content
+            body: content,
         })
     };
 
-    const response = await fetch(BASE_URL, options);
-    return handleRequest(response);
+    await fetch(BASE_URL, options);
 }
