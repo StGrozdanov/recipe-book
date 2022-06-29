@@ -44,7 +44,7 @@ export default function Recepies() {
             data={sortedData}
             renderItem={({ item }) => (
                 <Table
-                    name={summary(item.name, 23)}
+                    name={summary(item.name, 20)}
                     pictureType={'food'}
                     pictureSource={item.imgUrl}
                     data={item}

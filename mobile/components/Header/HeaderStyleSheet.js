@@ -1,4 +1,9 @@
 import { StyleSheet } from "react-native";
+import * as Device from 'expo-device';
+import { Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const headerStyle = StyleSheet.create({
     lightContainer: {
@@ -64,8 +69,8 @@ export const headerStyle = StyleSheet.create({
     lightSearchBar: {
         position: 'absolute',
         backgroundColor: 'white',
-        width: 200,
-        padding: 3,
+        width: windowWidth * 0.5,
+        padding: Device.brand !== 'Apple' ? 2 : 6,
         textAlign: 'center',
         opacity: 1,
         zIndex: 5,
@@ -73,8 +78,8 @@ export const headerStyle = StyleSheet.create({
         borderTopRightRadius: 25,
         borderBottomRightRadius: 0,
         borderBottomLeftRadius: 0,
-        top: '46%',
-        right: '50%',
+        right: windowWidth * 0.2,
+        top: windowHeight * 0.065,
     },
 
     lightNotificationCounter: {
@@ -150,8 +155,8 @@ export const headerStyle = StyleSheet.create({
 
     darkSearchBar: {
         position: 'absolute',
-        width: 200,
-        padding: 3,
+        width: windowWidth * 0.5,
+        padding: Device.brand !== 'Apple' ? 2 : 6,
         textAlign: 'center',
         zIndex: 5,
         backgroundColor: 'rgba(124,113,192,0.95)',
@@ -159,8 +164,8 @@ export const headerStyle = StyleSheet.create({
         borderTopRightRadius: 2,
         borderBottomRightRadius: 30,
         borderBottomLeftRadius: 30,
-        right: '48%',
-        top: '70%',
+        right: windowWidth * 0.2,
+        top: windowHeight * 0.102,
     },
 
     darkAvatar: {

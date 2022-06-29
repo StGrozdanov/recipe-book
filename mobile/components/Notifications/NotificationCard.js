@@ -45,7 +45,7 @@ export default function NotificationCard({ action, locationId, objectId, senderA
                         }
                         <Text style={notificationStyles.text}>
                             <Text style={notificationStyles.sender}>{senderName + ' '}</Text>
-                            {action + ' at ' + createdAt}
+                            {action + ' ' + createdAt}
                         </Text>
                     </View>
                     <TouchableOpacity

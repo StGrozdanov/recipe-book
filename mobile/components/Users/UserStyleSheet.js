@@ -8,8 +8,8 @@ export const userStyles = StyleSheet.create({
         marginHorizontal: 10,
         borderRadius: 25,
         shadowColor: '#808adad9',
-        shadowOffset: {width: 0, height: 8},
+        shadowOffset: {width: 0, height: 0},
         shadowOpacity: 11,
-        shadowRadius: 20,
+        shadowRadius: 1,
     },
 });

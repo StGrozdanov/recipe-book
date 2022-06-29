@@ -1,4 +1,7 @@
 import { StyleSheet } from "react-native";
+import { Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
 
 export const statsCardStyles = StyleSheet.create({
     lightCard: {
@@ -80,9 +83,9 @@ export const statsCardStyles = StyleSheet.create({
         marginBottom: 20,
         shadowColor: '#808adad9',
         shadowOffset: {width: 0, height: 8},
-        shadowOpacity: 0.4,
-        shadowRadius: 35,
-        elevation: 23,
+        shadowOpacity: 0.12,
+        shadowRadius: 30,
+        elevation: 10,
         backgroundColor: '#111',
         borderWidth: 0.35,
         borderColor: 'rgba(124,113,192,0.65)'

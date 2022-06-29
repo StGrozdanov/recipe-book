@@ -5,12 +5,12 @@ export const notificationStyles = StyleSheet.create({
         flex: 1,
         marginTop: 30,
         marginBottom: 5,
-        marginHorizontal: 20,
+        marginHorizontal: 15,
         borderRadius: 25,
         shadowColor: '#808adad9',
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 11,
-        shadowRadius: 20,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 15,
+        shadowRadius: 2,
     },
 
     section: {
@@ -40,8 +40,8 @@ export const notificationStyles = StyleSheet.create({
     },
 
     avatar: {
-        width: 30,
-        height: 30,
+        width: 35,
+        height: 35,
         borderRadius: 50,
         backgroundColor: 'white',
         marginRight: 12,

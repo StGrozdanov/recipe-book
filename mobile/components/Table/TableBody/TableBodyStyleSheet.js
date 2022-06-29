@@ -55,6 +55,7 @@ export const tableBodyStyles = StyleSheet.create({
         borderRadius: 15,
         paddingVertical: 2,
         paddingHorizontal: 8,
+        overflow: 'hidden',
     },
 
     lightIcons: {

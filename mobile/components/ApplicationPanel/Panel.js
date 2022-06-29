@@ -9,6 +9,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useEffect, useState } from "react";
 import socket from "../../services/socketioService";
 import * as notificationService from "../../services/notificationService";
+import * as Device from 'expo-device';
 
 export default function Panel({ navigation, content }) {
     const { theme } = useThemeContext();
@@ -40,9 +41,11 @@ export default function Panel({ navigation, content }) {
 
     const androidNavAndStatusBarColors = theme == 'light' ? 'dark' : 'light';
 
-    const androidNavBarBackground = theme == 'light' ? '#EFEEFE' : 'black';
-    NavigationBar.setBackgroundColorAsync(androidNavBarBackground);
-    NavigationBar.setButtonStyleAsync(androidNavAndStatusBarColors);
+    if (Device.brand !== 'Apple') {
+        const androidNavBarBackground = theme == 'light' ? '#EFEEFE' : 'black';
+        NavigationBar.setBackgroundColorAsync(androidNavBarBackground);
+        NavigationBar.setButtonStyleAsync(androidNavAndStatusBarColors);
+    }
 
     return (
         <>
