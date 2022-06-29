@@ -40,7 +40,7 @@ export default function Comments() {
             data={sortedData}
             renderItem={({ item }) => (
                 <Table
-                    name={summary(item.content)}
+                    name={summary(item.content, 23)}
                     pictureType={'avatar'}
                     pictureSource={item.imgUrl}
                     data={item}

@@ -1,3 +1,3 @@
-export function summary(content) {
-    return content.length > 23 ? content.substring(0, 23) + '...' : content;
+export function summary(content, requiredLength) {
+    return content.length > requiredLength ? content.substring(0, requiredLength) + '...' : content;
 }

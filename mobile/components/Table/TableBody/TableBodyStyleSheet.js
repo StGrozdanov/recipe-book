@@ -6,7 +6,7 @@ export const tableBodyStyles = StyleSheet.create({
         alignItems: "center",
         alignContent: "center",
         justifyContent: "space-evenly",
-        paddingVertical: 30,
+        paddingVertical: 35,
     },
 
     lightAdditionalDataHeading: {
@@ -53,7 +53,7 @@ export const tableBodyStyles = StyleSheet.create({
         fontWeight: '400',
         borderWidth: 0.8,
         borderRadius: 15,
-        paddingVertical: 5,
+        paddingVertical: 2,
         paddingHorizontal: 8,
     },
 
@@ -67,7 +67,7 @@ export const tableBodyStyles = StyleSheet.create({
         alignItems: "center",
         alignContent: "center",
         justifyContent: "space-evenly",
-        paddingVertical: 30,
+        paddingVertical: 35,
         borderLeftWidth: 1.5,
         borderRightWidth: 1.5,
         borderStartColor: 'rgba(124,113,192,0.6)',

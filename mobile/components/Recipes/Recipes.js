@@ -4,6 +4,7 @@ import Table from "../Table/Table";
 import { useCallback, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { useDataParamSort } from "../../hooks/useDataParamSort";
+import { summary } from "../../helpers/contentSummary";
 
 const DATA = [
     { id: 1, name: 'Кекс', Owner: 'redirect', Location: 'redirect', Status: 'Approved', imgUrl: 'https://www.supichka.com/files/images/2565/bananov_keks_s_karamelena_glazura.jpg' },
@@ -43,7 +44,7 @@ export default function Recepies() {
             data={sortedData}
             renderItem={({ item }) => (
                 <Table
-                    name={item.name}
+                    name={summary(item.name, 23)}
                     pictureType={'food'}
                     pictureSource={item.imgUrl}
                     data={item}

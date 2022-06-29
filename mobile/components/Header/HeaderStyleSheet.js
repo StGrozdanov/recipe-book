@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 
 export const headerStyle = StyleSheet.create({
     lightContainer: {
@@ -41,7 +41,8 @@ export const headerStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: "space-around",
-        width: '44%'
+        width: '44%',
+        zIndex: 5,
     },
 
     lightCurrentPage: {
@@ -64,16 +65,16 @@ export const headerStyle = StyleSheet.create({
         position: 'absolute',
         backgroundColor: 'white',
         width: 200,
-        padding: Platform.OS == 'android' ? 2 : 5,
+        padding: 3,
         textAlign: 'center',
         opacity: 1,
         zIndex: 5,
-        borderTopLeftRadius: Platform.OS == 'android' ? 25 : 20,
-        borderTopRightRadius: Platform.OS == 'android' ? 25 : 20,
-        borderBottomRightRadius: Platform.OS == 'android' ? 0 : 20,
-        borderBottomLeftRadius: Platform.OS == 'android' ? 0 : 20,
-        top: Platform.OS == 'ios' ? '60%' : '46%',
-        right: Platform.OS == 'ios' ? '50%' : '50%',
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: 0,
+        top: '46%',
+        right: '50%',
     },
 
     lightNotificationCounter: {
@@ -103,6 +104,7 @@ export const headerStyle = StyleSheet.create({
         borderBottomColor: 'rgba(124,113,192,0.65)',
         borderEndColor: '#111',
         borderStartColor: '#111',
+        zIndex: 5,
     },
 
     darkIconContainer: {
@@ -149,16 +151,16 @@ export const headerStyle = StyleSheet.create({
     darkSearchBar: {
         position: 'absolute',
         width: 200,
-        padding: Platform.OS == 'android' ? 2 : 5,
+        padding: 3,
         textAlign: 'center',
         zIndex: 5,
-        backgroundColor: Platform.OS == 'android' ? 'rgba(124,113,192,0.88)' : 'rgba(124,113,192,1)',
-        borderTopLeftRadius: Platform.OS == 'android' ? 25 : 20,
-        borderTopRightRadius: Platform.OS == 'android' ? 25 : 20,
-        borderBottomRightRadius: Platform.OS == 'android' ? 0 : 20,
-        borderBottomLeftRadius: Platform.OS == 'android' ? 0 : 20,
-        top: Platform.OS == 'ios' ? '60%' : '46%',
-        right: Platform.OS == 'ios' ? '50%' : '50%',
+        backgroundColor: 'rgba(124,113,192,0.95)',
+        borderTopLeftRadius: 2,
+        borderTopRightRadius: 2,
+        borderBottomRightRadius: 30,
+        borderBottomLeftRadius: 30,
+        right: '48%',
+        top: '70%',
     },
 
     darkAvatar: {
