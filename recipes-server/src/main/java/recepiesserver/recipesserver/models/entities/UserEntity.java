@@ -50,7 +50,7 @@ public class UserEntity extends BaseEntity {
         this.email = email;
     }
 
-    @Column(name = "avatar_url")
+    @Column(name = "avatar_url", columnDefinition = "TEXT")
     public String getAvatarUrl() {
         return avatarUrl;
     }
