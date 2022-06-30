@@ -26,3 +26,6 @@ INSERT INTO comments (id, content, created_at, owner_id, target_recipe_id)
 VALUES (3, 'тестов коментар от ani', '2022-06-29 21:38:31', 2, 1);
 INSERT INTO comments (id, content, created_at, owner_id, target_recipe_id)
 VALUES (4, 'тестов коментар от Peter', '2022-06-29 21:38:31', 3, 1);
+
+INSERT INTO recipe_entity_products (recipe_entity_id, products)
+VALUES(1, 'Стъпка 1, Стъпка 2, Стъпка 3');

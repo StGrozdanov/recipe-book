@@ -1,17 +1,26 @@
 package recepiesserver.recipesserver.models.DTOs;
 
+import recepiesserver.recipesserver.models.entities.UserEntity;
+import recepiesserver.recipesserver.models.enums.CategoryEnum;
+import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class RecipeDTO {
     private String recipeName;
+    private LocalDateTime createdAt;
     private List<String> products;
     private List<String> steps;
     private String imageUrl;
-    private String categoryName;
+    private CategoryEnum category;
     private Long ownerId;
+    private Long visitationsCount;
+    private PublicationStatusEnum status;
 
     public RecipeDTO() {
     }
+
 
     public String getRecipeName() {
         return recipeName;
@@ -19,6 +28,14 @@ public class RecipeDTO {
 
     public void setRecipeName(String recipeName) {
         this.recipeName = recipeName;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public List<String> getProducts() {
@@ -45,12 +62,12 @@ public class RecipeDTO {
         this.imageUrl = imageUrl;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public CategoryEnum getCategory() {
+        return category;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategory(CategoryEnum category) {
+        this.category = category;
     }
 
     public Long getOwnerId() {
@@ -59,5 +76,21 @@ public class RecipeDTO {
 
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public Long getVisitationsCount() {
+        return visitationsCount;
+    }
+
+    public void setVisitationsCount(Long visitationsCount) {
+        this.visitationsCount = visitationsCount;
+    }
+
+    public PublicationStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(PublicationStatusEnum status) {
+        this.status = status;
     }
 }
