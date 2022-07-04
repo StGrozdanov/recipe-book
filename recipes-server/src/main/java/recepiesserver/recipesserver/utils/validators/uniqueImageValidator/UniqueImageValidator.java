@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.utils.validators.UniqueImageValidator;
+package recepiesserver.recipesserver.utils.validators.uniqueImageValidator;
 
 import recepiesserver.recipesserver.services.RecipeService;
 

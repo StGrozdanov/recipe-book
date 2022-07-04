@@ -4,9 +4,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import recepiesserver.recipesserver.models.DTOs.RecipeCatalogueDTO;
-import recepiesserver.recipesserver.models.DTOs.RecipeDTO;
-import recepiesserver.recipesserver.models.DTOs.RecipeDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeCatalogueDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeDetailsDTO;
 import recepiesserver.recipesserver.services.RecipeService;
 
 import javax.validation.Valid;

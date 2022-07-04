@@ -5,7 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import recepiesserver.recipesserver.models.DTOs.RecipeDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.enums.CategoryEnum;
 

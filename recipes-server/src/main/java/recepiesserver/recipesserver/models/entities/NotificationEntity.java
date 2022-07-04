@@ -13,8 +13,10 @@ public class NotificationEntity extends BaseEntity {
     private LocalDateTime createdAt;
     private Boolean isMarkedAsRead;
     private NotificationActionEnum action;
-    private RecipeEntity location;
-    private UserEntity fromUser;
+    private String locationName;
+    private Long locationId;
+    private String senderUsername;
+    private String senderAvatar;
     private Set<UserEntity> receivers;
 
     public NotificationEntity() {
@@ -50,24 +52,40 @@ public class NotificationEntity extends BaseEntity {
         this.action = action;
     }
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    public RecipeEntity getLocation() {
-        return location;
+    @Column(name = "location_name", nullable = false)
+    public String getLocationName() {
+        return locationName;
     }
 
-    public void setLocation(RecipeEntity location) {
-        this.location = location;
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    public UserEntity getFromUser() {
-        return fromUser;
+    @Column(name = "location_id",nullable = false)
+    public Long getLocationId() {
+        return locationId;
     }
 
-    public void setFromUser(UserEntity fromUser) {
-        this.fromUser = fromUser;
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
+    }
+
+    @Column(name = "sender_username", nullable = false)
+    public String getSenderUsername() {
+        return senderUsername;
+    }
+
+    public void setSenderUsername(String senderUsername) {
+        this.senderUsername = senderUsername;
+    }
+
+    @Column(name = "sender_avatar")
+    public String getSenderAvatar() {
+        return senderAvatar;
+    }
+
+    public void setSenderAvatar(String senderAvatar) {
+        this.senderAvatar = senderAvatar;
     }
 
     @ManyToMany
@@ -78,4 +96,6 @@ public class NotificationEntity extends BaseEntity {
     public void setReceivers(Set<UserEntity> receivers) {
         this.receivers = receivers;
     }
+
+
 }

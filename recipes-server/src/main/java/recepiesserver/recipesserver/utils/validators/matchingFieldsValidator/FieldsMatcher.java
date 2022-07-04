@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.utils.validators.ValidUserIdValidator;
+package recepiesserver.recipesserver.utils.validators.matchingFieldsValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -8,10 +8,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-@Constraint(validatedBy = ValidUserIdValidator.class)
-public @interface ValidUserId {
-    String message() default "Provided user id is not valid.";
+@Target(ElementType.TYPE)
+@Constraint(validatedBy = MatchingFieldsValidator.class)
+public @interface FieldsMatcher {
+    String firstField();
+
+    String secondField();
+
+    String message() default "Passwords should match.";
 
     Class<?>[] groups() default {};
 

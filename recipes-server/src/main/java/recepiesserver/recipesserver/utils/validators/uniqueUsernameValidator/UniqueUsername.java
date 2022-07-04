@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.utils.validators.UniqueImageValidator;
+package recepiesserver.recipesserver.utils.validators.uniqueUsernameValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@Constraint(validatedBy = UniqueImageValidator.class)
-public @interface UniqueImage {
-    String message() default "Recipe with the same image already exists.";
+@Constraint(validatedBy = UniqueUsernameValidator.class)
+public @interface UniqueUsername {
+    String message() default "Username is already taken.";
 
     Class<?>[] groups() default {};
 

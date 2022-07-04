@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.utils.validators.UniqueRecipeNameValidator;
+package recepiesserver.recipesserver.utils.validators.uniqueEmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@Constraint(validatedBy = UniqueRecipeNameValidator.class)
-public @interface UniqueRecipeName {
-    String message() default "Recipe with the same name already exists.";
+@Constraint(validatedBy = UniqueEmailValidator.class)
+public @interface UniqueEmail {
+    String message() default "This email is already taken.";
 
     Class<?>[] groups() default {};
 

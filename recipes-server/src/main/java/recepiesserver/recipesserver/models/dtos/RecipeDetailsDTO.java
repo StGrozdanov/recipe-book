@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.models.DTOs;
+package recepiesserver.recipesserver.models.dtos;
 
 import java.util.List;
 

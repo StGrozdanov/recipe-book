@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.utils.validators.UniqueUsernameValidator;
+package recepiesserver.recipesserver.utils.validators.validUserIdValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@Constraint(validatedBy = UniqueUsernameValidator.class)
-public @interface UniqueUsername {
-    String message() default "Username is already taken.";
+@Constraint(validatedBy = ValidUserIdValidator.class)
+public @interface ValidUserId {
+    String message() default "Provided user id is not valid.";
 
     Class<?>[] groups() default {};
 

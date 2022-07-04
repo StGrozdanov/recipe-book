@@ -1,10 +1,10 @@
-package recepiesserver.recipesserver.models.DTOs;
+package recepiesserver.recipesserver.models.dtos;
 
 import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
-import recepiesserver.recipesserver.utils.validators.NonEmptyCollectionValidator.NonEmptyCollection;
-import recepiesserver.recipesserver.utils.validators.UniqueImageValidator.UniqueImage;
-import recepiesserver.recipesserver.utils.validators.UniqueRecipeNameValidator.UniqueRecipeName;
-import recepiesserver.recipesserver.utils.validators.ValidUserIdValidator.ValidUserId;
+import recepiesserver.recipesserver.utils.validators.nonEmptyCollectionValidator.NonEmptyCollection;
+import recepiesserver.recipesserver.utils.validators.uniqueImageValidator.UniqueImage;
+import recepiesserver.recipesserver.utils.validators.uniqueRecipeNameValidator.UniqueRecipeName;
+import recepiesserver.recipesserver.utils.validators.validUserIdValidator.ValidUserId;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;

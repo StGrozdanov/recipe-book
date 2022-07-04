@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.utils.validators.MatchingFieldsValidator;
+package recepiesserver.recipesserver.utils.validators.matchingFieldsValidator;
 
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;

@@ -14,12 +14,10 @@ public class UserEntity extends BaseEntity {
     private Boolean isBlocked;
     private Set<RoleEntity> roles;
     private List<RecipeEntity> favourites;
-    private List<RecipeEntity> createdRecipes;
 
     public UserEntity() {
         this.roles = new LinkedHashSet<>();
         this.favourites = new ArrayList<>();
-        this.createdRecipes = new ArrayList<>();
         this.isBlocked = false;
     }
 
@@ -94,15 +92,6 @@ public class UserEntity extends BaseEntity {
 
     public void setFavourites(List<RecipeEntity> favourites) {
         this.favourites = favourites;
-    }
-
-    @OneToMany(mappedBy = "owner")
-    public List<RecipeEntity> getCreatedRecipes() {
-        return createdRecipes;
-    }
-
-    public void setCreatedRecipes(List<RecipeEntity> createdRecipes) {
-        this.createdRecipes = createdRecipes;
     }
 
     @Override

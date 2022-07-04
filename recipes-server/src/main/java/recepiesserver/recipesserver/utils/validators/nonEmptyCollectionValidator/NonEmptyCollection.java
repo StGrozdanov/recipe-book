@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.utils.validators.UniqueEmailValidator;
+package recepiesserver.recipesserver.utils.validators.nonEmptyCollectionValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -8,10 +8,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-@Constraint(validatedBy = UniqueEmailValidator.class)
-public @interface UniqueEmail {
-    String message() default "This email is already taken.";
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Constraint(validatedBy = NonEmptyCollectionValidator.class)
+public @interface NonEmptyCollection {
+    String message() default "Collection should not contain null or empty elements.";
 
     Class<?>[] groups() default {};
 

@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.utils.validators.MatchingFieldsValidator;
+package recepiesserver.recipesserver.utils.validators.uniqueImageValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -8,14 +8,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Constraint(validatedBy = MatchingFieldsValidator.class)
-public @interface FieldsMatcher {
-    String firstField();
-
-    String secondField();
-
-    String message() default "Passwords should match.";
+@Target(ElementType.METHOD)
+@Constraint(validatedBy = UniqueImageValidator.class)
+public @interface UniqueImage {
+    String message() default "Recipe with the same image already exists.";
 
     Class<?>[] groups() default {};
 

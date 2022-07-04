@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.utils.validators.NonEmptyCollectionValidator;
+package recepiesserver.recipesserver.utils.validators.nonEmptyCollectionValidator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

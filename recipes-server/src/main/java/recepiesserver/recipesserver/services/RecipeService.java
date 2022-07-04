@@ -6,17 +6,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import recepiesserver.recipesserver.models.DTOs.RecipeCatalogueDTO;
-import recepiesserver.recipesserver.models.DTOs.RecipeDTO;
-import recepiesserver.recipesserver.models.DTOs.RecipeDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeCatalogueDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeDetailsDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
-import recepiesserver.recipesserver.models.enums.CategoryEnum;
 import recepiesserver.recipesserver.repositories.RecipeRepository;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,7 +69,7 @@ public class RecipeService {
 
         RecipeEntity newRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
         //the custom user id validator will handle the optional error case
-        newRecipe.setOwner(userById.get());
+        newRecipe.setOwnerId(userById.get().getId());
 
         RecipeEntity createdRecipe = this.recipeRepository.save(newRecipe);
 

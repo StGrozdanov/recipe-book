@@ -17,7 +17,7 @@ public class RecipeEntity extends BaseEntity {
     private List<String> steps;
     private String imageUrl;
     private CategoryEnum category;
-    private UserEntity owner;
+    private Long ownerId;
     private Long visitationsCount;
     private PublicationStatusEnum status;
 
@@ -85,14 +85,13 @@ public class RecipeEntity extends BaseEntity {
         this.category = category;
     }
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    public UserEntity getOwner() {
-        return owner;
+    @Column(nullable = false)
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner(UserEntity owner) {
-        this.owner = owner;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     @Column(name = "visitations_count", nullable = false)
