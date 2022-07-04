@@ -56,15 +56,18 @@ public class RecipeController {
         return ResponseEntity.ok().build();
     }
 
-    //TODO
-    @PutMapping
-    public ResponseEntity<RecipeDTO> editRecipe(@RequestBody @Valid RecipeDTO recipeDTO) {
-        return ResponseEntity.notFound().build();
+    @PostMapping
+    public ResponseEntity<Long> createRecipe(@RequestBody @Valid RecipeDTO recipeDTO) {
+        Long createdRecipeId = this.recipeService.createNewRecipe(recipeDTO);
+
+        return createdRecipeId != null
+                ? ResponseEntity.ok().body(createdRecipeId)
+                : ResponseEntity.unprocessableEntity().build();
     }
 
     //TODO
-    @PostMapping
-    public ResponseEntity<Long> createRecipe() {
+    @PutMapping
+    public ResponseEntity<RecipeDTO> editRecipe(@RequestBody @Valid RecipeDTO recipeDTO) {
         return ResponseEntity.notFound().build();
     }
 }

@@ -1,9 +1,12 @@
 package recepiesserver.recipesserver.models.DTOs;
 
-import recepiesserver.recipesserver.models.entities.UserEntity;
-import recepiesserver.recipesserver.models.enums.CategoryEnum;
 import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
+import recepiesserver.recipesserver.utils.validators.NonEmptyCollectionValidator.NonEmptyCollection;
+import recepiesserver.recipesserver.utils.validators.UniqueImageValidator.UniqueImage;
+import recepiesserver.recipesserver.utils.validators.UniqueRecipeNameValidator.UniqueRecipeName;
+import recepiesserver.recipesserver.utils.validators.ValidUserIdValidator.ValidUserId;
 
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,15 +16,20 @@ public class RecipeDTO {
     private List<String> products;
     private List<String> steps;
     private String imageUrl;
-    private CategoryEnum category;
+    private String categoryName;
     private Long ownerId;
     private Long visitationsCount;
     private PublicationStatusEnum status;
 
     public RecipeDTO() {
+        this.createdAt = LocalDateTime.now();
+        this.visitationsCount = 0L;
+        this.status = PublicationStatusEnum.PENDING;
     }
 
-
+    @UniqueRecipeName
+    @Size(min = 4, message = "Recipe name should be at least 4 characters long.")
+    @Pattern(regexp = "^[а-яА-Я\\s]+$", message = "Recipe name should be written in bulgarian.")
     public String getRecipeName() {
         return recipeName;
     }
@@ -38,6 +46,8 @@ public class RecipeDTO {
         this.createdAt = createdAt;
     }
 
+    @NonEmptyCollection
+    @Size(min = 3, message = "Products size should be at least 3 symbols long.")
     public List<String> getProducts() {
         return products;
     }
@@ -46,6 +56,8 @@ public class RecipeDTO {
         this.products = products;
     }
 
+    @NonEmptyCollection
+    @Size(min = 3, message = "Steps size should be at least 3 symbols long.")
     public List<String> getSteps() {
         return steps;
     }
@@ -54,6 +66,8 @@ public class RecipeDTO {
         this.steps = steps;
     }
 
+    @UniqueImage
+    @NotEmpty(message = "Recipe image url is required.")
     public String getImageUrl() {
         return imageUrl;
     }
@@ -62,14 +76,16 @@ public class RecipeDTO {
         this.imageUrl = imageUrl;
     }
 
-    public CategoryEnum getCategory() {
-        return category;
+    @NotNull(message = "Recipe category is required.")
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory(CategoryEnum category) {
-        this.category = category;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
+    @ValidUserId
     public Long getOwnerId() {
         return ownerId;
     }
