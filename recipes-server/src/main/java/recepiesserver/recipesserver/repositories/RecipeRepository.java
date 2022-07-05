@@ -14,4 +14,6 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     Optional<RecipeEntity> findByImageUrl(String image);
 
     List<RecipeEntity> findAllByOwnerId(Long ownerId);
+
+    Integer countByOwnerId(Long ownerId);
 }

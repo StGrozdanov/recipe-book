@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileDTO;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.repositories.UserRepository;
 
@@ -49,6 +50,23 @@ public class UserService {
 
             userDTO.setRecipes(recipesByUser);
             userDTO.setRecipesCount(recipesByUser.size());
+
+            return Optional.of(userDTO);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<UserProfileDTO> getUserProfile(Long userId) {
+        Optional<UserEntity> userById = this.userRepository.findById(userId);
+
+        if (userById.isPresent()) {
+            UserEntity user = userById.get();
+
+            UserProfileDTO userDTO = this.modelMapper.map(user, UserProfileDTO.class);
+
+            Integer userRecipesCount = this.recipeService.getUserRecipesCount(user.getId());
+
+            userDTO.setRecipesCount(userRecipesCount);
 
             return Optional.of(userDTO);
         }

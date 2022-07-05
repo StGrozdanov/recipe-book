@@ -106,4 +106,8 @@ public class RecipeService {
                                 .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
                                 .toList();
     }
+
+    public Integer getUserRecipesCount(Long userId) {
+        return this.recipeRepository.countByOwnerId(userId);
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileDTO;
 import recepiesserver.recipesserver.services.UserService;
 
 import java.util.Optional;
@@ -27,4 +28,14 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/profile/{userId}")
+    public ResponseEntity<UserProfileDTO> getUserProfile(@PathVariable Long userId) {
+        Optional<UserProfileDTO> user = this.userService.getUserProfile(userId);
+        if (user.isPresent()) {
+            return ResponseEntity.ok().body(user.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }
