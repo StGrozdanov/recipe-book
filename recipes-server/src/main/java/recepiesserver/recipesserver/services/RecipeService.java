@@ -3,10 +3,7 @@ package recepiesserver.recipesserver.services;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
-import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCreateDTO;
-import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeDetailsDTO;
-import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeEditDTO;
+import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
@@ -111,10 +108,6 @@ public class RecipeService {
         return this.recipeRepository.countByOwnerId(userId);
     }
 
-    public boolean recipeExistsById(Long recipeId) {
-        return this.recipeRepository.existsById(recipeId);
-    }
-
     private void setTheOldRecipeDefaultInformationToTheEditedRecipe(RecipeEntity oldRecipe,
                                                                     RecipeEntity editedRecipe) {
         editedRecipe.setOwnerId(oldRecipe.getOwnerId());
@@ -138,5 +131,13 @@ public class RecipeService {
 
     public boolean recipeWithTheSameNameExists(String recipeName) {
         return this.recipeRepository.existsByRecipeName(recipeName);
+    }
+
+    public List<RecipeLandingPageDTO> getTheLatestThreeRecipes() {
+        return this.recipeRepository
+                        .findTop3ByOrderByCreatedAtDesc()
+                        .stream()
+                        .map(recipe -> this.modelMapper.map(recipe, RecipeLandingPageDTO.class))
+                        .toList();
     }
 }

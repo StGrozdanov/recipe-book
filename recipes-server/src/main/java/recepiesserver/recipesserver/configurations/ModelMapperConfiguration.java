@@ -11,6 +11,7 @@ import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCre
 import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCreateDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeEditDTO;
+import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeLandingPageDTO;
 import recepiesserver.recipesserver.models.entities.CommentEntity;
 import recepiesserver.recipesserver.models.entities.NotificationEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
@@ -30,6 +31,12 @@ public class ModelMapperConfiguration {
                 return Arrays.stream(CategoryEnum.values())
                         .filter(category -> category.getName().equals(context.getSource()))
                         .findFirst().orElse(null);
+            }
+        };
+
+        Converter<CategoryEnum, String> categoryToStringConverter = new Converter<CategoryEnum, String>() {
+            public String convert(MappingContext<CategoryEnum, String> context) {
+                return context.getSource().getName();
             }
         };
 
@@ -58,6 +65,14 @@ public class ModelMapperConfiguration {
                 .typeMap(RecipeEditDTO.class, RecipeEntity.class)
                 .addMappings(mapper -> {
                     mapper.using(categoryConverter).map(RecipeEditDTO::getCategory, RecipeEntity::setCategory);
+                });
+
+        modelMapper
+                .typeMap(RecipeEntity.class, RecipeLandingPageDTO.class)
+                .addMappings(mapper -> {
+                    mapper
+                            .using(categoryToStringConverter)
+                            .map(RecipeEntity::getCategory, RecipeLandingPageDTO::setCategory);
                 });
 
         modelMapper

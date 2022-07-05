@@ -19,4 +19,6 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     boolean existsByImageUrl(String imageUrl);
 
     boolean existsByRecipeName(String recipeName);
+
+    List<RecipeEntity> findTop3ByOrderByCreatedAtDesc();
 }

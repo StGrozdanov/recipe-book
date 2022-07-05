@@ -4,10 +4,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
-import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCreateDTO;
-import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeDetailsDTO;
-import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeEditDTO;
+import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.services.RecipeService;
 
 import javax.validation.Valid;
@@ -73,5 +70,12 @@ public class RecipeController {
         return editedRecipeId != null
                 ? ResponseEntity.ok().body(editedRecipeId)
                 : ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/latest-three-recipes")
+    public ResponseEntity<List<RecipeLandingPageDTO>> getTheLatestThreeRecipes() {
+        return ResponseEntity
+                .ok()
+                .body(this.recipeService.getTheLatestThreeRecipes());
     }
 }
