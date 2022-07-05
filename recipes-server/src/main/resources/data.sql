@@ -29,3 +29,11 @@ VALUES (4, 'тестов коментар от Peter', '2022-06-29 21:38:31', 3,
 
 INSERT INTO recipe_entity_products (recipe_entity_id, products)
 VALUES(1, 'Стъпка 1, Стъпка 2, Стъпка 3');
+
+INSERT INTO notifications (action, created_at, location_id, location_name, is_marked_as_read, sender_avatar, sender_username)
+VALUES('CREATED_COMMENT', CURRENT_DATE, 1, 'Кекс', false, null, 'shushan');
+
+INSERT INTO notifications_receivers (notification_entity_id, receivers_id)
+VALUES (1, 2);
+INSERT INTO notifications_receivers (notification_entity_id, receivers_id)
+VALUES (1, 3);

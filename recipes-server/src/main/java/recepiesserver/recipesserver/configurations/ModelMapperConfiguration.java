@@ -6,11 +6,14 @@ import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
+import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCreateDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeEditDTO;
 import recepiesserver.recipesserver.models.entities.CommentEntity;
+import recepiesserver.recipesserver.models.entities.NotificationEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.enums.CategoryEnum;
+import recepiesserver.recipesserver.models.enums.NotificationActionEnum;
 
 import java.util.Arrays;
 
@@ -25,6 +28,12 @@ public class ModelMapperConfiguration {
                 return Arrays.stream(CategoryEnum.values())
                         .filter(category -> category.getName().equals(context.getSource()))
                         .findFirst().orElse(null);
+            }
+        };
+
+        Converter<NotificationActionEnum, String> actionConverter = new Converter<NotificationActionEnum, String>() {
+            public String convert(MappingContext<NotificationActionEnum, String> context) {
+                return context.getSource().getName();
             }
         };
 
@@ -44,6 +53,12 @@ public class ModelMapperConfiguration {
         modelMapper
                 .typeMap(CommentCreateDTO.class, CommentEntity.class)
                 .addMappings(mapper -> mapper.skip(CommentEntity::setId));
+
+        modelMapper
+                .typeMap(NotificationEntity.class, NotificationDTO.class)
+                .addMappings(mapper -> {
+                    mapper.using(actionConverter).map(NotificationEntity::getAction, NotificationDTO::setAction);
+                });
 
         return modelMapper;
     }
