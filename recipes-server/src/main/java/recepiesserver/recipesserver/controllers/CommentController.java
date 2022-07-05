@@ -53,5 +53,10 @@ public class CommentController {
                 : ResponseEntity.unprocessableEntity().build();
     }
 
-
+    @GetMapping("/latest-six-comments")
+    public ResponseEntity<List<CommentDetailsDTO>> getTheLatestSixComments() {
+        return ResponseEntity
+                .ok()
+                .body(this.commentService.getTheLatestSixComments());
+    }
 }

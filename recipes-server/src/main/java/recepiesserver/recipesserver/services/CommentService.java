@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentEditDTO;
+import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeLandingPageDTO;
 import recepiesserver.recipesserver.models.entities.CommentEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
@@ -70,5 +71,13 @@ public class CommentService {
             return this.commentRepository.save(editedComment).getId();
         }
         return null;
+    }
+
+    public List<CommentDetailsDTO> getTheLatestSixComments() {
+        return this.commentRepository
+                .findTop6ByOrderByCreatedAtDesc()
+                .stream()
+                .map(comment -> this.modelMapper.map(comment, CommentDetailsDTO.class))
+                .toList();
     }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
     List<CommentEntity> findAllByTargetRecipe_Id(Long targetRecipeId);
+
+    List<CommentEntity> findTop6ByOrderByCreatedAtDesc();
 }
