@@ -1,10 +1,7 @@
 package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCreateDTO;
@@ -12,6 +9,7 @@ import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeEditDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
+import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
 import recepiesserver.recipesserver.repositories.RecipeRepository;
 
 import javax.transaction.Transactional;
@@ -56,9 +54,14 @@ public class RecipeService {
     public Page<RecipeCatalogueDTO> getRecipesByPage(Integer pageNumber, Integer collectionCount, String sortBy) {
         Pageable pageable = PageRequest.of(pageNumber, collectionCount, Sort.by(sortBy));
 
-        return this.recipeRepository
+        List<RecipeCatalogueDTO> recipeCatalogueDTOS = this.recipeRepository
                 .findAll(pageable)
-                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class));
+                .stream()
+                .filter(recipe -> recipe.getStatus() != PublicationStatusEnum.PENDING)
+                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                .toList();
+
+        return new PageImpl<>(recipeCatalogueDTOS);
     }
 
     public Long createNewRecipe(RecipeCreateDTO recipeDTO) {
@@ -98,17 +101,19 @@ public class RecipeService {
 
     public List<RecipeCatalogueDTO> findRecipesByUser(Long userId) {
         return this.recipeRepository
-                                .findAllByOwnerId(userId)
-                                .stream()
-                                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
-                                .toList();
+                .findAllByOwnerId(userId)
+                .stream()
+                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                .toList();
     }
 
     public Integer getUserRecipesCount(Long userId) {
         return this.recipeRepository.countByOwnerId(userId);
     }
 
-    public boolean recipeExistsById(Long recipeId) { return this.recipeRepository.existsById(recipeId); }
+    public boolean recipeExistsById(Long recipeId) {
+        return this.recipeRepository.existsById(recipeId);
+    }
 
     private void setTheOldRecipeDefaultInformationToTheEditedRecipe(RecipeEntity oldRecipe,
                                                                     RecipeEntity editedRecipe) {
