@@ -1,13 +1,12 @@
 package recepiesserver.recipesserver.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDTO;
+import org.springframework.web.bind.annotation.*;
+import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
+import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDetailsDTO;
 import recepiesserver.recipesserver.services.CommentService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +19,16 @@ public class CommentController {
     }
 
     @GetMapping("/{recipeId}")
-    public ResponseEntity<List<CommentDTO>> getAllCommentsForTargetRecipe(@PathVariable Long recipeId) {
+    public ResponseEntity<List<CommentDetailsDTO>> getAllCommentsForTargetRecipe(@PathVariable Long recipeId) {
         return ResponseEntity.ok().body(this.commentService.getAllCommentsForTargetRecipe(recipeId));
+    }
+
+    @PostMapping
+    public ResponseEntity<Long> createComment(@RequestBody @Valid CommentCreateDTO commentDTO) {
+        Long createdCommentId = this.commentService.createNewComment(commentDTO);
+
+        return createdCommentId != null
+                ? ResponseEntity.ok().body(createdCommentId)
+                : ResponseEntity.unprocessableEntity().build();
     }
 }

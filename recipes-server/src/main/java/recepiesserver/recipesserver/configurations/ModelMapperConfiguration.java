@@ -5,8 +5,10 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCreateDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeEditDTO;
+import recepiesserver.recipesserver.models.entities.CommentEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.enums.CategoryEnum;
 
@@ -38,6 +40,10 @@ public class ModelMapperConfiguration {
                 .addMappings(mapper -> {
                     mapper.using(categoryConverter).map(RecipeEditDTO::getCategory, RecipeEntity::setCategory);
                 });
+
+        modelMapper
+                .typeMap(CommentCreateDTO.class, CommentEntity.class)
+                .addMappings(mapper -> mapper.skip(CommentEntity::setId));
 
         return modelMapper;
     }
