@@ -140,4 +140,12 @@ public class RecipeService {
                         .map(recipe -> this.modelMapper.map(recipe, RecipeLandingPageDTO.class))
                         .toList();
     }
+
+    public List<RecipeCatalogueDTO> getTheThreeMostViewedRecipes() {
+        return this.recipeRepository
+                .findTop3ByOrderByVisitationsCountDesc()
+                .stream()
+                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                .toList();
+    }
 }

@@ -78,4 +78,11 @@ public class RecipeController {
                 .ok()
                 .body(this.recipeService.getTheLatestThreeRecipes());
     }
+
+    @GetMapping("/most-viewed-three-recipes")
+    public ResponseEntity<List<RecipeCatalogueDTO>> getTheThreeMostViewedRecipes() {
+        return ResponseEntity
+                .ok()
+                .body(this.recipeService.getTheThreeMostViewedRecipes());
+    }
 }
