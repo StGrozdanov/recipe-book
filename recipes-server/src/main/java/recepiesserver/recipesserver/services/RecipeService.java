@@ -1,5 +1,6 @@
 package recepiesserver.recipesserver.services;
 
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -96,5 +97,13 @@ public class RecipeService {
         editedRecipe.setStatus(recipeToEdit.getStatus());
 
         return this.recipeRepository.save(editedRecipe).getId();
+    }
+
+    public List<RecipeCatalogueDTO> findRecipesByUser(Long userId) {
+        return this.recipeRepository
+                                .findAllByOwnerId(userId)
+                                .stream()
+                                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                                .toList();
     }
 }
