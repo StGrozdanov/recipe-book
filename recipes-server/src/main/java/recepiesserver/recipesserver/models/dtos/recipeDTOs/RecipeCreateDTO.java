@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.models.dtos;
+package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
 import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
 import recepiesserver.recipesserver.utils.validators.nonEmptyCollectionValidator.NonEmptyCollection;

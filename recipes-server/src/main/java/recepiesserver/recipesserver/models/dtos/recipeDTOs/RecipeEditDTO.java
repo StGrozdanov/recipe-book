@@ -1,9 +1,6 @@
-package recepiesserver.recipesserver.models.dtos;
+package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
-import recepiesserver.recipesserver.models.enums.CategoryEnum;
 import recepiesserver.recipesserver.utils.validators.nonEmptyCollectionValidator.NonEmptyCollection;
-import recepiesserver.recipesserver.utils.validators.uniqueImageValidator.UniqueImage;
-import recepiesserver.recipesserver.utils.validators.uniqueRecipeNameValidator.UniqueRecipeName;
 import recepiesserver.recipesserver.utils.validators.validRecipeIdValidator.ValidRecipeId;
 
 import javax.validation.constraints.NotEmpty;

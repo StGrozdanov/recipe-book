@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.models.dtos;
+package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
 public class RecipeCatalogueDTO {
     private Long id;
