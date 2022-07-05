@@ -1,6 +1,5 @@
 package recepiesserver.recipesserver.services;
 
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,7 +10,6 @@ import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCreateDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeEditDTO;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileEditDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.repositories.RecipeRepository;
@@ -63,10 +61,6 @@ public class RecipeService {
                 .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class));
     }
 
-    public Optional<RecipeEntity> findRecipeByName(String recipeName) {
-        return this.recipeRepository.findByRecipeName(recipeName);
-    }
-
     public Long createNewRecipe(RecipeCreateDTO recipeDTO) {
         Optional<UserEntity> userById = this.userService.findUserById(recipeDTO.getOwnerId());
 
@@ -77,10 +71,6 @@ public class RecipeService {
         RecipeEntity createdRecipe = this.recipeRepository.save(newRecipe);
 
         return createdRecipe.getId();
-    }
-
-    public Optional<RecipeEntity> findRecipeByImage(String image) {
-        return this.recipeRepository.findByImageUrl(image);
     }
 
     public Optional<RecipeEntity> findRecipeById(Long id) {
@@ -133,5 +123,13 @@ public class RecipeService {
                 .existsByImageUrlAndImageUrlNot(recipeDTO.getImageUrl(), oldRecipeInfo.getImageUrl());
 
         return nonUniqueRecipeName || nonUniqueImageUrl;
+    }
+
+    public boolean recipeWithTheSameImageExists(String imageUrl) {
+        return this.recipeRepository.existsByImageUrl(imageUrl);
+    }
+
+    public boolean recipeWithTheSameNameExists(String recipeName) {
+        return this.recipeRepository.existsByRecipeName(recipeName);
     }
 }

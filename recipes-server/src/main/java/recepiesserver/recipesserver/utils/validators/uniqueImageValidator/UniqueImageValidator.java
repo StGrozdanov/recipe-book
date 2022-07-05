@@ -14,6 +14,6 @@ public class UniqueImageValidator implements ConstraintValidator<UniqueImage, St
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return this.recipeService.findRecipeByImage(value).isEmpty();
+        return !this.recipeService.recipeWithTheSameImageExists(value);
     }
 }

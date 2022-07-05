@@ -26,14 +26,6 @@ public class UserService {
         this.recipeService = recipeService;
     }
 
-    public Optional<UserEntity> findUserByEmail(String email) {
-        return this.userRepository.findByEmail(email);
-    }
-
-    public Optional<UserEntity> findUserByUsername(String username) {
-        return this.userRepository.findByUsername(username);
-    }
-
     public Optional<UserEntity> findUserById(Long id) {
         return this.userRepository.findById(id);
     }
@@ -108,5 +100,13 @@ public class UserService {
         editedUser.setRoles(oldUserInfo.getRoles());
         editedUser.setId(oldUserInfo.getId());
         editedUser.setPassword(oldUserInfo.getPassword());
+    }
+
+    public boolean userWithTheSameUsernameExists(String username) {
+        return this.userRepository.existsByUsername(username);
+    }
+
+    public boolean userWithTheSameEmailExists(String email) {
+        return this.userRepository.existsByEmail(email);
     }
 }

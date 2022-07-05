@@ -14,6 +14,6 @@ public class UniqueRecipeNameValidator implements ConstraintValidator<UniqueReci
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return this.recipeService.findRecipeByName(value).isEmpty();
+        return !this.recipeService.recipeWithTheSameNameExists(value);
     }
 }
