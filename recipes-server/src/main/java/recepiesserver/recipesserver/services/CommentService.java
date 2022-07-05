@@ -9,6 +9,7 @@ import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.repositories.CommentRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,6 @@ public class CommentService {
     }
 
     public Long createNewComment(CommentCreateDTO commentDTO) {
-
         Optional<UserEntity> userById = this.userService.findUserById(commentDTO.getOwnerId());
         Optional<RecipeEntity> recipeById = this.recipeService.findRecipeById(commentDTO.getTargetRecipeId());
 
@@ -47,5 +47,10 @@ public class CommentService {
             return this.commentRepository.save(createdComment).getId();
         }
         return null;
+    }
+
+    @Transactional
+    public void deleteComment(Long id) {
+        this.commentRepository.deleteById(id);
     }
 }
