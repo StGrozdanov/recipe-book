@@ -1,16 +1,20 @@
 package recepiesserver.recipesserver.models.dtos.notificationDTOs;
 
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
-public class NotificationDTO {
+public class NotificationCreateDTO {
     private LocalDateTime createdAt;
+    private Boolean isMarkedAsRead;
     private String action;
     private String locationName;
     private Long locationId;
     private String senderUsername;
     private String senderAvatar;
 
-    public NotificationDTO() {
+    public NotificationCreateDTO() {
+        this.createdAt = LocalDateTime.now();
+        this.isMarkedAsRead = false;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -21,6 +25,15 @@ public class NotificationDTO {
         this.createdAt = createdAt;
     }
 
+    public Boolean getMarkedAsRead() {
+        return isMarkedAsRead;
+    }
+
+    public void setMarkedAsRead(Boolean markedAsRead) {
+        isMarkedAsRead = markedAsRead;
+    }
+
+    @NotBlank(message = "Notification action is required.")
     public String getAction() {
         return action;
     }
@@ -29,6 +42,9 @@ public class NotificationDTO {
         this.action = action;
     }
 
+    @NotNull
+    @Size(min = 4, message = "Recipe name should be at least 4 characters long.")
+    @Pattern(regexp = "^[а-яА-Я\\s]+$", message = "Recipe name should be written in bulgarian.")
     public String getLocationName() {
         return locationName;
     }
@@ -37,6 +53,8 @@ public class NotificationDTO {
         this.locationName = locationName;
     }
 
+    @NotNull(message = "Location id should not be null")
+    @Positive(message = "Location id should be valid")
     public Long getLocationId() {
         return locationId;
     }
@@ -45,6 +63,8 @@ public class NotificationDTO {
         this.locationId = locationId;
     }
 
+    @NotBlank(message = "Username is required.")
+    @Size(min = 3, max = 10, message = "Username length should be between 3 and 10 symbols long.")
     public String getSenderUsername() {
         return senderUsername;
     }

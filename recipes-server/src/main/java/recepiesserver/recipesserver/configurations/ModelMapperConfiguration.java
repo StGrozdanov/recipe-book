@@ -2,11 +2,13 @@ package recepiesserver.recipesserver.configurations;
 
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
-import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationDTO;
+import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreateDTO;
+import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCreateDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeEditDTO;
 import recepiesserver.recipesserver.models.entities.CommentEntity;
@@ -37,6 +39,14 @@ public class ModelMapperConfiguration {
             }
         };
 
+        Converter<String, NotificationActionEnum> actionFromStringConverter = new Converter<String, NotificationActionEnum>() {
+            public NotificationActionEnum convert(MappingContext<String, NotificationActionEnum> context) {
+                return Arrays.stream(NotificationActionEnum.values())
+                        .filter(action -> action.getName().equals(context.getSource()))
+                        .findFirst().orElse(null);
+            }
+        };
+
         modelMapper
                 .typeMap(RecipeCreateDTO.class, RecipeEntity.class)
                 .addMappings(mapper -> mapper.skip(RecipeEntity::setId))
@@ -55,9 +65,24 @@ public class ModelMapperConfiguration {
                 .addMappings(mapper -> mapper.skip(CommentEntity::setId));
 
         modelMapper
-                .typeMap(NotificationEntity.class, NotificationDTO.class)
+                .typeMap(NotificationEntity.class, NotificationDetailsDTO.class)
                 .addMappings(mapper -> {
-                    mapper.using(actionConverter).map(NotificationEntity::getAction, NotificationDTO::setAction);
+                    mapper.using(actionConverter).map(NotificationEntity::getAction, NotificationDetailsDTO::setAction);
+                });
+
+        modelMapper
+                .addMappings(new PropertyMap<NotificationCreateDTO, NotificationEntity>() {
+                    protected void configure() {
+                        skip().setId(0L);
+                    }
+                });
+
+        modelMapper
+                .typeMap(NotificationCreateDTO.class, NotificationEntity.class)
+                .addMappings(mapper -> {
+                    mapper
+                            .using(actionFromStringConverter)
+                            .map(NotificationCreateDTO::getAction, NotificationEntity::setAction);
                 });
 
         return modelMapper;

@@ -108,6 +108,8 @@ public class RecipeService {
         return this.recipeRepository.countByOwnerId(userId);
     }
 
+    public boolean recipeExistsById(Long recipeId) { return this.recipeRepository.existsById(recipeId); }
+
     private void setTheOldRecipeDefaultInformationToTheEditedRecipe(RecipeEntity oldRecipe,
                                                                     RecipeEntity editedRecipe) {
         editedRecipe.setOwnerId(oldRecipe.getOwnerId());

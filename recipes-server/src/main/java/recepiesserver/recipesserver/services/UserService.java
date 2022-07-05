@@ -7,6 +7,8 @@ import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileEditDTO;
+import recepiesserver.recipesserver.models.entities.BaseEntity;
+import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.repositories.UserRepository;
 
@@ -19,11 +21,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final RecipeService recipeService;
+    private final RoleService roleService;
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, @Lazy RecipeService recipeService) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, @Lazy RecipeService recipeService, RoleService roleService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.recipeService = recipeService;
+        this.roleService = roleService;
     }
 
     public Optional<UserEntity> findUserById(Long id) {
@@ -108,5 +112,21 @@ public class UserService {
 
     public boolean userWithTheSameEmailExists(String email) {
         return this.userRepository.existsByEmail(email);
+    }
+
+    public List<Long> getAllAdministratorIds() {
+        RoleEntity administrator = this.roleService.getAdministratorEntity();
+
+        return this.userRepository.findAllByRolesContaining(administrator).stream().map(BaseEntity::getId).toList();
+    }
+
+    public List<Long> getAllModeratorIds() {
+        RoleEntity moderator = this.roleService.getModeratorEntity();
+
+        return this.userRepository.findAllByRolesContaining(moderator).stream().map(BaseEntity::getId).toList();
+    }
+
+    public Optional<UserEntity> findUserByUsername(String username) {
+        return this.userRepository.findByUsername(username);
     }
 }

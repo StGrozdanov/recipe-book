@@ -7,6 +7,22 @@ VALUES (3, 'Peter', 'peter@abv.bg', '123', null, null, false);
 INSERT INTO users (id, username, email, password, avatar_url, cover_photo_url, is_blocked)
 VALUES (4, 'eftenow', 'eftenow@abv.bg', '123', null, null, false);
 
+INSERT INTO roles (id, role)
+VALUES (1, 'ADMINISTRATOR');
+INSERT INTO roles (id, role)
+VALUES (2, 'MODERATOR');
+INSERT INTO roles (id, role)
+VALUES (3, 'USER');
+
+INSERT INTO users_roles(user_entity_id, roles_id)
+VALUES (1, 1);
+INSERT INTO users_roles(user_entity_id, roles_id)
+VALUES (2, 1);
+INSERT INTO users_roles(user_entity_id, roles_id)
+VALUES (3, 2);
+INSERT INTO users_roles(user_entity_id, roles_id)
+VALUES (4, 3);
+
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
 VALUES (1, 'DESSERT', '2022-06-29 21:38:31', 'https://www.supichka.com/files/images/2565/bananov_keks_s_karamelena_glazura.jpg', 'Кекс', 'APPROVED', 1, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
@@ -16,7 +32,7 @@ VALUES (3, 'PORK', '2022-06-29 21:38:31', 'https://encrypted-tbn0.gstatic.com/im
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
 VALUES (4, 'PASTA', '2022-06-29 21:38:31', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm7RzdOPVaBvaXk6ysc1EtBmXiwINygU4IeA&usqp=CAU', 'Баница със сирене', 'APPROVED', 1, 2);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (5, 'DESSERT', '2022-06-29 21:38:31', 'https://media.kaufland.com/images/PPIM/AP_Content_1010/std.lang.all/09/66/Asset_1670966.jpg', 'Тикевеник', 'APPROVED', 1, 3);
+VALUES (5, 'DESSERT', '2022-06-29 21:38:31', 'https://media.kaufland.com/images/PPIM/AP_Content_1010/std.lang.all/09/66/Asset_1670966.jpg', 'Тиквеник', 'APPROVED', 1, 4);
 
 INSERT INTO comments (id, content, created_at, owner_id, target_recipe_id)
 VALUES (1, 'тестов коментар от shushan', '2022-06-29 21:38:31', 1, 1);

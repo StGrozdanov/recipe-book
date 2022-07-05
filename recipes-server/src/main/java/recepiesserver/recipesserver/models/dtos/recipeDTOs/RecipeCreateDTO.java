@@ -76,7 +76,7 @@ public class RecipeCreateDTO {
         this.imageUrl = imageUrl;
     }
 
-    @NotNull(message = "Recipe category is required.")
+    @NotBlank(message = "Recipe category is required.")
     public String getCategory() {
         return category;
     }
