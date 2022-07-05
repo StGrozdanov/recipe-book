@@ -4,8 +4,6 @@ import recepiesserver.recipesserver.models.enums.NotificationActionEnum;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "notifications")
@@ -17,10 +15,9 @@ public class NotificationEntity extends BaseEntity {
     private Long locationId;
     private String senderUsername;
     private String senderAvatar;
-    private Set<UserEntity> receivers;
+    private Long receiverId;
 
     public NotificationEntity() {
-        this.receivers = new HashSet<>();
         this.isMarkedAsRead = false;
     }
 
@@ -88,14 +85,12 @@ public class NotificationEntity extends BaseEntity {
         this.senderAvatar = senderAvatar;
     }
 
-    @ManyToMany
-    public Set<UserEntity> getReceivers() {
-        return receivers;
+    @Column(name = "receiver_id", nullable = false)
+    public Long getReceiverId() {
+        return receiverId;
     }
 
-    public void setReceivers(Set<UserEntity> receivers) {
-        this.receivers = receivers;
+    public void setReceiverId(Long receiverId) {
+        this.receiverId = receiverId;
     }
-
-
 }

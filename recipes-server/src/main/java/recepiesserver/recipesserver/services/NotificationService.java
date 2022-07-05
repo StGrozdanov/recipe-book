@@ -24,7 +24,7 @@ public class NotificationService {
 
     public List<NotificationDTO> getUnreadUserNotifications(Long userId) {
         return this.notificationRepository
-                                .findAllByReceiversIdAndMarkedAsRead(userId, false)
+                                .findAllByReceiverIdAndMarkedAsRead(userId, false)
                                 .stream()
                                 .map(notification -> this.modelMapper.map(notification, NotificationDTO.class))
                                 .toList();
