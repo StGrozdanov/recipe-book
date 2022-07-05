@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileEditDTO;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.repositories.UserRepository;
 
@@ -71,5 +72,41 @@ public class UserService {
             return Optional.of(userDTO);
         }
         return Optional.empty();
+    }
+
+    public Long editUserProfile(Long userId, UserProfileEditDTO userDTO) {
+        Optional<UserEntity> userById = this.userRepository.findById(userId);
+
+        if (userById.isPresent()) {
+            UserEntity oldUserInfo = userById.get();
+
+            if (otherUserWithSameUsernameOrEmailExists(userDTO, oldUserInfo)) {
+                return null;
+            }
+
+            UserEntity editedUser = this.modelMapper.map(userDTO, UserEntity.class);
+
+            setTheOldUserDefaultInformationToTheEditedUser(oldUserInfo, editedUser);
+
+            return this.userRepository.save(editedUser).getId();
+        }
+        return null;
+    }
+
+    private boolean otherUserWithSameUsernameOrEmailExists(UserProfileEditDTO userDTO, UserEntity oldUserInfo) {
+        Boolean nonUniqueUsername = this.userRepository
+                .existsByUsernameAndUsernameNot(userDTO.getUsername(), oldUserInfo.getUsername());
+        Boolean nonUniqueEmail = this.userRepository
+                .existsByEmailAndEmailNot(userDTO.getEmail(), oldUserInfo.getEmail());
+
+        return nonUniqueUsername || nonUniqueEmail;
+    }
+
+    private void setTheOldUserDefaultInformationToTheEditedUser(UserEntity oldUserInfo, UserEntity editedUser) {
+        editedUser.setBlocked(oldUserInfo.getBlocked());
+        editedUser.setFavourites(oldUserInfo.getFavourites());
+        editedUser.setRoles(oldUserInfo.getRoles());
+        editedUser.setId(oldUserInfo.getId());
+        editedUser.setPassword(oldUserInfo.getPassword());
     }
 }

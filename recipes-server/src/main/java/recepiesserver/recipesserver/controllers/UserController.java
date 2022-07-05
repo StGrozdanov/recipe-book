@@ -1,14 +1,13 @@
 package recepiesserver.recipesserver.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileEditDTO;
 import recepiesserver.recipesserver.services.UserService;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -36,6 +35,17 @@ public class UserController {
             return ResponseEntity.ok().body(user.get());
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/profile/{userId}")
+    public ResponseEntity<Long> editUserProfile(
+            @RequestBody @Valid UserProfileEditDTO userDTO,
+            @PathVariable Long userId) {
+        Long editedProfileId = this.userService.editUserProfile(userId, userDTO);
+
+        return editedProfileId != null
+                ? ResponseEntity.ok().body(editedProfileId)
+                : ResponseEntity.badRequest().build();
     }
 
 }

@@ -11,6 +11,7 @@ import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCreateDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeEditDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileEditDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.repositories.RecipeRepository;
@@ -87,16 +88,22 @@ public class RecipeService {
     }
 
     public Long editRecipe(RecipeEditDTO recipeDTO) {
-        RecipeEntity recipeToEdit = this.recipeRepository.findById(recipeDTO.getId()).get();
+        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(recipeDTO.getId());
 
-        RecipeEntity editedRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
+        if (recipeById.isPresent()) {
+            RecipeEntity oldRecipe = recipeById.get();
 
-        editedRecipe.setOwnerId(recipeToEdit.getOwnerId());
-        editedRecipe.setCreatedAt(recipeToEdit.getCreatedAt());
-        editedRecipe.setVisitationsCount(recipeToEdit.getVisitationsCount());
-        editedRecipe.setStatus(recipeToEdit.getStatus());
+            if (otherRecipeWithTheSameNameOrImageExists(recipeDTO, oldRecipe)) {
+                return null;
+            }
 
-        return this.recipeRepository.save(editedRecipe).getId();
+            RecipeEntity editedRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
+
+            setTheOldRecipeDefaultInformationToTheEditedRecipe(oldRecipe, editedRecipe);
+
+            return this.recipeRepository.save(editedRecipe).getId();
+        }
+        return null;
     }
 
     public List<RecipeCatalogueDTO> findRecipesByUser(Long userId) {
@@ -109,5 +116,22 @@ public class RecipeService {
 
     public Integer getUserRecipesCount(Long userId) {
         return this.recipeRepository.countByOwnerId(userId);
+    }
+
+    private void setTheOldRecipeDefaultInformationToTheEditedRecipe(RecipeEntity oldRecipe,
+                                                                    RecipeEntity editedRecipe) {
+        editedRecipe.setOwnerId(oldRecipe.getOwnerId());
+        editedRecipe.setCreatedAt(oldRecipe.getCreatedAt());
+        editedRecipe.setVisitationsCount(oldRecipe.getVisitationsCount());
+        editedRecipe.setStatus(oldRecipe.getStatus());
+    }
+
+    private boolean otherRecipeWithTheSameNameOrImageExists(RecipeEditDTO recipeDTO, RecipeEntity oldRecipeInfo) {
+        Boolean nonUniqueRecipeName = this.recipeRepository
+                .existsByRecipeNameAndRecipeNameNot(recipeDTO.getRecipeName(), oldRecipeInfo.getRecipeName());
+        Boolean nonUniqueImageUrl = this.recipeRepository
+                .existsByImageUrlAndImageUrlNot(recipeDTO.getImageUrl(), oldRecipeInfo.getImageUrl());
+
+        return nonUniqueRecipeName || nonUniqueImageUrl;
     }
 }

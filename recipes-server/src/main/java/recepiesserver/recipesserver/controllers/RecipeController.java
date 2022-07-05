@@ -70,6 +70,8 @@ public class RecipeController {
     public ResponseEntity<Long> editRecipe(@RequestBody @Valid RecipeEditDTO recipeDTO) {
         Long editedRecipeId = this.recipeService.editRecipe(recipeDTO);
 
-        return ResponseEntity.ok().body(editedRecipeId);
+        return editedRecipeId != null
+                ? ResponseEntity.ok().body(editedRecipeId)
+                : ResponseEntity.badRequest().build();
     }
 }
