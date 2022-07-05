@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.repositories.UserRepository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @Service

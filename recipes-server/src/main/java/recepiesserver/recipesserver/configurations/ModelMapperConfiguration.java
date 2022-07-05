@@ -5,7 +5,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import recepiesserver.recipesserver.models.dtos.RecipeDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeCreateDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeEditDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.enums.CategoryEnum;
 
@@ -26,10 +27,16 @@ public class ModelMapperConfiguration {
         };
 
         modelMapper
-                .typeMap(RecipeDTO.class, RecipeEntity.class)
+                .typeMap(RecipeCreateDTO.class, RecipeEntity.class)
                 .addMappings(mapper -> mapper.skip(RecipeEntity::setId))
                 .addMappings(mapper -> {
-                    mapper.using(categoryConverter).map(RecipeDTO::getCategoryName, RecipeEntity::setCategory);
+                    mapper.using(categoryConverter).map(RecipeCreateDTO::getCategory, RecipeEntity::setCategory);
+                });
+
+        modelMapper
+                .typeMap(RecipeEditDTO.class, RecipeEntity.class)
+                .addMappings(mapper -> {
+                    mapper.using(categoryConverter).map(RecipeEditDTO::getCategory, RecipeEntity::setCategory);
                 });
 
         return modelMapper;

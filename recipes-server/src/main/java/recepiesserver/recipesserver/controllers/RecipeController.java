@@ -5,8 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.RecipeCatalogueDTO;
-import recepiesserver.recipesserver.models.dtos.RecipeDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeCreateDTO;
 import recepiesserver.recipesserver.models.dtos.RecipeDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeEditDTO;
 import recepiesserver.recipesserver.services.RecipeService;
 
 import javax.validation.Valid;
@@ -57,7 +58,7 @@ public class RecipeController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createRecipe(@RequestBody @Valid RecipeDTO recipeDTO) {
+    public ResponseEntity<Long> createRecipe(@RequestBody @Valid RecipeCreateDTO recipeDTO) {
         Long createdRecipeId = this.recipeService.createNewRecipe(recipeDTO);
 
         return createdRecipeId != null
@@ -65,9 +66,10 @@ public class RecipeController {
                 : ResponseEntity.unprocessableEntity().build();
     }
 
-    //TODO
     @PutMapping
-    public ResponseEntity<RecipeDTO> editRecipe(@RequestBody @Valid RecipeDTO recipeDTO) {
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Long> editRecipe(@RequestBody @Valid RecipeEditDTO recipeDTO) {
+        Long editedRecipeId = this.recipeService.editRecipe(recipeDTO);
+
+        return ResponseEntity.ok().body(editedRecipeId);
     }
 }

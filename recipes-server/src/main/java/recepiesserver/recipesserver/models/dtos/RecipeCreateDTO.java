@@ -10,18 +10,18 @@ import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class RecipeDTO {
+public class RecipeCreateDTO {
     private String recipeName;
     private LocalDateTime createdAt;
     private List<String> products;
     private List<String> steps;
     private String imageUrl;
-    private String categoryName;
+    private String category;
     private Long ownerId;
     private Long visitationsCount;
     private PublicationStatusEnum status;
 
-    public RecipeDTO() {
+    public RecipeCreateDTO() {
         this.createdAt = LocalDateTime.now();
         this.visitationsCount = 0L;
         this.status = PublicationStatusEnum.PENDING;
@@ -77,12 +77,12 @@ public class RecipeDTO {
     }
 
     @NotNull(message = "Recipe category is required.")
-    public String getCategoryName() {
-        return categoryName;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @ValidUserId

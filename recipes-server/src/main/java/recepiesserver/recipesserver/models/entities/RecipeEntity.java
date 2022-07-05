@@ -24,8 +24,6 @@ public class RecipeEntity extends BaseEntity {
     public RecipeEntity() {
         this.products = new ArrayList<>();
         this.steps = new ArrayList<>();
-        this.visitationsCount = 0L;
-        this.status = PublicationStatusEnum.PENDING;
     }
 
     @Column(name = "recipe_name", nullable = false, unique = true)

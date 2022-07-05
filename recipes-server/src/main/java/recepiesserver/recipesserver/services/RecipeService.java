@@ -7,8 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.RecipeCatalogueDTO;
-import recepiesserver.recipesserver.models.dtos.RecipeDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeCreateDTO;
 import recepiesserver.recipesserver.models.dtos.RecipeDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.RecipeEditDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.repositories.RecipeRepository;
@@ -64,7 +65,7 @@ public class RecipeService {
         return this.recipeRepository.findByRecipeName(recipeName);
     }
 
-    public Long createNewRecipe(RecipeDTO recipeDTO) {
+    public Long createNewRecipe(RecipeCreateDTO recipeDTO) {
         Optional<UserEntity> userById = this.userService.findUserById(recipeDTO.getOwnerId());
 
         RecipeEntity newRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
@@ -78,5 +79,22 @@ public class RecipeService {
 
     public Optional<RecipeEntity> findRecipeByImage(String image) {
         return this.recipeRepository.findByImageUrl(image);
+    }
+
+    public Optional<RecipeEntity> findRecipeById(Long id) {
+        return this.recipeRepository.findById(id);
+    }
+
+    public Long editRecipe(RecipeEditDTO recipeDTO) {
+        RecipeEntity recipeToEdit = this.recipeRepository.findById(recipeDTO.getId()).get();
+
+        RecipeEntity editedRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
+
+        editedRecipe.setOwnerId(recipeToEdit.getOwnerId());
+        editedRecipe.setCreatedAt(recipeToEdit.getCreatedAt());
+        editedRecipe.setVisitationsCount(recipeToEdit.getVisitationsCount());
+        editedRecipe.setStatus(recipeToEdit.getStatus());
+
+        return this.recipeRepository.save(editedRecipe).getId();
     }
 }
