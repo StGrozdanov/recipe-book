@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDetailsDTO;
-import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentEditDTO;
 import recepiesserver.recipesserver.services.CommentService;
 
 import javax.validation.Valid;
@@ -35,7 +35,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CommentDetailsDTO> deleteRecipe(@PathVariable Long id) {
+    public ResponseEntity<CommentDetailsDTO> deleteComment(@PathVariable Long id) {
         try {
             this.commentService.deleteComment(id);
         } catch (EmptyResultDataAccessException | IllegalArgumentException e) {
@@ -43,4 +43,15 @@ public class CommentController {
         }
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping
+    public ResponseEntity<Long> editComment(@RequestBody @Valid CommentEditDTO commentDTO) {
+        Long editedCommentId = this.commentService.editComment(commentDTO);
+
+        return editedCommentId != null
+                ? ResponseEntity.ok().body(editedCommentId)
+                : ResponseEntity.unprocessableEntity().build();
+    }
+
+
 }

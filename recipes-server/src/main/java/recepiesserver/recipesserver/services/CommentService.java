@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentEditDTO;
 import recepiesserver.recipesserver.models.entities.CommentEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
@@ -52,5 +53,22 @@ public class CommentService {
     @Transactional
     public void deleteComment(Long id) {
         this.commentRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Long editComment(CommentEditDTO commentDTO) {
+        Optional<CommentEntity> commentById = this.commentRepository.findById(commentDTO.getId());
+
+        if (commentById.isPresent()) {
+            CommentEntity oldComment = commentById.get();
+            CommentEntity editedComment = this.modelMapper.map(commentDTO, CommentEntity.class);
+
+            editedComment.setCreatedAt(oldComment.getCreatedAt());
+            editedComment.setOwner(oldComment.getOwner());
+            editedComment.setTargetRecipe(oldComment.getTargetRecipe());
+
+            return this.commentRepository.save(editedComment).getId();
+        }
+        return null;
     }
 }
