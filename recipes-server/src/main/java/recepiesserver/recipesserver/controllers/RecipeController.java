@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
 import recepiesserver.recipesserver.services.RecipeService;
 
 import javax.validation.Valid;
@@ -128,5 +129,8 @@ public class RecipeController {
         return ResponseEntity.ok(this.recipeService.getTotalRecipesCount());
     }
 
-
+    @GetMapping("/most-active-user")
+    public ResponseEntity<UserMostActiveDTO> getMostActiveUser() {
+        return ResponseEntity.ok(this.recipeService.findTheMostActiveUser());
+    }
 }

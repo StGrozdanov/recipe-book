@@ -33,6 +33,8 @@ INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, v
 VALUES (4, 'PASTA', '2022-06-29 21:38:31', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm7RzdOPVaBvaXk6ysc1EtBmXiwINygU4IeA&usqp=CAU', 'Баница със сирене', 'APPROVED', 1, 2);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
 VALUES (5, 'DESSERT', '2022-06-29 21:38:31', 'https://media.kaufland.com/images/PPIM/AP_Content_1010/std.lang.all/09/66/Asset_1670966.jpg', 'Тиквеник', 'APPROVED', 1, 4);
+INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
+VALUES (6, 'DESSERT', '2022-06-29 21:38:31', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Classic_Italian_Tiramisu-3_%2829989504485%29.jpg/800px-Classic_Italian_Tiramisu-3_%2829989504485%29.jpg', 'Тирамису', 'APPROVED', 0, 1);
 
 INSERT INTO comments (id, content, created_at, owner_id, target_recipe_id)
 VALUES (1, 'тестов коментар от shushan', '2022-06-29 21:38:31', 1, 1);

@@ -3,10 +3,7 @@ package recepiesserver.recipesserver.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileDTO;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileEditDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.*;
 import recepiesserver.recipesserver.services.UserService;
 
 import javax.validation.Valid;
@@ -61,5 +58,4 @@ public class UserController {
     public ResponseEntity<Long> totalUsersCount() {
         return ResponseEntity.ok(this.userService.getTotalUsersCount());
     }
-
 }

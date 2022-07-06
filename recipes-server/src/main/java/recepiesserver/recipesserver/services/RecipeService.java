@@ -1,11 +1,13 @@
 package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.models.enums.CategoryEnum;
@@ -20,11 +22,16 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final ModelMapper modelMapper;
     private final UserService userService;
+    private final CommentService commentService;
 
-    public RecipeService(RecipeRepository recipeRepository, ModelMapper modelMapper, UserService userService) {
+    public RecipeService(RecipeRepository recipeRepository,
+                         ModelMapper modelMapper,
+                         UserService userService,
+                         @Lazy CommentService commentService) {
         this.recipeRepository = recipeRepository;
         this.modelMapper = modelMapper;
         this.userService = userService;
+        this.commentService = commentService;
     }
 
     public List<RecipeCatalogueDTO> getAllRecipes() {
@@ -245,5 +252,27 @@ public class RecipeService {
                     categories.add(categoryEnum);
                 });
         return categories.stream().filter(Objects::nonNull).distinct().toList();
+    }
+
+    public UserMostActiveDTO findTheMostActiveUser() {
+        Long mostActiveUser = this.recipeRepository.findMostActiveUser();
+
+        Optional<UserEntity> userById = this.userService.findUserById(mostActiveUser);
+
+        if (userById.isPresent()) {
+            UserMostActiveDTO dto = this.modelMapper.map(userById.get(), UserMostActiveDTO.class);
+
+            Integer recipeCount = this.recipeRepository.countByOwnerId(mostActiveUser);
+            Integer commentCount = this.commentService.getUserCommentCount(mostActiveUser);
+            Integer publicationsCount = recipeCount + commentCount;
+
+            dto.setRecipesCount(recipeCount);
+            dto.setCommentsCount(commentCount);
+            dto.setTotalPublicationsCount(publicationsCount);
+
+            return dto;
+        }
+        //TODO: THROW
+        return null;
     }
 }

@@ -84,4 +84,8 @@ public class CommentService {
     public long getTotalCommentsCount() {
         return this.commentRepository.count();
     }
+
+    public Integer getUserCommentCount(Long mostActiveUser) {
+        return Math.toIntExact(this.commentRepository.countAllByOwner_Id(mostActiveUser));
+    }
 }
