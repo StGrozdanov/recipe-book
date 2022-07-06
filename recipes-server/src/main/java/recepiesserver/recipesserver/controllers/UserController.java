@@ -58,4 +58,11 @@ public class UserController {
     public ResponseEntity<Long> totalUsersCount() {
         return ResponseEntity.ok(this.userService.getTotalUsersCount());
     }
+
+    @GetMapping("/searchByUsername")
+    public ResponseEntity<List<UserAdminPanelDTO>> searchUsersByUsername(
+            @RequestParam(name = "whereUsername") String username) {
+        return ResponseEntity.ok().body(this.userService.findUsersByUsername(username));
+    }
+
 }

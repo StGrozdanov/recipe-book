@@ -12,11 +12,11 @@ public class UserEntity extends BaseEntity {
     private String avatarUrl;
     private String coverPhotoUrl;
     private Boolean isBlocked;
-    private Set<RoleEntity> roles;
+    private List<RoleEntity> roles;
     private List<RecipeEntity> favourites;
 
     public UserEntity() {
-        this.roles = new LinkedHashSet<>();
+        this.roles = new ArrayList<>();
         this.favourites = new ArrayList<>();
         this.isBlocked = false;
     }
@@ -77,11 +77,11 @@ public class UserEntity extends BaseEntity {
 
     @ManyToMany
     @JoinColumn(nullable = false)
-    public Set<RoleEntity> getRoles() {
+    public List<RoleEntity> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<RoleEntity> roles) {
+    public void setRoles(List<RoleEntity> roles) {
         this.roles = roles;
     }
 

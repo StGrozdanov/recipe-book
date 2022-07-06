@@ -8,11 +8,14 @@ import recepiesserver.recipesserver.models.dtos.userDTOs.*;
 import recepiesserver.recipesserver.models.entities.BaseEntity;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
+import recepiesserver.recipesserver.models.enums.RoleEnum;
+import recepiesserver.recipesserver.models.enums.UserStatusEnum;
 import recepiesserver.recipesserver.repositories.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -147,5 +150,20 @@ public class UserService {
 
     public long getTotalUsersCount() {
         return this.userRepository.count();
+    }
+
+    @Transactional
+    public List<UserAdminPanelDTO> findUsersByUsername(String username) {
+        return this.userRepository
+                .findAllByUsernameContaining(username)
+                .stream()
+                .map(user -> {
+                    UserAdminPanelDTO dto = this.modelMapper.map(user, UserAdminPanelDTO.class);
+                    dto.setStatus(UserStatusEnum.OFFLINE);
+                    dto.setPrimaryRole(user.getRoles().get(0).getRole());
+
+                    return dto;
+                })
+                .toList();
     }
 }
