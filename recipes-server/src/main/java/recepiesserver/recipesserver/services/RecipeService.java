@@ -206,4 +206,12 @@ public class RecipeService {
                 .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
                 .toList();
     }
+
+    public List<RecipeCatalogueDTO> findUserOwnedRecipesByName(String name, UserIdDTO userIdDTO) {
+        return this.recipeRepository
+                .findAllByOwnerIdAndRecipeNameContaining(userIdDTO.getUserId(), name)
+                .stream()
+                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                .toList();
+    }
 }

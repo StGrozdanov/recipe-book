@@ -25,4 +25,6 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     List<RecipeEntity> findTop3ByOrderByVisitationsCountDesc();
 
     List<RecipeEntity> findAllByRecipeNameContaining(String recipeName);
+
+    List<RecipeEntity> findAllByOwnerIdAndRecipeNameContaining(Long ownerId, String recipeName);
 }

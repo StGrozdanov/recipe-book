@@ -110,4 +110,10 @@ public class RecipeController {
             @RequestParam(name = "whereName") String name) {
         return ResponseEntity.ok().body(this.recipeService.findRecipesByName(name));
     }
+
+    @GetMapping("/searchInCreatedRecipes")
+    public ResponseEntity<List<RecipeCatalogueDTO>> searchInUserCreatedRecipesByName(
+            @RequestParam(name = "whereName") String name, @RequestBody @Valid UserIdDTO userIdDTO) {
+        return ResponseEntity.ok().body(this.recipeService.findUserOwnedRecipesByName(name, userIdDTO));
+    }
 }
