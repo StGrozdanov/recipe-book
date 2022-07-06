@@ -237,4 +237,11 @@ public class UserService {
             }
         }
     }
+
+    public void deleteUser(Long userId) {
+        if (userId != null) {
+            this.userRepository.deleteById(userId);
+        }
+        //TODO: THROW
+    }
 }
