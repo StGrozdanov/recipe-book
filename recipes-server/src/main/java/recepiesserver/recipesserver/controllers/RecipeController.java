@@ -85,4 +85,10 @@ public class RecipeController {
                 .ok()
                 .body(this.recipeService.getTheThreeMostViewedRecipes());
     }
+
+    @PostMapping("/{id}/visitations")
+    public ResponseEntity<Integer> recordVisitation(@PathVariable Long id) {
+        int incrementedVisitations = this.recipeService.incrementRecipeVisitations(id);
+        return ResponseEntity.ok().body(incrementedVisitations);
+    }
 }

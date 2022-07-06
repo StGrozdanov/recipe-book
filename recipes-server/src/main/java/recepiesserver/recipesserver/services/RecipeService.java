@@ -2,6 +2,7 @@ package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
@@ -147,5 +148,23 @@ public class RecipeService {
                 .stream()
                 .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
                 .toList();
+    }
+
+    @Modifying
+    public int incrementRecipeVisitations(Long id) {
+        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(id);
+
+        if (recipeById.isPresent()) {
+            RecipeEntity recipe = recipeById.get();
+            Long oldVisitationCount = recipe.getVisitationsCount();
+
+            long newVisitationCount = Long.sum(oldVisitationCount, 1);
+            recipe.setVisitationsCount(newVisitationCount);
+            this.recipeRepository.save(recipe);
+
+            return (int) newVisitationCount;
+        }
+        //TODO: THROW EXCEPTION
+        return -1;
     }
 }
