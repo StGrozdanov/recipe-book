@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.services.RecipeService;
 
 import javax.validation.Valid;
@@ -107,10 +108,6 @@ public class RecipeController {
     @GetMapping("/searchByName")
     public ResponseEntity<List<RecipeCatalogueDTO>> searchRecipesByName(
             @RequestParam(name = "whereName") String name) {
-        return ResponseEntity
-                .ok()
-                .body(this.recipeService.findRecipesByName(name));
+        return ResponseEntity.ok().body(this.recipeService.findRecipesByName(name));
     }
-
-
 }

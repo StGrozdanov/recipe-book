@@ -2,12 +2,15 @@ package recepiesserver.recipesserver.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileEditDTO;
 import recepiesserver.recipesserver.services.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -46,6 +49,12 @@ public class UserController {
         return editedProfileId != null
                 ? ResponseEntity.ok().body(editedProfileId)
                 : ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/searchFavouriteRecipeByName")
+    public ResponseEntity<List<RecipeCatalogueDTO>> searchUserFavouriteRecipesByName(
+            @RequestParam(name = "whereName") String name, @RequestBody @Valid UserIdDTO userIdDTO) {
+        return ResponseEntity.ok().body(this.userService.findUserFavouriteRecipesByName(name, userIdDTO));
     }
 
 }

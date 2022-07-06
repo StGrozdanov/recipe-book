@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileEditDTO;
 import recepiesserver.recipesserver.models.entities.BaseEntity;
@@ -128,5 +129,22 @@ public class UserService {
 
     public Optional<UserEntity> findUserByUsername(String username) {
         return this.userRepository.findByUsername(username);
+    }
+
+    @Transactional
+    public List<RecipeCatalogueDTO> findUserFavouriteRecipesByName(String name, UserIdDTO userIdDTO) {
+        Optional<UserEntity> userById = this.userRepository.findById(userIdDTO.getUserId());
+
+        if (userById.isPresent()) {
+            UserEntity user = userById.get();
+            return user
+                    .getFavourites()
+                    .stream()
+                    .filter(recipe -> recipe.getRecipeName().toLowerCase().contains(name.toLowerCase()))
+                    .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                    .toList();
+        }
+        //TODO: THROW EXCEPTION
+        return null;
     }
 }
