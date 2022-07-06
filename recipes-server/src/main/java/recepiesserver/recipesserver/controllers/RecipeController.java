@@ -87,8 +87,8 @@ public class RecipeController {
     }
 
     @PostMapping("/{id}/visitations")
-    public ResponseEntity<Integer> recordVisitation(@PathVariable Long id) {
-        int incrementedVisitations = this.recipeService.incrementRecipeVisitations(id);
+    public ResponseEntity<Long> recordVisitation(@PathVariable Long id) {
+        long incrementedVisitations = this.recipeService.incrementRecipeVisitations(id);
         return ResponseEntity.ok().body(incrementedVisitations);
     }
 }

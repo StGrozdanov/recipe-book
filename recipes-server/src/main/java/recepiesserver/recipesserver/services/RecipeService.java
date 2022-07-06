@@ -151,7 +151,7 @@ public class RecipeService {
     }
 
     @Modifying
-    public int incrementRecipeVisitations(Long id) {
+    public long incrementRecipeVisitations(Long id) {
         Optional<RecipeEntity> recipeById = this.recipeRepository.findById(id);
 
         if (recipeById.isPresent()) {
@@ -162,7 +162,7 @@ public class RecipeService {
             recipe.setVisitationsCount(newVisitationCount);
             this.recipeRepository.save(recipe);
 
-            return (int) newVisitationCount;
+            return newVisitationCount;
         }
         //TODO: THROW EXCEPTION
         return -1;
