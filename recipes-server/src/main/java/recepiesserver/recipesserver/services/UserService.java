@@ -2,6 +2,7 @@ package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.*;
@@ -13,9 +14,10 @@ import recepiesserver.recipesserver.models.enums.UserStatusEnum;
 import recepiesserver.recipesserver.repositories.UserRepository;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserService {
@@ -165,5 +167,46 @@ public class UserService {
                     return dto;
                 })
                 .toList();
+    }
+
+    @Modifying
+    public void changeUserRole(Long userId, UserRoleDTO userRoleDTO) {
+        Optional<UserEntity> userById = this.userRepository.findById(userId);
+
+        if (userById.isPresent()) {
+            UserEntity user = userById.get();
+            String desiredRole = userRoleDTO.getRole().toLowerCase();
+
+            if (desiredRole.equals("administrator")) {
+                makeUserAdministrator(user);
+            } else if (desiredRole.equals("moderator")) {
+                makeUserModerator(user);
+            } else {
+                makeUserRegularUser(user);
+            }
+
+            this.userRepository.save(user);
+        }
+        //TODO: THROW ERROR
+    }
+
+    private void makeUserRegularUser(UserEntity user) {
+        RoleEntity userEntity = this.roleService.getUserEntity();
+        user.setRoles(new ArrayList<>(List.of(userEntity)));
+    }
+
+    private void makeUserModerator(UserEntity user) {
+        RoleEntity moderatorEntity = this.roleService.getModeratorEntity();
+        RoleEntity userEntity = this.roleService.getUserEntity();
+
+        user.setRoles(new ArrayList<>(List.of(moderatorEntity, userEntity)));
+    }
+
+    private void makeUserAdministrator(UserEntity user) {
+        RoleEntity administratorEntity = this.roleService.getAdministratorEntity();
+        RoleEntity moderatorEntity = this.roleService.getModeratorEntity();
+        RoleEntity userEntity = this.roleService.getUserEntity();
+
+        user.setRoles(new ArrayList<>(List.of(administratorEntity, moderatorEntity, userEntity)));
     }
 }

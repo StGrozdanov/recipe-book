@@ -65,4 +65,11 @@ public class UserController {
         return ResponseEntity.ok().body(this.userService.findUsersByUsername(username));
     }
 
+    @PatchMapping("/change-role/{userId}")
+    public ResponseEntity<Long> changeUserRole(@PathVariable Long userId,
+                                               @Valid @RequestBody UserRoleDTO userRoleDTO) {
+        this.userService.changeUserRole(userId, userRoleDTO);
+        return ResponseEntity.ok().build();
+    }
+
 }

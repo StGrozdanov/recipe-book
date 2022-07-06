@@ -20,4 +20,8 @@ public class RoleService {
     public RoleEntity getModeratorEntity() {
         return this.roleRepository.findByRole(RoleEnum.MODERATOR);
     }
+
+    public RoleEntity getUserEntity() {
+        return this.roleRepository.findByRole(RoleEnum.USER);
+    }
 }

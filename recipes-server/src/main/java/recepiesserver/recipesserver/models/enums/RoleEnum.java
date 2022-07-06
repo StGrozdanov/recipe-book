@@ -1,9 +1,9 @@
 package recepiesserver.recipesserver.models.enums;
 
 public enum RoleEnum {
-    USER("user"),
-    MODERATOR("moderator"),
-    ADMINISTRATOR("administrator");
+    USER("User"),
+    MODERATOR("Moderator"),
+    ADMINISTRATOR("Administrator");
 
     private final String name;
 
