@@ -80,4 +80,8 @@ public class CommentService {
                 .map(comment -> this.modelMapper.map(comment, CommentDetailsDTO.class))
                 .toList();
     }
+
+    public long getTotalCommentsCount() {
+        return this.commentRepository.count();
+    }
 }

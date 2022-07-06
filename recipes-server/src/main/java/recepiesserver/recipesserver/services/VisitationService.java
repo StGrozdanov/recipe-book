@@ -4,9 +4,12 @@ import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.visitationDTOs.VisitationDTO;
 import recepiesserver.recipesserver.models.entities.VisitationEntity;
 import recepiesserver.recipesserver.repositories.VisitationRepository;
+import recepiesserver.recipesserver.utils.BulgarianMonthTransformer;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
+import java.time.Month;
+import java.util.*;
 
 @Service
 public class VisitationService {
@@ -51,9 +54,34 @@ public class VisitationService {
     }
 
     public long getTotalWebsiteVisitationsCountForToday() {
-        LocalDateTime from = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime from = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
         LocalDateTime to = LocalDateTime.now();
 
         return this.visitationRepository.countAllByVisitedAtBetween(from, to);
+    }
+
+    public Map<String, Long> getWebsiteVisitationsSummaryForThePastSixMonths() {
+        List<Month> pastSixMonths = extractThePastSixMonths();
+
+        Map<String, Long> monthStatistics = new LinkedHashMap<>();
+
+        pastSixMonths.forEach(month -> {
+            String monthInBulgarian = BulgarianMonthTransformer.translateMonthToBulgarian(month);
+            long monthStatistic = this.visitationRepository.countAllByVisitedAtLike(month.getValue());
+
+            monthStatistics.put(monthInBulgarian, monthStatistic);
+        });
+
+        return monthStatistics;
+    }
+
+    private List<Month> extractThePastSixMonths() {
+        List<Month> pastSixMonths = new ArrayList<>();
+
+        for (int i = 1; i <= 6; i++) {
+            Month month = LocalDate.now().minusMonths(i).getMonth();
+            pastSixMonths.add(month);
+        }
+        return pastSixMonths;
     }
 }

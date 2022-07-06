@@ -6,6 +6,7 @@ import recepiesserver.recipesserver.models.dtos.visitationDTOs.VisitationDTO;
 import recepiesserver.recipesserver.services.VisitationService;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/visitations")
@@ -38,7 +39,7 @@ public class VisitationsController {
     }
 
     @GetMapping("/the-last-six-months")
-    public ResponseEntity<Long> getTotalWebsiteVisitationsCountForAGivenMonth() {
+    public ResponseEntity<Long> getTotalWebsiteVisitationsCountForPreviousSixMonths() {
         long totalVisitations = this.visitationService.getTotalWebsiteVisitationsCountForTheLastSixMonths();
         return ResponseEntity.ok(totalVisitations);
     }
@@ -47,6 +48,11 @@ public class VisitationsController {
     public ResponseEntity<Long> getTotalWebsiteVisitationsToday() {
         long totalVisitations = this.visitationService.getTotalWebsiteVisitationsCountForToday();
         return ResponseEntity.ok(totalVisitations);
+    }
+
+    @GetMapping("/the-last-six-months-summary")
+    public ResponseEntity<Map<String, Long>> getWebsiteVisitationsSummaryForThePastSixMonths() {
+        return ResponseEntity.ok(this.visitationService.getWebsiteVisitationsSummaryForThePastSixMonths());
     }
 
 }

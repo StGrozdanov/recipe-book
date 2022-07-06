@@ -57,4 +57,9 @@ public class UserController {
         return ResponseEntity.ok().body(this.userService.findUserFavouriteRecipesByName(name, userIdDTO));
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> totalUsersCount() {
+        return ResponseEntity.ok(this.userService.getTotalUsersCount());
+    }
+
 }

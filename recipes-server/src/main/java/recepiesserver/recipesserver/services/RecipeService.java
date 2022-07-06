@@ -8,12 +8,12 @@ import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
+import recepiesserver.recipesserver.models.enums.CategoryEnum;
 import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
 import recepiesserver.recipesserver.repositories.RecipeRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RecipeService {
@@ -28,9 +28,8 @@ public class RecipeService {
     }
 
     public List<RecipeCatalogueDTO> getAllRecipes() {
-        List<RecipeEntity> allRecipes = this.recipeRepository.findAll();
-
-        return allRecipes
+        return this.recipeRepository
+                .findAll()
                 .stream()
                 .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
                 .toList();
@@ -137,10 +136,10 @@ public class RecipeService {
 
     public List<RecipeLandingPageDTO> getTheLatestThreeRecipes() {
         return this.recipeRepository
-                        .findTop3ByOrderByCreatedAtDesc()
-                        .stream()
-                        .map(recipe -> this.modelMapper.map(recipe, RecipeLandingPageDTO.class))
-                        .toList();
+                .findTop3ByOrderByCreatedAtDesc()
+                .stream()
+                .map(recipe -> this.modelMapper.map(recipe, RecipeLandingPageDTO.class))
+                .toList();
     }
 
     public List<RecipeCatalogueDTO> getTheThreeMostViewedRecipes() {
@@ -213,5 +212,38 @@ public class RecipeService {
                 .stream()
                 .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
                 .toList();
+    }
+
+    public List<RecipeCatalogueDTO> findRecipesByCategories(RecipeCategoriesDTO recipeCategoriesDTO) {
+        List<CategoryEnum> categoryEnums = convertCategoryNamesCollectionToCategoryEnumsCollection(
+                recipeCategoriesDTO);
+
+        return this.recipeRepository
+                .findAllByCategoryIn(categoryEnums)
+                .stream()
+                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                .toList();
+    }
+
+    public long getTotalRecipesCount() {
+        return this.recipeRepository.count();
+    }
+
+    private List<CategoryEnum> convertCategoryNamesCollectionToCategoryEnumsCollection(
+            RecipeCategoriesDTO recipeCategoriesDTO) {
+
+        List<CategoryEnum> categories = new ArrayList<>();
+
+        recipeCategoriesDTO
+                .getCategories()
+                .forEach(categoryName -> {
+                    CategoryEnum categoryEnum = Arrays.stream(CategoryEnum.values())
+                            .filter(category -> category.getName().equals(categoryName))
+                            .findFirst()
+                            .orElse(null);
+
+                    categories.add(categoryEnum);
+                });
+        return categories.stream().filter(Objects::nonNull).distinct().toList();
     }
 }

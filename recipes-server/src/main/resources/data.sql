@@ -52,3 +52,20 @@ INSERT INTO notifications (action, created_at, location_id, location_name, is_ma
 VALUES('CREATED_COMMENT', CURRENT_DATE, 1, 'Кекс', false, null, 'shushan', 1);
 INSERT INTO notifications (action, created_at, location_id, location_name, is_marked_as_read, sender_avatar, sender_username, receiver_id)
 VALUES('CREATED_COMMENT', CURRENT_DATE, 1, 'Кекс', false, null, 'shushan', 2);
+
+INSERT INTO visitations (id, visited_at)
+VALUES (1, DATE('2022-02-01'));
+INSERT INTO visitations (id, visited_at)
+VALUES (2, DATE('2022-02-05'));
+INSERT INTO visitations (id, visited_at)
+VALUES (3, DATE('2022-03-01'));
+INSERT INTO visitations (id, visited_at)
+VALUES (4, DATE('2022-04-01'));
+INSERT INTO visitations (id, visited_at)
+VALUES (5, DATE('2022-05-01'));
+INSERT INTO visitations (id, visited_at)
+VALUES (6, DATE('2022-05-02'));
+INSERT INTO visitations (id, visited_at)
+VALUES (7, DATE('2022-06-01'));
+INSERT INTO visitations (id, visited_at)
+VALUES (8, DATE('2022-07-06'));

@@ -59,4 +59,9 @@ public class CommentController {
                 .ok()
                 .body(this.commentService.getTheLatestSixComments());
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> totalCommentsCount() {
+        return ResponseEntity.ok(this.commentService.getTotalCommentsCount());
+    }
 }

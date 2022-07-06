@@ -116,4 +116,17 @@ public class RecipeController {
             @RequestParam(name = "whereName") String name, @RequestBody @Valid UserIdDTO userIdDTO) {
         return ResponseEntity.ok().body(this.recipeService.findUserOwnedRecipesByName(name, userIdDTO));
     }
+
+    @GetMapping("/searchByCategories")
+    public ResponseEntity<List<RecipeCatalogueDTO>> searchRecipesByMultipleCategories(
+            @RequestBody @Valid RecipeCategoriesDTO recipeCategoriesDTO) {
+        return ResponseEntity.ok().body(this.recipeService.findRecipesByCategories(recipeCategoriesDTO));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> totalRecipesCount() {
+        return ResponseEntity.ok(this.recipeService.getTotalRecipesCount());
+    }
+
+
 }

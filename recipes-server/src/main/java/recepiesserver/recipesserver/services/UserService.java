@@ -147,4 +147,8 @@ public class UserService {
         //TODO: THROW EXCEPTION
         return null;
     }
+
+    public long getTotalUsersCount() {
+        return this.userRepository.count();
+    }
 }
