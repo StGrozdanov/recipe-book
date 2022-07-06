@@ -104,4 +104,13 @@ public class RecipeController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/searchByName")
+    public ResponseEntity<List<RecipeCatalogueDTO>> searchRecipesByName(
+            @RequestParam(name = "whereName") String name) {
+        return ResponseEntity
+                .ok()
+                .body(this.recipeService.findRecipesByName(name));
+    }
+
+
 }

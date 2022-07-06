@@ -197,4 +197,12 @@ public class RecipeService {
 
         //TODO: THROW EXCEPTION
     }
+
+    public List<RecipeCatalogueDTO> findRecipesByName(String name) {
+        return this.recipeRepository
+                .findAllByRecipeNameContaining(name)
+                .stream()
+                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                .toList();
+    }
 }
