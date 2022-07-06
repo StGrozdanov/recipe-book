@@ -88,4 +88,12 @@ public class CommentService {
     public Integer getUserCommentCount(Long mostActiveUser) {
         return Math.toIntExact(this.commentRepository.countAllByOwner_Id(mostActiveUser));
     }
+
+    public List<CommentDetailsDTO> findCommentsByContent(String content) {
+        return this.commentRepository
+                .findAllByContentContaining(content)
+                .stream()
+                .map(comment -> this.modelMapper.map(comment, CommentDetailsDTO.class))
+                .toList();
+    }
 }

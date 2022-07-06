@@ -13,4 +13,6 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
     List<CommentEntity> findTop6ByOrderByCreatedAtDesc();
 
     long countAllByOwner_Id(Long ownerId);
+
+    List<CommentEntity> findAllByContentContaining(String content);
 }

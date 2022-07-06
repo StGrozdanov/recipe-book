@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentEditDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserAdminPanelDTO;
 import recepiesserver.recipesserver.services.CommentService;
 
 import javax.validation.Valid;
@@ -63,5 +64,11 @@ public class CommentController {
     @GetMapping("/count")
     public ResponseEntity<Long> totalCommentsCount() {
         return ResponseEntity.ok(this.commentService.getTotalCommentsCount());
+    }
+
+    @GetMapping("/searchByContent")
+    public ResponseEntity<List<CommentDetailsDTO>> searchCommentsByContent(
+            @RequestParam(name = "whereContent") String content) {
+        return ResponseEntity.ok().body(this.commentService.findCommentsByContent(content));
     }
 }

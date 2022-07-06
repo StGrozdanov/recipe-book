@@ -5,6 +5,7 @@ import recepiesserver.recipesserver.models.enums.RoleEnum;
 import recepiesserver.recipesserver.models.enums.UserStatusEnum;
 
 public class UserAdminPanelDTO {
+    private Long id;
     private String username;
     private String email;
     private String avatarUrl;
@@ -61,5 +62,13 @@ public class UserAdminPanelDTO {
 
     public void setStatus(UserStatusEnum status) {
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -6,6 +6,7 @@ import recepiesserver.recipesserver.models.dtos.userDTOs.UserSummaryDTO;
 import java.time.LocalDateTime;
 
 public class CommentDetailsDTO {
+    private Long id;
     private String content;
     private LocalDateTime createdAt;
     private RecipeCatalogueDTO recipe;
@@ -44,5 +45,13 @@ public class CommentDetailsDTO {
 
     public void setOwner(UserSummaryDTO owner) {
         this.owner = owner;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
