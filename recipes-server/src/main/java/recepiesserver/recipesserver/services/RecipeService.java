@@ -167,4 +167,34 @@ public class RecipeService {
         //TODO: THROW EXCEPTION
         return -1;
     }
+
+    @Transactional
+    public void addRecipeToUserFavourites(RecipeFavouritesDTO favouritesDTO) {
+        Optional<UserEntity> userById = this.userService.findUserById(favouritesDTO.getUserId());
+        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(favouritesDTO.getRecipeId());
+
+        if (userById.isPresent() && recipeById.isPresent()) {
+            UserEntity user = userById.get();
+            RecipeEntity recipe = recipeById.get();
+
+            user.addRecipeToFavourites(recipe);
+        }
+
+        //TODO: THROW EXCEPTION
+    }
+
+    @Transactional
+    public void removeRecipeFromUserFavourites(RecipeFavouritesDTO favouritesDTO) {
+        Optional<UserEntity> userById = this.userService.findUserById(favouritesDTO.getUserId());
+        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(favouritesDTO.getRecipeId());
+
+        if (userById.isPresent() && recipeById.isPresent()) {
+            UserEntity user = userById.get();
+            RecipeEntity recipe = recipeById.get();
+
+            user.removeRecipeFromFavourites(recipe);
+        }
+
+        //TODO: THROW EXCEPTION
+    }
 }

@@ -106,4 +106,16 @@ public class UserEntity extends BaseEntity {
     public int hashCode() {
         return Objects.hash(username, email);
     }
+
+    public void addRecipeToFavourites(RecipeEntity recipe) {
+        if (this.favourites.contains(recipe)) {
+            return;
+        }
+        this.favourites.add(recipe);
+    }
+
+    public void removeRecipeFromFavourites(RecipeEntity recipe) {
+        this.favourites.remove(recipe);
+    }
+
 }

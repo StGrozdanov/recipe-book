@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "recipes")
@@ -109,5 +110,18 @@ public class RecipeEntity extends BaseEntity {
 
     public void setStatus(PublicationStatusEnum status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecipeEntity that = (RecipeEntity) o;
+        return recipeName.equals(that.recipeName) && imageUrl.equals(that.imageUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recipeName, imageUrl);
     }
 }

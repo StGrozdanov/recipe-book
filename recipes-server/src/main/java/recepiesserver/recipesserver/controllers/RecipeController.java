@@ -91,4 +91,17 @@ public class RecipeController {
         long incrementedVisitations = this.recipeService.incrementRecipeVisitations(id);
         return ResponseEntity.ok().body(incrementedVisitations);
     }
+
+    @PostMapping("/add-to-favourites")
+    public ResponseEntity<Long> addToFavourites(@RequestBody @Valid RecipeFavouritesDTO favouritesDTO) {
+        this.recipeService.addRecipeToUserFavourites(favouritesDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/remove-from-favourites")
+    public ResponseEntity<Long> removeFromFavourites(@RequestBody @Valid RecipeFavouritesDTO favouritesDTO) {
+        this.recipeService.removeRecipeFromUserFavourites(favouritesDTO);
+        return ResponseEntity.ok().build();
+    }
+
 }
