@@ -209,4 +209,32 @@ public class UserService {
 
         user.setRoles(new ArrayList<>(List.of(administratorEntity, moderatorEntity, userEntity)));
     }
+
+    @Modifying
+    public void blockUser(Long userId) {
+        Optional<UserEntity> byId = this.userRepository.findById(userId);
+
+        if (byId.isPresent()) {
+            UserEntity user = byId.get();
+
+            if (!user.getBlocked()) {
+                user.setBlocked(true);
+                this.userRepository.save(user);
+            }
+        }
+        //TODO THROW
+    }
+
+    public void unblockUser(Long userId) {
+        Optional<UserEntity> byId = this.userRepository.findById(userId);
+
+        if (byId.isPresent()) {
+            UserEntity user = byId.get();
+
+            if (!user.getBlocked()) {
+                user.setBlocked(false);
+                this.userRepository.save(user);
+            }
+        }
+    }
 }

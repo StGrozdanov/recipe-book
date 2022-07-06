@@ -72,4 +72,16 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping("/block/{userId}")
+    public ResponseEntity<Long> blockUser(@PathVariable Long userId) {
+        this.userService.blockUser(userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/unblock/{userId}")
+    public ResponseEntity<Long> unblockUser(@PathVariable Long userId) {
+        this.userService.unblockUser(userId);
+        return ResponseEntity.ok().build();
+    }
+
 }
