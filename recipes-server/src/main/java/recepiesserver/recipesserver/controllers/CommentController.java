@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentEditDTO;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserAdminPanelDTO;
 import recepiesserver.recipesserver.services.CommentService;
 
 import javax.validation.Valid;

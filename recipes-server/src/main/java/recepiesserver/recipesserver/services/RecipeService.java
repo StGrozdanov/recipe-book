@@ -275,4 +275,28 @@ public class RecipeService {
         //TODO: THROW
         return null;
     }
+
+    public List<RecipeAdminPanelDTO> getAllAdminPanelRecipes() {
+        return this.recipeRepository
+                .findAll()
+                .stream()
+                .map(recipe -> this.modelMapper.map(recipe, RecipeAdminPanelDTO.class))
+                .toList();
+    }
+
+    @Modifying
+    public void approveRecipe(Long id) {
+        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(id);
+
+        if (recipeById.isPresent()) {
+            RecipeEntity recipe = recipeById.get();
+
+            if (recipe.getStatus().equals(PublicationStatusEnum.PENDING)) {
+                recipe.setStatus(PublicationStatusEnum.APPROVED);
+
+                this.recipeRepository.save(recipe);
+            }
+        }
+        //TODO: THROW
+    }
 }

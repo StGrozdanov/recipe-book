@@ -133,4 +133,16 @@ public class RecipeController {
     public ResponseEntity<UserMostActiveDTO> getMostActiveUser() {
         return ResponseEntity.ok(this.recipeService.findTheMostActiveUser());
     }
+
+    @GetMapping("admin-panel")
+    public ResponseEntity<List<RecipeAdminPanelDTO>> getAllAdminPanelRecipes() {
+        return ResponseEntity.ok().body(this.recipeService.getAllAdminPanelRecipes());
+    }
+
+    @PatchMapping("/approve/{id}")
+    public ResponseEntity<Long> approveRecipe(@PathVariable Long id) {
+        this.recipeService.approveRecipe(id);
+        return ResponseEntity.ok().build();
+    }
+
 }
