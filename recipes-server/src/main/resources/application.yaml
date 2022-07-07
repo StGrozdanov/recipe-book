@@ -6,8 +6,8 @@ spring:
     password: 12345
   servlet:
     multipart:
-      max-file-size: 1MB
-      max-request-size: 5MB
+      max-file-size: 10MB
+      max-request-size: 10MB
   mvc:
     hiddenmethod:
       filter:
@@ -16,11 +16,7 @@ spring:
     init:
       mode: always
   jpa:
-    # Choose either MySQL 8 or MySQL 5 below
-    # For MySQL 8
     database-platform: org.hibernate.dialect.MySQL8Dialect
-    #For MySQL 5
-    #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: create-drop
     open-in-view: false
@@ -28,8 +24,10 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: true
-  #Cloudinary Properties
-  #cloudinary:
-  #api-key:
-  #api-secret:
-  #cloud-name:
+amazon:
+  aws:
+    access-key: ${AMAZON_ACCESS}
+    secret-key: ${AMAZON_SECRET}
+    region: eu-central-1
+  s3:
+    default-bucket: cook-book-shushanite
