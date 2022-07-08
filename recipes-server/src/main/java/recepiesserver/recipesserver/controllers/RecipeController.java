@@ -62,9 +62,9 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<Long> createRecipe(
-            @RequestParam("data") String recipeDTO,
+            @RequestParam("data") String recipeData,
             @RequestParam("file") MultipartFile file) throws JsonProcessingException {
-        @Valid RecipeCreateDTO dto = new ObjectMapper().readValue(recipeDTO, RecipeCreateDTO.class);
+        @Valid RecipeCreateDTO dto = new ObjectMapper().readValue(recipeData, RecipeCreateDTO.class);
 
         Long createdRecipeId = this.recipeService.createNewRecipe(dto, file);
 
@@ -75,9 +75,9 @@ public class RecipeController {
 
     @PutMapping
     public ResponseEntity<Long> editRecipe(
-            @RequestParam("data") String recipeDTO,
+            @RequestParam("data") String recipeData,
             @RequestParam("file") MultipartFile file) throws JsonProcessingException {
-        @Valid RecipeEditDTO dto = new ObjectMapper().readValue(recipeDTO, RecipeEditDTO.class);
+        @Valid RecipeEditDTO dto = new ObjectMapper().readValue(recipeData, RecipeEditDTO.class);
 
         Long editedRecipeId = this.recipeService.editRecipe(dto, file);
 

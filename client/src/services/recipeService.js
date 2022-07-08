@@ -41,7 +41,6 @@ export async function localCreateRecipe(recipe) {
     };
 
     const response = await fetch('http://localhost:8080/recipes', options);
-    console.log(response);
     return handleRequest(response, COULD_NOT_CREATE_RECEPIE);
 }
 

@@ -41,8 +41,11 @@ public class AmazonS3Service {
         return null;
     }
 
-    public void deleteFile(String filename) {
-        this.amazonS3.deleteObject(bucketName, filename);
+    public void deleteFile(String fileAddress) {
+        String fileName = fileAddress
+                .replace("https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/", "");
+
+        this.amazonS3.deleteObject(bucketName, fileName);
     }
 
     private File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {

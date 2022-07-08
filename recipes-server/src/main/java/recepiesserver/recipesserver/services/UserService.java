@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.*;
 import recepiesserver.recipesserver.models.entities.BaseEntity;
@@ -25,13 +26,15 @@ public class UserService {
     private final RecipeService recipeService;
     private final RoleService roleService;
     private final BlacklistService blacklistService;
+    private final AmazonS3Service amazonS3Service;
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, @Lazy RecipeService recipeService, RoleService roleService, BlacklistService blacklistService) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, @Lazy RecipeService recipeService, RoleService roleService, BlacklistService blacklistService, AmazonS3Service amazonS3Service) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.recipeService = recipeService;
         this.roleService = roleService;
         this.blacklistService = blacklistService;
+        this.amazonS3Service = amazonS3Service;
     }
 
     public Optional<UserEntity> findUserById(Long id) {
@@ -74,7 +77,10 @@ public class UserService {
         return Optional.empty();
     }
 
-    public Long editUserProfile(Long userId, UserProfileEditDTO userDTO) {
+    public Long editUserProfile(Long userId,
+                                UserProfileEditDTO userDTO,
+                                MultipartFile profileImageFile,
+                                MultipartFile coverImageFile) {
         Optional<UserEntity> userById = this.userRepository.findById(userId);
 
         if (userById.isPresent()) {
@@ -82,6 +88,23 @@ public class UserService {
 
             if (otherUserWithSameUsernameOrEmailExists(userDTO, oldUserInfo)) {
                 return null;
+            }
+
+            if (!profileImageFile.isEmpty()) {
+                String uploadedFileURL = this.amazonS3Service.uploadFile(profileImageFile);
+                userDTO.setAvatarUrl(uploadedFileURL);
+            }
+
+            if (!coverImageFile.isEmpty()) {
+                String uploadedFileURL = this.amazonS3Service.uploadFile(coverImageFile);
+                userDTO.setCoverPhotoUrl(uploadedFileURL);
+            }
+
+            if (oldUserInfo.getAvatarUrl().contains("amazonaws")) {
+                this.amazonS3Service.deleteFile(oldUserInfo.getAvatarUrl());
+            }
+            if (oldUserInfo.getAvatarUrl().contains("amazonaws")) {
+                this.amazonS3Service.deleteFile(oldUserInfo.getCoverPhotoUrl());
             }
 
             UserEntity editedUser = this.modelMapper.map(userDTO, UserEntity.class);

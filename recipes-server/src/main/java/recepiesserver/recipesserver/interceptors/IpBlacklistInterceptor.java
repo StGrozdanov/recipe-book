@@ -1,5 +1,7 @@
 package recepiesserver.recipesserver.interceptors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.spi.ErrorMessage;
 import org.springframework.web.servlet.HandlerInterceptor;
 import recepiesserver.recipesserver.services.BlacklistService;
 
@@ -20,8 +22,15 @@ public class IpBlacklistInterceptor implements HandlerInterceptor {
                                                                 : request.getHeader("X-Forwarded-For");
         if (this.blacklistService.blacklistContainsIp(ip)) {
             String reason = this.blacklistService.getBlockedForReason(ip);
-            //TODO: ADD REASONING TO ERROR ...
-            response.sendError(405);
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            ErrorMessage msg = new ErrorMessage(reason);
+
+            response.setContentType("application/json");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(mapper.writeValueAsString(msg));
+
             return false;
         }
         return true;

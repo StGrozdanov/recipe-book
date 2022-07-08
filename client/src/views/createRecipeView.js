@@ -95,6 +95,7 @@ async function createHandler(e, context) {
     e.preventDefault();
 
     const form = new FormData(e.target);
+
     let name = form.get('name');
     const products = multiLineInputProcessor.process(form.get('products'));
     const steps = multiLineInputProcessor.process(form.get('steps'));
@@ -103,7 +104,8 @@ async function createHandler(e, context) {
     const fileImg = form.get('fileImg');
 
     form.append('file', fileImg);
-
+    
+    TODO: //IMAGE VALIDATION
     if (name.trim() == '' || products.length === 0 || steps.length === 0 || category.trim() == '') {
         return notify('Моля попълнете всички полета.');
     } else if (formDataValidator.formContainsInvalidInput(e.target)) {
@@ -119,7 +121,7 @@ async function createHandler(e, context) {
         ownerId: 1
     }
 
-    form.append('data', JSON.stringify(newRecipe))
+    form.append('data', JSON.stringify(newRecipe));
 
     notify('Успешно създадохте рецептата си! При нужда можете да я редактирате от бутончетата.');
 

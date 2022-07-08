@@ -1,6 +1,6 @@
 import { html, nothing } from '../../node_modules/lit-html/lit-html.js';
 import { getMyPublicationsCount } from '../services/recipeService.js';
-import { getCurrentUser, logout, update, userIsAuthenticated } from '../services/userService.js';
+import { getCurrentUser, localUpdate, logout, update, userIsAuthenticated } from '../services/userService.js';
 import { notify } from '../utils/notification.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
@@ -12,7 +12,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
     ${myProfileTemplate()}
 <section class="profile-edit-section">
     <article class="user-profile-article">
-    <form @submit=${(e) => editProfileHandler(e, ctx)} class="edit-profile-form">
+    <form @submit=${(e) => editProfileHandler(e, ctx)} class="edit-profile-form" enctype='multipart/form-data'>
         <input
             name="cover-img" 
             type="text" 
@@ -25,6 +25,15 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                 : sessionStorage.getItem('coverPhoto')} 
             autocomplete="off"
         />
+        <div class="element" style="position: absolute; top: 0; display: none;" id="upload-cover">
+            <i 
+                class="fas fa-file-upload" 
+                style="margin: 10px; cursor: pointer; font-size: 175%;"
+                id="cover-button"
+            >
+            </i>
+            <input type="file" name="coverUpload" id="cover-upload" style="display:none;">
+        </div>
         <header @click=${pictureChangeHandler} id="user-profile-cover" class="user-profile-header">
             <img class="user-profile-header-picture" src=${
                                                                 sessionStorage.getItem('coverPhoto').includes('undefined')
@@ -40,6 +49,15 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                                                                 : sessionStorage.getItem('avatar')
                                                                     }
             >
+        </div>
+        <div class="element" style="position: absolute; top: 24%; display: none;" id="upload-avatar">
+            <i 
+                class="fas fa-file-upload" 
+                style="margin: 10px; cursor: pointer; font-size: 175%;"
+                id="avatar-button"
+            >
+            </i>
+            <input type="file" name="avatarUpload" id="avatar-upload" style="display:none;">
         </div>
         <input
             name="avatar"
@@ -101,23 +119,31 @@ export async function myProfileEditPage(ctx) {
     ctx.render(myPublications);
 
     trackActiveLink(ctx);
+    addEventListenersToUploadImageIcons();
 }
 
 function pictureChangeHandler(e) {
     let coverInputForm;
+    let uploadIcon;
     
     if (e.currentTarget.id == 'user-profile-cover') {
         coverInputForm = document.getElementById('cover-input');
+        uploadIcon = document.getElementById('upload-cover');
         toggleInput();
     } else if (e.currentTarget.id == 'user-profile-avatar') {
         coverInputForm = document.getElementById('avatar-input');
+        uploadIcon = document.getElementById('upload-avatar');
         toggleInput();
     }
 
     function toggleInput() {
-        coverInputForm.style.display == 'none' 
-            ? coverInputForm.style.display = 'inline-block' 
-            : coverInputForm.style.display = 'none';
+        if (coverInputForm.style.display == 'none') {
+            coverInputForm.style.display = 'inline-block'; 
+            uploadIcon.style.display = 'inline-block';
+        } else {
+            coverInputForm.style.display = 'none';
+            uploadIcon.style.display = 'none';
+        } 
     }
 }
 
@@ -130,14 +156,10 @@ async function editProfileHandler(e, ctx) {
     let avatar = formData.get('avatar');
     const username = formData.get('username');
     const email = formData.get('email');
+    const coverUpload = formData.get('coverUpload');
+    const avatarUpload = formData.get('avatarUpload');
 
-    if (coverImage.trim() == '') {
-        coverImage = 'undefined';
-    }
-    if (avatar.trim() == '') {
-        avatar = 'undefined';
-    }
-
+    TODO: //IMAGE VALIDATION
     if (email == '' || username == '') {
         return notify('Всички полета са задължителни!');
     } else if (formDataValidator.profileFormContainsInvalidInput(e.currentTarget)) {
@@ -146,13 +168,34 @@ async function editProfileHandler(e, ctx) {
 
     showModal('Сигурни ли сте, че искате да промените данните си?', onSelect);
 
+    formData.append('profileImageFile', avatarUpload);
+    formData.append('coverImageFile', coverUpload);
+
+    const editedProfile = {
+        username: username,
+        email: email,
+        avatarUrl: avatar,
+        coverPhotoUrl: coverImage,
+    }
+
+    formData.append('data', JSON.stringify(editedProfile));
+
     async function onSelect(choice) {
         if (choice) {
             ctx.render(loaderTemplate());
-            await update(getCurrentUser(), username, email, avatar, coverImage);
+            await localUpdate(getCurrentUser(), formData);
             notify("Успешно редактирахте профила си! Моля влезте наново, за да отразите промените.")
             await logout();
             ctx.page.redirect('/login');
         }
     }
+}
+
+function addEventListenersToUploadImageIcons() {
+    document.getElementById('cover-button').addEventListener('click', () => {
+        document.getElementById('cover-upload').click();
+    });
+    document.getElementById('avatar-button').addEventListener('click', () => {
+        document.getElementById('avatar-upload').click();
+    });
 }

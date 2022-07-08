@@ -1,7 +1,10 @@
 package recepiesserver.recipesserver.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.*;
 import recepiesserver.recipesserver.services.UserService;
@@ -12,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     private final UserService userService;
 
@@ -39,9 +43,12 @@ public class UserController {
 
     @PutMapping("/profile/{userId}")
     public ResponseEntity<Long> editUserProfile(
-            @RequestBody @Valid UserProfileEditDTO userDTO,
-            @PathVariable Long userId) {
-        Long editedProfileId = this.userService.editUserProfile(userId, userDTO);
+            @PathVariable Long userId,
+            @RequestParam("data") String userData,
+            @RequestParam("profileImageFile") MultipartFile profileImageFile,
+            @RequestParam("coverImageFile") MultipartFile coverImageFile) throws JsonProcessingException {
+        @Valid UserProfileEditDTO dto = new ObjectMapper().readValue(userData, UserProfileEditDTO.class);
+        Long editedProfileId = this.userService.editUserProfile(userId, dto, profileImageFile, coverImageFile);
 
         return editedProfileId != null
                 ? ResponseEntity.ok().body(editedProfileId)

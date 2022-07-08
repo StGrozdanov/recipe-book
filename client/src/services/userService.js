@@ -1,4 +1,4 @@
-import { COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
+import { COULD_NOT_EDIT_COMMENT, COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
 import { notify } from "../utils/notification.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { USER_AUTHORIZATION_BASE_HEADERS, BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS } from "./back4appService.js";
@@ -40,6 +40,18 @@ export async function logout() {
     } else {
         await handleUserRequestError(response);
     }
+}
+
+export async function localUpdate(userId, formData) {
+    userId = 1;
+    //FIX THIS!
+    const options = {
+        method: 'PUT',
+        body: formData
+    };
+
+    const response = await fetch(`http://localhost:8080/users/profile/${userId}`, options);
+    return handleRequest(response, COULD_NOT_EDIT_COMMENT);
 }
 
 export async function update(userId, username, email, avatar, coverPhoto) {

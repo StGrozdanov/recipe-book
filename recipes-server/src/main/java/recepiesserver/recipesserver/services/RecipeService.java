@@ -59,12 +59,8 @@ public class RecipeService {
         Optional<RecipeEntity> recipeById = this.recipeRepository.findById(id);
 
         if (recipeById.isPresent()) {
-            String oldAmazonImageName = recipeById
-                    .get()
-                    .getImageUrl()
-                    .replace("https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/", "");
-
-            this.amazonS3Service.deleteFile(oldAmazonImageName);
+            RecipeEntity recipe = recipeById.get();
+            this.amazonS3Service.deleteFile(recipe.getImageUrl());
         }
         //TODO: THROW IF NOT PRESENT
         this.recipeRepository.deleteById(id);
@@ -136,11 +132,7 @@ public class RecipeService {
                 return null;
             }
 
-            String oldAmazonImageName = oldRecipe
-                    .getImageUrl()
-                    .replace("https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/", "");
-
-            this.amazonS3Service.deleteFile(oldAmazonImageName);
+            this.amazonS3Service.deleteFile(oldRecipe.getImageUrl());
 
             RecipeEntity editedRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
 
