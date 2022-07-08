@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
@@ -23,15 +24,17 @@ public class RecipeService {
     private final ModelMapper modelMapper;
     private final UserService userService;
     private final CommentService commentService;
+    private final AmazonS3Service amazonS3Service;
 
     public RecipeService(RecipeRepository recipeRepository,
                          ModelMapper modelMapper,
                          UserService userService,
-                         @Lazy CommentService commentService) {
+                         @Lazy CommentService commentService, AmazonS3Service amazonS3Service) {
         this.recipeRepository = recipeRepository;
         this.modelMapper = modelMapper;
         this.userService = userService;
         this.commentService = commentService;
+        this.amazonS3Service = amazonS3Service;
     }
 
     public List<RecipeCatalogueDTO> getAllRecipes() {
@@ -53,6 +56,17 @@ public class RecipeService {
 
     @Transactional
     public void deleteRecipe(Long id) {
+        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(id);
+
+        if (recipeById.isPresent()) {
+            String oldAmazonImageName = recipeById
+                    .get()
+                    .getImageUrl()
+                    .replace("https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/", "");
+
+            this.amazonS3Service.deleteFile(oldAmazonImageName);
+        }
+        //TODO: THROW IF NOT PRESENT
         this.recipeRepository.deleteById(id);
     }
 
@@ -69,8 +83,21 @@ public class RecipeService {
         return new PageImpl<>(recipeCatalogueDTOS);
     }
 
-    public Long createNewRecipe(RecipeCreateDTO recipeDTO) {
+    public Long createNewRecipe(RecipeCreateDTO recipeDTO, MultipartFile file) {
         Optional<UserEntity> userById = this.userService.findUserById(recipeDTO.getOwnerId());
+
+        boolean thereIsNoPictureInTheDTOAsWell = recipeDTO.getImageUrl() == null
+                                                || recipeDTO.getImageUrl().isBlank();
+
+        if (file.isEmpty() && thereIsNoPictureInTheDTOAsWell) {
+            //TODO: THROW
+            return null;
+        }
+
+        if (thereIsNoPictureInTheDTOAsWell) {
+            String uploadedFileURL = this.amazonS3Service.uploadFile(file);
+            recipeDTO.setImageUrl(uploadedFileURL);
+        }
 
         RecipeEntity newRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
         //the custom user id validator will handle the optional error case
@@ -85,15 +112,35 @@ public class RecipeService {
         return this.recipeRepository.findById(id);
     }
 
-    public Long editRecipe(RecipeEditDTO recipeDTO) {
+    public Long editRecipe(RecipeEditDTO recipeDTO, MultipartFile file) {
         Optional<RecipeEntity> recipeById = this.recipeRepository.findById(recipeDTO.getId());
 
         if (recipeById.isPresent()) {
             RecipeEntity oldRecipe = recipeById.get();
 
-            if (otherRecipeWithTheSameNameOrImageExists(recipeDTO, oldRecipe)) {
+            boolean thereIsNoPictureInTheDTOAsWell = recipeDTO.getImageUrl() == null
+                    || recipeDTO.getImageUrl().isBlank();
+
+            if (file.isEmpty() && thereIsNoPictureInTheDTOAsWell) {
+                //TODO: THROW
                 return null;
             }
+
+            if (thereIsNoPictureInTheDTOAsWell) {
+                String uploadedFileURL = this.amazonS3Service.uploadFile(file);
+                recipeDTO.setImageUrl(uploadedFileURL);
+            }
+
+            if (otherRecipeWithTheSameNameOrImageExists(recipeDTO, oldRecipe)) {
+                //TODO: THROW
+                return null;
+            }
+
+            String oldAmazonImageName = oldRecipe
+                    .getImageUrl()
+                    .replace("https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/", "");
+
+            this.amazonS3Service.deleteFile(oldAmazonImageName);
 
             RecipeEntity editedRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
 

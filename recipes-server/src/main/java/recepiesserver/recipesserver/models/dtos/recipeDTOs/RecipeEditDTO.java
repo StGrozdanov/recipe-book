@@ -59,7 +59,6 @@ public class RecipeEditDTO {
         this.steps = steps;
     }
 
-    @NotEmpty(message = "Recipe image url is required.")
     public String getImageUrl() {
         return imageUrl;
     }

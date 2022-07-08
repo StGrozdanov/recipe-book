@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { createRecipe } from '../services/recipeService.js';
+import { createRecipe, localCreateRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import multiLineInputProcessor from '../utils/multiLineInputProcessor.js';
@@ -7,7 +7,13 @@ import { getUserToken } from '../services/userService.js';
 
 const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
-    <form @submit=${(e) => createHandler(e, ctx)} id="create-form" action="" method="" autocomplete="off">
+    <form @submit=${(e)=> createHandler(e, ctx)}
+        id="create-form"
+        action=""
+        method=""
+        autocomplete="off"
+        enctype='multipart/form-data'
+        >
         <fieldset>
             <legend>Нова рецепта</legend>
             <p class="field">
@@ -51,7 +57,7 @@ const createRecipeTemplate = (ctx) => html`
                     <i class="fa-solid fa-utensils"></i>
                     <input type="text" name="img" id="image" placeholder="Адрес на изображение">
                 </span>
-                <!-- <input type="file" name="fileImg" id="fileImg" /> -->
+                <input type="file" name="fileImg" id="fileImg" />
             </p>
             <p class="field">
                 <label for="type">Категория</label>
@@ -94,23 +100,30 @@ async function createHandler(e, context) {
     const steps = multiLineInputProcessor.process(form.get('steps'));
     const img = form.get('img');
     const category = form.get('category');
+    const fileImg = form.get('fileImg');
 
-    if (name.trim() == '' || products.length === 0 || steps.length === 0 || img.trim() == '' || category.trim() == '') {
+    form.append('file', fileImg);
+
+    if (name.trim() == '' || products.length === 0 || steps.length === 0 || category.trim() == '') {
         return notify('Моля попълнете всички полета.');
     } else if (formDataValidator.formContainsInvalidInput(e.target)) {
         return notify('Поправете невалидните полета.');
     }
 
     const newRecipe = {
-        name: name.toLowerCase(),
+        recipeName: name.toLowerCase(),
         products: products,
         steps: steps,
-        img: img,
-        category: category
+        imageUrl: img,
+        category: category,
+        ownerId: 1
     }
+
+    form.append('data', JSON.stringify(newRecipe))
 
     notify('Успешно създадохте рецептата си! При нужда можете да я редактирате от бутончетата.');
 
-    const createdRecipe = await createRecipe(newRecipe);
+    const createdRecipe = await localCreateRecipe(form);
+    // const createdRecipe = await createRecipe(newRecipe);
     context.page.redirect(`/details-${createdRecipe.objectId}`);
 }

@@ -1,9 +1,12 @@
 package recepiesserver.recipesserver.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
@@ -15,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/recipes")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RecipeController {
     private final RecipeService recipeService;
 
@@ -57,8 +61,12 @@ public class RecipeController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createRecipe(@RequestBody @Valid RecipeCreateDTO recipeDTO) {
-        Long createdRecipeId = this.recipeService.createNewRecipe(recipeDTO);
+    public ResponseEntity<Long> createRecipe(
+            @RequestParam("data") String recipeDTO,
+            @RequestParam("file") MultipartFile file) throws JsonProcessingException {
+        @Valid RecipeCreateDTO dto = new ObjectMapper().readValue(recipeDTO, RecipeCreateDTO.class);
+
+        Long createdRecipeId = this.recipeService.createNewRecipe(dto, file);
 
         return createdRecipeId != null
                 ? ResponseEntity.ok().body(createdRecipeId)
@@ -66,8 +74,12 @@ public class RecipeController {
     }
 
     @PutMapping
-    public ResponseEntity<Long> editRecipe(@RequestBody @Valid RecipeEditDTO recipeDTO) {
-        Long editedRecipeId = this.recipeService.editRecipe(recipeDTO);
+    public ResponseEntity<Long> editRecipe(
+            @RequestParam("data") String recipeDTO,
+            @RequestParam("file") MultipartFile file) throws JsonProcessingException {
+        @Valid RecipeEditDTO dto = new ObjectMapper().readValue(recipeDTO, RecipeEditDTO.class);
+
+        Long editedRecipeId = this.recipeService.editRecipe(dto, file);
 
         return editedRecipeId != null
                 ? ResponseEntity.ok().body(editedRecipeId)

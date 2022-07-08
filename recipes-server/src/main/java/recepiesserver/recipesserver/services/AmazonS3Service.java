@@ -41,9 +41,8 @@ public class AmazonS3Service {
         return null;
     }
 
-    public String deleteFile(String filename) {
+    public void deleteFile(String filename) {
         this.amazonS3.deleteObject(bucketName, filename);
-        return String.format("File %s deleted.", filename);
     }
 
     private File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {

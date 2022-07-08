@@ -34,6 +34,17 @@ export async function getAllRecepies(page) {
     return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
+export async function localCreateRecipe(recipe) {
+    const options = {
+        method: 'POST',
+        body: recipe
+    };
+
+    const response = await fetch('http://localhost:8080/recipes', options);
+    console.log(response);
+    return handleRequest(response, COULD_NOT_CREATE_RECEPIE);
+}
+
 export async function createRecipe(recipe) {
     addOwner(recipe);
 
