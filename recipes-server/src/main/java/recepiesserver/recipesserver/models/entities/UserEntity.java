@@ -14,10 +14,12 @@ public class UserEntity extends BaseEntity {
     private Boolean isBlocked;
     private List<RoleEntity> roles;
     private List<RecipeEntity> favourites;
+    private Set<String> ipAddresses;
 
     public UserEntity() {
         this.roles = new ArrayList<>();
         this.favourites = new ArrayList<>();
+        this.ipAddresses = new HashSet<>();
         this.isBlocked = false;
     }
 
@@ -118,4 +120,13 @@ public class UserEntity extends BaseEntity {
         this.favourites.remove(recipe);
     }
 
+    @ElementCollection
+    @Column(name = "ip_addresses", columnDefinition = "TEXT")
+    public Set<String> getIpAddresses() {
+        return ipAddresses;
+    }
+
+    public void setIpAddresses(Set<String> ipAddresses) {
+        this.ipAddresses = ipAddresses;
+    }
 }

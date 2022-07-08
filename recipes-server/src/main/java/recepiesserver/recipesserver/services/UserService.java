@@ -9,15 +9,14 @@ import recepiesserver.recipesserver.models.dtos.userDTOs.*;
 import recepiesserver.recipesserver.models.entities.BaseEntity;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
-import recepiesserver.recipesserver.models.enums.RoleEnum;
 import recepiesserver.recipesserver.models.enums.UserStatusEnum;
 import recepiesserver.recipesserver.repositories.UserRepository;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -25,12 +24,14 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final RecipeService recipeService;
     private final RoleService roleService;
+    private final BlacklistService blacklistService;
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, @Lazy RecipeService recipeService, RoleService roleService) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, @Lazy RecipeService recipeService, RoleService roleService, BlacklistService blacklistService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.recipeService = recipeService;
         this.roleService = roleService;
+        this.blacklistService = blacklistService;
     }
 
     public Optional<UserEntity> findUserById(Long id) {
@@ -211,14 +212,18 @@ public class UserService {
     }
 
     @Modifying
-    public void blockUser(Long userId) {
-        Optional<UserEntity> byId = this.userRepository.findById(userId);
+    public void blockUser(UserBlockDTO userBlockDTO) {
+        Optional<UserEntity> byId = this.userRepository.findById(userBlockDTO.getId());
 
         if (byId.isPresent()) {
             UserEntity user = byId.get();
 
             if (!user.getBlocked()) {
                 user.setBlocked(true);
+
+                Set<String> ipAddresses = user.getIpAddresses();
+                this.blacklistService.addToBlacklist(ipAddresses, userBlockDTO.getReason());
+
                 this.userRepository.save(user);
             }
         }
@@ -233,6 +238,7 @@ public class UserService {
 
             if (!user.getBlocked()) {
                 user.setBlocked(false);
+                this.blacklistService.removeFromBlacklist(user.getIpAddresses());
                 this.userRepository.save(user);
             }
         }

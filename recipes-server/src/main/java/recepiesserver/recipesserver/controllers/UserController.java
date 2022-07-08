@@ -72,9 +72,9 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/block/{userId}")
-    public ResponseEntity<Long> blockUser(@PathVariable Long userId) {
-        this.userService.blockUser(userId);
+    @PatchMapping("/block")
+    public ResponseEntity<Long> blockUser(@Valid UserBlockDTO userBlockDTO) {
+        this.userService.blockUser(userBlockDTO);
         return ResponseEntity.ok().build();
     }
 
