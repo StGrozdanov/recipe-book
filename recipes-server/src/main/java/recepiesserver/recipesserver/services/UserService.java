@@ -273,4 +273,12 @@ public class UserService {
         }
         //TODO: THROW
     }
+
+    public String getUserProfileOwnerUsername(Long userId) {
+        return this.userRepository.findById(userId).orElseThrow().getUsername();
+    }
+
+    public void saveNewUser(UserEntity newUser) {
+        this.userRepository.save(newUser);
+    }
 }

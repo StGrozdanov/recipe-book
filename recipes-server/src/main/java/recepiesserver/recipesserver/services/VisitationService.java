@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.visitationDTOs.VisitationDTO;
 import recepiesserver.recipesserver.models.entities.VisitationEntity;
 import recepiesserver.recipesserver.repositories.VisitationRepository;
-import recepiesserver.recipesserver.utils.BulgarianMonthTransformer;
+import recepiesserver.recipesserver.utils.BulgarianMonthTransformerUtil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -66,7 +66,7 @@ public class VisitationService {
         Map<String, Long> monthStatistics = new LinkedHashMap<>();
 
         pastSixMonths.forEach(month -> {
-            String monthInBulgarian = BulgarianMonthTransformer.translateMonthToBulgarian(month);
+            String monthInBulgarian = BulgarianMonthTransformerUtil.translateMonthToBulgarian(month);
             long monthStatistic = this.visitationRepository.countAllByVisitedAtLike(month.getValue());
 
             monthStatistics.put(monthInBulgarian, monthStatistic);

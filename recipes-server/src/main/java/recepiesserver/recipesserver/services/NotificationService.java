@@ -132,4 +132,13 @@ public class NotificationService {
             notificationReceivers.add(ownerId);
         }
     }
+
+    public String getNotificationReceiverUsername(Long userId) {
+        return this.userService.findUserById(userId).orElseThrow().getUsername();
+    }
+
+    public String getNotificationReceiverUsernameByNotificationId(Long notificationId) {
+        Long receiverId = this.notificationRepository.findById(notificationId).orElseThrow().getReceiverId();
+        return this.getNotificationReceiverUsername(receiverId);
+    }
 }

@@ -3,7 +3,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: "jdbc:mysql://localhost:3306/recipes_db?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true"
     username: root
-    password: 12345
+    password: ${DB_PASSWORD}
   servlet:
     multipart:
       max-file-size: 20MB
@@ -30,4 +30,6 @@ amazon:
     secret-key: ${AMAZON_SECRET}
     region: eu-central-1
   s3:
-    default-bucket: cook-book-shushanite
+    default-bucket: ${AMAZON_BUCKET_NAME}
+jwt:
+  secret: ${JWT_SECRET}

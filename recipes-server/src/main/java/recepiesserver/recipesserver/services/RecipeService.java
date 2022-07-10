@@ -60,7 +60,9 @@ public class RecipeService {
 
         if (recipeById.isPresent()) {
             RecipeEntity recipe = recipeById.get();
-            this.amazonS3Service.deleteFile(recipe.getImageUrl());
+            if (recipe.getImageUrl().contains("amazonaws")) {
+                this.amazonS3Service.deleteFile(recipe.getImageUrl());
+            }
         }
         //TODO: THROW IF NOT PRESENT
         this.recipeRepository.deleteById(id);
@@ -132,7 +134,9 @@ public class RecipeService {
                 return null;
             }
 
-            this.amazonS3Service.deleteFile(oldRecipe.getImageUrl());
+            if (oldRecipe.getImageUrl().contains("amazonaws")) {
+                this.amazonS3Service.deleteFile(oldRecipe.getImageUrl());
+            }
 
             RecipeEntity editedRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
 
@@ -337,5 +341,14 @@ public class RecipeService {
             }
         }
         //TODO: THROW
+    }
+
+    public Long getRecipeOwnerId(Long id) {
+        return this.recipeRepository.findById(id).orElseThrow().getOwnerId();
+    }
+
+    public String getRecipeOwnerUsername(Long recipeId) {
+        Long ownerId = this.recipeRepository.findById(recipeId).orElseThrow().getOwnerId();
+        return this.userService.findUserById(ownerId).orElseThrow().getUsername();
     }
 }

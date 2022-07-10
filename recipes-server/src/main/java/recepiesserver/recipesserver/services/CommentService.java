@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentEditDTO;
-import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeLandingPageDTO;
 import recepiesserver.recipesserver.models.entities.CommentEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
@@ -95,5 +94,10 @@ public class CommentService {
                 .stream()
                 .map(comment -> this.modelMapper.map(comment, CommentDetailsDTO.class))
                 .toList();
+    }
+
+    @Transactional
+    public String getCommentOwnerUsername(Long id) {
+        return this.commentRepository.findById(id).orElseThrow().getOwner().getUsername();
     }
 }

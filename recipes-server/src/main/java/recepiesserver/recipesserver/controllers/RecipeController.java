@@ -5,19 +5,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
 import recepiesserver.recipesserver.services.RecipeService;
+import recepiesserver.recipesserver.utils.constants.Api;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/recipes")
 @CrossOrigin(origins = "http://localhost:3000")
 public class RecipeController {
     private final RecipeService recipeService;
@@ -26,12 +28,12 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping
+    @GetMapping(Api.RECIPES_ENDPOINT)
     public ResponseEntity<List<RecipeCatalogueDTO>> getAllRecipes() {
         return ResponseEntity.ok().body(this.recipeService.getAllRecipes());
     }
 
-    @GetMapping("/pagination")
+    @GetMapping(Api.RECIPE_PAGES)
     public ResponseEntity<Page<RecipeCatalogueDTO>> getAllRecipes(
             @RequestParam(name = "skip", defaultValue = "0") Integer pageNumber,
             @RequestParam(name = "limit", defaultValue = "6") Integer collectionCount,
@@ -41,7 +43,7 @@ public class RecipeController {
                 .body(this.recipeService.getRecipesByPage(pageNumber, collectionCount, sortBy));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(Api.GET_SINGLE_RECIPE)
     public ResponseEntity<RecipeDetailsDTO> getSingleRecipe(@PathVariable Long id) {
         Optional<RecipeDetailsDTO> singleRecipe = this.recipeService.getSingleRecipe(id);
         if (singleRecipe.isPresent()) {
@@ -50,8 +52,11 @@ public class RecipeController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<RecipeDetailsDTO> deleteRecipe(@PathVariable Long id) {
+    @DeleteMapping(Api.DELETE_RECIPE)
+    @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
+            "#request.getHeader('Authorization'), @recipeService.getRecipeOwnerUsername(#id)) " +
+            "|| hasRole('ADMINISTRATOR')")
+    public ResponseEntity<RecipeDetailsDTO> deleteRecipe(@PathVariable Long id, HttpServletRequest request) {
         try {
             this.recipeService.deleteRecipe(id);
         } catch (EmptyResultDataAccessException | IllegalArgumentException e) {
@@ -60,7 +65,7 @@ public class RecipeController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping
+    @PostMapping(Api.RECIPES_ENDPOINT)
     public ResponseEntity<Long> createRecipe(
             @RequestParam("data") String recipeData,
             @RequestParam("file") MultipartFile file) throws JsonProcessingException {
@@ -73,10 +78,15 @@ public class RecipeController {
                 : ResponseEntity.unprocessableEntity().build();
     }
 
-    @PutMapping
+    @PutMapping(Api.EDIT_RECIPE)
+    @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
+            "#request.getHeader('Authorization'), @recipeService.getRecipeOwnerUsername(#recipeId)) " +
+            "|| hasRole('ADMINISTRATOR') || hasRole('MODERATOR')")
     public ResponseEntity<Long> editRecipe(
+            @PathVariable("recipeId") Long recipeId,
             @RequestParam("data") String recipeData,
-            @RequestParam("file") MultipartFile file) throws JsonProcessingException {
+            @RequestParam("file") MultipartFile file,
+            HttpServletRequest request) throws JsonProcessingException {
         @Valid RecipeEditDTO dto = new ObjectMapper().readValue(recipeData, RecipeEditDTO.class);
 
         Long editedRecipeId = this.recipeService.editRecipe(dto, file);
@@ -86,72 +96,76 @@ public class RecipeController {
                 : ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/latest-three-recipes")
+    @GetMapping(Api.LATEST_THREE_RECIPES)
     public ResponseEntity<List<RecipeLandingPageDTO>> getTheLatestThreeRecipes() {
         return ResponseEntity
                 .ok()
                 .body(this.recipeService.getTheLatestThreeRecipes());
     }
 
-    @GetMapping("/most-viewed-three-recipes")
+    @GetMapping(Api.MOST_VIEWED_THREE_RECIPES)
     public ResponseEntity<List<RecipeCatalogueDTO>> getTheThreeMostViewedRecipes() {
         return ResponseEntity
                 .ok()
                 .body(this.recipeService.getTheThreeMostViewedRecipes());
     }
 
-    @PostMapping("/{id}/visitations")
+    @PostMapping(Api.RECORD_NEW_RECIPE_VISITATION)
     public ResponseEntity<Long> recordVisitation(@PathVariable Long id) {
         long incrementedVisitations = this.recipeService.incrementRecipeVisitations(id);
         return ResponseEntity.ok().body(incrementedVisitations);
     }
 
-    @PostMapping("/add-to-favourites")
+    @PostMapping(Api.ADD_RECIPE_TO_FAVOURITES)
     public ResponseEntity<Long> addToFavourites(@RequestBody @Valid RecipeFavouritesDTO favouritesDTO) {
         this.recipeService.addRecipeToUserFavourites(favouritesDTO);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/remove-from-favourites")
+    @PostMapping(Api.REMOVE_RECIPE_FROM_FAVOURITES)
     public ResponseEntity<Long> removeFromFavourites(@RequestBody @Valid RecipeFavouritesDTO favouritesDTO) {
         this.recipeService.removeRecipeFromUserFavourites(favouritesDTO);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/searchByName")
+    @GetMapping(Api.SEARCH_BY_RECIPE_NAME)
     public ResponseEntity<List<RecipeCatalogueDTO>> searchRecipesByName(
             @RequestParam(name = "whereName") String name) {
         return ResponseEntity.ok().body(this.recipeService.findRecipesByName(name));
     }
 
-    @GetMapping("/searchInCreatedRecipes")
+    @GetMapping(Api.SEARCH_IN_CREATED_RECIPES)
+    @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
+            "#request.getHeader('Authorization'), @recipeService.getRecipeOwnerUsername(#userIdDTO.userId)) ")
     public ResponseEntity<List<RecipeCatalogueDTO>> searchInUserCreatedRecipesByName(
-            @RequestParam(name = "whereName") String name, @RequestBody @Valid UserIdDTO userIdDTO) {
+            @RequestParam(name = "whereName") String name,
+            @RequestBody @Valid UserIdDTO userIdDTO,
+            HttpServletRequest request) {
         return ResponseEntity.ok().body(this.recipeService.findUserOwnedRecipesByName(name, userIdDTO));
     }
 
-    @GetMapping("/searchByCategories")
+    @GetMapping(Api.SEARCH_BY_RECIPE_CATEGORY)
     public ResponseEntity<List<RecipeCatalogueDTO>> searchRecipesByMultipleCategories(
             @RequestBody @Valid RecipeCategoriesDTO recipeCategoriesDTO) {
         return ResponseEntity.ok().body(this.recipeService.findRecipesByCategories(recipeCategoriesDTO));
     }
 
-    @GetMapping("/count")
+    @GetMapping(Api.RECIPES_COUNT)
     public ResponseEntity<Long> totalRecipesCount() {
         return ResponseEntity.ok(this.recipeService.getTotalRecipesCount());
     }
 
-    @GetMapping("/most-active-user")
+    @GetMapping(Api.RECIPES_MOST_ACTIVE_USER)
     public ResponseEntity<UserMostActiveDTO> getMostActiveUser() {
         return ResponseEntity.ok(this.recipeService.findTheMostActiveUser());
     }
 
-    @GetMapping("admin-panel")
+    @GetMapping(Api.RECIPES_FOR_ADMIN)
     public ResponseEntity<List<RecipeAdminPanelDTO>> getAllAdminPanelRecipes() {
         return ResponseEntity.ok().body(this.recipeService.getAllAdminPanelRecipes());
     }
 
-    @PatchMapping("/approve/{id}")
+    @PatchMapping(Api.APPROVE_RECIPE)
     public ResponseEntity<Long> approveRecipe(@PathVariable Long id) {
         this.recipeService.approveRecipe(id);
         return ResponseEntity.ok().build();

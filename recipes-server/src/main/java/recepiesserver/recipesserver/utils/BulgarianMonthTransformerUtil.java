@@ -4,7 +4,7 @@ import java.time.Month;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class BulgarianMonthTransformer {
+public class BulgarianMonthTransformerUtil {
     public static String translateMonthToBulgarian(Month month) {
        return englishToBulgarianMonthMap().getOrDefault(month.toString(), null);
     }

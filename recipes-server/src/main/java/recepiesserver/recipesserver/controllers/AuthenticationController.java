@@ -1,37 +1,66 @@
 package recepiesserver.recipesserver.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
+import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
+import recepiesserver.recipesserver.services.AuthenticationService;
+import recepiesserver.recipesserver.utils.constants.Api;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import java.io.IOException;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 
 @RestController
-@RequestMapping("/authenticate")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthenticationController {
+    private final AuthenticationService authenticationService;
 
-    @PostMapping("/login")
-    public ResponseEntity<UserDetailsDTO> Login(HttpServletRequest request) {
-        String userIpAddress = getUserIpAddress(request);
-        //TODO: if user is blocked he should not be able to login, but first the attempted login from the ip
-        //address should be included into the user ips and the blacklist
-        //TODO: attach ip address to DTO and if login is success add ip address to user entity class ip list
-        return null;
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<UserDetailsDTO> Register(HttpServletRequest request) {
+    @PostMapping(Api.LOGIN)
+    public ResponseEntity<AuthenticatedLoginDTO> Login(HttpServletRequest request) {
         String userIpAddress = getUserIpAddress(request);
-        //TODO: attach ip address to DTO and if register is success, add ip address to user entity class ip list
-        return null;
+        try {
+            AuthenticatedLoginDTO loginResponse = this.authenticationService.login(
+                    userIpAddress,
+                    request.getParameter("username"),
+                    request.getParameter("password")
+            );
+            return ResponseEntity.ok().body(loginResponse);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<UserDetailsDTO> Logout() {
-        return null;
+    @PostMapping(Api.REGISTER)
+    public ResponseEntity<?> Register(HttpServletRequest request,
+                                      @Valid UserRegisterDTO userRegisterDTO) {
+        String userIpAddress = getUserIpAddress(request);
+        this.authenticationService.register(userIpAddress, userRegisterDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(Api.LOGOUT)
+    public ResponseEntity<?> Logout(HttpServletRequest request, HttpServletResponse response) {
+        this.authenticationService.logout(request, response);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(Api.REFRESH_TOKEN)
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        this.authenticationService.refreshUserToken(authorizationHeader, response);
     }
 
     private String getUserIpAddress(HttpServletRequest request) {
