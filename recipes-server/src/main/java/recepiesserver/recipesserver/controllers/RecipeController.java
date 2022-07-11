@@ -154,7 +154,7 @@ public class RecipeController {
         return ResponseEntity.ok().body(this.recipeService.findUserOwnedRecipesByName(name, userIdDTO));
     }
 
-    @GetMapping(Api.SEARCH_BY_RECIPE_CATEGORY)
+    @PostMapping(Api.SEARCH_BY_RECIPE_CATEGORY)
     public ResponseEntity<List<RecipeCatalogueDTO>> searchRecipesByMultipleCategories(
             @RequestBody @Valid RecipeCategoriesDTO recipeCategoriesDTO) {
         return ResponseEntity.ok().body(this.recipeService.findRecipesByCategories(recipeCategoriesDTO));

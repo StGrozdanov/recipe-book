@@ -32,7 +32,7 @@ export async function categorizationPage(ctx) {
 
         const data = await filterByCategory(query);
 
-        const recipes = data.results.map(recipeTemplate);
+        const recipes = data.map(recipeTemplate);
 
         renderCategorizationResults(recipes, query, ctx);
     }

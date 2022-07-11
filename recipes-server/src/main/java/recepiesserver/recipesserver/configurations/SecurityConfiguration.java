@@ -73,12 +73,11 @@ public class SecurityConfiguration {
                         Api.LATEST_THREE_RECIPES,
                         Api.MOST_VIEWED_THREE_RECIPES,
                         Api.SEARCH_BY_RECIPE_NAME,
-                        Api.SEARCH_BY_RECIPE_CATEGORY,
                         Api.USER_CREATED_RECIPES,
                         Api.USER_CREATED_RECIPES_COUNT,
                         Api.RECIPES_COUNT
                         ).permitAll()
-                .antMatchers(Api.RECORD_NEW_RECIPE_VISITATION).permitAll()
+                .antMatchers(Api.RECORD_NEW_RECIPE_VISITATION, Api.SEARCH_BY_RECIPE_CATEGORY).permitAll()
                 .antMatchers(
                         Api.DELETE_RECIPE,
                         Api.EDIT_RECIPE,

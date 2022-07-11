@@ -28,7 +28,7 @@ export async function searchPage(ctx) {
         let query = params.toLowerCase();
         const data = await searchByRecipeName(query);
 
-        const recipes = data.results.map(recipeTemplate);
+        const recipes = data.map(recipeTemplate);
 
         renderSearchResults(recipes, params, ctx);
     }

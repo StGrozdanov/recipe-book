@@ -26,7 +26,7 @@ export async function filterByCategory(query) {
     let categoriesArray = Array.from(query);
 
     const response = await fetch(BASE_URL + FILTRATION_END_POINTS.FIND_RECIPES_BY_CATEGORY, {
-        method: 'GET',
+        method: 'POST',
         headers: BASE_HEADERS,
         body: JSON.stringify({ categories: categoriesArray })
     });
