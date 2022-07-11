@@ -54,7 +54,8 @@ public class CommentController {
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
             "#request.getHeader('Authorization'), @commentService.getCommentOwnerUsername(#commentDTO.id)) " +
             "|| hasRole('ADMINISTRATOR') || hasRole('MODERATOR')")
-    public ResponseEntity<Long> editComment(@RequestBody @Valid CommentEditDTO commentDTO, HttpServletRequest request) {
+    public ResponseEntity<Long> editComment(@RequestBody @Valid CommentEditDTO commentDTO,
+                                            HttpServletRequest request) {
         Long editedCommentId = this.commentService.editComment(commentDTO);
 
         return editedCommentId != null

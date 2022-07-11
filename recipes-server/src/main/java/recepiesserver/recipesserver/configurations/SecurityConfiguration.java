@@ -100,10 +100,10 @@ public class SecurityConfiguration {
 
                 //visitations controller
                 .antMatchers(GET, Api.VISITATIONS_ENDPOINT).hasRole(RoleEnum.ADMINISTRATOR.name())
+                .antMatchers(POST, Api.VISITATIONS_ENDPOINT).permitAll()
                 .antMatchers(
                         Api.VISITATIONS_ENDPOINT + Api.PREFIX
                 ).hasRole(RoleEnum.ADMINISTRATOR.name())
-                .antMatchers(POST, Api.VISITATIONS_ENDPOINT).permitAll()
                 .and()
                 .addFilterBefore(this.authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
