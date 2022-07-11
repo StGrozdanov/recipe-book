@@ -42,9 +42,9 @@ export async function removeFromFavourites(recipeId) {
     return handleRequest(response, COULD_NOT_REMOVE_FROM_FAVOURITE_RECIPES);
 }
 
-export async function isFavouriteRecipe(userId, recipeId) {
+export async function isFavouriteRecipe(recipeId) {
     const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.RECIPE_IS_IN_USER_FAVOURITES, {
-        method: 'GET',
+        method: 'POST',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
         body: JSON.stringify({ recipeId, userId: getCurrentUser() })
     });

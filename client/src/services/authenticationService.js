@@ -19,10 +19,15 @@ export async function register(registrationData) {
 }
 
 export async function login(loginData) {
+    const urlencoded = new URLSearchParams();
+    
+    urlencoded.append('username', loginData.username);
+    urlencoded.append('password', loginData.password);
+
     const response = await fetch(BASE_URL + AUTHENTICATION_END_POINTS.LOGIN, {
         method: 'POST',
-        headers: BASE_HEADERS,
-        body: JSON.stringify(loginData)
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: urlencoded
     });
     await handleUserRequest(response);
 }

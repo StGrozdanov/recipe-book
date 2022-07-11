@@ -27,7 +27,7 @@ const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
     <section id="recipe-details">
         <h1 class="recipe-name">
             Ястие: 
-            ${data.name} 
+            ${data.recipeName} 
             ${
                 userIsAuthenticated()
                 ? recipeFavouritesTemplate(ctx, data, isFavourite)
@@ -36,21 +36,33 @@ const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
         </h1>
         <div class="recipe-details-div">
             <div class="recipe-img">
-                <img alt="recipe-alt" src=${data.img}>
+                <img alt="recipe-alt" src=${data.imageUrl}>
                 <div id="comment-container">
-                    ${getCurrentUser() === data.owner.objectId ? ownerTemplate(data.objectId, ctx) : ''}
+                    ${getCurrentUser() === data.ownerId ? ownerTemplate(data.id, ctx) : ''}
                     ${commentsTemplate(commentData, ctx)}
                 </div>
             </div>
             <div class="recipe-description">
                 <ul>
                     <h2>Съставки:</h2>
-                    ${data.products.map(product => html`<li>${product}</li>`)}
+                    ${
+                        data.products.length > 1 
+                            ? data.products.map(product => html`<li>${product}</li>`)
+                            : data.products.map(product => {
+                                return product.split(',').map(splitProduct => html`<li>${splitProduct}</li>`);
+                            })
+                    }
                 </ul>
     
                 <ul>
                     <h2>Начин на приготвяне:</h2>
-                    ${data.steps.map(step => html`<li>${step}</li>`)}
+                    ${
+                        data.steps.length > 1 
+                            ? data.steps.map(step => html`<li>${step}</li>`)
+                            : data.steps.map(step => {
+                                return step.split(',').map(splitStep => html`<li>${splitStep}</li>`);
+                            })
+                    }
                 </ul>
             </div>
         </div>

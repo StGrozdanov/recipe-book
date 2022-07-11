@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import recepiesserver.recipesserver.exceptions.CustomException;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
@@ -28,7 +29,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping(Api.RECIPES_ENDPOINT)
+   @GetMapping(Api.RECIPES_ENDPOINT)
     public ResponseEntity<List<RecipeCatalogueDTO>> getAllRecipes() {
         return ResponseEntity.ok().body(this.recipeService.getAllRecipes());
     }

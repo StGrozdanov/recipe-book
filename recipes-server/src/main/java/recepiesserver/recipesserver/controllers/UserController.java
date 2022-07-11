@@ -62,7 +62,7 @@ public class UserController {
                 : ResponseEntity.badRequest().build();
     }
 
-    @GetMapping(Api.RECIPE_IS_IN_USER_FAVOURITES)
+    @PostMapping(Api.RECIPE_IS_IN_USER_FAVOURITES)
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
             "#request.getHeader('Authorization'), @userService.getUserProfileOwnerUsername(#favouritesDTO.userId))")
     public ResponseEntity<Boolean> recipeIsInUserFavourites(
