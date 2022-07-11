@@ -21,9 +21,9 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
             style="display: none; margin-top: -300px; z-index: 2; position: absolute;" 
             placeholder="Адрес на картинка"
             value=${
-                sessionStorage.getItem('coverPhoto').includes('undefined') 
-                ? nothing 
-                : sessionStorage.getItem('coverPhoto')} 
+                sessionStorage.getItem('coverPhoto') === 'null'
+                    ? nothing 
+                    : sessionStorage.getItem('coverPhoto')} 
             autocomplete="off"
         />
         <div class="element" style="position: absolute; top: 0; display: none;" id="upload-cover">
@@ -37,17 +37,17 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
         </div>
         <header @click=${pictureChangeHandler} id="user-profile-cover" class="user-profile-header">
             <img class="user-profile-header-picture" src=${
-                                                                sessionStorage.getItem('coverPhoto').includes('undefined')
-                                                                ? "../../static/images/user-profile-header.jpeg"
-                                                                : sessionStorage.getItem('coverPhoto')
+                                                                sessionStorage.getItem('coverPhoto') === 'null'
+                                                                    ? "../../static/images/user-profile-header.jpeg"
+                                                                    : sessionStorage.getItem('coverPhoto')
                                                                     }
             >
         </header>
         <div @click=${pictureChangeHandler} id="user-profile-avatar" class="user-profile-avatar-container">
             <img alt="user-profile" class="user-profile-avatar" src=${
-                                                                sessionStorage.getItem('avatar').includes('undefined')
-                                                                ? "../../static/images/Avatar.png"
-                                                                : sessionStorage.getItem('avatar')
+                                                                sessionStorage.getItem('avatar') === 'null'
+                                                                    ? "../../static/images/Avatar.png"
+                                                                    : sessionStorage.getItem('avatar')
                                                                     }
             >
         </div>
@@ -66,7 +66,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
             id="avatar-input" 
             style="display: none; margin-top: -10px; z-index: 2" 
             placeholder="Адрес на снимка"
-            value=${sessionStorage.getItem('avatar').includes('undefined') ? nothing : sessionStorage.getItem('avatar')} 
+            value=${sessionStorage.getItem('avatar') === 'null' ? nothing : sessionStorage.getItem('avatar')} 
             autocomplete="off"
         />
         <main class="user-profile-article-info">
@@ -115,7 +115,7 @@ export async function myProfileEditPage(ctx) {
     ctx.render(loaderTemplate());
     const myRecepies = await getMyPublicationsCount(getCurrentUser());
 
-    const myPublications = myPublicationsTemplate(myRecepies.count, ctx);
+    const myPublications = myPublicationsTemplate(myRecepies, ctx);
 
     ctx.render(myPublications);
 

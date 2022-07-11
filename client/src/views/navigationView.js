@@ -59,7 +59,7 @@ function trackActiveLink(ctx) {
 }
 
 function userIsLoggedIn() {
-    return sessionStorage.getItem('authToken') !== null;
+    return sessionStorage.getItem('sessionToken') !== null;
 }
 
 function profileLinkClickHandler(e) {

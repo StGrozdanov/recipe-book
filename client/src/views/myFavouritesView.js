@@ -18,7 +18,7 @@ export async function myFavouriteRecepiesPage(ctx) {
     ctx.render(loaderTemplate());
     const data = await getMyFavouriteRecepies(getCurrentUser());
 
-    const myFavouriteRecepies = data.results.map(recipeTemplate);
+    const myFavouriteRecepies = data.map(recipeTemplate);
 
     ctx.render(myRecepiesCollectionTemplate(myFavouriteRecepies, ctx));
     

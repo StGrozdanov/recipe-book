@@ -101,10 +101,10 @@ public class UserService {
                 userDTO.setCoverPhotoUrl(uploadedFileURL);
             }
 
-            if (oldUserInfo.getAvatarUrl().contains("amazonaws")) {
+            if (oldUserInfo.getCoverPhotoUrl() != null && oldUserInfo.getAvatarUrl().contains("amazonaws")) {
                 this.amazonS3Service.deleteFile(oldUserInfo.getAvatarUrl());
             }
-            if (oldUserInfo.getAvatarUrl().contains("amazonaws")) {
+            if (oldUserInfo.getCoverPhotoUrl() != null && oldUserInfo.getCoverPhotoUrl().contains("amazonaws")) {
                 this.amazonS3Service.deleteFile(oldUserInfo.getCoverPhotoUrl());
             }
 
@@ -284,8 +284,8 @@ public class UserService {
     }
 
     @Transactional
-    public List<RecipeCatalogueDTO> findUserFavouriteRecipes(UserIdDTO userIdDTO) {
-        Optional<UserEntity> userById = this.userRepository.findById(userIdDTO.getUserId());
+    public List<RecipeCatalogueDTO> findUserFavouriteRecipes(Long userId) {
+        Optional<UserEntity> userById = this.userRepository.findById(userId);
 
         if (userById.isPresent()) {
             UserEntity user = userById.get();

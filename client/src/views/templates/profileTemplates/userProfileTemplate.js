@@ -4,7 +4,7 @@ export const userProfileTemplate = ({coverPhoto, avatar, username, email}, recip
     <article class="user-profile-article">
         <header class="user-profile-header">
             <img class="user-profile-header-picture" src=${
-                                                                !coverPhoto || coverPhoto.includes('undefined')
+                                                            coverPhoto === 'null'
                                                                 ? "../../static/images/user-profile-header.jpeg"
                                                                 : coverPhoto
                                                                     }
@@ -12,7 +12,7 @@ export const userProfileTemplate = ({coverPhoto, avatar, username, email}, recip
         </header>
         <div class="user-profile-avatar-container">
             <img alt="user-profile" class="user-profile-avatar" src=${
-                                                                !avatar || avatar.includes('undefined')
+                                                                avatar === 'null'
                                                                 ? "../../static/images/Avatar.png"
                                                                 : avatar
                                                                     }

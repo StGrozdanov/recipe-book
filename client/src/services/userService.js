@@ -14,11 +14,13 @@ const USERS_END_POINTS = {
 export async function update(userId, formData) {
     const options = {
         method: 'PUT',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        headers: { "Authorization": `Bearer ${getUserToken()}` },
         body: formData
     };
 
-    const response = await fetch(`${BASE_URL}/${USERS_END_POINTS.UPDATE(userId)}`, options);
+    const response = await fetch(`${BASE_URL}${USERS_END_POINTS.UPDATE(userId)}`, options);
+
+    return handleRequest(response, COULD_NOT_FIND_USER);
     
     if (response.ok) {
         clearUserData();
@@ -47,24 +49,6 @@ export async function getUser(userId) {
         headers: getUserToken() ? MODIFIYNG_OPERATIONS_HEADERS(getUserToken()) : BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_FIND_USER);
-}
-
-function saveUserData(data) {
-    sessionStorage.setItem('sessionToken', data.sessionToken);
-    sessionStorage.setItem('id', data.objectId);
-    sessionStorage.setItem('username', data.username);
-    sessionStorage.setItem('email', data.email);
-    sessionStorage.setItem('avatar', data.avatar);
-    sessionStorage.setItem('coverPhoto', data.coverPhoto);
-}
-
-function clearUserData() {
-    sessionStorage.removeItem('sessionToken');
-    sessionStorage.removeItem('id');
-    sessionStorage.removeItem('username');
-    sessionStorage.removeItem('email');
-    sessionStorage.removeItem('avatar');
-    sessionStorage.removeItem('coverPhoto');
 }
 
 export function getUserToken() {

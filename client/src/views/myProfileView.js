@@ -20,16 +20,16 @@ export async function myProfilePage(ctx) {
 
     const [myRecepies, userNotifications] = await Promise.all([createdRecepies, myNotifications]);
 
-    const myPublications = myPublicationsTemplate(myRecepies.count);
+    const myPublications = myPublicationsTemplate(myRecepies);
 
     ctx.render(myPublications);
 
     trackActiveLink(ctx);
 
     let notificationCounterContainer = document.getElementById('myProfileNavNotificationCounter')
-    notificationCounterContainer.textContent = userNotifications.results.length;
+    notificationCounterContainer.textContent = userNotifications.length;
 
-    if (userNotifications.results.length > 0) {
+    if (userNotifications.length > 0) {
         notificationCounterContainer.style.display = 'inline-block';
     }
 }

@@ -43,7 +43,7 @@ export async function myProfileNotificationsPage(ctx) {
 
     const notifications = await getMyNotifications(getCurrentUser());
     
-    let notificationResults = notifications.results.map(notification => notificationTemplate(notification, ctx));
+    let notificationResults = notifications.map(notification => notificationTemplate(notification, ctx));
 
     ctx.render(myProfileNotificationsTemplate(notificationResults));
 

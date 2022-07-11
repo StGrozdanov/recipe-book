@@ -50,11 +50,12 @@ export function userIsAuthenticated() {
 
 function saveUserData(data) {
     sessionStorage.setItem('sessionToken', data.sessionToken);
-    sessionStorage.setItem('id', data.objectId);
+    sessionStorage.setItem('refreshToken', data.refreshToken);
+    sessionStorage.setItem('id', data.id);
     sessionStorage.setItem('username', data.username);
     sessionStorage.setItem('email', data.email);
-    sessionStorage.setItem('avatar', data.avatar);
-    sessionStorage.setItem('coverPhoto', data.coverPhoto);
+    sessionStorage.setItem('avatar', data.avatarUrl);
+    sessionStorage.setItem('coverPhoto', data.coverPhotoUrl);
 }
 
 function clearUserData() {

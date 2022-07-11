@@ -5,17 +5,16 @@ import { MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { getCurrentUser, getUserToken } from "./userService.js";
 
 const FAVOURITES_END_POINTS = {
-    USER_FAVOURITE_RECEPIES: `/users/favourites`,
+    USER_FAVOURITE_RECEPIES: (userId) => `/users/favourites/${userId}`,
     ADD_RECIPE_TO_FAVOURITES: `/recipes/add-to-favourites`,
     REMOVE_RECIPE_FROM_FAVOURITES: `/recipes/remove-from-favourites`,
     RECIPE_IS_IN_USER_FAVOURITES: '/users/recipe-is-in-favourites'
 }
 
 export async function getMyFavouriteRecepies() {
-    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.USER_FAVOURITE_RECEPIES, {
+    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.USER_FAVOURITE_RECEPIES(getCurrentUser()), {
         method: 'GET',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-        body: JSON.stringify({ userId: getCurrentUser() })
     });
     return handleRequest(response, COULD_NOT_FIND_FAVOURITE_RECIPES);
 }

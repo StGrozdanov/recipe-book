@@ -73,11 +73,11 @@ public class UserController {
 
     @GetMapping(Api.GET_USER_FAVOURITE_RECIPES)
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
-            "#request.getHeader('Authorization'), @userService.getUserProfileOwnerUsername(#userIdDTO.userId))")
+            "#request.getHeader('Authorization'), @userService.getUserProfileOwnerUsername(#userId))")
     public ResponseEntity<List<RecipeCatalogueDTO>> getUserFavouriteRecipes(
-            @RequestBody @Valid UserIdDTO userIdDTO,
+            @PathVariable Long userId,
             HttpServletRequest request) {
-        return ResponseEntity.ok().body(this.userService.findUserFavouriteRecipes(userIdDTO));
+        return ResponseEntity.ok().body(this.userService.findUserFavouriteRecipes(userId));
     }
 
     @GetMapping(Api.SEARCH_IN_USER_FAVOURITES_RECIPES)

@@ -18,7 +18,7 @@ export async function myRecepiesPage(ctx) {
     ctx.render(loaderTemplate());
     const data = await getMyPublications(getCurrentUser());
 
-    const myRecepies = data.results.map(recipeTemplate);
+    const myRecepies = data.map(recipeTemplate);
 
     ctx.render(myRecepiesCollectionTemplate(myRecepies, ctx));
 
