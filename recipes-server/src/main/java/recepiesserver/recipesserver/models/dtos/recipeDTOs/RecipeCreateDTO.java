@@ -1,6 +1,5 @@
 package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
-import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
 import recepiesserver.recipesserver.utils.validators.nonEmptyCollectionValidator.NonEmptyCollection;
 import recepiesserver.recipesserver.utils.validators.uniqueImageValidator.UniqueImage;

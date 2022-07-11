@@ -6,18 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class CommentEditDTO {
-    private Long id;
     private String content;
-
-    @NotNull
-    @Positive
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @NotBlank
     public String getContent() {

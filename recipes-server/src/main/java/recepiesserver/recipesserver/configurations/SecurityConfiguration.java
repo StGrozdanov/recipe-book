@@ -55,7 +55,7 @@ public class SecurityConfiguration {
                 .antMatchers(Api.LATEST_SIX_COMMENTS, Api.GET_ALL_RECIPE_COMMENTS).permitAll()
                 .antMatchers(POST, Api.COMMENT_ENDPOINT).authenticated()
                 .antMatchers(PUT, Api.COMMENT_ENDPOINT).authenticated()
-                .antMatchers(Api.DELETE_COMMENT).authenticated()
+                .antMatchers(Api.DELETE_COMMENT, Api.EDIT_COMMENT).authenticated()
 
                 //notification controller
                 .antMatchers(Api.NOTIFICATION_ENDPOINT + Api.PREFIX).authenticated()
@@ -74,8 +74,10 @@ public class SecurityConfiguration {
                         Api.LATEST_THREE_RECIPES,
                         Api.MOST_VIEWED_THREE_RECIPES,
                         Api.SEARCH_BY_RECIPE_NAME,
-                        Api.SEARCH_BY_RECIPE_CATEGORY
-                ).permitAll()
+                        Api.SEARCH_BY_RECIPE_CATEGORY,
+                        Api.USER_CREATED_RECIPES,
+                        Api.USER_CREATED_RECIPES_COUNT
+                        ).permitAll()
                 .antMatchers(Api.RECORD_NEW_RECIPE_VISITATION).permitAll()
                 .antMatchers(
                         Api.DELETE_RECIPE,
@@ -96,7 +98,12 @@ public class SecurityConfiguration {
                         Api.DELETE_USER
                 ).hasRole(RoleEnum.ADMINISTRATOR.name())
                 .antMatchers(Api.GET_USER_DETAILS, Api.GET_USER_PROFILE).permitAll()
-                .antMatchers(Api.EDIT_USER_PROFILE, Api.SEARCH_IN_USER_FAVOURITES_RECIPES).authenticated()
+                .antMatchers(
+                        Api.EDIT_USER_PROFILE,
+                        Api.SEARCH_IN_USER_FAVOURITES_RECIPES,
+                        Api.RECIPE_IS_IN_USER_FAVOURITES,
+                        Api.GET_USER_FAVOURITE_RECIPES
+                ).authenticated()
 
                 //visitations controller
                 .antMatchers(GET, Api.VISITATIONS_ENDPOINT).hasRole(RoleEnum.ADMINISTRATOR.name())

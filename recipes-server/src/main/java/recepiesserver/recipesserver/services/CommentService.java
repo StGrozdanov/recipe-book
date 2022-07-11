@@ -56,8 +56,8 @@ public class CommentService {
     }
 
     @Transactional
-    public Long editComment(CommentEditDTO commentDTO) {
-        Optional<CommentEntity> commentById = this.commentRepository.findById(commentDTO.getId());
+    public Long editComment(CommentEditDTO commentDTO, Long id) {
+        Optional<CommentEntity> commentById = this.commentRepository.findById(id);
 
         if (commentById.isPresent()) {
             CommentEntity oldComment = commentById.get();

@@ -134,6 +134,16 @@ public class RecipeController {
         return ResponseEntity.ok().body(this.recipeService.findRecipesByName(name));
     }
 
+    @GetMapping(Api.USER_CREATED_RECIPES)
+    public ResponseEntity<List<RecipeCatalogueDTO>> getUserCreatedRecipes(@PathVariable Long userId) {
+        return ResponseEntity.ok().body(this.recipeService.findRecipesByUser(userId));
+    }
+
+    @GetMapping(Api.USER_CREATED_RECIPES_COUNT)
+    public ResponseEntity<Integer> getUserCreatedRecipesCount(@PathVariable Long userId) {
+        return ResponseEntity.ok().body(this.recipeService.getUserRecipesCount(userId));
+    }
+
     @GetMapping(Api.SEARCH_IN_CREATED_RECIPES)
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
             "#request.getHeader('Authorization'), @recipeService.getRecipeOwnerUsername(#userIdDTO.userId)) ")

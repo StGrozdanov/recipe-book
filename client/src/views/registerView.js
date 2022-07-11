@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { register } from '../services/userService.js'
+import { register } from '../services/authenticationService.js'
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js'
 

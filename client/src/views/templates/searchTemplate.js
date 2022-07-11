@@ -1,5 +1,5 @@
 import { html } from "../../../node_modules/lit-html/lit-html.js";
-import { searchByNameOfFavouriteRecipe, searchByRecipeNameAndOwner } from "../../services/filtrationService.js";
+import { searchByNameOfFavouriteRecipe, searchInUserCreatedRecipesByRecipeName } from "../../services/filtrationService.js";
 import { notify } from "../../utils/notification.js"
 import { myRecepiesCollectionTemplate as createdRecipesTemplate } from "../myRecepiesView.js";
 import { myRecepiesCollectionTemplate as favouriteRecipesTemplate } from "../myFavouritesView.js";
@@ -27,7 +27,7 @@ async function search(e, ctx, userCollectionSearch) {
             let recipes;
 
             if (userCollectionSearch.request == 'Създадени рецепти') {
-                const data = await searchByRecipeNameAndOwner(query, currentUserId);
+                const data = await searchInUserCreatedRecipesByRecipeName(query, currentUserId);
                 recipes = data.results.map(recipeTemplate);
                 ctx.render(createdRecipesTemplate(recipes, ctx));
             } else {

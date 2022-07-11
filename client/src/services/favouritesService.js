@@ -1,78 +1,53 @@
 import { COULD_NOT_ADD_TO_FAVOURITE_RECIPES, COULD_NOT_FIND_FAVOURITE_RECIPES, COULD_NOT_REMOVE_FROM_FAVOURITE_RECIPES } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
-import { BASE_URL, BASE_HEADERS } from "./back4appService.js";
-import { createPointerQuery, RECEPIES_END_POINT } from "./recipeService.js";
-import { getCurrentUser } from "./userService.js";
+import { BASE_URL } from "./customService.js";
+import { MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
+import { getCurrentUser, getUserToken } from "./userService.js";
 
 const FAVOURITES_END_POINTS = {
-    USER_FAVOURITE_RECEPIES: (userId) => {
-        return `${RECEPIES_END_POINT}?where=${createPointerQuery('favouritedBy', '_User', userId)}`
-    },
-    ADD_RECIPE_TO_FAVOURITES: (recipeId) => `${RECEPIES_END_POINT}/${recipeId}`,
-    REMOVE_RECIPE_FROM_FAVOURITES: (recipeId) => `${RECEPIES_END_POINT}/${recipeId}`,
+    USER_FAVOURITE_RECEPIES: `/users/favourites`,
+    ADD_RECIPE_TO_FAVOURITES: `/recipes/add-to-favourites`,
+    REMOVE_RECIPE_FROM_FAVOURITES: `/recipes/remove-from-favourites`,
+    RECIPE_IS_IN_USER_FAVOURITES: '/users/recipe-is-in-favourites'
 }
 
-export async function getMyFavouriteRecepies(userId) {
-    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.USER_FAVOURITE_RECEPIES(userId), {
+export async function getMyFavouriteRecepies() {
+    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.USER_FAVOURITE_RECEPIES, {
         method: 'GET',
-        headers: BASE_HEADERS
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        body: JSON.stringify({ userId: getCurrentUser() })
     });
     return handleRequest(response, COULD_NOT_FIND_FAVOURITE_RECIPES);
 }
 
 export async function addToFavourites(recipeId) {
-    const targetRecipeBody = {}
-    updateFavouritesRelation(targetRecipeBody, 'AddRelation');
-
     const options = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(targetRecipeBody)
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        body: JSON.stringify({ recipeId, userId: getCurrentUser() })
     };
 
-    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.ADD_RECIPE_TO_FAVOURITES(recipeId), options);
+    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.ADD_RECIPE_TO_FAVOURITES, options);
     return handleRequest(response, COULD_NOT_ADD_TO_FAVOURITE_RECIPES);
 }
 
 export async function removeFromFavourites(recipeId) {
-    const targetRecipeBody = {}
-    updateFavouritesRelation(targetRecipeBody, 'RemoveRelation');
-
     const options = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(targetRecipeBody)
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        body: JSON.stringify({ recipeId, userId: getCurrentUser() })
     };
 
-    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.REMOVE_RECIPE_FROM_FAVOURITES(recipeId), options);
+    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.REMOVE_RECIPE_FROM_FAVOURITES, options);
     return handleRequest(response, COULD_NOT_REMOVE_FROM_FAVOURITE_RECIPES);
 }
 
 export async function isFavouriteRecipe(userId, recipeId) {
-    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.USER_FAVOURITE_RECEPIES(userId), {
+    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.RECIPE_IS_IN_USER_FAVOURITES, {
         method: 'GET',
-        headers: BASE_HEADERS
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        body: JSON.stringify({ recipeId, userId: getCurrentUser() })
     });
 
-    const data = await response.json();
-    return data.results.some(recipe => recipe.objectId === recipeId);
-}
-
-function updateFavouritesRelation(record, method) {
-    record.favouritedBy = {
-        __op: method,
-        objects: [{
-            __type: 'Pointer',
-            className: '_User',
-            objectId: getCurrentUser()
-        }]
-    }
-
-    record._ApplicationId = "Z8Q8uaXTv77Bw38xSjfbNYfoyt3gKTOQPEqMN3Ea";
-    record._ClientVersion = "js3.3.0";
-    record._InstallationId = "21e7248a-14ba-48cb-ad63-9593dc88fa95";
-    record._MasterKey = "LpdlmxYNw0OjlDHOR4aynD6IQOm90180iOEGUayE";
-    record._method = 'PUT';
-
-    return record;
+    return await response.json();
 }

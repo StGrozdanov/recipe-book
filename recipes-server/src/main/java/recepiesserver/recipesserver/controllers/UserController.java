@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
+import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeFavouritesDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.*;
 import recepiesserver.recipesserver.services.UserService;
 import recepiesserver.recipesserver.utils.constants.Api;
@@ -59,6 +60,24 @@ public class UserController {
         return editedProfileId != null
                 ? ResponseEntity.ok().body(editedProfileId)
                 : ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping(Api.RECIPE_IS_IN_USER_FAVOURITES)
+    @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
+            "#request.getHeader('Authorization'), @userService.getUserProfileOwnerUsername(#favouritesDTO.userId))")
+    public ResponseEntity<Boolean> recipeIsInUserFavourites(
+            @RequestBody @Valid RecipeFavouritesDTO favouritesDTO,
+            HttpServletRequest request) {
+        return ResponseEntity.ok().body(this.userService.recipeIsInUserFavourites(favouritesDTO));
+    }
+
+    @GetMapping(Api.GET_USER_FAVOURITE_RECIPES)
+    @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
+            "#request.getHeader('Authorization'), @userService.getUserProfileOwnerUsername(#userIdDTO.userId))")
+    public ResponseEntity<List<RecipeCatalogueDTO>> getUserFavouriteRecipes(
+            @RequestBody @Valid UserIdDTO userIdDTO,
+            HttpServletRequest request) {
+        return ResponseEntity.ok().body(this.userService.findUserFavouriteRecipes(userIdDTO));
     }
 
     @GetMapping(Api.SEARCH_IN_USER_FAVOURITES_RECIPES)

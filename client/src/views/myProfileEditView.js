@@ -1,11 +1,12 @@
 import { html, nothing } from '../../node_modules/lit-html/lit-html.js';
 import { getMyPublicationsCount } from '../services/recipeService.js';
-import { getCurrentUser, localUpdate, logout, update, userIsAuthenticated } from '../services/userService.js';
+import { getCurrentUser, update } from '../services/userService.js';
 import { notify } from '../utils/notification.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
+import { logout, userIsAuthenticated } from '../services/authenticationService.js';
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
 <section class="my-profile-section">
@@ -183,7 +184,7 @@ async function editProfileHandler(e, ctx) {
     async function onSelect(choice) {
         if (choice) {
             ctx.render(loaderTemplate());
-            await localUpdate(getCurrentUser(), formData);
+            await update(getCurrentUser(), formData);
             notify("Успешно редактирахте профила си! Моля влезте наново, за да отразите промените.")
             await logout();
             ctx.page.redirect('/login');

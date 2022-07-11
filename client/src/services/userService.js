@@ -1,68 +1,25 @@
-import { COULD_NOT_EDIT_COMMENT, COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
+import { COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
 import { notify } from "../utils/notification.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
-import { USER_AUTHORIZATION_BASE_HEADERS, BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS } from "./back4appService.js";
+import { BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
+
+const USER_END_POINT = '/users'
 
 const USERS_END_POINTS = {
-    REGISTER: '/users',
-    LOGIN: '/login',
-    LOGOUT: '/logout',
-    UPDATE: (id) => { return `/users/${id}` },
-    DELETE: (id) => { return `/users/${id}` },
-    USER_INFO: (id) => { return `/parse/users/${id}` },
+    UPDATE: (userId) => `${USER_END_POINT}/profile/${userId}`,
+    DELETE: (userId) => `${USER_END_POINT}/${userId}`,
+    USER_INFO: (userId) => `${USER_END_POINT}/profile/${userId}`,
 }
 
-export async function register({ username, email, password }) {
-    const response = await fetch(BASE_URL + USERS_END_POINTS.REGISTER, {
-        method: 'POST',
-        headers: USER_AUTHORIZATION_BASE_HEADERS,
-        body: JSON.stringify({ username: username, email: email, password: password })
-    });
-    await handleUserRequest(response);
-}
-
-export async function login({ username, password }) {
-    const response = await fetch(BASE_URL + USERS_END_POINTS.LOGIN, {
-        method: 'POST',
-        headers: USER_AUTHORIZATION_BASE_HEADERS,
-        body: JSON.stringify({ username: username, password: password })
-    });
-    await handleUserRequest(response);
-}
-
-export async function logout() {
-    const response = await fetch(BASE_URL + USERS_END_POINTS.LOGOUT, {
-        method: 'POST',
-        headers: USER_AUTHORIZATION_BASE_HEADERS
-    });
-    if (response.ok) {
-        clearUserData();
-    } else {
-        await handleUserRequestError(response);
-    }
-}
-
-export async function localUpdate(userId, formData) {
-    userId = 1;
-    //FIX THIS!
+export async function update(userId, formData) {
     const options = {
         method: 'PUT',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
         body: formData
     };
 
-    const response = await fetch(`http://localhost:8080/users/profile/${userId}`, options);
-    return handleRequest(response, COULD_NOT_EDIT_COMMENT);
-}
-
-export async function update(userId, username, email, avatar, coverPhoto) {
-    const response = await fetch(BASE_URL + USERS_END_POINTS.UPDATE(userId), {
-        method: 'PUT',
-        headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username: username, email: email, avatar: avatar, coverPhoto: coverPhoto })
-    });
+    const response = await fetch(`${BASE_URL}/${USERS_END_POINTS.UPDATE(userId)}`, options);
+    
     if (response.ok) {
         clearUserData();
         let userData = { username: username, email: email, avatar: avatar, coverPhoto: coverPhoto }
@@ -93,7 +50,7 @@ export async function getUser(userId) {
 }
 
 function saveUserData(data) {
-    sessionStorage.setItem('authToken', data.sessionToken);
+    sessionStorage.setItem('sessionToken', data.sessionToken);
     sessionStorage.setItem('id', data.objectId);
     sessionStorage.setItem('username', data.username);
     sessionStorage.setItem('email', data.email);
@@ -102,7 +59,7 @@ function saveUserData(data) {
 }
 
 function clearUserData() {
-    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('sessionToken');
     sessionStorage.removeItem('id');
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('email');
@@ -111,7 +68,7 @@ function clearUserData() {
 }
 
 export function getUserToken() {
-    const userToken = sessionStorage.getItem('authToken');
+    const userToken = sessionStorage.getItem('sessionToken');
 
     if (userToken) {
         return userToken;
@@ -120,27 +77,12 @@ export function getUserToken() {
     return null;
 }
 
-export function userIsAuthenticated() {
-    return sessionStorage.getItem('email');
-}
-
 export function getCurrentUser() {
     return sessionStorage.getItem('id');
 }
 
-async function handleUserRequest(requestResponse) {
-    const data = await requestResponse.json();
-
-    if (requestResponse.ok) {
-        saveUserData(data);
-    } else {
-        notify(data.error);
-        throw new Error(data.error);
-    }
-}
-
 async function handleUserRequestError(requestResponse) {
-    const error = await response.json();
+    const error = await requestResponse.json();
     notify(error.error);
     throw new Error(error.error);
 }

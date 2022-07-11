@@ -1,4 +1,4 @@
-import { userIsAuthenticated } from "../services/userService.js";
+import { userIsAuthenticated } from "../services/authenticationService.js";
 import { notify } from "../utils/notification.js";
 
 export function isAuthenticated(ctx, next) {

@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { createRecipe, localCreateRecipe } from '../services/recipeService.js';
+import { createRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import multiLineInputProcessor from '../utils/multiLineInputProcessor.js';
@@ -125,7 +125,7 @@ async function createHandler(e, context) {
 
     notify('Успешно създадохте рецептата си! При нужда можете да я редактирате от бутончетата.');
 
-    const createdRecipe = await localCreateRecipe(form);
+    const createdRecipe = await createRecipe(form);
     // const createdRecipe = await createRecipe(newRecipe);
     context.page.redirect(`/details-${createdRecipe.objectId}`);
 }

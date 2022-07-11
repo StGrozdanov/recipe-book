@@ -1,5 +1,5 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
-import { searchByName } from '../services/filtrationService.js';
+import { searchByRecipeName } from '../services/filtrationService.js';
 import { noSuchRecipesTemplate } from './templates/noRecepiesFoundTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { searchTemplate } from './templates/searchTemplate.js';
@@ -26,7 +26,7 @@ export async function searchPage(ctx) {
 
     if (params) {
         let query = params.toLowerCase();
-        const data = await searchByName(query);
+        const data = await searchByRecipeName(query);
 
         const recipes = data.results.map(recipeTemplate);
 

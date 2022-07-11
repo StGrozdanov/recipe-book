@@ -1,14 +1,14 @@
 import { html, nothing, render } from "../../node_modules/lit-html/lit-html.js";
 import { mainRootElement } from "../middlewares/setUpMidware.js";
 import page from '../../node_modules/page/page.mjs';
-import { getRecepiesCount, getTheLastThreeRecepies } from "../services/recipeService.js";
-import { getTheLatestSixComments, getTotalCommentsCount } from "../services/commentService.js";
+import { getTheLastThreeRecepies, getTheThreeMostViewedRecepies  } from "../services/recipeService.js";
+import { getTheLatestSixComments } from "../services/commentService.js";
 import { latestRecepieTemplate } from "./templates/landingTemplates/latestRecepieTemplate.js";
 import { mostViewedRecepieTemplate } from "./templates/landingTemplates/mostViewedRecepieTemplate.js";
 import { latestCommentsTemplate } from "./templates/landingTemplates/latestCommentsTemplate.js";
 import { loaderTemplate } from "./templates/loadingTemplate.js";
 
-const landingPageTemplate = (recepies, comments) => html`
+const landingPageTemplate = (latestRecipes, comments, mostViewedRecipes) => html`
 <section class="landing-page">
     <nav class="landing-nav">
         <img src="../static/images/cooking.png" alt="" />
@@ -49,7 +49,7 @@ const landingPageTemplate = (recepies, comments) => html`
         <span class="landing-latest-recepies-span">smh</span>
         <h3 class="landing-heading">Най-новите рецепти</h3>
         <section class="landing-latest-recepies-container">
-            ${recepies.map(singleRecepie => latestRecepieTemplate(singleRecepie))}
+            ${latestRecipes.map(singleRecepie => latestRecepieTemplate(singleRecepie))}
         </section>
     </section>
 
@@ -58,7 +58,7 @@ const landingPageTemplate = (recepies, comments) => html`
             <span class="landing-most-viewed-recepies-span">smh</span>
             <h3 class="landing-heading">Най-разглежданите рецепти</h3>
             <section class="landing-most-viewed">
-                ${recepies.map(singleRecepie => (mostViewedRecepieTemplate(singleRecepie)))}
+                ${mostViewedRecipes.map(singleRecepie => (mostViewedRecepieTemplate(singleRecepie)))}
             </section>
         </article>
 
@@ -80,22 +80,17 @@ export async function landingPage() {
     resetBaseStyleArchitecture();
     render(loaderTemplate(), mainRootElement);
 
-    const totalRecepies = getRecepiesCount();
-    const totalComments = getTotalCommentsCount();
-
-    const [totalRecepiesCount, totalCommentsCount] = await Promise.all([totalRecepies, totalComments]);
-
-    const lastThreeRecipesData = getTheLastThreeRecepies(totalRecepiesCount.count);
-    const latestSixCommentsData = getTheLatestSixComments(totalCommentsCount.count);
-    // const mostViewedRecepiesData = getTheThreeMostViewedRecepies();
+    const lastThreeRecipesData = getTheLastThreeRecepies();
+    const latestSixCommentsData = getTheLatestSixComments();
+    const mostViewedRecepiesData = getTheThreeMostViewedRecepies();
 
     const [lastThreeRecepies, latestSixComments, mostViewedRecepies] = await Promise.all([
         lastThreeRecipesData,
         latestSixCommentsData,
-        // mostViewedRecepiesData
+        mostViewedRecepiesData
     ]);
 
-    const landingTemplate = landingPageTemplate(lastThreeRecepies.results.reverse(), latestSixComments.results.reverse());
+    const landingTemplate = landingPageTemplate(lastThreeRecepies, latestSixComments, mostViewedRecepies);
 
     render(landingTemplate, mainRootElement);
 }

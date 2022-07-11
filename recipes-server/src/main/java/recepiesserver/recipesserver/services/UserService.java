@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
+import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeFavouritesDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.*;
 import recepiesserver.recipesserver.models.entities.BaseEntity;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
@@ -280,5 +281,35 @@ public class UserService {
 
     public void saveNewUser(UserEntity newUser) {
         this.userRepository.save(newUser);
+    }
+
+    @Transactional
+    public List<RecipeCatalogueDTO> findUserFavouriteRecipes(UserIdDTO userIdDTO) {
+        Optional<UserEntity> userById = this.userRepository.findById(userIdDTO.getUserId());
+
+        if (userById.isPresent()) {
+            UserEntity user = userById.get();
+            return user
+                    .getFavourites()
+                    .stream()
+                    .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                    .toList();
+        }
+        //TODO: THROW EXCEPTION
+        return null;
+    }
+
+    public Boolean recipeIsInUserFavourites(RecipeFavouritesDTO favouritesDTO) {
+        Optional<UserEntity> userById = this.userRepository.findById(favouritesDTO.getUserId());
+
+        if (userById.isPresent()) {
+            UserEntity user = userById.get();
+            return user
+                    .getFavourites()
+                    .stream()
+                    .anyMatch(recipe -> recipe.getId().equals(favouritesDTO.getRecipeId()));
+        }
+        //TODO: THROW EXCEPTION
+        return null;
     }
 }

@@ -50,13 +50,14 @@ public class CommentController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(Api.COMMENT_ENDPOINT)
+    @PutMapping(Api.EDIT_COMMENT)
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
-            "#request.getHeader('Authorization'), @commentService.getCommentOwnerUsername(#commentDTO.id)) " +
+            "#request.getHeader('Authorization'), @commentService.getCommentOwnerUsername(#id)) " +
             "|| hasRole('ADMINISTRATOR') || hasRole('MODERATOR')")
     public ResponseEntity<Long> editComment(@RequestBody @Valid CommentEditDTO commentDTO,
-                                            HttpServletRequest request) {
-        Long editedCommentId = this.commentService.editComment(commentDTO);
+                                            HttpServletRequest request,
+                                            @PathVariable Long id) {
+        Long editedCommentId = this.commentService.editComment(commentDTO, id);
 
         return editedCommentId != null
                 ? ResponseEntity.ok().body(editedCommentId)

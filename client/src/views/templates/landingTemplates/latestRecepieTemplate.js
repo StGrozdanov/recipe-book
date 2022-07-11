@@ -1,19 +1,19 @@
 import { html } from '../../../../node_modules/lit-html/lit-html.js';
 import { navigateHandler } from '../../landingView.js';
 
-export const latestRecepieTemplate = (recepie) => html`
+export const latestRecepieTemplate = (recipe) => html`
     <article class="landing-latest-recepies-article">
         <header 
-            @click=${() => navigateHandler(`/details-${recepie.objectId}`, true)} 
+            @click=${() => navigateHandler(`/details-${recipe.id}`, true)} 
             class="landing-latest-recepies-article-picture-container"
         >
-            <img src=${recepie.img} alt="" />
+            <img src=${recipe.imageUrl} alt="" />
         </header>
         <main>
-            <h4 class="recipe-name">${recepie.name}</h4>
+            <h4 class="recipe-name">${recipe.recipeName}</h4>
         </main>
         <footer class="landing-latest-recepies-article-footer">
-            ${recepie.category}
+            ${recipe.category}
         </footer>
     </article>
 `;

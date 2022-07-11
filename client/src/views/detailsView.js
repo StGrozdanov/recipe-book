@@ -7,7 +7,8 @@ import { showModal } from '../utils/modalDialogue.js';
 import { notify } from '../utils/notification.js';
 import { buttonToTop } from '../utils/backToTopButton.js';
 import { commentsTemplate } from './templates/commentTemplate.js';
-import { getCurrentUser, userIsAuthenticated } from '../services/userService.js';
+import { getCurrentUser } from '../services/userService.js';
+import { userIsAuthenticated } from '../services/authenticationService.js'
 import { navigateDownHandler } from './landingView.js';
 
 const ownerTemplate = (id, ctx) => html`

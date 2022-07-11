@@ -9,6 +9,7 @@ public class Api {
     public static final String GET_ALL_RECIPE_COMMENTS = "/comments/{recipeId}";
     public static final String COMMENT_ENDPOINT = "/comments";
     public static final String DELETE_COMMENT = "/comments/{id}";
+    public static final String EDIT_COMMENT = "/comments/{id}";
     public static final String LATEST_SIX_COMMENTS = "/comments/latest-six-comments";
     public static final String COMMENT_COUNT = "/comments/count";
     public static final String SEARCH_COMMENTS_BY_CONTENT = "/comments/search-by-content";
@@ -26,6 +27,8 @@ public class Api {
     public static final String ADD_RECIPE_TO_FAVOURITES = "/recipes/add-to-favourites";
     public static final String REMOVE_RECIPE_FROM_FAVOURITES = "/recipes/remove-from-favourites";
     public static final String SEARCH_BY_RECIPE_NAME = "/recipes/search-by-name";
+    public static final String USER_CREATED_RECIPES = "/recipes/created-by/{userId}";
+    public static final String USER_CREATED_RECIPES_COUNT = "/recipes/created-by/{userId}/count";
     public static final String SEARCH_IN_CREATED_RECIPES = "/recipes/search-in-created-recipes";
     public static final String SEARCH_BY_RECIPE_CATEGORY = "/recipes/search-by-categories";
     public static final String RECIPES_COUNT = "/recipes/count";
@@ -35,7 +38,9 @@ public class Api {
     public static final String GET_USER_DETAILS = "/users/{userId}";
     public static final String GET_USER_PROFILE = "/users/profile/{userId}";
     public static final String EDIT_USER_PROFILE = "/users/profile/{userId}";
+    public static final String GET_USER_FAVOURITE_RECIPES = "/users/favourites";
     public static final String SEARCH_IN_USER_FAVOURITES_RECIPES = "/users/search-favourite-recipe-by-name";
+    public static final String RECIPE_IS_IN_USER_FAVOURITES = "/users/recipe-is-in-favourites";
     public static final String USERS_COUNT = "/users/count";
     public static final String SEARCH_USERS_BY_USERNAME = "/users/search-by-username";
     public static final String CHANGE_USER_ROLE = "/users/change-role/{userId}";
@@ -47,4 +52,5 @@ public class Api {
     public static final String VISITATIONS_FOR_LAST_SIX_MONTHS = "/visitations/the-last-six-months";
     public static final String VISITATIONS_TODAY = "/visitations/today";
     public static final String VISITATIONS_FOR_LAST_SIX_MONTHS_SUMMARY = "/visitations/the-last-six-months-summary";
+
 }

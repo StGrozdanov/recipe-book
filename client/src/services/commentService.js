@@ -1,20 +1,16 @@
-import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./back4appService.js";
-import { addOwner, createPointer, createPointerQuery, createQuery } from "./recipeService.js";
+import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { COULD_NOT_DELETE_COMMENT, COULD_NOT_EDIT_COMMENT, COULD_NOT_FETCH_COMMENTS } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
-import { getUserToken } from "./userService.js";
+import { getCurrentUser, getUserToken } from "./userService.js";
 
-const COMMENT_END_POINT = '/classes/Comment';
+const COMMENT_END_POINT = '/comments';
 
 const COMMENT_REQUEST_POINTS = {
     CREATE_COMMENT: COMMENT_END_POINT,
-    GET_COMMENTS_BY_RECIPE: (recipeId) => {
-        return `${COMMENT_END_POINT}?where=${createPointerQuery('recipe', 'Recipe', recipeId)}&include=owner`
-    },
+    GET_COMMENTS_BY_RECIPE: (recipeId) => { return `${COMMENT_END_POINT}/${recipeId}` },
     GET_SINGLE_COMMENT: (id) => { return `${COMMENT_END_POINT}/${id}` },
-    GET_LAST_SIX_COMMENTS: (totalCommentsCount) => `${COMMENT_END_POINT}?skip=${totalCommentsCount - 6}`,
-    TOTAL_COMMENTS_COUNT: `${COMMENT_END_POINT}?count=1`,
-    EDIT_COMMENT: (id) => { return `${COMMENT_END_POINT}/${id}` },
+    GET_LAST_SIX_COMMENTS: `${COMMENT_END_POINT}/latest-six-comments`,
+    TOTAL_COMMENTS_COUNT: `${COMMENT_END_POINT}/count`,
 }
 
 export async function getCommentsForRecipe(recipeId) {
@@ -28,13 +24,13 @@ export async function getCommentsForRecipe(recipeId) {
 export async function getTotalCommentsCount() {
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.TOTAL_COMMENTS_COUNT, {
         method: 'GET',
-        headers: BASE_HEADERS
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     });
     return handleRequest(response, COULD_NOT_FETCH_COMMENTS);
 }
 
-export async function getTheLatestSixComments(totalCommentsCount) {
-    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_LAST_SIX_COMMENTS(totalCommentsCount), {
+export async function getTheLatestSixComments() {
+    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_LAST_SIX_COMMENTS, {
         method: 'GET',
         headers: BASE_HEADERS
     });
@@ -42,15 +38,12 @@ export async function getTheLatestSixComments(totalCommentsCount) {
 }
 
 export async function commentRecipe(recipeId, comment) {
-    comment.recipe = createPointer('Recipe', recipeId);
-    addOwner(comment);
+    comment.targetRecipeId = recipeId;
+    comment.ownerId = getCurrentUser();
 
     const options = {
         method: 'POST',
-        headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-            'Content-Type': 'application/json'
-        },
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
         body: JSON.stringify(comment)
     };
 
@@ -71,13 +64,10 @@ export async function removeComment(id) {
 export async function editComment(commentContent, commentId) {
     const options = {
         method: 'PUT',
-        headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-            'Content-Type': 'application/json'
-        },
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
         body: JSON.stringify({ content: commentContent })
     };
 
-    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.EDIT_COMMENT(commentId), options);
+    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(commentId), options);
     return handleRequest(response, COULD_NOT_EDIT_COMMENT);
 }

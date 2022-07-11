@@ -1,27 +1,28 @@
 import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
-import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./back4appService.js";
-import { getUserToken } from "./userService.js";
+import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
+import { getCurrentUser, getUserToken } from "./userService.js";
 
 export const RECEPIES_PER_PAGE = 6;
-export const RECEPIES_END_POINT = '/classes/Recipe';
+export const RECEPIES_END_POINT = '/recipes';
 
 const RECIPE_END_POINTS = {
-    TOTAL_RECEPIES_COUNT: `${RECEPIES_END_POINT}?count=1`,
+    TOTAL_RECEPIES_COUNT: `${RECEPIES_END_POINT}/count`,
     CREATE_RECIPE: RECEPIES_END_POINT,
-    ALL_RECIPES: (page) => `${RECEPIES_END_POINT}?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1) * RECEPIES_PER_PAGE}`,
-    LAST_THREE_RECIPES: (totalRecepiesCount) => `${RECEPIES_END_POINT}?skip=${totalRecepiesCount - 3}`,
-    SINGLE_RECIPE: (id) => { return `${RECEPIES_END_POINT}/${id}` },
-    OWNER_PUBLICATIONS: (ownerId) => { return `${RECEPIES_END_POINT}?where=${createPointerQuery('owner', '_User', ownerId)}` },
-    OWNER_PUBLICATIONS_COUNT: (ownerId) => { 
-        return `${RECEPIES_END_POINT}?where=${createPointerQuery('owner', '_User', ownerId)}&count=1` 
+    ALL_RECIPES: (page) => {
+        return `${RECEPIES_END_POINT}?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1) * RECEPIES_PER_PAGE}`
     },
+    LATEST_THREE_RECIPES: `${RECEPIES_END_POINT}/latest-three-recipes`,
+    SINGLE_RECIPE: (id) => `${RECEPIES_END_POINT}/${id}`,
+    OWNER_PUBLICATIONS: (ownerId) => `${RECEPIES_END_POINT}/created-by/${ownerId}`,
+    OWNER_PUBLICATIONS_COUNT: (ownerId) => `${RECEPIES_END_POINT}/created-by/${ownerId}/count`,
+    THE_THREE_MOST_VIEWED_RECIPES: `${RECEPIES_END_POINT}/most-viewed-three-recipes`,
 }
 
 export async function getRecepiesCount() {
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.TOTAL_RECEPIES_COUNT, {
         method: 'GET',
-        headers: BASE_HEADERS
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     });
     return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
@@ -34,9 +35,10 @@ export async function getAllRecepies(page) {
     return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
-export async function localCreateRecipe(recipe) {
+export async function createRecipe(recipe) {
     const options = {
         method: 'POST',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
         body: recipe
     };
 
@@ -44,46 +46,29 @@ export async function localCreateRecipe(recipe) {
     return handleRequest(response, COULD_NOT_CREATE_RECEPIE);
 }
 
-export async function createRecipe(recipe) {
-    addOwner(recipe);
-
-    const options = {
-        method: 'POST',
-        headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(recipe)
-    };
-
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.CREATE_RECIPE, options);
-    return handleRequest(response, COULD_NOT_CREATE_RECEPIE);
-}
-
-export async function getSingleRecipe(id) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), {
+export async function getSingleRecipe(recipeId) {
+    const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(recipeId), {
         method: 'GET',
         headers: BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_GET_RECEPIE);
 }
 
-export async function getTheLastThreeRecepies(totalRecepiesCount) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.LAST_THREE_RECIPES(totalRecepiesCount), {
+export async function getTheLastThreeRecepies() {
+    const response = await fetch(BASE_URL + RECIPE_END_POINTS.LATEST_THREE_RECIPES, {
         method: 'GET',
         headers: BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
-export async function updateRecipe(recipe, recipeId) {
+export async function updateRecipe(recipeData, recipeId) {
+    recipeData.ownerId = getCurrentUser()
+
     const options = {
         method: 'PUT',
-        headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(recipe)
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        body: JSON.stringify(recipeData)
     };
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(recipeId), options);
     return handleRequest(response, COULD_NOT_EDIT_RECEPIE);
@@ -114,25 +99,14 @@ export async function getMyPublicationsCount(userId) {
     return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
-export function addOwner(record) {
-    const id = sessionStorage.getItem('id');
-    record.owner = createPointer('_User', id);
-
-    return record;
+export async function getTheThreeMostViewedRecepies() {
+    const response = await fetch(BASE_URL + RECIPE_END_POINTS.THE_THREE_MOST_VIEWED_RECIPES, {
+        method: 'GET',
+        headers: BASE_HEADERS
+    });
+    return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
 export function createQuery(query) {
     return encodeURIComponent(JSON.stringify(query));
-}
-
-export function createPointer(className, objectId) {
-    return {
-        __type: 'Pointer',
-        className,
-        objectId
-    };
-}
-
-export function createPointerQuery(propName, className, ownerId) {
-    return createQuery({ [propName]: createPointer(className, ownerId) });
 }

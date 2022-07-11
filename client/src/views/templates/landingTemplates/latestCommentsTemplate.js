@@ -3,23 +3,23 @@ import { navigateHandler } from '../../landingView.js';
 
 export const latestCommentsTemplate = (comment) => html`
     <article class="landing-latest-recepies-article latest-comments-article">
-        <header @click=${()=> navigateHandler(`/user-${comment.owner.objectId}`, true)}
+        <header @click=${()=> navigateHandler(`/user-${comment.owner.id}`, true)}
             class="landing-latest-recepies-article-picture-container"
         >
             <img src=${
-                !comment.ownerAvatar || comment.ownerAvatar.includes('undefined')
-                ? "../../static/images/Avatar.png"
-                : comment.ownerAvatar
+                !comment.owner.avatarUrl
+                    ? "../../static/images/Avatar.png"
+                    : comment.owner.avatarUrl
                 } alt="profile-image" />
         </header>
         <section class="landing-comment-section">
-            <p>${comment.ownerName}</p>
-            <p>${new Date(comment.createdAt).toLocaleString()}</p>
-            <a @click=${()=> navigateHandler(`/details-${comment.recipe.objectId}`, true)}
+            <p>${comment.owner.username}</p>
+            <p>${comment.createdAt.replace('T', ', ')}</p>
+            <a @click=${()=> navigateHandler(`/details-${comment.recipe.id}`, true)}
                 href="javascript:void[0]"
                 class="recipe-name"
             >
-                ${comment.recipeName}
+                ${comment.recipe.recipeName}
             </a>
         </section>
     </article>

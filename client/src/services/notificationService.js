@@ -1,46 +1,28 @@
 import { COULD_NOT_GET_NOTIFICATIONS, COULD_NOT_MARK_NOTIFICATION, COULD_NOT_POST_NOTIFICATION } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
-import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./back4appService.js";
-import { createQuery } from "./recipeService.js";
-import { getUserToken } from "./userService.js";
+import { BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
+import { getCurrentUser, getUserToken } from "./userService.js";
 
-export const NOTIFICATION_END_POINT = '/classes/Notification';
+export const NOTIFICATION_END_POINT = '/notifications';
 
 const NOTIFICATIONS_END_POINTS = {
-    GET_USER_NOTIFICATIONS: (userId) => {
-        return `${NOTIFICATION_END_POINT}?where=${
-            createQuery({ 'receiverId': `${userId}`, 'isMarkedAsRead': { '$eq': false } })
-        }`
-    },
+    GET_USER_NOTIFICATIONS: (userId) => { return `${NOTIFICATION_END_POINT}/${userId}` },
     CREATE_NOTIFICATION: NOTIFICATION_END_POINT,
     MARK_AS_READ: (notificationId) => { return `${NOTIFICATION_END_POINT}/${notificationId}` }
 }
 
-export async function getMyNotifications(userId) {
-    const response = await fetch(BASE_URL + NOTIFICATIONS_END_POINTS.GET_USER_NOTIFICATIONS(userId), {
+export async function getMyNotifications() {
+    const response = await fetch(BASE_URL + NOTIFICATIONS_END_POINTS.GET_USER_NOTIFICATIONS(getCurrentUser()), {
         method: 'GET',
-        headers: BASE_HEADERS
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
     });
     return handleRequest(response, COULD_NOT_GET_NOTIFICATIONS);
 }
 
-export async function createNotification({action, senderId, senderName, senderAvatar, receiverId, locationId, locationName}) {
-    const notificationData = {
-        action,
-        senderId, 
-        senderName, 
-        senderAvatar,
-        receiverId,
-        locationId,
-        locationName 
-    }
-
+export async function createNotification(notificationData) {
     const options = {
         method: 'POST',
-        headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-            'Content-Type': 'application/json'
-        },
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
         body: JSON.stringify(notificationData)
     };
 
@@ -50,12 +32,8 @@ export async function createNotification({action, senderId, senderName, senderAv
 
 export async function markNotificationAsRead(notificationId) {
     const options = {
-        method: 'PUT',
-        headers: {
-            ...MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ isMarkedAsRead: true })
+        method: 'PATCH',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
     };
     const response = await fetch(BASE_URL + NOTIFICATIONS_END_POINTS.MARK_AS_READ(notificationId), options);
     return handleRequest(response, COULD_NOT_MARK_NOTIFICATION);
