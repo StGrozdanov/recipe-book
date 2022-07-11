@@ -1,4 +1,4 @@
-import { html, nothing } from '../../node_modules/lit-html/lit-html.js';
+import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getAllRecepies } from '../services/recipeService.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { buildPagination, lightUpActivePaginationButton, paginationTemplate } from './templates/paginationTemplate.js';
@@ -36,7 +36,7 @@ export async function cataloguePage(ctx) {
 
     const[recipeData, paginationData] = await Promise.all([data, pagination]);
 
-    const recipes = recipeData.results.map(recipeTemplate);
+    const recipes = recipeData.content.map(recipeTemplate);
 
     const allRecords = allRecordsTemplate(
         recipes,

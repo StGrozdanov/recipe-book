@@ -32,7 +32,7 @@ VALUES (3, 'PORK', '2021-12-12 10:02:11', 'https://cook-book-shushanite.s3.eu-ce
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
 VALUES (4, 'DESSERT', '2021-12-12 21:09:04', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/baklava.jpg', 'Баклава', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (5, 'PASTA', '2021-12-14 18:51:49', '', 'Баница със сирене', 'APPROVED', 0, 2);
+VALUES (5, 'PASTA', '2021-12-14 18:51:49', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/banica.jpg', 'Баница със сирене', 'APPROVED', 0, 2);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
 VALUES (6, 'DESSERT', '2021-12-21 05:06:50', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/tikvenik.jpg', 'Тиквеник', 'APPROVED', 0, 2);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)

@@ -10,7 +10,7 @@ const RECIPE_END_POINTS = {
     TOTAL_RECEPIES_COUNT: `${RECEPIES_END_POINT}/count`,
     CREATE_RECIPE: RECEPIES_END_POINT,
     ALL_RECIPES: (page) => {
-        return `${RECEPIES_END_POINT}?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1) * RECEPIES_PER_PAGE}`
+        return `${RECEPIES_END_POINT}/pagination?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1)}`
     },
     LATEST_THREE_RECIPES: `${RECEPIES_END_POINT}/latest-three-recipes`,
     SINGLE_RECIPE: (id) => `${RECEPIES_END_POINT}/${id}`,
@@ -22,7 +22,7 @@ const RECIPE_END_POINTS = {
 export async function getRecepiesCount() {
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.TOTAL_RECEPIES_COUNT, {
         method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }

@@ -62,7 +62,6 @@ public class SecurityConfiguration {
 
                 //recipes controller
                 .antMatchers(
-                        Api.RECIPES_COUNT,
                         Api.RECIPES_MOST_ACTIVE_USER,
                         Api.RECIPES_FOR_ADMIN,
                         Api.APPROVE_RECIPE
@@ -76,7 +75,8 @@ public class SecurityConfiguration {
                         Api.SEARCH_BY_RECIPE_NAME,
                         Api.SEARCH_BY_RECIPE_CATEGORY,
                         Api.USER_CREATED_RECIPES,
-                        Api.USER_CREATED_RECIPES_COUNT
+                        Api.USER_CREATED_RECIPES_COUNT,
+                        Api.RECIPES_COUNT
                         ).permitAll()
                 .antMatchers(Api.RECORD_NEW_RECIPE_VISITATION).permitAll()
                 .antMatchers(

@@ -25,7 +25,7 @@ export const paginationTemplate = (pages, currentPage, totalPagesCount) => html`
 export async function buildPagination() {
     const totalRecepies = await getRecepiesCount();
     const PAGE_SIZE = RECEPIES_PER_PAGE;
-    const totalPagesCount = Math.ceil(totalRecepies.count / PAGE_SIZE);
+    const totalPagesCount = Math.ceil(totalRecepies / PAGE_SIZE);
 
     const pageData = [];
 
