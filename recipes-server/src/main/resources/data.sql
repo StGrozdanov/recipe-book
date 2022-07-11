@@ -162,11 +162,11 @@ VALUES (1, 'ако е онова на Шушата е ТОП!', '2021-12-14 18:3
 INSERT INTO comments (id, content, created_at, owner_id, target_recipe_id)
 VALUES (2, 'Всеки път става различна! ха ха ха', '2021-12-14 18:52:57', 2, 5);
 INSERT INTO comments (id, content, created_at, owner_id, target_recipe_id)
-VALUES (3, 'Баш неговото ще е! ТОП-ТОП!', '2021-12-16 15:27:01', 3, 5);
+VALUES (3, 'Баш неговото ще е! ТОП-ТОП!', '2021-12-16 15:27:01', 3, 2);
 INSERT INTO comments (id, content, created_at, owner_id, target_recipe_id)
 VALUES (4, '😋😍🥰', '2021-12-18 19:41:20', 2, 4);
 INSERT INTO comments (id, content, created_at, owner_id, target_recipe_id)
-VALUES (5, 'Хехе, много ясно!', '2021-12-26 07:25:34', 1, 5);
+VALUES (5, 'Хехе, много ясно!', '2021-12-26 07:25:34', 1, 2);
 INSERT INTO comments (id, content, created_at, owner_id, target_recipe_id)
 VALUES (6, 'Защото снощи правих кееекс!', '2022-01-03 16:26:27', 1, 1);
 INSERT INTO comments (id, content, created_at, owner_id, target_recipe_id)

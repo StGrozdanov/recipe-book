@@ -61,18 +61,18 @@ export const commentsTemplate = (data, ctx) => html`
             ${
                 data !== null && data.length > 0
                 ? data.map(comment => html`
-                    <li id=${comment.objectId} class="comment">
+                    <li id=${comment.id} class="comment">
                         <p>
                             <a 
-                            @click=${() => ctx.page.redirect(`/user-${comment.owner.objectId}`)} 
+                            @click=${() => ctx.page.redirect(`/user-${comment.owner.id}`)} 
                             href='javascript: void[0]'
                             >
                                 ${comment.owner.username}
                             </a> 
-                            ${new Date(comment.createdAt).toLocaleString()}
+                            ${comment.createdAt.replace('T', ', ')}
                         </p>
                         ${ 
-                            getCurrentUser() === comment.owner.objectId 
+                            getCurrentUser() === comment.owner.id 
                             ? ownerCommentTemplate(comment)
                             : unauthorizedCommentTemplate(comment)
                         }
@@ -205,7 +205,7 @@ async function refreshCommentSection(ctx) {
     const oldComment = document.getElementById('comments-container');
     oldComment.textContent = '';
 
-    render(commentsTemplate(refreshedCommentData.results, ctx), commentContainer);
+    render(commentsTemplate(refreshedCommentData, ctx), commentContainer);
 
     const comments = document.querySelector('.details-comments');
     comments.style.display = 'block';
