@@ -38,12 +38,15 @@ export async function getAllRecepies(page) {
 export async function createRecipe(recipe) {
     const options = {
         method: 'POST',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        headers: { "Authorization": `Bearer ${getUserToken()}` },
         body: recipe
     };
 
     const response = await fetch('http://localhost:8080/recipes', options);
-    return handleRequest(response, COULD_NOT_CREATE_RECEPIE);
+
+    if (response.ok) {
+        return response.json();
+    }
 }
 
 export async function getSingleRecipe(recipeId) {

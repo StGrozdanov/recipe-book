@@ -102,8 +102,6 @@ public class RecipeService {
         }
 
         RecipeEntity newRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
-        //the custom user id validator will handle the optional error case
-        newRecipe.setOwnerId(userById.get().getId());
 
         RecipeEntity createdRecipe = this.recipeRepository.save(newRecipe);
 
@@ -346,11 +344,8 @@ public class RecipeService {
         //TODO: THROW
     }
 
-    public Long getRecipeOwnerId(Long id) {
-        return this.recipeRepository.findById(id).orElseThrow().getOwnerId();
-    }
-
-    public String getRecipeOwnerUsername(Long ownerId) {
+    public String getRecipeOwnerUsername(Long recipeId) {
+        Long ownerId = this.recipeRepository.findById(recipeId).orElseThrow().getOwnerId();
         return this.userService.findUserById(ownerId).orElseThrow().getUsername();
     }
 }

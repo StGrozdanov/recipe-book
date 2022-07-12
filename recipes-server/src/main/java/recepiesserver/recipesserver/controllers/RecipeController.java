@@ -58,12 +58,8 @@ public class RecipeController {
             "#request.getHeader('Authorization'), @recipeService.getRecipeOwnerUsername(#id)) " +
             "|| hasRole('ADMINISTRATOR')")
     public ResponseEntity<RecipeDetailsDTO> deleteRecipe(@PathVariable Long id, HttpServletRequest request) {
-        try {
             this.recipeService.deleteRecipe(id);
-        } catch (EmptyResultDataAccessException | IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().build();
+            return ResponseEntity.ok().build();
     }
 
     @PostMapping(Api.RECIPES_ENDPOINT)

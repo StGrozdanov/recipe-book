@@ -3,7 +3,7 @@ import { createRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import multiLineInputProcessor from '../utils/multiLineInputProcessor.js';
-import { getUserToken } from '../services/userService.js';
+import { getCurrentUser, getUserToken } from '../services/userService.js';
 
 const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
@@ -118,14 +118,13 @@ async function createHandler(e, context) {
         steps: steps,
         imageUrl: img,
         category: category,
-        ownerId: 1
+        ownerId: getCurrentUser()
     }
 
     form.append('data', JSON.stringify(newRecipe));
 
     notify('Успешно създадохте рецептата си! При нужда можете да я редактирате от бутончетата.');
 
-    const createdRecipe = await createRecipe(form);
-    // const createdRecipe = await createRecipe(newRecipe);
-    context.page.redirect(`/details-${createdRecipe.objectId}`);
+    const createdRecipeId = await createRecipe(form);
+    context.page.redirect(`/details-${createdRecipeId}`);
 }
