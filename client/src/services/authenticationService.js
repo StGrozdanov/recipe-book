@@ -50,8 +50,8 @@ function saveUserData(data) {
     sessionStorage.setItem('id', data.id);
     sessionStorage.setItem('username', data.username);
     sessionStorage.setItem('email', data.email);
-    sessionStorage.setItem('avatar', data.avatarUrl);
-    sessionStorage.setItem('coverPhoto', data.coverPhotoUrl);
+    sessionStorage.setItem('avatarUrl', data.avatarUrl);
+    sessionStorage.setItem('coverPhotoUrl', data.coverPhotoUrl);
 }
 
 function clearUserData() {
@@ -60,8 +60,8 @@ function clearUserData() {
     sessionStorage.removeItem('id');
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('email');
-    sessionStorage.removeItem('avatar');
-    sessionStorage.removeItem('coverPhoto');
+    sessionStorage.removeItem('avatarUrl');
+    sessionStorage.removeItem('coverPhotoUrl');
 }
 
 async function handleUserRequest(requestResponse) {
