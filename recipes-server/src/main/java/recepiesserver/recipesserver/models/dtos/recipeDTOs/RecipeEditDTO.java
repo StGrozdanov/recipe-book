@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 public class RecipeEditDTO {
-    private Long id;
     private String recipeName;
     private List<String> products;
     private List<String> steps;
@@ -18,15 +17,6 @@ public class RecipeEditDTO {
     private String category;
 
     public RecipeEditDTO() {
-    }
-
-    @ValidRecipeId
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Size(min = 4, message = "Recipe name should be at least 4 characters long.")

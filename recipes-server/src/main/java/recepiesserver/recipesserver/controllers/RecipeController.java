@@ -90,7 +90,7 @@ public class RecipeController {
             HttpServletRequest request) throws JsonProcessingException {
         @Valid RecipeEditDTO dto = new ObjectMapper().readValue(recipeData, RecipeEditDTO.class);
 
-        Long editedRecipeId = this.recipeService.editRecipe(dto, file);
+        Long editedRecipeId = this.recipeService.editRecipe(dto, file, recipeId);
 
         return editedRecipeId != null
                 ? ResponseEntity.ok().body(editedRecipeId)

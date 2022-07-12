@@ -6,9 +6,7 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
@@ -116,8 +114,8 @@ public class RecipeService {
         return this.recipeRepository.findById(id);
     }
 
-    public Long editRecipe(RecipeEditDTO recipeDTO, MultipartFile file) {
-        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(recipeDTO.getId());
+    public Long editRecipe(RecipeEditDTO recipeDTO, MultipartFile file, Long recipeId) {
+        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(recipeId);
 
         if (recipeById.isPresent()) {
             RecipeEntity oldRecipe = recipeById.get();
@@ -140,15 +138,14 @@ public class RecipeService {
                 return null;
             }
 
-            if (oldRecipe.getImageUrl().contains("amazonaws")) {
+            if (!oldRecipe.getImageUrl().equals(recipeDTO.getImageUrl()) &&
+                    oldRecipe.getImageUrl().contains("amazonaws")) {
                 this.amazonS3Service.deleteFile(oldRecipe.getImageUrl());
             }
 
-            RecipeEntity editedRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
+            setTheOldRecipeDefaultInformationToTheEditedRecipe(oldRecipe, recipeDTO);
 
-            setTheOldRecipeDefaultInformationToTheEditedRecipe(oldRecipe, editedRecipe);
-
-            return this.recipeRepository.save(editedRecipe).getId();
+            return this.recipeRepository.save(oldRecipe).getId();
         }
         return null;
     }
@@ -166,11 +163,11 @@ public class RecipeService {
     }
 
     private void setTheOldRecipeDefaultInformationToTheEditedRecipe(RecipeEntity oldRecipe,
-                                                                    RecipeEntity editedRecipe) {
-        editedRecipe.setOwnerId(oldRecipe.getOwnerId());
-        editedRecipe.setCreatedAt(oldRecipe.getCreatedAt());
-        editedRecipe.setVisitationsCount(oldRecipe.getVisitationsCount());
-        editedRecipe.setStatus(oldRecipe.getStatus());
+                                                                    RecipeEditDTO editedRecipe) {
+        oldRecipe.setRecipeName(editedRecipe.getRecipeName());
+        oldRecipe.setImageUrl(editedRecipe.getImageUrl());
+        oldRecipe.setProducts(editedRecipe.getProducts());
+        oldRecipe.setSteps(editedRecipe.getSteps());
     }
 
     private boolean otherRecipeWithTheSameNameOrImageExists(RecipeEditDTO recipeDTO, RecipeEntity oldRecipeInfo) {

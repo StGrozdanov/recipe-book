@@ -63,12 +63,10 @@ export async function getTheLastThreeRecepies() {
 }
 
 export async function updateRecipe(recipeData, recipeId) {
-    recipeData.ownerId = getCurrentUser()
-
     const options = {
         method: 'PUT',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-        body: JSON.stringify(recipeData)
+        headers: { "Authorization": `Bearer ${getUserToken()}` },
+        body: recipeData
     };
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(recipeId), options);
     return handleRequest(response, COULD_NOT_EDIT_RECEPIE);
