@@ -135,9 +135,7 @@ async function addCommentHandler(e, ctx) {
 
     const response = await commentRecipe(ctx.params.id, createdComment);
 
-    console.log(response);
-
-    if (response.error_message) {
+    if (response.message) {
         notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
         notify('Ако не сте регистриран потребител можете да се регистрирате тук', {
             ctx: ctx,
