@@ -24,6 +24,7 @@ public class BulgarianMonthTransformerUtil {
         ));
         months.put("NOVEMBER", "Ноември");
         months.put("DECEMBER", "Декември");
+
         return months;
     }
 }

@@ -2,10 +2,12 @@ package recepiesserver.recipesserver.utils.constants;
 
 public class Api {
     public static final String PREFIX = "/**";
+    //authentication
     public static final String LOGIN = "/authenticate/login";
     public static final String REGISTER = "/authenticate/register";
     public static final String LOGOUT = "/authenticate/logout";
     public static final String REFRESH_TOKEN = "/authenticate/token/refresh";
+    //comments
     public static final String GET_ALL_RECIPE_COMMENTS = "/comments/{recipeId}";
     public static final String COMMENT_ENDPOINT = "/comments";
     public static final String DELETE_COMMENT = "/comments/{id}";
@@ -13,9 +15,11 @@ public class Api {
     public static final String LATEST_SIX_COMMENTS = "/comments/latest-six-comments";
     public static final String COMMENT_COUNT = "/comments/count";
     public static final String SEARCH_COMMENTS_BY_CONTENT = "/comments/search-by-content";
+    //notifications
     public static final String USER_NOTIFICATIONS = "/notifications/{userId}";
     public static final String MARK_NOTIFICATION_AS_READ = "/notifications/{notificationId}";
     public static final String NOTIFICATION_ENDPOINT = "/notifications";
+    //recipes
     public static final String RECIPES_ENDPOINT = "/recipes";
     public static final String EDIT_RECIPE = "/recipes/{recipeId}";
     public static final String RECIPE_PAGES = "/recipes/pagination";
@@ -35,6 +39,7 @@ public class Api {
     public static final String RECIPES_MOST_ACTIVE_USER = "/recipes/most-active-user";
     public static final String RECIPES_FOR_ADMIN = "/recipes/admin-panel";
     public static final String APPROVE_RECIPE = "/recipes/approve/{id}";
+    //users
     public static final String GET_USER_DETAILS = "/users/{userId}";
     public static final String GET_USER_PROFILE = "/users/profile/{userId}";
     public static final String EDIT_USER_PROFILE = "/users/profile/{userId}";
@@ -47,6 +52,7 @@ public class Api {
     public static final String BLOCK_USER = "/users/block";
     public static final String UNBLOCK_USER = "/users/unblock/{userId}";
     public static final String DELETE_USER = "/users/{userId}";
+    //visitations
     public static final String VISITATIONS_ENDPOINT = "/visitations";
     public static final String VISITATIONS_FOR_GIVEN_MONTH = "/visitations/by-target-month";
     public static final String VISITATIONS_FOR_LAST_SIX_MONTHS = "/visitations/the-last-six-months";

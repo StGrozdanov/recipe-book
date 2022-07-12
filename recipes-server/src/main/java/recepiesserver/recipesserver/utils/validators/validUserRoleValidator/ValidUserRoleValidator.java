@@ -13,6 +13,6 @@ public class ValidUserRoleValidator implements ConstraintValidator<ValidUserRole
             return false;
         }
         return Arrays.stream(RoleEnum.values())
-                .anyMatch(roleEnum -> roleEnum.name().toLowerCase().equals(value.toLowerCase()));
+                .anyMatch(roleEnum -> roleEnum.name().equalsIgnoreCase(value));
     }
 }

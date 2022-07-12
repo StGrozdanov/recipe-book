@@ -43,19 +43,6 @@ public class JwtUtil {
         return authorities;
     }
 
-    public boolean tokenIsNotExpired(String authorizationHeader) {
-        String token = getTokenValue(authorizationHeader);
-        DecodedJWT decodedJWT = decodeToken(token);
-        Date currentTime = new Date();
-        return decodedJWT.getExpiresAt().before(currentTime);
-    }
-
-    public boolean tokenIsValid(String authorizationHeader, UserDetails userDetails) {
-        String token = getTokenValue(authorizationHeader);
-        String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && tokenIsNotExpired(token));
-    }
-
     public Map<String, String> generateSessionAndRefreshTokens(UserDetails userDetails) {
         Map<String, String> tokens = new HashMap<>();
 
@@ -63,6 +50,18 @@ public class JwtUtil {
         tokens.put("refresh_token", createRefreshToken(userDetails));
 
         return tokens;
+    }
+
+    public String getTokenValue(String authorizationHeader) {
+        return authorizationHeader.substring("Bearer ".length());
+    }
+
+    public boolean userIsResourceOwner(String authorizationHeader, String resourceOwnerUsername) {
+        return this.extractUsername(authorizationHeader).equals(resourceOwnerUsername);
+    }
+
+    public String generateSessionToken(UserDetails user) {
+        return this.createAccessToken(user);
     }
 
     private String createAccessToken(UserDetails user) {
@@ -91,17 +90,5 @@ public class JwtUtil {
 
     private Algorithm getTokenAlgorithm() {
         return Algorithm.HMAC256(SECRET_KEY.getBytes());
-    }
-
-    public String getTokenValue(String authorizationHeader) {
-        return authorizationHeader.substring("Bearer ".length());
-    }
-
-    public boolean userIsResourceOwner(String authorizationHeader, String resourceOwnerUsername) {
-        return this.extractUsername(authorizationHeader).equals(resourceOwnerUsername);
-    }
-
-    public String generateSessionToken(UserDetails user) {
-        return this.createAccessToken(user);
     }
 }
