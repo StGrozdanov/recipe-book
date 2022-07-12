@@ -28,7 +28,7 @@ async function search(e, ctx, userCollectionSearch) {
 
             if (userCollectionSearch.request == 'Създадени рецепти') {
                 const data = await searchInUserCreatedRecipesByRecipeName(query, currentUserId);
-                recipes = data.results.map(recipeTemplate);
+                recipes = data.map(recipeTemplate);
                 ctx.render(createdRecipesTemplate(recipes, ctx));
             } else {
                 const data = await searchByNameOfFavouriteRecipe(query, currentUserId);

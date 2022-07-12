@@ -147,12 +147,12 @@ public class RecipeController {
 
     @GetMapping(Api.SEARCH_IN_CREATED_RECIPES)
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
-            "#request.getHeader('Authorization'), @recipeService.getRecipeOwnerUsername(#userIdDTO.userId)) ")
+            "#request.getHeader('Authorization'), @recipeService.getRecipeOwnerUsername(#id)) ")
     public ResponseEntity<List<RecipeCatalogueDTO>> searchInUserCreatedRecipesByName(
             @RequestParam(name = "whereName") String name,
-            @RequestBody @Valid UserIdDTO userIdDTO,
+            @RequestParam(name = "whereUser") Long id,
             HttpServletRequest request) {
-        return ResponseEntity.ok().body(this.recipeService.findUserOwnedRecipesByName(name, userIdDTO));
+        return ResponseEntity.ok().body(this.recipeService.findUserOwnedRecipesByName(name, id));
     }
 
     @PostMapping(Api.SEARCH_BY_RECIPE_CATEGORY)

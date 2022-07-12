@@ -166,8 +166,8 @@ public class UserService {
     }
 
     @Transactional
-    public List<RecipeCatalogueDTO> findUserFavouriteRecipesByName(String name, UserIdDTO userIdDTO) {
-        Optional<UserEntity> userById = this.userRepository.findById(userIdDTO.getUserId());
+    public List<RecipeCatalogueDTO> findUserFavouriteRecipesByName(String name, Long userId) {
+        Optional<UserEntity> userById = this.userRepository.findById(userId);
 
         if (userById.isPresent()) {
             UserEntity user = userById.get();

@@ -256,9 +256,9 @@ public class RecipeService {
                 .toList();
     }
 
-    public List<RecipeCatalogueDTO> findUserOwnedRecipesByName(String name, UserIdDTO userIdDTO) {
+    public List<RecipeCatalogueDTO> findUserOwnedRecipesByName(String name, Long userId) {
         return this.recipeRepository
-                .findAllByOwnerIdAndRecipeNameContaining(userIdDTO.getUserId(), name)
+                .findAllByOwnerIdAndRecipeNameContaining(userId, name)
                 .stream()
                 .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
                 .toList();
@@ -347,8 +347,7 @@ public class RecipeService {
         return this.recipeRepository.findById(id).orElseThrow().getOwnerId();
     }
 
-    public String getRecipeOwnerUsername(Long recipeId) {
-        Long ownerId = this.recipeRepository.findById(recipeId).orElseThrow().getOwnerId();
+    public String getRecipeOwnerUsername(Long ownerId) {
         return this.userService.findUserById(ownerId).orElseThrow().getUsername();
     }
 }
