@@ -37,8 +37,6 @@ export async function logout() {
     });
     if (response.ok) {
         clearUserData();
-    } else {
-        await handleUserRequestError(response);
     }
 }
 
@@ -83,10 +81,4 @@ async function handleUserRequest(requestResponse) {
         const data = await requestResponse.json();
         saveUserData(data);
     }
-}
-
-async function handleUserRequestError(requestResponse) {
-    const error = await requestResponse.json();
-    notify(error.error);
-    throw new Error(error.error);
 }

@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Constraint(validatedBy = UniqueUsernameValidator.class)
 public @interface UniqueUsername {
-    String message() default "Username is already taken.";
+    String message() default "This username is already taken.";
 
     Class<?>[] groups() default {};
 

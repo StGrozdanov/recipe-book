@@ -4,6 +4,7 @@ import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js'
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { commentLoadingTemplate } from './templates/commentTemplate.js';
+import { hideLoadingSpinner, showLoadingSpinner } from './loginView.js';
 
 const registerTemplate = (context) => html`
 <section id="register-page" class="register formData">
@@ -95,12 +96,20 @@ async function registerHandler(e, context) {
 
     render(commentLoadingTemplate(), registerForm);
 
-    await register(registerData);
+    showLoadingSpinner(registerForm);
 
-    if (sessionStorage.getItem('redirect') !== null) {
-        context.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);
+    const registerResponse = await register(registerData);
+
+    if (registerResponse.ok) {
+        if (sessionStorage.getItem('redirect') !== null) {
+            context.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);
+        } else {
+            context.page.redirect('/my-profile');
+        }
+        notify('Регистрирахте се успешно!');
     } else {
-        context.page.redirect('/my-profile');
+        const registerResponseData = await registerResponse.json();
+        registerResponseData.errors.forEach(error => notify(error.defaultMessage));
+        hideLoadingSpinner();
     }
-    notify('Регистрирахте се успешно!');
 }

@@ -84,7 +84,7 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public AuthenticatedLoginDTO register(String userIpAddress, UserRegisterDTO userRegisterDTO) throws Exception {
+    public AuthenticatedLoginDTO register(String userIpAddress, UserRegisterDTO userRegisterDTO) {
         UserEntity newUser = this.modelMapper.map(userRegisterDTO, UserEntity.class);
         String encodedPassword = this.passwordEncoder.encode(userRegisterDTO.getPassword());
 
@@ -95,7 +95,6 @@ public class AuthenticationService {
         this.userService.saveNewUser(newUser);
 
         UserLoginDTO loginDTO = this.modelMapper.map(userRegisterDTO, UserLoginDTO.class);
-
         return this.login(userIpAddress, loginDTO);
     }
 
@@ -135,6 +134,7 @@ public class AuthenticationService {
             throw new RuntimeException("Refresh token is missing.");
         }
     }
+
     private boolean checkForAuthority(User user, String role) {
         return user.getAuthorities().contains(new SimpleGrantedAuthority(role));
     }

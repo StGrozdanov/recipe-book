@@ -30,17 +30,13 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticatedLoginDTO> Login(HttpServletRequest request,
                                                        @RequestBody @Valid UserLoginDTO userLoginDTO) {
         String userIpAddress = getUserIpAddress(request);
-
-        AuthenticatedLoginDTO loginResponse = this.authenticationService.login(
-                userIpAddress,
-                userLoginDTO
-        );
+        AuthenticatedLoginDTO loginResponse = this.authenticationService.login(userIpAddress, userLoginDTO);
         return ResponseEntity.ok().body(loginResponse);
     }
 
     @PostMapping(Api.REGISTER)
     public ResponseEntity<AuthenticatedLoginDTO> Register(HttpServletRequest request,
-                                                          @Valid @RequestBody UserRegisterDTO userRegisterDTO) throws Exception {
+                                                          @Valid @RequestBody UserRegisterDTO userRegisterDTO) {
         String userIpAddress = getUserIpAddress(request);
         AuthenticatedLoginDTO loginResponse = this.authenticationService.register(userIpAddress, userRegisterDTO);
         return ResponseEntity.ok().body(loginResponse);

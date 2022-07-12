@@ -64,15 +64,13 @@ async function loginHandler(e, ctx) {
         notify(loginResponseData.message);
         hideLoadingSpinner();
     }
-
-
 }
 
-function showLoadingSpinner(element) {
+export function showLoadingSpinner(element) {
     render(commentLoadingTemplate(), element);
     document.getElementById('loading-comments').style.display = 'block';
 }
 
-function hideLoadingSpinner() {
+export function hideLoadingSpinner() {
     document.getElementById('loading-comments').style.display = 'none';
 }

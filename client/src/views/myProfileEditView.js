@@ -96,7 +96,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                         type="text" 
                         placeholder="email" 
                         name="email" 
-                        value=${userIsAuthenticated()}
+                        value=${sessionStorage.getItem('email')}
                         autocomplete="off"
                     />
                     <span class="invalid-input-text email-edit-msg" style="display: none;">

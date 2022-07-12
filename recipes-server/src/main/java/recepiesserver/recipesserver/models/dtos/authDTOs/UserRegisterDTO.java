@@ -32,13 +32,13 @@ public class UserRegisterDTO {
         return this;
     }
 
+    @UniqueUsername
+    @NotBlank(message = "Username is required.")
+    @Size(min = 3, max = 10, message = "Username length should be between 3 and 10 symbols long.")
     public String getUsername() {
         return username;
     }
 
-    @UniqueUsername
-    @NotBlank(message = "Username is required.")
-    @Size(min = 3, max = 10, message = "Username length should be between 3 and 10 symbols long.")
     public UserRegisterDTO setUsername(String username) {
         this.username = username;
         return this;
