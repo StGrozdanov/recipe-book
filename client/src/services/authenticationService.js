@@ -1,3 +1,4 @@
+import { notify } from "../utils/notification.js";
 import { BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { getUserToken } from "./userService.js";
 
@@ -19,15 +20,10 @@ export async function register(registrationData) {
 }
 
 export async function login(loginData) {
-    const urlencoded = new URLSearchParams();
-    
-    urlencoded.append('username', loginData.username);
-    urlencoded.append('password', loginData.password);
-
     const response = await fetch(BASE_URL + AUTHENTICATION_END_POINTS.LOGIN, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: urlencoded
+        headers: BASE_HEADERS,
+        body: JSON.stringify(loginData)
     });
     await handleUserRequest(response);
 }

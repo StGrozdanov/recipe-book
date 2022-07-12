@@ -42,7 +42,12 @@ async function loginHandler(e, ctx) {
         return notify('Всички полета са задължителни!');
     }
 
-    await login(Object.fromEntries(formData));
+    const loginData = {
+        username: formData.get('username'),
+        password: formData.get('password')
+    }
+
+    await login(loginData);
 
     if (sessionStorage.getItem('redirect') !== null) {
         ctx.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);

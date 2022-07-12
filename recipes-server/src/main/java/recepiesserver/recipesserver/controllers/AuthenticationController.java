@@ -1,11 +1,9 @@
 package recepiesserver.recipesserver.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
+import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
 import recepiesserver.recipesserver.services.AuthenticationService;
 import recepiesserver.recipesserver.utils.constants.Api;
@@ -29,13 +27,13 @@ public class AuthenticationController {
     }
 
     @PostMapping(Api.LOGIN)
-    public ResponseEntity<AuthenticatedLoginDTO> Login(HttpServletRequest request) {
+    public ResponseEntity<AuthenticatedLoginDTO> Login(HttpServletRequest request,
+                                                       @RequestBody @Valid UserLoginDTO userLoginDTO) {
         String userIpAddress = getUserIpAddress(request);
         try {
             AuthenticatedLoginDTO loginResponse = this.authenticationService.login(
                     userIpAddress,
-                    request.getParameter("username"),
-                    request.getParameter("password")
+                    userLoginDTO
             );
             return ResponseEntity.ok().body(loginResponse);
         } catch (Exception e) {

@@ -90,22 +90,29 @@ public class UserService {
             if (otherUserWithSameUsernameOrEmailExists(userDTO, oldUserInfo)) {
                 return null;
             }
-
             if (!profileImageFile.isEmpty()) {
                 String uploadedFileURL = this.amazonS3Service.uploadFile(profileImageFile);
                 userDTO.setAvatarUrl(uploadedFileURL);
             }
-
             if (!coverImageFile.isEmpty()) {
                 String uploadedFileURL = this.amazonS3Service.uploadFile(coverImageFile);
                 userDTO.setCoverPhotoUrl(uploadedFileURL);
             }
-
-            if (oldUserInfo.getCoverPhotoUrl() != null && oldUserInfo.getAvatarUrl().contains("amazonaws")) {
+            if (oldUserInfo.getAvatarUrl() != null
+                    && oldUserInfo.getAvatarUrl().contains("amazonaws")
+                    && !oldUserInfo.getAvatarUrl().equals(userDTO.getAvatarUrl())) {
                 this.amazonS3Service.deleteFile(oldUserInfo.getAvatarUrl());
             }
-            if (oldUserInfo.getCoverPhotoUrl() != null && oldUserInfo.getCoverPhotoUrl().contains("amazonaws")) {
+            if (oldUserInfo.getCoverPhotoUrl() != null
+                    && oldUserInfo.getCoverPhotoUrl().contains("amazonaws")
+                    && !oldUserInfo.getCoverPhotoUrl().equals(userDTO.getCoverPhotoUrl())) {
                 this.amazonS3Service.deleteFile(oldUserInfo.getCoverPhotoUrl());
+            }
+            if (userDTO.getAvatarUrl().equals("")) {
+                userDTO.setAvatarUrl(null);
+            }
+            if (userDTO.getCoverPhotoUrl().equals("")) {
+                userDTO.setCoverPhotoUrl(null);
             }
 
             UserEntity editedUser = this.modelMapper.map(userDTO, UserEntity.class);

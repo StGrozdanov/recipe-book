@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
+import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
@@ -48,9 +49,9 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public AuthenticatedLoginDTO login(String userIpAddress, String username, String password) throws Exception {
+    public AuthenticatedLoginDTO login(String userIpAddress, UserLoginDTO userLoginDTO) throws Exception {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, password);
+                new UsernamePasswordAuthenticationToken(userLoginDTO.getUsername(), userLoginDTO.getPassword());
 
         Authentication authentication;
 
@@ -64,7 +65,7 @@ public class AuthenticationService {
 
         Map<String, String> tokens = this.jwtUtil.generateSessionAndRefreshTokens(user);
 
-        UserEntity userEntity = this.userService.findUserByUsername(username).orElseThrow();
+        UserEntity userEntity = this.userService.findUserByUsername(userLoginDTO.getUsername()).orElseThrow();
         userEntity.getIpAddresses().add(userIpAddress);
 
         AuthenticatedLoginDTO authResponse = this.modelMapper.map(userEntity, AuthenticatedLoginDTO.class);
