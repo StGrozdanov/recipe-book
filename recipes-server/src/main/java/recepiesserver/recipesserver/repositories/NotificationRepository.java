@@ -9,6 +9,4 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository<NotificationEntity, Long> {
     List<NotificationEntity> findAllByReceiverIdAndMarkedAsRead(Long userId, boolean markedAsRead);
-
-    NotificationEntity findFirstByReceiverIdAndMarkedAsReadFalse(Long receiverId);
 }

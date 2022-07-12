@@ -33,6 +33,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     List<RecipeEntity> findAllByCategoryIn(Collection<CategoryEnum> category);
 
-    @Query("SELECT r.ownerId FROM RecipeEntity r GROUP BY r.ownerId HAVING COUNT(r) >= ALL(SELECT COUNT(r) FROM RecipeEntity r GROUP BY r.ownerId)")
+    @Query("SELECT r.ownerId FROM RecipeEntity r GROUP BY r.ownerId HAVING COUNT(r) >= ALL(SELECT COUNT(r) " +
+            "FROM RecipeEntity r GROUP BY r.ownerId)")
     Long findMostActiveUser();
 }
