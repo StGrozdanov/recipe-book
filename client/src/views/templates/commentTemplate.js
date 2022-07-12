@@ -46,7 +46,7 @@ const unauthorizedCommentTemplate = (comment) => html`
     <p class="comment-content">${comment.content}</p>
 `; 
 
-const commentLoadingTemplate = () => html`
+export const commentLoadingTemplate = () => html`
     <div id="loading-comments" class="comment-loading-container">
         <img src="../../../static/images/loading-spinner.gif" alt="Loading..." class="comment-loading"/>
     </div>

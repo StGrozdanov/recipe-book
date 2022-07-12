@@ -37,17 +37,17 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
         </div>
         <header @click=${pictureChangeHandler} id="user-profile-cover" class="user-profile-header">
             <img class="user-profile-header-picture" src=${
-                                                                sessionStorage.getItem('coverPhoto') === 'null'
+                                                                sessionStorage.getItem('coverPhotoUrl') === 'null'
                                                                     ? "../../static/images/user-profile-header.jpeg"
-                                                                    : sessionStorage.getItem('coverPhoto')
+                                                                    : sessionStorage.getItem('coverPhotoUrl')
                                                                     }
             >
         </header>
         <div @click=${pictureChangeHandler} id="user-profile-avatar" class="user-profile-avatar-container">
             <img alt="user-profile" class="user-profile-avatar" src=${
-                                                                sessionStorage.getItem('avatar') === 'null'
+                                                                sessionStorage.getItem('avatarUrl') === 'null'
                                                                     ? "../../static/images/Avatar.png"
-                                                                    : sessionStorage.getItem('avatar')
+                                                                    : sessionStorage.getItem('avatarUrl')
                                                                     }
             >
         </div>
@@ -66,7 +66,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
             id="avatar-input" 
             style="display: none; margin-top: -10px; z-index: 2" 
             placeholder="Адрес на снимка"
-            value=${sessionStorage.getItem('avatar') === 'null' ? nothing : sessionStorage.getItem('avatar')} 
+            value=${sessionStorage.getItem('avatarUrl') === 'null' ? nothing : sessionStorage.getItem('avatarUrl')} 
             autocomplete="off"
         />
         <main class="user-profile-article-info">

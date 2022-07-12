@@ -1,7 +1,8 @@
-import { html } from '../../node_modules/lit-html/lit-html.js';
+import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { login } from '../services/authenticationService.js';
 import { formContainsEmptyFields } from '../utils/formDataValidator.js';
 import { notify } from '../utils/notification.js';
+import { commentLoadingTemplate } from './templates/commentTemplate.js'
 
 const loginTemplate = (ctx) => html`
 <section id="login-page" class="login formData">
@@ -46,6 +47,8 @@ async function loginHandler(e, ctx) {
         username: formData.get('username'),
         password: formData.get('password')
     }
+
+    render(commentLoadingTemplate(), loginForm);
 
     await login(loginData);
 

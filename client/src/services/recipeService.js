@@ -43,7 +43,7 @@ export async function createRecipe(recipe) {
     };
 
     const response = await fetch('http://localhost:8080/recipes', options);
-
+    
     if (response.ok) {
         return response.json();
     }

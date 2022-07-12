@@ -42,11 +42,11 @@ public class AuthenticationController {
     }
 
     @PostMapping(Api.REGISTER)
-    public ResponseEntity<?> Register(HttpServletRequest request,
-                                      @Valid UserRegisterDTO userRegisterDTO) {
+    public ResponseEntity<AuthenticatedLoginDTO> Register(HttpServletRequest request,
+                                      @Valid @RequestBody UserRegisterDTO userRegisterDTO) throws Exception {
         String userIpAddress = getUserIpAddress(request);
-        this.authenticationService.register(userIpAddress, userRegisterDTO);
-        return ResponseEntity.ok().build();
+        AuthenticatedLoginDTO loginResponse = this.authenticationService.register(userIpAddress, userRegisterDTO);
+        return ResponseEntity.ok().body(loginResponse);
     }
 
     @PostMapping(Api.LOGOUT)

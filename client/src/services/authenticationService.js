@@ -69,6 +69,7 @@ async function handleUserRequest(requestResponse) {
 
     if (requestResponse.ok) {
         saveUserData(data);
+        return requestResponse;
     } else {
         notify(data.error);
         throw new Error(data.error);

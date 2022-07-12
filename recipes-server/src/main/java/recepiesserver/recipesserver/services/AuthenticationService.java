@@ -75,16 +75,20 @@ public class AuthenticationService {
         return authResponse;
     }
 
-    public void register(String userIpAddress, UserRegisterDTO userRegisterDTO) {
+    @Transactional
+    public AuthenticatedLoginDTO register(String userIpAddress, UserRegisterDTO userRegisterDTO) throws Exception {
         UserEntity newUser = this.modelMapper.map(userRegisterDTO, UserEntity.class);
         String encodedPassword = this.passwordEncoder.encode(userRegisterDTO.getPassword());
 
         newUser.setPassword(encodedPassword);
         RoleEntity userRole = this.roleService.getUserEntity();
         newUser.getRoles().add(userRole);
-        newUser.getIpAddresses().add(userIpAddress);
 
         this.userService.saveNewUser(newUser);
+
+        UserLoginDTO loginDTO = this.modelMapper.map(userRegisterDTO, UserLoginDTO.class);
+
+        return this.login(userIpAddress, loginDTO);
     }
 
     public void logout(HttpServletRequest request, HttpServletResponse response) {
