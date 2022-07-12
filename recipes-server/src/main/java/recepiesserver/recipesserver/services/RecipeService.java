@@ -166,8 +166,8 @@ public class RecipeService {
                                                                     RecipeEditDTO editedRecipe) {
         oldRecipe.setRecipeName(editedRecipe.getRecipeName());
         oldRecipe.setImageUrl(editedRecipe.getImageUrl());
-        oldRecipe.setProducts(editedRecipe.getProducts());
-        oldRecipe.setSteps(editedRecipe.getSteps());
+        oldRecipe.setProducts(editedRecipe.getProducts().stream().filter(product -> !product.isBlank()).toList());
+        oldRecipe.setSteps(editedRecipe.getSteps().stream().filter(step -> !step.isBlank()).toList());
     }
 
     private boolean otherRecipeWithTheSameNameOrImageExists(RecipeEditDTO recipeDTO, RecipeEntity oldRecipeInfo) {

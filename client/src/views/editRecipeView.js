@@ -42,11 +42,11 @@ const editRecipeTemplate = (data, ctx) => html`
                     <textarea @input=${formDataValidator.inputValidateHandler} name="products" id="description"
                         placeholder="Продукти и грамаж, всеки на нов ред">
                         ${
-                            data.products.length > 1 
-                                ? data.products.join('\n')
+                            data.products.length > 1
+                                ? data.products.unshift('') && data.products.join('\n')
                                 : data.products.map(product => {                                    
                                     return product.split(',').join('\n');
-                                })
+                                }) 
                         }
                     </textarea>
                     <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
@@ -61,8 +61,8 @@ const editRecipeTemplate = (data, ctx) => html`
                     <textarea @input=${formDataValidator.inputValidateHandler} name="steps" id="description"
                         placeholder="Стъпки за приготвяне, всяка на нов ред">
                         ${
-                            data.steps.length > 1 
-                                ? data.steps.join('\n')
+                            data.steps.length > 1
+                                ? data.steps.unshift('') && data.steps.join('\n')
                                 : data.steps.map(step => {                                    
                                     return step.split(',').join('\n');
                                 })
