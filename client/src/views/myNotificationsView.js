@@ -25,7 +25,7 @@ const notificationTemplate = (notification, ctx) => html`
         <main>
             <p><b>${notification.senderUsername}</b> ${notification.action} в</p>
             <p>${notification.locationName}</p>
-            <p>${comment.createdAt.replace('T', ', ').substring(0, 17)}</p>
+            <p>${notification.createdAt.replace('T', ', ').substring(0, 17)}</p>
         </main>
         <i @click=${checkNotificationHandler} class="fa-solid fa-xmark"></i>
     </article>

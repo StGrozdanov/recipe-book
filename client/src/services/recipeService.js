@@ -1,4 +1,4 @@
-import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE } from "../constants/errorMessages.js";
+import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE, COULD_NOT_REMOVE_FROM_FAVOURITE_RECIPES } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { getCurrentUser, getUserToken } from "./userService.js";
@@ -43,10 +43,7 @@ export async function createRecipe(recipe) {
     };
 
     const response = await fetch('http://localhost:8080/recipes', options);
-    
-    if (response.ok) {
-        return response.json();
-    }
+    return handleRequest(response, COULD_NOT_CREATE_RECEPIE);
 }
 
 export async function getSingleRecipe(recipeId) {
@@ -80,7 +77,8 @@ export async function removeRecipe(id) {
         method: 'DELETE',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     };
-    await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), options);
+    const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), options);
+    return handleRequest(response, COULD_NOT_REMOVE_FROM_FAVOURITE_RECIPES);
 }
 
 export async function getMyPublications(userId) {

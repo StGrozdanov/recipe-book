@@ -19,16 +19,7 @@ export async function update(userId, formData) {
     };
 
     const response = await fetch(`${BASE_URL}${USERS_END_POINTS.UPDATE(userId)}`, options);
-
     return handleRequest(response, COULD_NOT_FIND_USER);
-    
-    if (response.ok) {
-        clearUserData();
-        let userData = { username: username, email: email, avatar: avatar, coverPhoto: coverPhoto }
-        saveUserData(userData);
-    } else {
-        await handleUserRequestError(response);
-    }
 }
 
 export async function remove(userId) {

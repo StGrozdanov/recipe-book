@@ -56,8 +56,8 @@ export async function removeComment(id) {
         method: 'DELETE',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     };
-
-    await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(id), options);
+    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(id), options);
+    return handleRequest(response, COULD_NOT_DELETE_COMMENT);
 }
 
 export async function editComment(commentContent, commentId) {

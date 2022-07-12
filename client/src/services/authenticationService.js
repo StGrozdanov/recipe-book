@@ -8,6 +8,7 @@ const AUTHENTICATION_END_POINTS = {
     REGISTER: `${AUTHENTICATION_END_POINT}/register`,
     LOGIN: `${AUTHENTICATION_END_POINT}/login`,
     LOGOUT: `${AUTHENTICATION_END_POINT}/logout`,
+    REFRESH_TOKEN: `${AUTHENTICATION_END_POINT}/token/refresh`
 }
 
 export async function register(registrationData) {
@@ -37,6 +38,28 @@ export async function logout() {
     });
     if (response.ok) {
         clearUserData();
+    } else {
+        if (data.status === 401) {
+            refreshToken();
+        } else {
+            notify(errorMessage);
+            throw new Error(data.error);
+        }
+    }
+}
+
+export async function refreshToken() {
+    const response = await fetch(BASE_URL + AUTHENTICATION_END_POINTS.REFRESH_TOKEN, {
+        method: 'GET',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getRefreshToken()),
+    });
+    const data = await response.json();
+    if (response.ok) {
+        sessionStorage.setItem('sessionToken', data.sessionToken);
+        sessionStorage.setItem('refreshToken', data.refreshToken);
+    } else {
+        notify(data.message);
+        throw new Error(data.error);
     }
 }
 
@@ -81,4 +104,8 @@ async function handleUserRequest(requestResponse) {
         const data = await requestResponse.json();
         saveUserData(data);
     }
+}
+
+function getRefreshToken() {
+    return sessionStorage.getItem('refreshToken');
 }

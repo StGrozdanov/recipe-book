@@ -6,7 +6,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import recepiesserver.recipesserver.exceptions.InvalidTokenException;
 import recepiesserver.recipesserver.utils.JwtUtil;
+import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -48,12 +50,12 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
                 filterChain.doFilter(request, response);
-            } catch (Exception e) {
-                response.setStatus(FORBIDDEN.value());
-                Map<String, String> error = new HashMap<>();
-                error.put("message", "Invalid user token.");
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
+            }
+            catch (NullPointerException e) {
+                filterChain.doFilter(request, response);
+            }
+            catch (Exception e) {
+                response.sendError(401, ExceptionMessages.INVALID_TOKEN);
             }
         } else {
             filterChain.doFilter(request, response);

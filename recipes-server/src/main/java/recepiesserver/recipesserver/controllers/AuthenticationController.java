@@ -49,7 +49,7 @@ public class AuthenticationController {
     }
 
     @GetMapping(Api.REFRESH_TOKEN)
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         this.authenticationService.refreshUserToken(authorizationHeader, response);
     }

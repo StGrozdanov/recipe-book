@@ -1,3 +1,4 @@
+import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { RECEPIES_END_POINT } from "./recipeService.js";
 import { getCurrentUser, getUserToken } from "./userService.js";
@@ -18,8 +19,7 @@ export async function searchByRecipeName(query) {
         method: 'GET',
         headers: BASE_HEADERS
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response)
 }
 
 export async function filterByCategory(query) {
@@ -30,8 +30,7 @@ export async function filterByCategory(query) {
         headers: BASE_HEADERS,
         body: JSON.stringify({ categories: categoriesArray })
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response)
 }
 
 export async function searchInUserCreatedRecipesByRecipeName(query) {
@@ -40,8 +39,7 @@ export async function searchInUserCreatedRecipesByRecipeName(query) {
         method: 'GET',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response)
 }
 
 export async function searchByNameOfFavouriteRecipe(query) {
@@ -50,6 +48,5 @@ export async function searchByNameOfFavouriteRecipe(query) {
         method: 'GET',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
     });
-    const data = await response.json();
-    return data;
+    return handleRequest(response)
 }

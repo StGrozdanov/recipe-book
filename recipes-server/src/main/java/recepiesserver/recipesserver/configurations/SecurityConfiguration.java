@@ -42,10 +42,10 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeRequests()
 
-                .antMatchers("/login").permitAll()
                 //authentication controller
+                .antMatchers(Api.LOGOUT).authenticated()
                 .antMatchers(Api.LOGIN, Api.REGISTER).anonymous()
-                .antMatchers(Api.LOGOUT, Api.REFRESH_TOKEN).authenticated()
+                .antMatchers(Api.REFRESH_TOKEN).permitAll()
 
                 //comment controller
                 .antMatchers(

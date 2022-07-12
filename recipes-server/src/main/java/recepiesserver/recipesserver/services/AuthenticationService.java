@@ -12,7 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
+import recepiesserver.recipesserver.exceptions.InvalidTokenException;
 import recepiesserver.recipesserver.exceptions.LoginException;
+import recepiesserver.recipesserver.exceptions.MissingTokenException;
 import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
@@ -29,7 +31,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Service
@@ -106,7 +107,8 @@ public class AuthenticationService {
         context.logout(request, response, null);
     }
 
-    public void refreshUserToken(String authorizationHeader, HttpServletResponse response) throws IOException {
+    @Transactional
+    public void refreshUserToken(String authorizationHeader, HttpServletResponse response) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refreshToken = this.jwtUtil.getTokenValue(authorizationHeader);
@@ -116,23 +118,24 @@ public class AuthenticationService {
 
                 String sessionToken = this.jwtUtil.generateSessionToken(user);
 
-                Map<String, String> tokens = new HashMap<>();
-                tokens.put("sessionToken", sessionToken);
-                tokens.put("refreshToken", refreshToken);
-
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+                this.appendRefreshedTokenToTheResponse(response, refreshToken, sessionToken);
             } catch (Exception e) {
-                response.setHeader("errors", e.getMessage());
-                response.setStatus(FORBIDDEN.value());
-                Map<String, String> error = new HashMap<>();
-                error.put("error_message", e.getMessage());
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
+                throw new InvalidTokenException(ExceptionMessages.INVALID_TOKEN);
             }
         } else {
-            throw new RuntimeException("Refresh token is missing.");
+            throw new MissingTokenException(ExceptionMessages.MISSING_TOKEN);
         }
+    }
+
+    private void appendRefreshedTokenToTheResponse(HttpServletResponse response,
+                                                   String refreshToken,
+                                                   String sessionToken) throws IOException {
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("sessionToken", sessionToken);
+        tokens.put("refreshToken", refreshToken);
+
+        response.setContentType(APPLICATION_JSON_VALUE);
+        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 
     private boolean checkForAuthority(User user, String role) {

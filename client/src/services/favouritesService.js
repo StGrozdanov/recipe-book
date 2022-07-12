@@ -26,7 +26,8 @@ export async function addToFavourites(recipeId) {
         body: JSON.stringify({ recipeId, userId: getCurrentUser() })
     };
 
-    await fetch(BASE_URL + FAVOURITES_END_POINTS.ADD_RECIPE_TO_FAVOURITES, options);
+    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.ADD_RECIPE_TO_FAVOURITES, options);
+    return handleRequest(response, COULD_NOT_ADD_TO_FAVOURITE_RECIPES);
 }
 
 export async function removeFromFavourites(recipeId) {
@@ -36,7 +37,8 @@ export async function removeFromFavourites(recipeId) {
         body: JSON.stringify({ recipeId, userId: getCurrentUser() })
     };
 
-    await fetch(BASE_URL + FAVOURITES_END_POINTS.REMOVE_RECIPE_FROM_FAVOURITES, options);
+    const response = await fetch(BASE_URL + FAVOURITES_END_POINTS.REMOVE_RECIPE_FROM_FAVOURITES, options);
+    return handleRequest(response, COULD_NOT_REMOVE_FROM_FAVOURITE_RECIPES);
 }
 
 export async function isFavouriteRecipe(recipeId) {
@@ -45,6 +47,5 @@ export async function isFavouriteRecipe(recipeId) {
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
         body: JSON.stringify({ recipeId, userId: getCurrentUser() })
     });
-
-    return await response.json();
+    return handleRequest(response, COULD_NOT_FIND_FAVOURITE_RECIPES);
 }
