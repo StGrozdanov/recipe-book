@@ -6,7 +6,7 @@ import { commentLoadingTemplate } from './templates/commentTemplate.js'
 
 const loginTemplate = (ctx) => html`
 <section id="login-page" class="login formData">
-    <form @submit=${(e) => loginHandler(e, ctx)} id="login-form" action="" method="" class="login-form">
+    <form @submit=${(e)=> loginHandler(e, ctx)} id="login-form" action="" method="" class="login-form">
         <fieldset>
             <legend>Форма за вход</legend>
             <p class="field">
@@ -48,15 +48,31 @@ async function loginHandler(e, ctx) {
         password: formData.get('password')
     }
 
-    render(commentLoadingTemplate(), loginForm);
+    showLoadingSpinner(loginForm);
 
-    await login(loginData);
+    const loginResponse = await login(loginData);
 
-    if (sessionStorage.getItem('redirect') !== null) {
-        ctx.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);
+    if (loginResponse.ok) {
+        if (sessionStorage.getItem('redirect') !== null) {
+            ctx.page.redirect(`/details-${sessionStorage.getItem('redirect')}`);
+        } else {
+            ctx.page.redirect('/my-profile');
+        }
+        notify(`Добре дошли, ${sessionStorage.getItem('username')}! Приятно прекарване!`);
     } else {
-        ctx.page.redirect('/my-profile');
+        const loginResponseData = await loginResponse.json();
+        notify(loginResponseData.message);
+        hideLoadingSpinner();
     }
 
-    notify(`Добре дошли, ${sessionStorage.getItem('username')}! Приятно прекарване!`);
+
+}
+
+function showLoadingSpinner(element) {
+    render(commentLoadingTemplate(), element);
+    document.getElementById('loading-comments').style.display = 'block';
+}
+
+function hideLoadingSpinner() {
+    document.getElementById('loading-comments').style.display = 'none';
 }

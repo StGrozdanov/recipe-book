@@ -17,6 +17,7 @@ export async function register(registrationData) {
         body: JSON.stringify(registrationData)
     });
     await handleUserRequest(response);
+    return response;
 }
 
 export async function login(loginData) {
@@ -26,6 +27,7 @@ export async function login(loginData) {
         body: JSON.stringify(loginData)
     });
     await handleUserRequest(response);
+    return response;
 }
 
 export async function logout() {
@@ -41,7 +43,15 @@ export async function logout() {
 }
 
 export function userIsAuthenticated() {
-    return sessionStorage.getItem('email');
+    return sessionStorage.getItem('sessionToken');
+}
+
+export function userIsAdministrator() {
+    return sessionStorage.getItem('isAdministrator');
+}
+
+export function userIsModerator() {
+    return sessionStorage.getItem('isModerator')
 }
 
 function saveUserData(data) {
@@ -49,9 +59,11 @@ function saveUserData(data) {
     sessionStorage.setItem('refreshToken', data.refreshToken);
     sessionStorage.setItem('id', data.id);
     sessionStorage.setItem('username', data.username);
-    sessionStorage.setItem('email', data.email);
     sessionStorage.setItem('avatarUrl', data.avatarUrl);
     sessionStorage.setItem('coverPhotoUrl', data.coverPhotoUrl);
+    sessionStorage.setItem('isModerator', data.moderator);
+    sessionStorage.setItem('isAdministrator', data.administrator);
+    sessionStorage.setItem('email', data.email);
 }
 
 function clearUserData() {
@@ -59,20 +71,17 @@ function clearUserData() {
     sessionStorage.removeItem('refreshToken');
     sessionStorage.removeItem('id');
     sessionStorage.removeItem('username');
-    sessionStorage.removeItem('email');
     sessionStorage.removeItem('avatarUrl');
     sessionStorage.removeItem('coverPhotoUrl');
+    sessionStorage.removeItem('isModerator');
+    sessionStorage.removeItem('isAdministrator');
+    sessionStorage.removeItem('email');
 }
 
 async function handleUserRequest(requestResponse) {
-    const data = await requestResponse.json();
-
     if (requestResponse.ok) {
+        const data = await requestResponse.json();
         saveUserData(data);
-        return requestResponse;
-    } else {
-        notify(data.error);
-        throw new Error(data.error);
     }
 }
 

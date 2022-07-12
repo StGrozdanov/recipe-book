@@ -30,20 +30,17 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticatedLoginDTO> Login(HttpServletRequest request,
                                                        @RequestBody @Valid UserLoginDTO userLoginDTO) {
         String userIpAddress = getUserIpAddress(request);
-        try {
-            AuthenticatedLoginDTO loginResponse = this.authenticationService.login(
-                    userIpAddress,
-                    userLoginDTO
-            );
-            return ResponseEntity.ok().body(loginResponse);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+
+        AuthenticatedLoginDTO loginResponse = this.authenticationService.login(
+                userIpAddress,
+                userLoginDTO
+        );
+        return ResponseEntity.ok().body(loginResponse);
     }
 
     @PostMapping(Api.REGISTER)
     public ResponseEntity<AuthenticatedLoginDTO> Register(HttpServletRequest request,
-                                      @Valid @RequestBody UserRegisterDTO userRegisterDTO) throws Exception {
+                                                          @Valid @RequestBody UserRegisterDTO userRegisterDTO) throws Exception {
         String userIpAddress = getUserIpAddress(request);
         AuthenticatedLoginDTO loginResponse = this.authenticationService.register(userIpAddress, userRegisterDTO);
         return ResponseEntity.ok().body(loginResponse);

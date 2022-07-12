@@ -2,15 +2,12 @@ package recepiesserver.recipesserver.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import recepiesserver.recipesserver.exceptions.CustomException;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
 import recepiesserver.recipesserver.services.RecipeService;
 import recepiesserver.recipesserver.utils.constants.Api;

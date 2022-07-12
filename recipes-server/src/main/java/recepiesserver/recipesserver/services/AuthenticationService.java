@@ -5,18 +5,22 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
+import recepiesserver.recipesserver.exceptions.LoginException;
 import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.utils.JwtUtil;
+import recepiesserver.recipesserver.utils.constants.Authorities;
+import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,7 +53,7 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public AuthenticatedLoginDTO login(String userIpAddress, UserLoginDTO userLoginDTO) throws Exception {
+    public AuthenticatedLoginDTO login(String userIpAddress, UserLoginDTO userLoginDTO) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userLoginDTO.getUsername(), userLoginDTO.getPassword());
 
@@ -58,19 +62,23 @@ public class AuthenticationService {
         try {
             authentication = this.authenticationManager.authenticate(authenticationToken);
         } catch (Exception e) {
-            throw new Exception("Invalid user credentials");
+            throw new LoginException(ExceptionMessages.INVALID_CREDENTIALS);
         }
 
         User user = (User) authentication.getPrincipal();
 
+        boolean isAdministrator = this.checkForAuthority(user, Authorities.ADMINISTRATOR);
+        boolean isModerator = this.checkForAuthority(user, Authorities.MODERATOR);
+
         Map<String, String> tokens = this.jwtUtil.generateSessionAndRefreshTokens(user);
 
         UserEntity userEntity = this.userService.findUserByUsername(userLoginDTO.getUsername()).orElseThrow();
+
         userEntity.getIpAddresses().add(userIpAddress);
 
         AuthenticatedLoginDTO authResponse = this.modelMapper.map(userEntity, AuthenticatedLoginDTO.class);
-        authResponse.setSessionToken(tokens.get("session_token"));
-        authResponse.setRefreshToken(tokens.get("refresh_token"));
+
+        this.appendTokensAndRolesToTheResponse(isAdministrator, isModerator, tokens, authResponse);
 
         return authResponse;
     }
@@ -126,5 +134,18 @@ public class AuthenticationService {
         } else {
             throw new RuntimeException("Refresh token is missing.");
         }
+    }
+    private boolean checkForAuthority(User user, String role) {
+        return user.getAuthorities().contains(new SimpleGrantedAuthority(role));
+    }
+
+    private void appendTokensAndRolesToTheResponse(boolean isAdministrator,
+                                                   boolean isModerator,
+                                                   Map<String, String> tokens,
+                                                   AuthenticatedLoginDTO authResponse) {
+        authResponse.setSessionToken(tokens.get("session_token"));
+        authResponse.setRefreshToken(tokens.get("refresh_token"));
+        authResponse.setModerator(isModerator);
+        authResponse.setAdministrator(isAdministrator);
     }
 }
