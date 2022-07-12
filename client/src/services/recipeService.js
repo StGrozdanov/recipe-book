@@ -79,8 +79,7 @@ export async function removeRecipe(id) {
         method: 'DELETE',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     };
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), options);
-    await handleRequest(response, COULD_NOT_EDIT_RECEPIE);
+    await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), options);
 }
 
 export async function getMyPublications(userId) {

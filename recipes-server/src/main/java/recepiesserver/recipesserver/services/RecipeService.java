@@ -6,6 +6,7 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDetailsDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserIdDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
@@ -60,6 +61,11 @@ public class RecipeService {
 
         if (recipeById.isPresent()) {
             RecipeEntity recipe = recipeById.get();
+
+            this.commentService
+                    .getAllCommentsForTargetRecipe(recipe.getId())
+                    .forEach(comment -> this.commentService.deleteComment(comment.getId()));
+
             if (recipe.getImageUrl().contains("amazonaws")) {
                 this.amazonS3Service.deleteFile(recipe.getImageUrl());
             }

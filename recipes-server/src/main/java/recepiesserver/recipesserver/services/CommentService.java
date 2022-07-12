@@ -55,19 +55,13 @@ public class CommentService {
         this.commentRepository.deleteById(id);
     }
 
-    @Transactional
     public Long editComment(CommentEditDTO commentDTO, Long id) {
         Optional<CommentEntity> commentById = this.commentRepository.findById(id);
 
         if (commentById.isPresent()) {
             CommentEntity oldComment = commentById.get();
-            CommentEntity editedComment = this.modelMapper.map(commentDTO, CommentEntity.class);
-
-            editedComment.setCreatedAt(oldComment.getCreatedAt());
-            editedComment.setOwner(oldComment.getOwner());
-            editedComment.setTargetRecipe(oldComment.getTargetRecipe());
-
-            return this.commentRepository.save(editedComment).getId();
+            oldComment.setContent(commentDTO.getContent());
+            return this.commentRepository.save(oldComment).getId();
         }
         return null;
     }

@@ -56,7 +56,7 @@ function saveUserData(data) {
 
 function clearUserData() {
     sessionStorage.removeItem('sessionToken');
-    sessionStorage.setItem('refreshToken', data.refreshToken);
+    sessionStorage.removeItem('refreshToken');
     sessionStorage.removeItem('id');
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('email');

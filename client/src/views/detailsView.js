@@ -18,7 +18,7 @@ const ownerTemplate = (id, ctx) => html`
 
 const recipeFavouritesTemplate = (ctx, data, isFavourite) => html`
     <i 
-    @click=${(e) => addToFavouritesHandler(e, ctx, data.name)} 
+    @click=${(e) => addToFavouritesHandler(e, ctx, data.recipeName)} 
     class=${isFavourite ? "fa-solid fa-star" : "fa-regular fa-star"}
     ></i>
 `;
@@ -76,7 +76,7 @@ export async function detailsPage(ctx) {
     ctx.render(loaderTemplate());
     
     const data = getSingleRecipe(ctx.params.id);
-    const isFavourite = isFavouriteRecipe(getCurrentUser(), ctx.params.id);
+    const isFavourite = isFavouriteRecipe(ctx.params.id);
 
     const[recipeData, favouriteRecipeData] = await Promise.all([data, isFavourite]);
 

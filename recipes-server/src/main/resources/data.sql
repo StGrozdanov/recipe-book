@@ -26,7 +26,7 @@ VALUES (4, 3);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
 VALUES (1, 'DESSERT', '2021-12-12 09:59:33', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/bananov_keks_s_karamelena_glazura.jpg', 'Кекс', 'APPROVED', 0, 3);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (2, 'CALF_PORK', '2021-12-12 10:01:37', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/spaghetti_bolognese', 'Болонезе', 'APPROVED', 0, 1);
+VALUES (2, 'CALF_PORK', '2021-12-12 10:01:37', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/spaghetti_bolognese.jpg', 'Болонезе', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
 VALUES (3, 'PORK', '2021-12-12 10:02:11', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/musaka.jpg', 'Мусака', 'APPROVED', 0, 2);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)

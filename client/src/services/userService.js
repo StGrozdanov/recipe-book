@@ -62,7 +62,7 @@ export function getUserToken() {
 }
 
 export function getCurrentUser() {
-    return sessionStorage.getItem('id');
+    return Number(sessionStorage.getItem('id'));
 }
 
 async function handleUserRequestError(requestResponse) {

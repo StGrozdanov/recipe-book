@@ -306,6 +306,7 @@ public class UserService {
         return null;
     }
 
+    @Transactional
     public Boolean recipeIsInUserFavourites(RecipeFavouritesDTO favouritesDTO) {
         Optional<UserEntity> userById = this.userRepository.findById(favouritesDTO.getUserId());
 
