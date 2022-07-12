@@ -1,20 +1,21 @@
 import { html, nothing } from '../../../../node_modules/lit-html/lit-html.js';
+import { userIsAuthenticated } from '../../../services/authenticationService.js';
 
-export const userProfileTemplate = ({coverPhoto, avatar, username, email}, recipesCount) => html`
+export const userProfileTemplate = ({coverPhotoUrl, avatarUrl, username, email}, recipesCount) => html`
     <article class="user-profile-article">
         <header class="user-profile-header">
             <img class="user-profile-header-picture" src=${
-                                                            coverPhoto === 'null'
+                                                            !coverPhotoUrl
                                                                 ? "../../static/images/user-profile-header.jpeg"
-                                                                : coverPhoto
+                                                                : coverPhotoUrl
                                                                     }
             >
         </header>
         <div class="user-profile-avatar-container">
             <img alt="user-profile" class="user-profile-avatar" src=${
-                                                                avatar === 'null'
-                                                                ? "../../static/images/Avatar.png"
-                                                                : avatar
+                                                                !avatarUrl
+                                                                    ? "../../static/images/Avatar.png"
+                                                                    : avatarUrl
                                                                     }
             >
         </div>
@@ -22,9 +23,9 @@ export const userProfileTemplate = ({coverPhoto, avatar, username, email}, recip
             <h3 class="username-header">${username}</h3>
             <p><i class="fa-solid fa-bowl-rice"></i> ${recipesCount} рецепти</p>
             <p>
-                <a href=${email ? "mailto:${email}" : nothing}>
+                <a href=${userIsAuthenticated() ? "mailto:${email}" : nothing}>
                     <i class="fa-solid fa-envelope"></i> 
-                    ${email ? email : '(видим за потребители)'}
+                    ${userIsAuthenticated() ? email : '(видим за потребители)'}
                 </a>
             </p>
         </main>

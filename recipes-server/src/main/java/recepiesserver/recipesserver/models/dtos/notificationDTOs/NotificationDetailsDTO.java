@@ -3,6 +3,7 @@ package recepiesserver.recipesserver.models.dtos.notificationDTOs;
 import java.time.LocalDateTime;
 
 public class NotificationDetailsDTO {
+    private Long id;
     private LocalDateTime createdAt;
     private String action;
     private String locationName;
@@ -59,5 +60,14 @@ public class NotificationDetailsDTO {
 
     public void setSenderAvatar(String senderAvatar) {
         this.senderAvatar = senderAvatar;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public NotificationDetailsDTO setId(Long id) {
+        this.id = id;
+        return this;
     }
 }

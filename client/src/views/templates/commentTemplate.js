@@ -69,7 +69,7 @@ export const commentsTemplate = (data, ctx) => html`
                             >
                                 ${comment.owner.username}
                             </a> 
-                            ${comment.createdAt.replace('T', ', ')}
+                            ${comment.createdAt.replace('T', ', ').substring(0, 17)}
                         </p>
                         ${ 
                             getCurrentUser() === comment.owner.id 
@@ -130,12 +130,14 @@ async function addCommentHandler(e, ctx) {
         content: comment,
         ownerName: sessionStorage.getItem('username'),
         ownerAvatar: sessionStorage.getItem('avatar'),
-        recipeName: targetRecipe.name
+        recipeName: targetRecipe.recipeName
     }
 
     const response = await commentRecipe(ctx.params.id, createdComment);
 
-    if (response.code == 209) {
+    console.log(response);
+
+    if (response.error_message) {
         notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
         notify('Ако не сте регистриран потребител можете да се регистрирате тук', {
             ctx: ctx,
@@ -152,36 +154,35 @@ async function addCommentHandler(e, ctx) {
     }
 
     const notificationData = {
-        senderName: sessionStorage.getItem('username'),
+        senderUsername: sessionStorage.getItem('username'),
         senderAvatar: sessionStorage.getItem('avatar'),
         senderId: sessionStorage.getItem('id'),
         sendedOn: new Date(Date.now()).toLocaleString(),
-        locationId: targetRecipe.objectId,
-        locationName: targetRecipe.name,
-        action: 'коментар',
-        receiverId: targetRecipe.owner.objectId,
+        locationId: targetRecipe.id,
+        locationName: targetRecipe.recipeName,
+        action: 'Публикува коментар',
+        receiverId: targetRecipe.ownerId,
     }
 
     commentField.value = '';
     refreshCommentSection(ctx);
 
-    await createMobilePushNotification('Нов коментар', notificationData.senderName + ' публикува нов коментар');
+    await createMobilePushNotification('Нов коментар', notificationData.senderUsername + ' публикува нов коментар');
 
     if (notificationData.senderId !== notificationData.receiverId) {
         const createdNotification = await createNotification(notificationData);
 
-        notificationData.objectId = createdNotification.objectId;
+        notificationData.id = createdNotification.id;
         socket.emit("sendNewMessageNotification", notificationData);
     }
 
-    let allRecepieComments = await getCommentsForRecipe(targetRecipe.objectId);
+    let allRecepieComments = await getCommentsForRecipe(targetRecipe.id);
 
     let uniqueCommentOwners = new Set();
 
     allRecepieComments
-                    .results
-                    .filter(comment => comment.owner.objectId !== notificationData.senderId)
-                    .forEach(comment => uniqueCommentOwners.add(comment.owner.objectId));
+                    .filter(comment => comment.ownerId !== notificationData.senderId)
+                    .forEach(comment => uniqueCommentOwners.add(comment.ownerId));
 
     uniqueCommentOwners.forEach(owner => {
         notificationData.receiverId = owner;
@@ -191,7 +192,7 @@ async function addCommentHandler(e, ctx) {
         async function sendNotification(notificationData) {
             const createdNotification = await createNotification(notificationData);
 
-            notificationData.objectId = createdNotification.objectId;
+            notificationData.id = createdNotification.id;
             socket.emit("sendNewMessageNotification", notificationData);
         }
     });

@@ -20,7 +20,7 @@ export default function Panel({ navigation, content }) {
         notificationService
             .getMyNotifications(user.objectId)
             .then(notifications => {
-                unreadNotificationsCount = notifications.results.length;
+                unreadNotificationsCount = notifications.length;
                 setNotificationsCount(unreadNotificationsCount);
             })
             .catch(err => console.log(err));

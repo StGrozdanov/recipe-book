@@ -14,7 +14,7 @@ export const latestCommentsTemplate = (comment) => html`
         </header>
         <section class="landing-comment-section">
             <p>${comment.owner.username}</p>
-            <p>${comment.createdAt.replace('T', ', ')}</p>
+            <p>${comment.createdAt.replace('T', ', ').substring(0, 17)}</p>
             <a @click=${()=> navigateHandler(`/details-${comment.recipe.id}`, true)}
                 href="javascript:void[0]"
                 class="recipe-name"

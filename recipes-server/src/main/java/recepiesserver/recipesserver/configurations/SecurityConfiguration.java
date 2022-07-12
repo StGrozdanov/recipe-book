@@ -96,13 +96,13 @@ public class SecurityConfiguration {
                         Api.UNBLOCK_USER,
                         Api.DELETE_USER
                 ).hasRole(RoleEnum.ADMINISTRATOR.name())
-                .antMatchers(Api.GET_USER_DETAILS, Api.GET_USER_PROFILE).permitAll()
                 .antMatchers(
                         Api.EDIT_USER_PROFILE,
                         Api.SEARCH_IN_USER_FAVOURITES_RECIPES,
                         Api.RECIPE_IS_IN_USER_FAVOURITES,
                         Api.GET_USER_FAVOURITE_RECIPES
                 ).authenticated()
+                .antMatchers(Api.GET_USER_DETAILS, Api.GET_USER_PROFILE).permitAll()
 
                 //visitations controller
                 .antMatchers(GET, Api.VISITATIONS_ENDPOINT).hasRole(RoleEnum.ADMINISTRATOR.name())

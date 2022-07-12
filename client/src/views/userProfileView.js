@@ -30,7 +30,7 @@ export async function userProfilePage(ctx) {
 
     const[currentUser, publicationsData] = await Promise.all([user, data]);
 
-    const recipes = publicationsData.results.map(recipeTemplate);
+    const recipes = publicationsData.map(recipeTemplate);
 
     const userData = browseUserProfileTemplate(currentUser, recipes);
 

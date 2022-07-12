@@ -133,7 +133,7 @@ async function refreshCommentSectionRedirect(ctx, comment) {
     const oldComment = document.getElementById('comments-container');
     oldComment.textContent = '';
 
-    render(commentsTemplate(refreshedCommentData.results, ctx), commentContainer);
+    render(commentsTemplate(refreshedCommentData, ctx), commentContainer);
 
     const commentTextField = document.getElementById('comment-text');
     commentTextField.textContent = comment;

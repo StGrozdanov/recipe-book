@@ -7,7 +7,7 @@ import { notify } from '../utils/notification.js';
 
 const notificationTemplate = (notification, ctx) => html`
     <article 
-        id=${notification.objectId} 
+        id=${notification.id} 
         @click=${(e) => notificationRedirectHandler(e, ctx, notification.locationId)} 
         class="notification-article"
     >
@@ -15,17 +15,17 @@ const notificationTemplate = (notification, ctx) => html`
             <img 
                 class="notification-article-header-image" 
                 src=${
-                    !notification.senderAvatar || notification.senderAvatar.includes('undefined')
-                    ? "../static/images/Avatar.png"
-                    : notification.senderAvatar
+                    !notification.senderAvatar
+                        ? "../static/images/Avatar.png"
+                        : notification.senderAvatar
                 } 
                 alt="broken-avatar" 
             />
         </header>
         <main>
-            <p><b>${notification.senderName}</b> публикува нов ${notification.action} в</p>
+            <p><b>${notification.senderUsername}</b> ${notification.action} в</p>
             <p>${notification.locationName}</p>
-            <p>${new Date(notification.createdAt).toLocaleString()}</p>
+            <p>${comment.createdAt.replace('T', ', ').substring(0, 17)}</p>
         </main>
         <i @click=${checkNotificationHandler} class="fa-solid fa-xmark"></i>
     </article>
