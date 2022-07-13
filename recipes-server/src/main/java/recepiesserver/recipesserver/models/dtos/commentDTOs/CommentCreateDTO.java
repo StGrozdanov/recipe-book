@@ -1,9 +1,8 @@
 package recepiesserver.recipesserver.models.dtos.commentDTOs;
 
-import recepiesserver.recipesserver.utils.validators.validRecipeIdValidator.ValidRecipeId;
-import recepiesserver.recipesserver.utils.validators.validUserIdValidator.ValidUserId;
-
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 public class CommentCreateDTO {
@@ -33,7 +32,8 @@ public class CommentCreateDTO {
         this.createdAt = createdAt;
     }
 
-    @ValidRecipeId
+    @NotNull(message = "Target recipe id cannot be null.")
+    @Positive(message = "Target recipe id cannot be negative.")
     public Long getTargetRecipeId() {
         return targetRecipeId;
     }
@@ -42,7 +42,8 @@ public class CommentCreateDTO {
         this.targetRecipeId = targetRecipeId;
     }
 
-    @ValidUserId
+    @NotNull(message = "Target user id cannot be null.")
+    @Positive(message = "Target user id cannot be negative.")
     public Long getOwnerId() {
         return ownerId;
     }

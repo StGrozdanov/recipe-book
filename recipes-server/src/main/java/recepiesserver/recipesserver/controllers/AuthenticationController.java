@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class AuthenticationController {

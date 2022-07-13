@@ -2,14 +2,18 @@ package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import recepiesserver.recipesserver.exceptions.CommentNotFoundException;
+import recepiesserver.recipesserver.exceptions.RecipeNotFoundException;
+import recepiesserver.recipesserver.exceptions.UserNotFoundException;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.*;
 import recepiesserver.recipesserver.models.entities.CommentEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.repositories.CommentRepository;
+import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -36,9 +40,14 @@ public class CommentService {
                 .toList();
     }
 
-    public CommentIdDTO createNewComment(@Valid CommentCreateDTO commentDTO) {
-        UserEntity userById = this.userService.findUserById(commentDTO.getOwnerId()).orElseThrow();
-        RecipeEntity recipeById = this.recipeService.findRecipeById(commentDTO.getTargetRecipeId()).orElseThrow();
+    public CommentIdDTO createNewComment(CommentCreateDTO commentDTO) {
+        UserEntity userById = this.userService
+                .findUserById(commentDTO.getOwnerId())
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+
+        RecipeEntity recipeById = this.recipeService
+                .findRecipeById(commentDTO.getTargetRecipeId())
+                .orElseThrow(() -> new RecipeNotFoundException(ExceptionMessages.RECIPE_NOT_FOUND));
 
         CommentEntity createdComment = this.modelMapper.map(commentDTO, CommentEntity.class);
         createdComment.setOwner(userById);
@@ -49,7 +58,7 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentModifyDTO deleteComment(Long id) {
+    public CommentModifyDTO deleteComment(@NotNull Long id) {
         this.commentRepository.deleteById(id);
         LocalDateTime modifiedAt = LocalDateTime.now();
         return new CommentModifyDTO().setModifiedAt(modifiedAt);
@@ -57,7 +66,10 @@ public class CommentService {
 
     @Transactional
     public CommentIdDTO editComment(CommentEditDTO commentDTO, Long id) {
-        CommentEntity oldComment = this.commentRepository.findById(id).orElseThrow();
+        CommentEntity oldComment = this.commentRepository
+                .findById(id)
+                .orElseThrow(() -> new CommentNotFoundException(ExceptionMessages.COMMENT_NOT_FOUND));
+
         oldComment.setContent(commentDTO.getContent());
         return this.modelMapper.map(oldComment, CommentIdDTO.class);
     }
@@ -89,7 +101,11 @@ public class CommentService {
 
     @Transactional
     public String getCommentOwnerUsername(Long id) {
-        return this.commentRepository.findById(id).orElseThrow().getOwner().getUsername();
+        return this.commentRepository
+                .findById(id)
+                .orElseThrow(() -> new CommentNotFoundException(ExceptionMessages.COMMENT_NOT_FOUND))
+                .getOwner()
+                .getUsername();
     }
 
     public Optional<CommentEntity> findCommentById(Long value) {

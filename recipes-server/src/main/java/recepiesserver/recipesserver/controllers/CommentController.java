@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.*;
 import recepiesserver.recipesserver.services.CommentService;
 import recepiesserver.recipesserver.utils.constants.Api;
-import recepiesserver.recipesserver.utils.validators.validCommentIdValidator.ValidCommentId;
-import recepiesserver.recipesserver.utils.validators.validRecipeIdValidator.ValidRecipeId;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -23,8 +22,7 @@ public class CommentController {
     }
 
     @GetMapping(Api.GET_ALL_RECIPE_COMMENTS)
-    public ResponseEntity<List<CommentDetailsDTO>> getAllCommentsForTargetRecipe(
-            @PathVariable @ValidRecipeId Long recipeId) {
+    public ResponseEntity<List<CommentDetailsDTO>> getAllCommentsForTargetRecipe(@PathVariable Long recipeId) {
         return ResponseEntity.ok().body(this.commentService.getAllCommentsForTargetRecipe(recipeId));
     }
 
@@ -38,8 +36,7 @@ public class CommentController {
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
             "#request.getHeader('Authorization'), @commentService.getCommentOwnerUsername(#id)) " +
             "|| hasRole('ADMINISTRATOR') || hasRole('MODERATOR')")
-    public ResponseEntity<CommentModifyDTO> deleteComment(@PathVariable @ValidCommentId Long id,
-                                                          HttpServletRequest request) {
+    public ResponseEntity<CommentModifyDTO> deleteComment(@PathVariable Long id, HttpServletRequest request) {
         CommentModifyDTO modifiedAt = this.commentService.deleteComment(id);
         return ResponseEntity.ok().body(modifiedAt);
     }
@@ -49,7 +46,7 @@ public class CommentController {
             "#request.getHeader('Authorization'), @commentService.getCommentOwnerUsername(#id)) " +
             "|| hasRole('ADMINISTRATOR') || hasRole('MODERATOR')")
     public ResponseEntity<CommentIdDTO> editComment(@RequestBody @Valid CommentEditDTO commentDTO,
-                                                    @PathVariable @ValidCommentId Long id,
+                                                    @PathVariable Long id,
                                                     HttpServletRequest request) {
         CommentIdDTO editedCommentId = this.commentService.editComment(commentDTO, id);
         return ResponseEntity.ok().body(editedCommentId);
@@ -67,7 +64,7 @@ public class CommentController {
 
     @GetMapping(Api.SEARCH_COMMENTS_BY_CONTENT)
     public ResponseEntity<List<CommentDetailsDTO>> searchCommentsByContent(
-            @RequestParam(name = "whereContent") String content) {
+            @RequestParam(name = "whereContent") @NotBlank String content) {
         return ResponseEntity.ok().body(this.commentService.findCommentsByContent(content));
     }
 }
