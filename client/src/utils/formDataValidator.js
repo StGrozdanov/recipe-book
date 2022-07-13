@@ -1,4 +1,3 @@
-import { nothing } from "../../node_modules/lit-html/lit-html.js";
 import multiLineInputProcessor from "./multiLineInputProcessor.js";
 
 const VALIDATION_CRITERIA = {

@@ -6,7 +6,7 @@ function processInputsOnANewLine(input) {
 }
 
 const multiLineInputProcessor = {
-    process: (input) => { return processInputsOnANewLine(input) }
+    process: (input) => processInputsOnANewLine(input)
 }
 
 export default multiLineInputProcessor;
