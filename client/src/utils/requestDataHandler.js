@@ -9,7 +9,13 @@ export async function handleRequest(fetchResponse, errorMessage) {
     }
 
     if (data.status === 401) {
-        await refreshToken();
+        try {
+            await refreshToken();
+        } catch (e) {
+            if (errorMessage == 'Не можете да коментирате') {
+                return 'Authenticate first';
+            }
+        }
     } else {
         notify(errorMessage);
         throw new Error(data.error);

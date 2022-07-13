@@ -135,7 +135,7 @@ async function addCommentHandler(e, ctx) {
 
     const response = await commentRecipe(ctx.params.id, createdComment);
 
-    if (response.status === 401) {
+    if (response === 'Authenticate first') {
         notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
         notify('Ако не сте регистриран потребител можете да се регистрирате тук', {
             ctx: ctx,

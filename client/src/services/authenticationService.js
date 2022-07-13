@@ -58,7 +58,6 @@ export async function refreshToken() {
         sessionStorage.setItem('sessionToken', data.sessionToken);
         sessionStorage.setItem('refreshToken', data.refreshToken);
     } else {
-        notify(data.message);
         throw new Error(data.error);
     }
 }

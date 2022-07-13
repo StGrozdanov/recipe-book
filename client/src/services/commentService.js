@@ -48,7 +48,7 @@ export async function commentRecipe(recipeId, comment) {
     };
 
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.CREATE_COMMENT, options);
-    return response.json();
+    return handleRequest(response, 'Не можете да коментирате');
 }
 
 export async function removeComment(id) {
