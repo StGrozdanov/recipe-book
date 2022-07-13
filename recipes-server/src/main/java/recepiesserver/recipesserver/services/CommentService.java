@@ -2,15 +2,15 @@ package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentCreateDTO;
-import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentDetailsDTO;
-import recepiesserver.recipesserver.models.dtos.commentDTOs.CommentEditDTO;
+import recepiesserver.recipesserver.models.dtos.commentDTOs.*;
 import recepiesserver.recipesserver.models.entities.CommentEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.repositories.CommentRepository;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,34 +36,30 @@ public class CommentService {
                 .toList();
     }
 
-    public Long createNewComment(CommentCreateDTO commentDTO) {
-        Optional<UserEntity> userById = this.userService.findUserById(commentDTO.getOwnerId());
-        Optional<RecipeEntity> recipeById = this.recipeService.findRecipeById(commentDTO.getTargetRecipeId());
+    public CommentIdDTO createNewComment(@Valid CommentCreateDTO commentDTO) {
+        UserEntity userById = this.userService.findUserById(commentDTO.getOwnerId()).orElseThrow();
+        RecipeEntity recipeById = this.recipeService.findRecipeById(commentDTO.getTargetRecipeId()).orElseThrow();
 
-        if (userById.isPresent() && recipeById.isPresent()) {
-            CommentEntity createdComment = this.modelMapper.map(commentDTO, CommentEntity.class);
-            createdComment.setOwner(userById.get());
-            createdComment.setTargetRecipe(recipeById.get());
+        CommentEntity createdComment = this.modelMapper.map(commentDTO, CommentEntity.class);
+        createdComment.setOwner(userById);
+        createdComment.setTargetRecipe(recipeById);
 
-            return this.commentRepository.save(createdComment).getId();
-        }
-        return null;
+        CommentEntity savedComment = this.commentRepository.save(createdComment);
+        return this.modelMapper.map(savedComment, CommentIdDTO.class);
     }
 
     @Transactional
-    public void deleteComment(Long id) {
+    public CommentModifyDTO deleteComment(Long id) {
         this.commentRepository.deleteById(id);
+        LocalDateTime modifiedAt = LocalDateTime.now();
+        return new CommentModifyDTO().setModifiedAt(modifiedAt);
     }
 
-    public Long editComment(CommentEditDTO commentDTO, Long id) {
-        Optional<CommentEntity> commentById = this.commentRepository.findById(id);
-
-        if (commentById.isPresent()) {
-            CommentEntity oldComment = commentById.get();
-            oldComment.setContent(commentDTO.getContent());
-            return this.commentRepository.save(oldComment).getId();
-        }
-        return null;
+    @Transactional
+    public CommentIdDTO editComment(CommentEditDTO commentDTO, Long id) {
+        CommentEntity oldComment = this.commentRepository.findById(id).orElseThrow();
+        oldComment.setContent(commentDTO.getContent());
+        return this.modelMapper.map(oldComment, CommentIdDTO.class);
     }
 
     public List<CommentDetailsDTO> getTheLatestSixComments() {
@@ -74,8 +70,9 @@ public class CommentService {
                 .toList();
     }
 
-    public long getTotalCommentsCount() {
-        return this.commentRepository.count();
+    public CommentCountDTO getTotalCommentsCount() {
+        long commentCount = this.commentRepository.count();
+        return new CommentCountDTO().setCount(commentCount);
     }
 
     public Integer getUserCommentCount(Long mostActiveUser) {
@@ -93,5 +90,9 @@ public class CommentService {
     @Transactional
     public String getCommentOwnerUsername(Long id) {
         return this.commentRepository.findById(id).orElseThrow().getOwner().getUsername();
+    }
+
+    public Optional<CommentEntity> findCommentById(Long value) {
+        return this.commentRepository.findById(value);
     }
 }

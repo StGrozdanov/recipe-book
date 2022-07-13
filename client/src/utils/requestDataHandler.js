@@ -2,7 +2,7 @@ import { refreshToken } from "../services/authenticationService.js";
 import { notify } from "./notification.js";
 
 export async function handleRequest(fetchResponse, errorMessage) {
-    const data = await fetchResponse.json();
+    let data = await fetchResponse.json();
 
     if (fetchResponse.ok) {
         return data;
@@ -11,6 +11,7 @@ export async function handleRequest(fetchResponse, errorMessage) {
     if (data.status === 401) {
         try {
             await refreshToken();
+            return data;
         } catch (e) {
             if (errorMessage == 'Не можете да коментирате') {
                 return 'Authenticate first';

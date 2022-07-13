@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.utils.validators.validRecipeIdValidator;
+package recepiesserver.recipesserver.utils.validators.validCommentIdValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.METHOD})
-@Constraint(validatedBy = ValidRecipeIdValidator.class)
-public @interface ValidRecipeId {
-    String message() default "Provided recipe id is not valid.";
+@Constraint(validatedBy = ValidCommentIdValidator.class)
+public @interface ValidCommentId {
+    String message() default "Provided comment id is invalid.";
 
     Class<?>[] groups() default {};
 
