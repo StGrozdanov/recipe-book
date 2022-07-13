@@ -1,6 +1,7 @@
-import { COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
+import { COULD_NOT_EDIT_USER, COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
 import { notify } from "../utils/notification.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
+import { getUserToken } from "./authenticationService.js";
 import { BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 
 const USER_END_POINT = '/users'
@@ -17,9 +18,8 @@ export async function update(userId, formData) {
         headers: { "Authorization": `Bearer ${getUserToken()}` },
         body: formData
     };
-
     const response = await fetch(`${BASE_URL}${USERS_END_POINTS.UPDATE(userId)}`, options);
-    return handleRequest(response, COULD_NOT_FIND_USER);
+    return handleRequest(response, COULD_NOT_EDIT_USER);
 }
 
 export async function remove(userId) {
@@ -28,7 +28,7 @@ export async function remove(userId) {
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     });
     if (response.ok) {
-        clearUserData();
+        await response.json();
     } else {
         await handleUserRequestError(response);
     }
@@ -40,20 +40,6 @@ export async function getUser(userId) {
         headers: getUserToken() ? MODIFIYNG_OPERATIONS_HEADERS(getUserToken()) : BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_FIND_USER);
-}
-
-export function getUserToken() {
-    const userToken = sessionStorage.getItem('sessionToken');
-
-    if (userToken) {
-        return userToken;
-    }
-
-    return null;
-}
-
-export function getCurrentUser() {
-    return Number(sessionStorage.getItem('id'));
 }
 
 async function handleUserRequestError(requestResponse) {

@@ -1,6 +1,6 @@
 import { render } from '../../node_modules/lit-html/lit-html.js';
 import { socket } from '../services/socketioService.js';
-import { getCurrentUser } from '../services/userService.js';
+import { getCurrentUser } from '../services/authenticationService.js';
 import { renderNavigation } from "../views/navigationView.js";
 
 export const mainRootElement = document.querySelector('.container');

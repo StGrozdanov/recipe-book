@@ -2,7 +2,7 @@ import { COULD_NOT_ADD_TO_FAVOURITE_RECIPES, COULD_NOT_FIND_FAVOURITE_RECIPES, C
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_URL } from "./customService.js";
 import { MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
-import { getCurrentUser, getUserToken } from "./userService.js";
+import { getCurrentUser, getUserToken } from "./authenticationService.js";
 
 const FAVOURITES_END_POINTS = {
     USER_FAVOURITE_RECEPIES: (userId) => `/users/favourites/${userId}`,

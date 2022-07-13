@@ -1,6 +1,5 @@
 import { notify } from "../utils/notification.js";
 import { BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
-import { getUserToken } from "./userService.js";
 
 const AUTHENTICATION_END_POINT = '/authenticate';
 
@@ -86,7 +85,7 @@ function saveUserData(data) {
     sessionStorage.setItem('email', data.email);
 }
 
-function clearUserData() {
+export function clearUserData() {
     sessionStorage.removeItem('sessionToken');
     sessionStorage.removeItem('refreshToken');
     sessionStorage.removeItem('id');
@@ -107,4 +106,18 @@ async function handleUserRequest(requestResponse) {
 
 function getRefreshToken() {
     return sessionStorage.getItem('refreshToken');
+}
+
+export function getUserToken() {
+    const userToken = sessionStorage.getItem('sessionToken');
+
+    if (userToken) {
+        return userToken;
+    }
+
+    return null;
+}
+
+export function getCurrentUser() {
+    return Number(sessionStorage.getItem('id'));
 }

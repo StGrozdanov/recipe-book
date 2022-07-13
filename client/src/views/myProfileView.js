@@ -3,7 +3,7 @@ import { getMyPublicationsCount } from '../services/recipeService.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { userProfileTemplate } from './templates/profileTemplates/userProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
-import { getCurrentUser } from '../services/userService.js';
+import { getCurrentUser } from '../services/authenticationService.js';
 import { getMyNotifications } from '../services/notificationService.js'
 
 const myPublicationsTemplate = (recepiesCount) => html`

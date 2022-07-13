@@ -1,12 +1,12 @@
 import { html, nothing } from '../../node_modules/lit-html/lit-html.js';
 import { getMyPublicationsCount } from '../services/recipeService.js';
-import { getCurrentUser, update } from '../services/userService.js';
+import { update } from '../services/userService.js';
 import { notify } from '../utils/notification.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
-import { logout, userIsAuthenticated } from '../services/authenticationService.js';
+import { logout, getCurrentUser } from '../services/authenticationService.js';
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
 <section class="my-profile-section">

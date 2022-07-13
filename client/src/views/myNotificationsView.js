@@ -2,7 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { getMyNotifications, markNotificationAsRead } from '../services/notificationService.js';
-import { getCurrentUser } from '../services/userService.js';
+import { getCurrentUser } from '../services/authenticationService.js';
 import { notify } from '../utils/notification.js';
 
 const notificationTemplate = (notification, ctx) => html`

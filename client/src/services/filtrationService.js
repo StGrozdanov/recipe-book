@@ -1,7 +1,7 @@
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { RECEPIES_END_POINT } from "./recipeService.js";
-import { getCurrentUser, getUserToken } from "./userService.js";
+import { getCurrentUser, getUserToken } from "./authenticationService.js";
 
 const FILTRATION_END_POINTS = {
     FIND_RECIPES_BY_NAME_CONTAINS: (query) => { return `${RECEPIES_END_POINT}/search-by-name?whereName=${query}` },

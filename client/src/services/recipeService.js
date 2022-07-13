@@ -1,7 +1,7 @@
 import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE, COULD_NOT_REMOVE_FROM_FAVOURITE_RECIPES } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
-import { getCurrentUser, getUserToken } from "./userService.js";
+import { getCurrentUser, getUserToken } from "./authenticationService.js";
 
 export const RECEPIES_PER_PAGE = 6;
 export const RECEPIES_END_POINT = '/recipes';

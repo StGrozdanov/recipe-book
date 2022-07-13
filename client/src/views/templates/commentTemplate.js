@@ -2,7 +2,7 @@ import { html, nothing, render } from '../../../node_modules/lit-html/lit-html.j
 import { commentRecipe, editComment, getCommentsForRecipe, removeComment } from '../../services/commentService.js';
 import { showModal } from '../../utils/modalDialogue.js';
 import { notify } from '../../utils/notification.js';
-import { getCurrentUser } from '../../services/userService.js'
+import { getCurrentUser } from '../../services/authenticationService.js'
 import { socket } from '../../services/socketioService.js';
 import { getSingleRecipe } from '../../services/recipeService.js';
 import { createNotification } from '../../services/notificationService.js';

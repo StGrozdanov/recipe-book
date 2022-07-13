@@ -3,7 +3,7 @@ import { createRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import multiLineInputProcessor from '../utils/multiLineInputProcessor.js';
-import { getCurrentUser, getUserToken } from '../services/userService.js';
+import { getUserToken, getCurrentUser } from '../services/authenticationService.js';
 
 const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">

@@ -2,7 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getSingleRecipe, updateRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
-import { getCurrentUser } from '../services/userService.js';
+import { getCurrentUser } from '../services/authenticationService.js';
 
 const editRecipeTemplate = (data, ctx) => html`
 <section id="edit-page" class="edit formData">

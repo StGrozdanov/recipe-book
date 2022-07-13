@@ -1,7 +1,7 @@
 import { COULD_NOT_GET_NOTIFICATIONS, COULD_NOT_MARK_NOTIFICATION, COULD_NOT_POST_NOTIFICATION } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
-import { getCurrentUser, getUserToken } from "./userService.js";
+import { getCurrentUser, getUserToken } from "./authenticationService.js";
 
 export const NOTIFICATION_END_POINT = '/notifications';
 

@@ -4,7 +4,7 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { myRecepiesTemplate } from './templates/profileTemplates/myRecepiesTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
-import { getCurrentUser } from '../services/userService.js';
+import { getCurrentUser } from '../services/authenticationService.js';
 
 
 export const myRecepiesCollectionTemplate = (recepies, ctx) => html`

@@ -1,7 +1,7 @@
 import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { COULD_NOT_DELETE_COMMENT, COULD_NOT_EDIT_COMMENT, COULD_NOT_FETCH_COMMENTS } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
-import { getCurrentUser, getUserToken } from "./userService.js";
+import { getCurrentUser, getUserToken } from "./authenticationService.js";
 
 const COMMENT_END_POINT = '/comments';
 
