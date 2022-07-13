@@ -13,6 +13,5 @@ export async function createMobilePushNotification(subject, content) {
             body: content,
         })
     };
-
     await fetch(BASE_URL, options);
 }

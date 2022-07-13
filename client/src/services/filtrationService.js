@@ -2,6 +2,7 @@ import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { RECEPIES_END_POINT } from "./recipeService.js";
 import { getCurrentUser, getUserToken } from "./authenticationService.js";
+import { COULD_NOT_SEARCH } from "../constants/errorMessages.js";
 
 const FILTRATION_END_POINTS = {
     FIND_RECIPES_BY_NAME_CONTAINS: (query) => { return `${RECEPIES_END_POINT}/search-by-name?whereName=${query}` },
@@ -19,7 +20,7 @@ export async function searchByRecipeName(query) {
         method: 'GET',
         headers: BASE_HEADERS
     });
-    return handleRequest(response)
+    return handleRequest(response, COULD_NOT_SEARCH);
 }
 
 export async function filterByCategory(query) {
@@ -30,7 +31,7 @@ export async function filterByCategory(query) {
         headers: BASE_HEADERS,
         body: JSON.stringify({ categories: categoriesArray })
     });
-    return handleRequest(response)
+    return handleRequest(response, COULD_NOT_SEARCH);
 }
 
 export async function searchInUserCreatedRecipesByRecipeName(query) {
@@ -39,7 +40,7 @@ export async function searchInUserCreatedRecipesByRecipeName(query) {
         method: 'GET',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
     });
-    return handleRequest(response)
+    return handleRequest(response, COULD_NOT_SEARCH);
 }
 
 export async function searchByNameOfFavouriteRecipe(query) {
@@ -48,5 +49,5 @@ export async function searchByNameOfFavouriteRecipe(query) {
         method: 'GET',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
     });
-    return handleRequest(response)
+    return handleRequest(response, COULD_NOT_SEARCH);
 }
