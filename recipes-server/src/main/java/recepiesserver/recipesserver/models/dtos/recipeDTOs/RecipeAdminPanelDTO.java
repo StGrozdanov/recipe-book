@@ -1,8 +1,9 @@
 package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
 import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
+import recepiesserver.recipesserver.models.interfaces.ImageUrl;
 
-public class RecipeAdminPanelDTO {
+public class RecipeAdminPanelDTO implements ImageUrl {
     private Long id;
     private String recipeName;
     private String imageUrl;

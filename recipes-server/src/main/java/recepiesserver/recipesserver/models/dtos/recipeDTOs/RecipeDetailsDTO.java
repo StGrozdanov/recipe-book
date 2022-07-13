@@ -1,8 +1,10 @@
 package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
+import recepiesserver.recipesserver.models.interfaces.ImageUrl;
+
 import java.util.List;
 
-public class RecipeDetailsDTO {
+public class RecipeDetailsDTO implements ImageUrl {
     private Long id;
     private String recipeName;
     private List<String> products;

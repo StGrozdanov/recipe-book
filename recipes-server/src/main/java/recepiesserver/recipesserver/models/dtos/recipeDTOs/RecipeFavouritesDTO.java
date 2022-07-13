@@ -10,8 +10,8 @@ public class RecipeFavouritesDTO {
     public RecipeFavouritesDTO() {
     }
 
-    @Positive
-    @NotNull
+    @Positive(message = "Recipe id cannot be negative.")
+    @NotNull(message = "Recipe id cannot be null.")
     public Long getRecipeId() {
         return recipeId;
     }
@@ -20,8 +20,8 @@ public class RecipeFavouritesDTO {
         this.recipeId = recipeId;
     }
 
-    @Positive
-    @NotNull
+    @Positive(message = "User id cannot be negative.")
+    @NotNull(message = "User id cannot be null.")
     public Long getUserId() {
         return userId;
     }

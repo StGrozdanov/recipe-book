@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
+import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCountDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeFavouritesDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.*;
 import recepiesserver.recipesserver.models.entities.BaseEntity;
@@ -69,9 +70,9 @@ public class UserService {
 
             UserProfileDTO userDTO = this.modelMapper.map(user, UserProfileDTO.class);
 
-            Integer userRecipesCount = this.recipeService.getUserRecipesCount(user.getId());
+            RecipeCountDTO userRecipesCount = this.recipeService.getUserRecipesCount(user.getId());
 
-            userDTO.setRecipesCount(userRecipesCount);
+            userDTO.setRecipesCount(userRecipesCount.getRecipesCount());
 
             return Optional.of(userDTO);
         }

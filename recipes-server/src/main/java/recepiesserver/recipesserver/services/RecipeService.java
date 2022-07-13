@@ -6,15 +6,25 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import recepiesserver.recipesserver.exceptions.imageExceptions.NoPictureProvidedException;
+import recepiesserver.recipesserver.exceptions.imageExceptions.PictureUrlAlreadyExistsException;
+import recepiesserver.recipesserver.exceptions.recipeExceptions.NoSuchRecipeCategoryException;
+import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeAlreadyApprovedException;
+import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeNotFoundException;
+import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeWithTheSameNameOrImageAlreadyExistsException;
+import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.models.enums.CategoryEnum;
 import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
+import recepiesserver.recipesserver.models.interfaces.ImageUrl;
 import recepiesserver.recipesserver.repositories.RecipeRepository;
+import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -25,10 +35,7 @@ public class RecipeService {
     private final CommentService commentService;
     private final AmazonS3Service amazonS3Service;
 
-    public RecipeService(RecipeRepository recipeRepository,
-                         ModelMapper modelMapper,
-                         UserService userService,
-                         @Lazy CommentService commentService, AmazonS3Service amazonS3Service) {
+    public RecipeService(RecipeRepository recipeRepository, ModelMapper modelMapper, UserService userService, @Lazy CommentService commentService, AmazonS3Service amazonS3Service) {
         this.recipeRepository = recipeRepository;
         this.modelMapper = modelMapper;
         this.userService = userService;
@@ -45,31 +52,22 @@ public class RecipeService {
     }
 
     @Transactional
-    public Optional<RecipeDetailsDTO> getSingleRecipe(Long id) {
-        Optional<RecipeEntity> optionalEntity = this.recipeRepository.findById(id);
-
-        RecipeDetailsDTO recipeDetailsDTO = this.modelMapper.map(optionalEntity, RecipeDetailsDTO.class);
-
-        return Optional.ofNullable(recipeDetailsDTO);
+    public RecipeDetailsDTO getSingleRecipe(Long id) {
+        RecipeEntity recipeById = this.getRecipeById(id);
+        return this.modelMapper.map(recipeById, RecipeDetailsDTO.class);
     }
 
     @Transactional
-    public void deleteRecipe(Long id) {
-        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(id);
+    public RecipeModifiedAtDTO deleteRecipe(Long id) {
+        RecipeEntity recipe = this.getRecipeById(id);
 
-        if (recipeById.isPresent()) {
-            RecipeEntity recipe = recipeById.get();
+        this.deleteAllCommentsAttachedToTheTargetRecipe(recipe);
 
-            this.commentService
-                    .getAllCommentsForTargetRecipe(recipe.getId())
-                    .forEach(comment -> this.commentService.deleteComment(comment.getId()));
+        this.deleteRecipeAmazonPictureIfPresent(recipe);
 
-            if (recipe.getImageUrl().contains("amazonaws")) {
-                this.amazonS3Service.deleteFile(recipe.getImageUrl());
-            }
-        }
-        //TODO: THROW IF NOT PRESENT
         this.recipeRepository.deleteById(id);
+
+        return new RecipeModifiedAtDTO().setModifiedAt(LocalDateTime.now());
     }
 
     public Page<RecipeCatalogueDTO> getRecipesByPage(Integer pageNumber, Integer collectionCount, String sortBy) {
@@ -85,67 +83,46 @@ public class RecipeService {
         return new PageImpl<>(recipeCatalogueDTOS);
     }
 
-    public Long createNewRecipe(RecipeCreateDTO recipeDTO, MultipartFile file) {
-        Optional<UserEntity> userById = this.userService.findUserById(recipeDTO.getOwnerId());
+    public RecipeIdDTO createNewRecipe(RecipeCreateDTO recipeDTO, MultipartFile multipartFile) {
+        boolean pictureUrlProvided = isPictureUrlProvided(recipeDTO);
 
-        boolean thereIsNoPictureInTheDTOAsWell = recipeDTO.getImageUrl() == null
-                                                || recipeDTO.getImageUrl().isBlank();
+        this.handleNoPictureProvided(multipartFile, pictureUrlProvided);
 
-        if (file.isEmpty() && thereIsNoPictureInTheDTOAsWell) {
-            //TODO: THROW
-            return null;
-        }
-
-        if (thereIsNoPictureInTheDTOAsWell) {
-            String uploadedFileURL = this.amazonS3Service.uploadFile(file);
-            recipeDTO.setImageUrl(uploadedFileURL);
-        }
+        this.uploadFileToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(recipeDTO, multipartFile, pictureUrlProvided);
 
         RecipeEntity newRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
-
         RecipeEntity createdRecipe = this.recipeRepository.save(newRecipe);
 
-        return createdRecipe.getId();
+        return this.modelMapper.map(createdRecipe, RecipeIdDTO.class);
     }
 
     public Optional<RecipeEntity> findRecipeById(Long id) {
         return this.recipeRepository.findById(id);
     }
 
-    public Long editRecipe(RecipeEditDTO recipeDTO, MultipartFile file, Long recipeId) {
-        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(recipeId);
+    public RecipeIdDTO editRecipe(RecipeEditDTO recipeDTO, MultipartFile multipartFile, Long recipeId) {
+        RecipeEntity oldRecipe = this.getRecipeById(recipeId);
 
-        if (recipeById.isPresent()) {
-            RecipeEntity oldRecipe = recipeById.get();
+        boolean pictureUrlProvided = isPictureUrlProvided(recipeDTO);
 
-            boolean thereIsNoPictureInTheDTOAsWell = recipeDTO.getImageUrl() == null
-                    || recipeDTO.getImageUrl().isBlank();
+        this.handleNoPictureProvided(multipartFile, pictureUrlProvided);
 
-            if (file.isEmpty() && thereIsNoPictureInTheDTOAsWell) {
-                //TODO: THROW
-                return null;
-            }
+        this.uploadFileToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(recipeDTO, multipartFile, pictureUrlProvided);
 
-            if (thereIsNoPictureInTheDTOAsWell) {
-                String uploadedFileURL = this.amazonS3Service.uploadFile(file);
-                recipeDTO.setImageUrl(uploadedFileURL);
-            }
+        boolean recipeWithTheSameNameOrImageAlreadyExists =
+                this.otherRecipeWithTheSameNameOrImageExists(recipeDTO, oldRecipe);
 
-            if (otherRecipeWithTheSameNameOrImageExists(recipeDTO, oldRecipe)) {
-                //TODO: THROW
-                return null;
-            }
-
-            if (!oldRecipe.getImageUrl().equals(recipeDTO.getImageUrl()) &&
-                    oldRecipe.getImageUrl().contains("amazonaws")) {
-                this.amazonS3Service.deleteFile(oldRecipe.getImageUrl());
-            }
-
-            setTheOldRecipeDefaultInformationToTheEditedRecipe(oldRecipe, recipeDTO);
-
-            return this.recipeRepository.save(oldRecipe).getId();
+        if (recipeWithTheSameNameOrImageAlreadyExists) {
+            throw new RecipeWithTheSameNameOrImageAlreadyExistsException(ExceptionMessages.RECIPE_ALREADY_EXISTS);
         }
-        return null;
+
+        this.deleteOldRecipePictureFromAmazonIfTheAmazonPictureIsChanged(oldRecipe, recipeDTO);
+
+        setTheOldRecipeDefaultInformationToTheEditedRecipe(oldRecipe, recipeDTO);
+
+        this.recipeRepository.save(oldRecipe);
+
+        return new RecipeIdDTO().setRecipeId(recipeId);
     }
 
     public List<RecipeCatalogueDTO> findRecipesByUser(Long userId) {
@@ -156,25 +133,9 @@ public class RecipeService {
                 .toList();
     }
 
-    public Integer getUserRecipesCount(Long userId) {
-        return this.recipeRepository.countByOwnerId(userId);
-    }
-
-    private void setTheOldRecipeDefaultInformationToTheEditedRecipe(RecipeEntity oldRecipe,
-                                                                    RecipeEditDTO editedRecipe) {
-        oldRecipe.setRecipeName(editedRecipe.getRecipeName());
-        oldRecipe.setImageUrl(editedRecipe.getImageUrl());
-        oldRecipe.setProducts(editedRecipe.getProducts().stream().filter(product -> !product.isBlank()).toList());
-        oldRecipe.setSteps(editedRecipe.getSteps().stream().filter(step -> !step.isBlank()).toList());
-    }
-
-    private boolean otherRecipeWithTheSameNameOrImageExists(RecipeEditDTO recipeDTO, RecipeEntity oldRecipeInfo) {
-        Boolean nonUniqueRecipeName = this.recipeRepository
-                .existsByRecipeNameAndRecipeNameNot(recipeDTO.getRecipeName(), oldRecipeInfo.getRecipeName());
-        Boolean nonUniqueImageUrl = this.recipeRepository
-                .existsByImageUrlAndImageUrlNot(recipeDTO.getImageUrl(), oldRecipeInfo.getImageUrl());
-
-        return nonUniqueRecipeName || nonUniqueImageUrl;
+    public RecipeCountDTO getUserRecipesCount(Long userId) {
+        Integer recipeCount = this.recipeRepository.countByOwnerId(userId);
+        return new RecipeCountDTO().setRecipesCount(recipeCount);
     }
 
     public boolean recipeWithTheSameImageExists(String imageUrl) {
@@ -202,51 +163,37 @@ public class RecipeService {
     }
 
     @Modifying
-    public long incrementRecipeVisitations(Long id) {
-        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(id);
+    public RecipeVisitationDTO incrementRecipeVisitations(Long id) {
+        RecipeEntity recipe = this.getRecipeById(id);
 
-        if (recipeById.isPresent()) {
-            RecipeEntity recipe = recipeById.get();
-            Long oldVisitationCount = recipe.getVisitationsCount();
+        Long oldVisitationCount = recipe.getVisitationsCount();
 
-            long newVisitationCount = Long.sum(oldVisitationCount, 1);
-            recipe.setVisitationsCount(newVisitationCount);
-            this.recipeRepository.save(recipe);
+        long newVisitationCount = Long.sum(oldVisitationCount, 1);
 
-            return newVisitationCount;
-        }
-        //TODO: THROW EXCEPTION
-        return -1;
+        recipe.setVisitationsCount(newVisitationCount);
+        this.recipeRepository.save(recipe);
+
+        return new RecipeVisitationDTO().setVisitationsCount(newVisitationCount);
     }
 
     @Transactional
-    public void addRecipeToUserFavourites(RecipeFavouritesDTO favouritesDTO) {
-        Optional<UserEntity> userById = this.userService.findUserById(favouritesDTO.getUserId());
-        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(favouritesDTO.getRecipeId());
+    public RecipeModifiedAtDTO addRecipeToUserFavourites(RecipeFavouritesDTO favouritesDTO) {
+        UserEntity user = this.getUserById(favouritesDTO.getUserId());
+        RecipeEntity recipe = this.getRecipeById(favouritesDTO.getRecipeId());
 
-        if (userById.isPresent() && recipeById.isPresent()) {
-            UserEntity user = userById.get();
-            RecipeEntity recipe = recipeById.get();
+        user.addRecipeToFavourites(recipe);
 
-            user.addRecipeToFavourites(recipe);
-        }
-
-        //TODO: THROW EXCEPTION
+        return new RecipeModifiedAtDTO().setModifiedAt(LocalDateTime.now());
     }
 
     @Transactional
-    public void removeRecipeFromUserFavourites(RecipeFavouritesDTO favouritesDTO) {
-        Optional<UserEntity> userById = this.userService.findUserById(favouritesDTO.getUserId());
-        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(favouritesDTO.getRecipeId());
+    public RecipeModifiedAtDTO removeRecipeFromUserFavourites(RecipeFavouritesDTO favouritesDTO) {
+        UserEntity user = this.getUserById(favouritesDTO.getUserId());
+        RecipeEntity recipe = this.getRecipeById(favouritesDTO.getRecipeId());
 
-        if (userById.isPresent() && recipeById.isPresent()) {
-            UserEntity user = userById.get();
-            RecipeEntity recipe = recipeById.get();
+        user.removeRecipeFromFavourites(recipe);
 
-            user.removeRecipeFromFavourites(recipe);
-        }
-
-        //TODO: THROW EXCEPTION
+        return new RecipeModifiedAtDTO().setModifiedAt(LocalDateTime.now());
     }
 
     public List<RecipeCatalogueDTO> findRecipesByName(String name) {
@@ -266,8 +213,8 @@ public class RecipeService {
     }
 
     public List<RecipeCatalogueDTO> findRecipesByCategories(RecipeCategoriesDTO recipeCategoriesDTO) {
-        List<CategoryEnum> categoryEnums = convertCategoryNamesCollectionToCategoryEnumsCollection(
-                recipeCategoriesDTO);
+        List<CategoryEnum> categoryEnums =
+                this.convertCategoryNamesCollectionToCategoryEnumsCollection(recipeCategoriesDTO);
 
         return this.recipeRepository
                 .findAllByCategoryIn(categoryEnums)
@@ -276,48 +223,27 @@ public class RecipeService {
                 .toList();
     }
 
-    public long getTotalRecipesCount() {
-        return this.recipeRepository.count();
-    }
-
-    private List<CategoryEnum> convertCategoryNamesCollectionToCategoryEnumsCollection(
-            RecipeCategoriesDTO recipeCategoriesDTO) {
-
-        List<CategoryEnum> categories = new ArrayList<>();
-
-        recipeCategoriesDTO
-                .getCategories()
-                .forEach(categoryName -> {
-                    CategoryEnum categoryEnum = Arrays.stream(CategoryEnum.values())
-                            .filter(category -> category.getName().equals(categoryName))
-                            .findFirst()
-                            .orElse(null);
-
-                    categories.add(categoryEnum);
-                });
-        return categories.stream().filter(Objects::nonNull).distinct().toList();
+    public RecipeCountDTO getTotalRecipesCount() {
+        long count = this.recipeRepository.count();
+        return new RecipeCountDTO().setRecipesCount(Math.toIntExact(count));
     }
 
     public UserMostActiveDTO findTheMostActiveUser() {
-        Long mostActiveUser = this.recipeRepository.findMostActiveUser();
+        Long mostActiveUserId = this.recipeRepository.findMostActiveUser();
 
-        Optional<UserEntity> userById = this.userService.findUserById(mostActiveUser);
+        UserEntity user = this.getUserById(mostActiveUserId);
 
-        if (userById.isPresent()) {
-            UserMostActiveDTO dto = this.modelMapper.map(userById.get(), UserMostActiveDTO.class);
+        UserMostActiveDTO mostActiveUser = this.modelMapper.map(user, UserMostActiveDTO.class);
 
-            Integer recipeCount = this.recipeRepository.countByOwnerId(mostActiveUser);
-            Integer commentCount = this.commentService.getUserCommentCount(mostActiveUser);
-            Integer publicationsCount = recipeCount + commentCount;
+        Integer recipeCount = this.recipeRepository.countByOwnerId(mostActiveUserId);
+        Integer commentCount = this.commentService.getUserCommentCount(mostActiveUserId);
+        Integer publicationsCount = recipeCount + commentCount;
 
-            dto.setRecipesCount(recipeCount);
-            dto.setCommentsCount(commentCount);
-            dto.setTotalPublicationsCount(publicationsCount);
+        mostActiveUser.setRecipesCount(recipeCount);
+        mostActiveUser.setCommentsCount(commentCount);
+        mostActiveUser.setTotalPublicationsCount(publicationsCount);
 
-            return dto;
-        }
-        //TODO: THROW
-        return null;
+        return mostActiveUser;
     }
 
     public List<RecipeAdminPanelDTO> getAllAdminPanelRecipes() {
@@ -329,23 +255,116 @@ public class RecipeService {
     }
 
     @Modifying
-    public void approveRecipe(Long id) {
-        Optional<RecipeEntity> recipeById = this.recipeRepository.findById(id);
+    public RecipeModifiedAtDTO approveRecipe(Long id) {
+        RecipeEntity recipe = this.getRecipeById(id);
 
-        if (recipeById.isPresent()) {
-            RecipeEntity recipe = recipeById.get();
-
-            if (recipe.getStatus().equals(PublicationStatusEnum.PENDING)) {
-                recipe.setStatus(PublicationStatusEnum.APPROVED);
-
-                this.recipeRepository.save(recipe);
-            }
+        if (recipe.getStatus().equals(PublicationStatusEnum.PENDING)) {
+            recipe.setStatus(PublicationStatusEnum.APPROVED);
+            this.recipeRepository.save(recipe);
+        } else {
+            throw new RecipeAlreadyApprovedException(ExceptionMessages.RECIPE_ALREADY_APPROVED);
         }
-        //TODO: THROW
+        return new RecipeModifiedAtDTO().setModifiedAt(LocalDateTime.now());
     }
 
     public String getRecipeOwnerUsername(Long recipeId) {
-        Long ownerId = this.recipeRepository.findById(recipeId).orElseThrow().getOwnerId();
-        return this.userService.findUserById(ownerId).orElseThrow().getUsername();
+        Long ownerId = this.getRecipeById(recipeId).getOwnerId();
+        return this.getUserById(ownerId).getUsername();
+    }
+
+    private RecipeEntity getRecipeById(Long id) {
+        return this.recipeRepository
+                .findById(id)
+                .orElseThrow(() -> new RecipeNotFoundException(ExceptionMessages.RECIPE_NOT_FOUND));
+    }
+
+    private List<CategoryEnum> convertCategoryNamesCollectionToCategoryEnumsCollection(
+            RecipeCategoriesDTO recipeCategoriesDTO) {
+        List<CategoryEnum> categories = new ArrayList<>();
+
+        recipeCategoriesDTO
+                .getCategories()
+                .forEach(categoryName -> {
+                            CategoryEnum categoryEnum = getCategoryEnumByCategoryName(categoryName);
+                            categories.add(categoryEnum);
+                        }
+                );
+        return categories.stream().distinct().toList();
+    }
+
+    private CategoryEnum getCategoryEnumByCategoryName(String categoryName) {
+        return Arrays.stream(CategoryEnum.values())
+                .filter(category -> category.getName().equals(categoryName))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchRecipeCategoryException(ExceptionMessages.RECIPE_CATEGORY_NOT_FOUND));
+    }
+
+    private void deleteAllCommentsAttachedToTheTargetRecipe(RecipeEntity recipe) {
+        this.commentService
+                .getAllCommentsForTargetRecipe(recipe.getId())
+                .forEach(comment -> this.commentService.deleteComment(comment.getId()));
+    }
+
+    private void deleteRecipeAmazonPictureIfPresent(RecipeEntity recipe) {
+        if (recipe.getImageUrl().contains("amazonaws")) {
+            this.amazonS3Service.deleteFile(recipe.getImageUrl());
+        }
+    }
+
+    private UserEntity getUserById(Long userId) {
+        return this.userService
+                .findUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+    }
+
+    private boolean isPictureUrlProvided(ImageUrl dto) {
+        return dto.getImageUrl() == null || dto.getImageUrl().isBlank();
+    }
+
+    private void handleNoPictureProvided(MultipartFile multipartFile, boolean pictureUrlProvided) {
+        if (multipartFile.isEmpty() && !pictureUrlProvided) {
+            throw new NoPictureProvidedException(ExceptionMessages.PICTURE_NOT_FOUND);
+        }
+    }
+
+    private void uploadFileToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(ImageUrl dto,
+                                                                       MultipartFile multipartFile,
+                                                                       boolean pictureUrlProvided) {
+        if (!pictureUrlProvided) {
+            String uploadedFileURL = this.amazonS3Service.uploadFile(multipartFile);
+
+            boolean providedImageUrlIsAlreadyTaken = this.recipeWithTheSameImageExists(uploadedFileURL);
+
+            if (providedImageUrlIsAlreadyTaken) {
+                throw new PictureUrlAlreadyExistsException(ExceptionMessages.PICTURE_ALREADY_EXISTS);
+            }
+
+            dto.setImageUrl(uploadedFileURL);
+        }
+    }
+
+    private void deleteOldRecipePictureFromAmazonIfTheAmazonPictureIsChanged(RecipeEntity oldRecipe,
+                                                                             RecipeEditDTO recipeDTO) {
+        if (!oldRecipe.getImageUrl().equals(recipeDTO.getImageUrl()) &&
+                oldRecipe.getImageUrl().contains("amazonaws")) {
+            this.amazonS3Service.deleteFile(oldRecipe.getImageUrl());
+        }
+    }
+
+    private void setTheOldRecipeDefaultInformationToTheEditedRecipe(RecipeEntity oldRecipe,
+                                                                    RecipeEditDTO editedRecipe) {
+        oldRecipe.setRecipeName(editedRecipe.getRecipeName());
+        oldRecipe.setImageUrl(editedRecipe.getImageUrl());
+        oldRecipe.setProducts(editedRecipe.getProducts().stream().filter(product -> !product.isBlank()).toList());
+        oldRecipe.setSteps(editedRecipe.getSteps().stream().filter(step -> !step.isBlank()).toList());
+    }
+
+    private boolean otherRecipeWithTheSameNameOrImageExists(RecipeEditDTO recipeDTO, RecipeEntity oldRecipeInfo) {
+        Boolean nonUniqueRecipeName = this.recipeRepository
+                .existsByRecipeNameAndRecipeNameNot(recipeDTO.getRecipeName(), oldRecipeInfo.getRecipeName());
+        Boolean nonUniqueImageUrl = this.recipeRepository
+                .existsByImageUrlAndImageUrlNot(recipeDTO.getImageUrl(), oldRecipeInfo.getImageUrl());
+
+        return nonUniqueRecipeName || nonUniqueImageUrl;
     }
 }

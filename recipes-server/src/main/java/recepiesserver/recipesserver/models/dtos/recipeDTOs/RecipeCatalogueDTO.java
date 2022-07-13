@@ -1,6 +1,8 @@
 package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
-public class RecipeCatalogueDTO {
+import recepiesserver.recipesserver.models.interfaces.ImageUrl;
+
+public class RecipeCatalogueDTO implements ImageUrl {
     private Long id;
     private String imageUrl;
     private String recipeName;

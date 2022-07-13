@@ -1,6 +1,7 @@
 package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
 import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
+import recepiesserver.recipesserver.models.interfaces.ImageUrl;
 import recepiesserver.recipesserver.utils.validators.nonEmptyCollectionValidator.NonEmptyCollection;
 import recepiesserver.recipesserver.utils.validators.uniqueImageValidator.UniqueImage;
 import recepiesserver.recipesserver.utils.validators.uniqueRecipeNameValidator.UniqueRecipeName;
@@ -10,7 +11,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class RecipeCreateDTO {
+public class RecipeCreateDTO implements ImageUrl {
     private String recipeName;
     private LocalDateTime createdAt;
     private List<String> products;
@@ -85,7 +86,6 @@ public class RecipeCreateDTO {
         this.category = category;
     }
 
-    @ValidUserId
     public Long getOwnerId() {
         return ownerId;
     }

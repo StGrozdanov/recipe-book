@@ -1,15 +1,14 @@
 package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
+import recepiesserver.recipesserver.models.interfaces.ImageUrl;
 import recepiesserver.recipesserver.utils.validators.nonEmptyCollectionValidator.NonEmptyCollection;
-import recepiesserver.recipesserver.utils.validators.validRecipeIdValidator.ValidRecipeId;
-
-import javax.validation.constraints.NotEmpty;
+import recepiesserver.recipesserver.utils.validators.uniqueRecipeNameValidator.UniqueRecipeName;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-public class RecipeEditDTO {
+public class RecipeEditDTO implements ImageUrl {
     private String recipeName;
     private List<String> products;
     private List<String> steps;
@@ -19,6 +18,7 @@ public class RecipeEditDTO {
     public RecipeEditDTO() {
     }
 
+    @UniqueRecipeName
     @Size(min = 4, message = "Recipe name should be at least 4 characters long.")
     @Pattern(regexp = "^[а-яА-Я\\s]+$", message = "Recipe name should be written in bulgarian.")
     public String getRecipeName() {

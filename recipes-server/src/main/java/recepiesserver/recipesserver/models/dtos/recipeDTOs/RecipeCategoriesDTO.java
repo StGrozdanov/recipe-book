@@ -1,5 +1,7 @@
 package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
+import recepiesserver.recipesserver.utils.validators.nonEmptyCollectionValidator.NonEmptyCollection;
+
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -9,7 +11,7 @@ public class RecipeCategoriesDTO {
     public RecipeCategoriesDTO() {
     }
 
-    @NotEmpty
+    @NonEmptyCollection
     public List<String> getCategories() {
         return categories;
     }
