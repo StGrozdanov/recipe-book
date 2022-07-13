@@ -1,11 +1,13 @@
 package recepiesserver.recipesserver.services;
 
 import org.springframework.stereotype.Service;
+import recepiesserver.recipesserver.models.dtos.visitationDTOs.VisitationCountDTO;
 import recepiesserver.recipesserver.models.dtos.visitationDTOs.VisitationDTO;
 import recepiesserver.recipesserver.models.entities.VisitationEntity;
 import recepiesserver.recipesserver.repositories.VisitationRepository;
 import recepiesserver.recipesserver.utils.BulgarianMonthTransformerUtil;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -19,25 +21,29 @@ public class VisitationService {
         this.visitationRepository = visitationRepository;
     }
 
-    public void recordWebsiteVisitation() {
+    @Transactional
+    public VisitationCountDTO recordWebsiteVisitation() {
         VisitationEntity visitationEntity = new VisitationEntity();
         visitationEntity.setVisitedAt(LocalDateTime.now());
 
         this.visitationRepository.save(visitationEntity);
+
+        return this.getTotalWebsiteVisitationsCount();
     }
 
-    public long getTotalWebsiteVisitationsCount() {
-        return this.visitationRepository.count();
+    public VisitationCountDTO getTotalWebsiteVisitationsCount() {
+        return new VisitationCountDTO().setVisitationsCount(this.visitationRepository.count());
     }
 
+    public VisitationCountDTO getTotalWebsiteVisitationsCountForAGivenMonth(VisitationDTO visitationDTO) {
+        Integer month = visitationDTO.getMonth().getValue();
 
-    public long getTotalWebsiteVisitationsCountForAGivenMonth(VisitationDTO visitationDTO) {
-        Integer month = (Integer) visitationDTO.getMonth().getValue();
+        long visitationsCount = this.visitationRepository.countAllByVisitedAtLike(month);
 
-        return this.visitationRepository.countAllByVisitedAtLike(month);
+        return new VisitationCountDTO().setVisitationsCount(visitationsCount);
     }
 
-    public long getTotalWebsiteVisitationsCountForTheLastSixMonths() {
+    public VisitationCountDTO getTotalWebsiteVisitationsCountForTheLastSixMonths() {
         Calendar currentTime = Calendar.getInstance();
 
         Calendar sixMonthsAgo = Calendar.getInstance();
@@ -50,14 +56,18 @@ public class VisitationService {
         LocalDateTime from = LocalDateTime
                 .ofInstant(sixMonthsAgo.toInstant(), sixMonthsAgo.getTimeZone().toZoneId()).minusMonths(0);
 
-        return this.visitationRepository.countAllByVisitedAtBetween(from, to);
+        long visitationsCount = this.visitationRepository.countAllByVisitedAtBetween(from, to);
+
+        return new VisitationCountDTO().setVisitationsCount(visitationsCount);
     }
 
-    public long getTotalWebsiteVisitationsCountForToday() {
+    public VisitationCountDTO getTotalWebsiteVisitationsCountForToday() {
         LocalDateTime from = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
         LocalDateTime to = LocalDateTime.now();
 
-        return this.visitationRepository.countAllByVisitedAtBetween(from, to);
+        long visitationsCount = this.visitationRepository.countAllByVisitedAtBetween(from, to);
+
+        return new VisitationCountDTO().setVisitationsCount(visitationsCount);
     }
 
     public Map<String, Long> getWebsiteVisitationsSummaryForThePastSixMonths() {

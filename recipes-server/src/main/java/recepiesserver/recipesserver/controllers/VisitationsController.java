@@ -2,6 +2,7 @@ package recepiesserver.recipesserver.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import recepiesserver.recipesserver.models.dtos.visitationDTOs.VisitationCountDTO;
 import recepiesserver.recipesserver.models.dtos.visitationDTOs.VisitationDTO;
 import recepiesserver.recipesserver.services.VisitationService;
 import recepiesserver.recipesserver.utils.constants.Api;
@@ -19,36 +20,33 @@ public class VisitationsController {
     }
 
     @PostMapping(Api.VISITATIONS_ENDPOINT)
-    public ResponseEntity<Long> recordVisitation() {
-        this.visitationService.recordWebsiteVisitation();
-        return ResponseEntity.ok().build();
+    public ResponseEntity<VisitationCountDTO> recordVisitation() {
+        return ResponseEntity.ok().body(this.visitationService.recordWebsiteVisitation());
     }
 
     @GetMapping(Api.VISITATIONS_ENDPOINT)
-    public ResponseEntity<Long> getTotalVisitationsCount() {
-        long totalVisitations = this.visitationService.getTotalWebsiteVisitationsCount();
-        return ResponseEntity.ok(totalVisitations);
+    public ResponseEntity<VisitationCountDTO> getTotalVisitationsCount() {
+        return ResponseEntity.ok().body(this.visitationService.getTotalWebsiteVisitationsCount());
     }
 
     @PostMapping(Api.VISITATIONS_FOR_GIVEN_MONTH)
-    public ResponseEntity<Long> getTotalWebsiteVisitationsCountForAGivenMonth(
+    public ResponseEntity<VisitationCountDTO> getTotalWebsiteVisitationsCountForAGivenMonth(
             @RequestBody @Valid VisitationDTO visitationDTO) {
-        long totalVisitations = this.visitationService
+        VisitationCountDTO visitationsCount = this.visitationService
                 .getTotalWebsiteVisitationsCountForAGivenMonth(visitationDTO);
-
-        return ResponseEntity.ok(totalVisitations);
+        return ResponseEntity.ok().body(visitationsCount);
     }
 
     @GetMapping(Api.VISITATIONS_FOR_LAST_SIX_MONTHS)
-    public ResponseEntity<Long> getTotalWebsiteVisitationsCountForPreviousSixMonths() {
-        long totalVisitations = this.visitationService.getTotalWebsiteVisitationsCountForTheLastSixMonths();
-        return ResponseEntity.ok(totalVisitations);
+    public ResponseEntity<VisitationCountDTO> getTotalWebsiteVisitationsCountForPreviousSixMonths() {
+        VisitationCountDTO visitationsCount = this.visitationService
+                .getTotalWebsiteVisitationsCountForTheLastSixMonths();
+        return ResponseEntity.ok().body(visitationsCount);
     }
 
     @GetMapping(Api.VISITATIONS_TODAY)
-    public ResponseEntity<Long> getTotalWebsiteVisitationsToday() {
-        long totalVisitations = this.visitationService.getTotalWebsiteVisitationsCountForToday();
-        return ResponseEntity.ok(totalVisitations);
+    public ResponseEntity<VisitationCountDTO> getTotalWebsiteVisitationsToday() {
+        return ResponseEntity.ok().body(this.visitationService.getTotalWebsiteVisitationsCountForToday());
     }
 
     @GetMapping(Api.VISITATIONS_FOR_LAST_SIX_MONTHS_SUMMARY)

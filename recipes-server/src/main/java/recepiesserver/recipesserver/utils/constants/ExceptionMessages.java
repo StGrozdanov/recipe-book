@@ -17,4 +17,7 @@ public class ExceptionMessages {
     public static final String USER_ALREADY_EXISTS = "User with the same username or email already exists.";
     public static final String USER_ALREADY_BLOCKED = "The user you tried to block is already blocked.";
     public static final String USER_IS_NOT_BLOCKED = "The user you tried to unblock is not blocked at all.";
+    public static final String INVALID_FILE_FORMAT = "Something went wrong while converting the multipart file.";
+    public static final String BLACKLIST_ALREADY_CONTAINS_IP = "Blacklist already contains one of the ip addresses you attempted to add.";
+    public static final String BLACKLIST_DOES_NOT_CONTAIN_IP = "One of the requested user IP to remove from the blacklist is non existent.";
 }

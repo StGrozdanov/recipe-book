@@ -2,10 +2,12 @@ package recepiesserver.recipesserver.services;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import recepiesserver.recipesserver.exceptions.blacklistExceptions.BlacklistAlreadyContainsIPException;
+import recepiesserver.recipesserver.exceptions.blacklistExceptions.IpNotFoundException;
 import recepiesserver.recipesserver.models.entities.BlacklistEntity;
 import recepiesserver.recipesserver.repositories.BlacklistRepository;
+import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -20,25 +22,15 @@ public class BlacklistService {
         try {
             ipAddresses.forEach(ip -> this.blacklistRepository.save(new BlacklistEntity(ip, reason)));
         } catch (DataIntegrityViolationException e) {
-            //TODO: Make it intelligent ...
-            System.out.println("Blacklist already contains one of the ip addresses you attempt to block.");
+            throw new BlacklistAlreadyContainsIPException(ExceptionMessages.BLACKLIST_ALREADY_CONTAINS_IP);
         }
     }
 
     public void removeFromBlacklist(Set<String> ipAddresses) {
-        try {
-            ipAddresses.forEach(ip -> {
-                Optional<BlacklistEntity> byIpAddress = this.blacklistRepository.findByIpAddress(ip);
-                if (byIpAddress.isPresent()) {
-                    BlacklistEntity blacklistedIp = byIpAddress.get();
-                    this.blacklistRepository.delete(blacklistedIp);
-                }
-                //TODO: throw
-            });
-        } catch (DataIntegrityViolationException e) {
-            //TODO: Make it intelligent ...
-            System.out.println("Blacklist already contains one of the ip addresses you attempt to block.");
-        }
+        ipAddresses.forEach(ip -> {
+            BlacklistEntity blacklistedIp = this.getBlacklistedEntityByIpAddress(ip);
+            this.blacklistRepository.delete(blacklistedIp);
+        });
     }
 
     public boolean blacklistContainsIp(String ip) {
@@ -46,12 +38,13 @@ public class BlacklistService {
     }
 
     public String getBlockedForReason(String ip) {
-        Optional<BlacklistEntity> byIpAddress = this.blacklistRepository.findByIpAddress(ip);
-        if (byIpAddress.isPresent()) {
-            BlacklistEntity blacklistEntity = byIpAddress.get();
-            return blacklistEntity.getReason();
-        }
-        //TODO: THROW
-        return null;
+        BlacklistEntity blacklistEntity = this.getBlacklistedEntityByIpAddress(ip);
+        return blacklistEntity.getReason();
+    }
+
+    private BlacklistEntity getBlacklistedEntityByIpAddress(String ip) {
+        return this.blacklistRepository
+                .findByIpAddress(ip)
+                .orElseThrow(() -> new IpNotFoundException(ExceptionMessages.BLACKLIST_DOES_NOT_CONTAIN_IP));
     }
 }

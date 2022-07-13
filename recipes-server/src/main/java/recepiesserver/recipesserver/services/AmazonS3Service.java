@@ -1,10 +1,14 @@
 package recepiesserver.recipesserver.services;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import recepiesserver.recipesserver.exceptions.imageExceptions.InvalidFormatException;
+import recepiesserver.recipesserver.exceptions.imageExceptions.UnsuccessfulAmazonOperationException;
+import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,7 +28,6 @@ public class AmazonS3Service {
 
     public String uploadFile(MultipartFile file) {
         String fileName = file.getOriginalFilename();
-
         try {
             File fileToUpload = this.convertMultipartFileToFile(file);
 
@@ -34,18 +37,21 @@ public class AmazonS3Service {
             URL url = this.amazonS3.getUrl(bucketName, fileName);
 
             return url.toExternalForm();
+        } catch (SdkClientException e) {
+            throw new UnsuccessfulAmazonOperationException(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new InvalidFormatException(ExceptionMessages.INVALID_FILE_FORMAT);
         }
-        //TODO: THROW EXCEPTION
-        return null;
     }
 
     public void deleteFile(String fileAddress) {
         String fileName = fileAddress
                 .replace("https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/", "");
-
-        this.amazonS3.deleteObject(bucketName, fileName);
+        try {
+            this.amazonS3.deleteObject(bucketName, fileName);
+        } catch (SdkClientException e) {
+            throw new UnsuccessfulAmazonOperationException(e.getMessage());
+        }
     }
 
     private File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
