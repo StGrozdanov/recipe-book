@@ -15,7 +15,8 @@ public class UserIdDTO {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public UserIdDTO setUserId(Long userId) {
         this.userId = userId;
+        return null;
     }
 }

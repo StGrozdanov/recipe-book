@@ -318,7 +318,7 @@ public class RecipeService {
     }
 
     private boolean isPictureUrlProvided(ImageUrl dto) {
-        return dto.getImageUrl() == null || dto.getImageUrl().isBlank();
+        return dto.getImageUrl() != null && !dto.getImageUrl().isBlank();
     }
 
     private void handleNoPictureProvided(MultipartFile multipartFile, boolean pictureUrlProvided) {

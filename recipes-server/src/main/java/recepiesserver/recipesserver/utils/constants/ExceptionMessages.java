@@ -14,4 +14,7 @@ public class ExceptionMessages {
     public static final String RECIPE_ALREADY_EXISTS = "Recipe with the same name or picture already exists.";
     public static final String RECIPE_ALREADY_APPROVED = "This recipe is already approved.";
     public static final String RECIPE_CATEGORY_NOT_FOUND = "The provided recipe category is invalid.";
+    public static final String USER_ALREADY_EXISTS = "User with the same username or email already exists.";
+    public static final String USER_ALREADY_BLOCKED = "The user you tried to block is already blocked.";
+    public static final String USER_IS_NOT_BLOCKED = "The user you tried to unblock is not blocked at all.";
 }

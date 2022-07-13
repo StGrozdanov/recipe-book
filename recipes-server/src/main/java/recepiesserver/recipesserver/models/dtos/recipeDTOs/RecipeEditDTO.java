@@ -18,7 +18,6 @@ public class RecipeEditDTO implements ImageUrl {
     public RecipeEditDTO() {
     }
 
-    @UniqueRecipeName
     @Size(min = 4, message = "Recipe name should be at least 4 characters long.")
     @Pattern(regexp = "^[а-яА-Я\\s]+$", message = "Recipe name should be written in bulgarian.")
     public String getRecipeName() {

@@ -5,6 +5,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import recepiesserver.recipesserver.exceptions.userExceptions.UserAlreadyBlockedException;
+import recepiesserver.recipesserver.exceptions.userExceptions.UserAlreadyExistsException;
+import recepiesserver.recipesserver.exceptions.userExceptions.UserIsNotBlockedException;
+import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCountDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeFavouritesDTO;
@@ -14,8 +18,10 @@ import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.models.enums.UserStatusEnum;
 import recepiesserver.recipesserver.repositories.UserRepository;
+import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,85 +50,280 @@ public class UserService {
     }
 
     @Transactional
-    public Optional<UserDetailsDTO> getUser(Long userId) {
-        Optional<UserEntity> userById = this.userRepository.findById(userId);
+    public UserDetailsDTO getUser(Long userId) {
+        UserEntity user = this.getUserById(userId);
 
-        if (userById.isPresent()) {
-            UserEntity user = userById.get();
+        UserDetailsDTO userDTO = this.modelMapper.map(user, UserDetailsDTO.class);
 
-            UserDetailsDTO userDTO = this.modelMapper.map(user, UserDetailsDTO.class);
+        List<RecipeCatalogueDTO> recipesByUser = this.recipeService.findRecipesByUser(user.getId());
 
-            List<RecipeCatalogueDTO> recipesByUser = this.recipeService.findRecipesByUser(user.getId());
+        userDTO.setRecipes(recipesByUser);
+        userDTO.setRecipesCount(recipesByUser.size());
 
-            userDTO.setRecipes(recipesByUser);
-            userDTO.setRecipesCount(recipesByUser.size());
-
-            return Optional.of(userDTO);
-        }
-        return Optional.empty();
+        return userDTO;
     }
 
-    public Optional<UserProfileDTO> getUserProfile(Long userId) {
-        Optional<UserEntity> userById = this.userRepository.findById(userId);
+    public UserProfileDTO getUserProfile(Long userId) {
+        UserEntity user = this.getUserById(userId);
 
-        if (userById.isPresent()) {
-            UserEntity user = userById.get();
+        UserProfileDTO userDTO = this.modelMapper.map(user, UserProfileDTO.class);
 
-            UserProfileDTO userDTO = this.modelMapper.map(user, UserProfileDTO.class);
+        RecipeCountDTO userRecipesCount = this.recipeService.getUserRecipesCount(user.getId());
 
-            RecipeCountDTO userRecipesCount = this.recipeService.getUserRecipesCount(user.getId());
+        userDTO.setRecipesCount(userRecipesCount.getRecipesCount());
 
-            userDTO.setRecipesCount(userRecipesCount.getRecipesCount());
-
-            return Optional.of(userDTO);
-        }
-        return Optional.empty();
+        return userDTO;
     }
 
-    public Long editUserProfile(Long userId,
-                                UserProfileEditDTO userDTO,
-                                MultipartFile profileImageFile,
-                                MultipartFile coverImageFile) {
-        Optional<UserEntity> userById = this.userRepository.findById(userId);
+    public UserIdDTO editUserProfile(Long userId,
+                                     UserProfileEditDTO userDTO,
+                                     MultipartFile profileImageFile,
+                                     MultipartFile coverImageFile) {
+        UserEntity oldUserInfo = this.getUserById(userId);
 
-        if (userById.isPresent()) {
-            UserEntity oldUserInfo = userById.get();
+        boolean userWithTheSameUsernameOrEmailExists =
+                this.otherUserWithSameUsernameOrEmailExists(userDTO, oldUserInfo);
 
-            if (otherUserWithSameUsernameOrEmailExists(userDTO, oldUserInfo)) {
-                return null;
-            }
-            if (!profileImageFile.isEmpty()) {
-                String uploadedFileURL = this.amazonS3Service.uploadFile(profileImageFile);
-                userDTO.setAvatarUrl(uploadedFileURL);
-            }
-            if (!coverImageFile.isEmpty()) {
-                String uploadedFileURL = this.amazonS3Service.uploadFile(coverImageFile);
-                userDTO.setCoverPhotoUrl(uploadedFileURL);
-            }
-            if (oldUserInfo.getAvatarUrl() != null
-                    && oldUserInfo.getAvatarUrl().contains("amazonaws")
-                    && !oldUserInfo.getAvatarUrl().equals(userDTO.getAvatarUrl())) {
-                this.amazonS3Service.deleteFile(oldUserInfo.getAvatarUrl());
-            }
-            if (oldUserInfo.getCoverPhotoUrl() != null
-                    && oldUserInfo.getCoverPhotoUrl().contains("amazonaws")
-                    && !oldUserInfo.getCoverPhotoUrl().equals(userDTO.getCoverPhotoUrl())) {
-                this.amazonS3Service.deleteFile(oldUserInfo.getCoverPhotoUrl());
-            }
-            if (userDTO.getAvatarUrl().equals("")) {
-                userDTO.setAvatarUrl(null);
-            }
-            if (userDTO.getCoverPhotoUrl().equals("")) {
-                userDTO.setCoverPhotoUrl(null);
-            }
-
-            UserEntity editedUser = this.modelMapper.map(userDTO, UserEntity.class);
-
-            setTheOldUserDefaultInformationToTheEditedUser(oldUserInfo, editedUser);
-
-            return this.userRepository.save(editedUser).getId();
+        if (userWithTheSameUsernameOrEmailExists) {
+            throw new UserAlreadyExistsException(ExceptionMessages.USER_ALREADY_EXISTS);
         }
-        return null;
+
+        boolean avatarPictureUrlProvided = this.isPictureUrlProvided(userDTO.getAvatarUrl());
+        boolean coverPictureUrlProvided = this.isPictureUrlProvided(userDTO.getCoverPhotoUrl());
+
+        this.uploadCoverAndAvatarImagesToAmazonIfSuchFilesAreProvidedAndSetThemAsDTOImageUrl(
+                userDTO,
+                profileImageFile,
+                coverImageFile,
+                avatarPictureUrlProvided,
+                coverPictureUrlProvided
+        );
+
+        this.deleteOldProfileAndCoverPicturesFromAmazonIfAmazonPictureIsChanged(oldUserInfo, userDTO);
+
+        this.setDefaultValuesForImagesIfNoImageUrlsAreProvided(userDTO);
+
+        UserEntity editedUser = this.modelMapper.map(userDTO, UserEntity.class);
+
+        this.setTheOldUserDefaultInformationToTheEditedUser(oldUserInfo, editedUser);
+
+        this.userRepository.save(editedUser);
+
+        return new UserIdDTO().setUserId(userId);
+    }
+
+    public boolean userWithTheSameUsernameExists(String username) {
+        return this.userRepository.existsByUsername(username);
+    }
+
+    public boolean userWithTheSameEmailExists(String email) {
+        return this.userRepository.existsByEmail(email);
+    }
+
+    public List<Long> getAllAdministratorIds() {
+        RoleEntity administrator = this.roleService.getAdministratorEntity();
+        return this.userRepository.findAllByRolesContaining(administrator).stream().map(BaseEntity::getId).toList();
+    }
+
+    public List<Long> getAllModeratorIds() {
+        RoleEntity moderator = this.roleService.getModeratorEntity();
+        return this.userRepository.findAllByRolesContaining(moderator).stream().map(BaseEntity::getId).toList();
+    }
+
+    public Optional<UserEntity> findUserByUsername(String username) {
+        return this.userRepository.findByUsername(username);
+    }
+
+    @Transactional
+    public List<RecipeCatalogueDTO> findUserFavouriteRecipesByName(String name, Long userId) {
+        return this.getUserById(userId)
+                .getFavourites()
+                .stream()
+                .filter(recipe -> recipe.getRecipeName().toLowerCase().contains(name.toLowerCase()))
+                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                .toList();
+    }
+
+    public UserCountDTO getTotalUsersCount() {
+        return new UserCountDTO().setUsersCount(this.userRepository.count());
+    }
+
+    @Transactional
+    public List<UserAdminPanelDTO> findUsersByUsername(String username) {
+        return this.userRepository
+                .findAllByUsernameContaining(username)
+                .stream()
+                .map(this::mapToUserAdminPanelDTO)
+                .toList();
+    }
+
+    @Modifying
+    public UserModifiedAtDTO changeUserRole(Long userId, UserRoleDTO userRoleDTO) {
+        UserEntity user = this.getUserById(userId);
+
+        String desiredRole = userRoleDTO.getRole().toLowerCase();
+
+        if (desiredRole.equals("administrator")) {
+            makeUserAdministrator(user);
+        } else if (desiredRole.equals("moderator")) {
+            makeUserModerator(user);
+        } else {
+            makeUserRegularUser(user);
+        }
+
+        this.userRepository.save(user);
+
+        return new UserModifiedAtDTO().setModifiedAt(LocalDateTime.now());
+    }
+
+    @Modifying
+    public UserModifiedAtDTO blockUser(UserBlockDTO userBlockDTO) {
+        UserEntity user = this.getUserById(userBlockDTO.getId());
+
+        if (!user.getBlocked()) {
+            user.setBlocked(true);
+
+            Set<String> ipAddresses = user.getIpAddresses();
+            this.blacklistService.addToBlacklist(ipAddresses, userBlockDTO.getReason());
+
+            this.userRepository.save(user);
+
+            return new UserModifiedAtDTO().setModifiedAt(LocalDateTime.now());
+        }
+        throw new UserAlreadyBlockedException(ExceptionMessages.USER_ALREADY_BLOCKED);
+    }
+
+    @Modifying
+    public UserModifiedAtDTO unblockUser(Long userId) {
+        UserEntity user = this.getUserById(userId);
+
+        if (user.getBlocked()) {
+            user.setBlocked(false);
+            this.blacklistService.removeFromBlacklist(user.getIpAddresses());
+            this.userRepository.save(user);
+
+            return new UserModifiedAtDTO().setModifiedAt(LocalDateTime.now());
+        }
+        throw new UserIsNotBlockedException(ExceptionMessages.USER_IS_NOT_BLOCKED);
+    }
+
+    public UserIdDTO deleteUser(Long userId) {
+        this.userRepository.deleteById(userId);
+        return new UserIdDTO().setUserId(userId);
+    }
+
+    public String getUserProfileOwnerUsername(Long userId) {
+        return this.getUserById(userId).getUsername();
+    }
+
+    public void saveNewUser(UserEntity newUser) {
+        this.userRepository.save(newUser);
+    }
+
+    @Transactional
+    public List<RecipeCatalogueDTO> findUserFavouriteRecipes(Long userId) {
+        return this.getUserById(userId)
+                .getFavourites()
+                .stream()
+                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
+                .toList();
+    }
+
+    @Transactional
+    public Boolean recipeIsInUserFavourites(RecipeFavouritesDTO favouritesDTO) {
+        return this.getUserById(favouritesDTO.getUserId())
+                .getFavourites()
+                .stream()
+                .anyMatch(recipe -> recipe.getId().equals(favouritesDTO.getRecipeId()));
+    }
+
+    private UserEntity getUserById(Long userId) {
+        return this.userRepository
+                .findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+    }
+
+    private void uploadAvatarToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(UserProfileEditDTO dto,
+                                                                         MultipartFile multipartFile,
+                                                                         boolean pictureUrlProvided) {
+        if (!pictureUrlProvided) {
+            String uploadedFileURL = this.amazonS3Service.uploadFile(multipartFile);
+            dto.setAvatarUrl(uploadedFileURL);
+        }
+    }
+
+    private void uploadCoverImageToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(UserProfileEditDTO dto,
+                                                                             MultipartFile multipartFile,
+                                                                             boolean pictureUrlProvided) {
+        if (!pictureUrlProvided) {
+            String uploadedFileURL = this.amazonS3Service.uploadFile(multipartFile);
+            dto.setCoverPhotoUrl(uploadedFileURL);
+        }
+    }
+
+    private boolean isPictureUrlProvided(String imageUrl) {
+        return imageUrl != null && !imageUrl.isBlank();
+    }
+
+    private void uploadCoverAndAvatarImagesToAmazonIfSuchFilesAreProvidedAndSetThemAsDTOImageUrl(
+            UserProfileEditDTO dto,
+            MultipartFile avatarPictureFile,
+            MultipartFile coverPictureFile,
+            boolean avatarPictureUrlProvided,
+            boolean coverPictureUrlProvided) {
+
+        this.uploadAvatarToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(
+                dto,
+                avatarPictureFile,
+                avatarPictureUrlProvided
+        );
+        this.uploadCoverImageToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(
+                dto,
+                coverPictureFile,
+                coverPictureUrlProvided
+        );
+    }
+
+    private void deleteOldProfilePictureFromAmazonIfTheAmazonPictureIsChanged(UserEntity oldUserInfo,
+                                                                              UserProfileEditDTO userDTO) {
+        if (
+                oldUserInfo.getAvatarUrl() != null
+                && oldUserInfo.getAvatarUrl().contains("amazonaws")
+                && !oldUserInfo.getAvatarUrl().equals(userDTO.getAvatarUrl())) {
+            this.amazonS3Service.deleteFile(oldUserInfo.getAvatarUrl());
+        }
+    }
+
+    private void deleteOldCoverPictureFromAmazonIfTheAmazonPictureIsChanged(UserEntity oldUserInfo,
+                                                                            UserProfileEditDTO userDTO) {
+        if (
+                oldUserInfo.getCoverPhotoUrl() != null
+                && oldUserInfo.getCoverPhotoUrl().contains("amazonaws")
+                && !oldUserInfo.getCoverPhotoUrl().equals(userDTO.getCoverPhotoUrl())) {
+            this.amazonS3Service.deleteFile(oldUserInfo.getCoverPhotoUrl());
+        }
+    }
+
+    private void deleteOldProfileAndCoverPicturesFromAmazonIfAmazonPictureIsChanged(UserEntity oldUserInfo,
+                                                                                    UserProfileEditDTO userDTO) {
+        this.deleteOldProfilePictureFromAmazonIfTheAmazonPictureIsChanged(oldUserInfo, userDTO);
+        this.deleteOldCoverPictureFromAmazonIfTheAmazonPictureIsChanged(oldUserInfo, userDTO);
+    }
+
+    private void setDefaultValuesForImagesIfNoImageUrlsAreProvided(UserProfileEditDTO userDTO) {
+        if (userDTO.getAvatarUrl().equals("")) {
+            userDTO.setAvatarUrl(null);
+        }
+        if (userDTO.getCoverPhotoUrl().equals("")) {
+            userDTO.setCoverPhotoUrl(null);
+        }
+    }
+
+    private UserAdminPanelDTO mapToUserAdminPanelDTO(UserEntity user) {
+        UserAdminPanelDTO dto = this.modelMapper.map(user, UserAdminPanelDTO.class);
+        dto.setStatus(UserStatusEnum.OFFLINE);
+        dto.setPrimaryRole(user.getRoles().get(0).getRole());
+        return dto;
     }
 
     private boolean otherUserWithSameUsernameOrEmailExists(UserProfileEditDTO userDTO, UserEntity oldUserInfo) {
@@ -142,87 +343,6 @@ public class UserService {
         editedUser.setPassword(oldUserInfo.getPassword());
     }
 
-    public boolean userWithTheSameUsernameExists(String username) {
-        return this.userRepository.existsByUsername(username);
-    }
-
-    public boolean userWithTheSameEmailExists(String email) {
-        return this.userRepository.existsByEmail(email);
-    }
-
-    public List<Long> getAllAdministratorIds() {
-        RoleEntity administrator = this.roleService.getAdministratorEntity();
-
-        return this.userRepository.findAllByRolesContaining(administrator).stream().map(BaseEntity::getId).toList();
-    }
-
-    public List<Long> getAllModeratorIds() {
-        RoleEntity moderator = this.roleService.getModeratorEntity();
-
-        return this.userRepository.findAllByRolesContaining(moderator).stream().map(BaseEntity::getId).toList();
-    }
-
-    public Optional<UserEntity> findUserByUsername(String username) {
-        return this.userRepository.findByUsername(username);
-    }
-
-    @Transactional
-    public List<RecipeCatalogueDTO> findUserFavouriteRecipesByName(String name, Long userId) {
-        Optional<UserEntity> userById = this.userRepository.findById(userId);
-
-        if (userById.isPresent()) {
-            UserEntity user = userById.get();
-            return user
-                    .getFavourites()
-                    .stream()
-                    .filter(recipe -> recipe.getRecipeName().toLowerCase().contains(name.toLowerCase()))
-                    .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
-                    .toList();
-        }
-        //TODO: THROW EXCEPTION
-        return null;
-    }
-
-    public long getTotalUsersCount() {
-        return this.userRepository.count();
-    }
-
-    @Transactional
-    public List<UserAdminPanelDTO> findUsersByUsername(String username) {
-        return this.userRepository
-                .findAllByUsernameContaining(username)
-                .stream()
-                .map(user -> {
-                    UserAdminPanelDTO dto = this.modelMapper.map(user, UserAdminPanelDTO.class);
-                    dto.setStatus(UserStatusEnum.OFFLINE);
-                    dto.setPrimaryRole(user.getRoles().get(0).getRole());
-
-                    return dto;
-                })
-                .toList();
-    }
-
-    @Modifying
-    public void changeUserRole(Long userId, UserRoleDTO userRoleDTO) {
-        Optional<UserEntity> userById = this.userRepository.findById(userId);
-
-        if (userById.isPresent()) {
-            UserEntity user = userById.get();
-            String desiredRole = userRoleDTO.getRole().toLowerCase();
-
-            if (desiredRole.equals("administrator")) {
-                makeUserAdministrator(user);
-            } else if (desiredRole.equals("moderator")) {
-                makeUserModerator(user);
-            } else {
-                makeUserRegularUser(user);
-            }
-
-            this.userRepository.save(user);
-        }
-        //TODO: THROW ERROR
-    }
-
     private void makeUserRegularUser(UserEntity user) {
         RoleEntity userEntity = this.roleService.getUserEntity();
         user.setRoles(new ArrayList<>(List.of(userEntity)));
@@ -231,7 +351,6 @@ public class UserService {
     private void makeUserModerator(UserEntity user) {
         RoleEntity moderatorEntity = this.roleService.getModeratorEntity();
         RoleEntity userEntity = this.roleService.getUserEntity();
-
         user.setRoles(new ArrayList<>(List.of(moderatorEntity, userEntity)));
     }
 
@@ -239,86 +358,7 @@ public class UserService {
         RoleEntity administratorEntity = this.roleService.getAdministratorEntity();
         RoleEntity moderatorEntity = this.roleService.getModeratorEntity();
         RoleEntity userEntity = this.roleService.getUserEntity();
-
         user.setRoles(new ArrayList<>(List.of(administratorEntity, moderatorEntity, userEntity)));
     }
 
-    @Modifying
-    public void blockUser(UserBlockDTO userBlockDTO) {
-        Optional<UserEntity> byId = this.userRepository.findById(userBlockDTO.getId());
-
-        if (byId.isPresent()) {
-            UserEntity user = byId.get();
-
-            if (!user.getBlocked()) {
-                user.setBlocked(true);
-
-                Set<String> ipAddresses = user.getIpAddresses();
-                this.blacklistService.addToBlacklist(ipAddresses, userBlockDTO.getReason());
-
-                this.userRepository.save(user);
-            }
-        }
-        //TODO THROW
-    }
-
-    public void unblockUser(Long userId) {
-        Optional<UserEntity> byId = this.userRepository.findById(userId);
-
-        if (byId.isPresent()) {
-            UserEntity user = byId.get();
-
-            if (!user.getBlocked()) {
-                user.setBlocked(false);
-                this.blacklistService.removeFromBlacklist(user.getIpAddresses());
-                this.userRepository.save(user);
-            }
-        }
-    }
-
-    public void deleteUser(Long userId) {
-        if (userId != null) {
-            this.userRepository.deleteById(userId);
-        }
-        //TODO: THROW
-    }
-
-    public String getUserProfileOwnerUsername(Long userId) {
-        return this.userRepository.findById(userId).orElseThrow().getUsername();
-    }
-
-    public void saveNewUser(UserEntity newUser) {
-        this.userRepository.save(newUser);
-    }
-
-    @Transactional
-    public List<RecipeCatalogueDTO> findUserFavouriteRecipes(Long userId) {
-        Optional<UserEntity> userById = this.userRepository.findById(userId);
-
-        if (userById.isPresent()) {
-            UserEntity user = userById.get();
-            return user
-                    .getFavourites()
-                    .stream()
-                    .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
-                    .toList();
-        }
-        //TODO: THROW EXCEPTION
-        return null;
-    }
-
-    @Transactional
-    public Boolean recipeIsInUserFavourites(RecipeFavouritesDTO favouritesDTO) {
-        Optional<UserEntity> userById = this.userRepository.findById(favouritesDTO.getUserId());
-
-        if (userById.isPresent()) {
-            UserEntity user = userById.get();
-            return user
-                    .getFavourites()
-                    .stream()
-                    .anyMatch(recipe -> recipe.getId().equals(favouritesDTO.getRecipeId()));
-        }
-        //TODO: THROW EXCEPTION
-        return null;
-    }
 }
