@@ -5,6 +5,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreateDTO;
 import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreatedAtDTO;
+import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationModifiedAtDTO;
 import recepiesserver.recipesserver.services.NotificationService;
 import recepiesserver.recipesserver.utils.constants.Api;
 
@@ -28,7 +30,6 @@ public class NotificationController {
     public ResponseEntity<List<NotificationDetailsDTO>> getUserNotifications(@PathVariable Long userId,
                                                                              HttpServletRequest request) {
         List<NotificationDetailsDTO> userNotifications = this.notificationService.getUnreadUserNotifications(userId);
-
         return ResponseEntity.ok().body(userNotifications);
     }
 
@@ -36,19 +37,14 @@ public class NotificationController {
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
             "#request.getHeader('Authorization'), " +
             "@notificationService.getNotificationReceiverUsernameByNotificationId(#notificationId))")
-    public ResponseEntity<NotificationDetailsDTO> markNotificationAsRead(@PathVariable Long notificationId,
-                                                                         HttpServletRequest request) {
-        this.notificationService.markNotificationAsRead(notificationId);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<NotificationModifiedAtDTO> markNotificationAsRead(@PathVariable Long notificationId,
+                                                                            HttpServletRequest request) {
+        return ResponseEntity.ok().body(this.notificationService.markNotificationAsRead(notificationId));
     }
 
     @PostMapping(Api.NOTIFICATION_ENDPOINT)
-    public ResponseEntity<Long> createNotification(@RequestBody @Valid NotificationCreateDTO notificationDTO) {
-        boolean notificationIsCreated = this.notificationService.createNotification(notificationDTO);
-
-        return notificationIsCreated
-                ? ResponseEntity.ok().build()
-                : ResponseEntity.badRequest().build();
+    public ResponseEntity<NotificationCreatedAtDTO> createNotification(
+            @RequestBody @Valid NotificationCreateDTO notificationDTO) {
+        return ResponseEntity.ok().body(this.notificationService.createNotification(notificationDTO));
     }
 }

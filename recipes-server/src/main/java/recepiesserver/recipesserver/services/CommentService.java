@@ -2,9 +2,9 @@ package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import recepiesserver.recipesserver.exceptions.CommentNotFoundException;
-import recepiesserver.recipesserver.exceptions.RecipeNotFoundException;
-import recepiesserver.recipesserver.exceptions.UserNotFoundException;
+import recepiesserver.recipesserver.exceptions.commentExceptions.CommentNotFoundException;
+import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeNotFoundException;
+import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.*;
 import recepiesserver.recipesserver.models.entities.CommentEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
@@ -58,10 +58,10 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentModifyDTO deleteComment(@NotNull Long id) {
+    public CommentModifiedAtDTO deleteComment(@NotNull Long id) {
         this.commentRepository.deleteById(id);
         LocalDateTime modifiedAt = LocalDateTime.now();
-        return new CommentModifyDTO().setModifiedAt(modifiedAt);
+        return new CommentModifiedAtDTO().setModifiedAt(modifiedAt);
     }
 
     @Transactional

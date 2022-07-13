@@ -1,15 +1,15 @@
-package recepiesserver.recipesserver.models.dtos.commentDTOs;
+package recepiesserver.recipesserver.models.dtos.notificationDTOs;
 
 import java.time.LocalDateTime;
 
-public class CommentModifyDTO {
+public class NotificationModifiedAtDTO {
     private LocalDateTime modifiedAt;
 
     public LocalDateTime getModifiedAt() {
         return modifiedAt;
     }
 
-    public CommentModifyDTO setModifiedAt(LocalDateTime modifiedAt) {
+    public NotificationModifiedAtDTO setModifiedAt(LocalDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
         return this;
     }

@@ -1,12 +1,10 @@
 package recepiesserver.recipesserver.filters;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import recepiesserver.recipesserver.exceptions.InvalidTokenException;
 import recepiesserver.recipesserver.utils.JwtUtil;
 import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 
@@ -16,12 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Component
 public class AuthorizationFilter extends OncePerRequestFilter {

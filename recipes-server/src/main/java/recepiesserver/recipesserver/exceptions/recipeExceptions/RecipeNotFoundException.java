@@ -1,4 +1,4 @@
-package recepiesserver.recipesserver.exceptions;
+package recepiesserver.recipesserver.exceptions.recipeExceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

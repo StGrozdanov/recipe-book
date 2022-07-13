@@ -42,7 +42,7 @@ public class NotificationCreateDTO {
         this.action = action;
     }
 
-    @NotNull
+    @NotBlank(message = "Recipe name cannot be null or blank.")
     @Size(min = 4, message = "Recipe name should be at least 4 characters long.")
     @Pattern(regexp = "^[а-яА-Я\\s]+$", message = "Recipe name should be written in bulgarian.")
     public String getLocationName() {

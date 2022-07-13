@@ -36,8 +36,8 @@ public class CommentController {
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
             "#request.getHeader('Authorization'), @commentService.getCommentOwnerUsername(#id)) " +
             "|| hasRole('ADMINISTRATOR') || hasRole('MODERATOR')")
-    public ResponseEntity<CommentModifyDTO> deleteComment(@PathVariable Long id, HttpServletRequest request) {
-        CommentModifyDTO modifiedAt = this.commentService.deleteComment(id);
+    public ResponseEntity<CommentModifiedAtDTO> deleteComment(@PathVariable Long id, HttpServletRequest request) {
+        CommentModifiedAtDTO modifiedAt = this.commentService.deleteComment(id);
         return ResponseEntity.ok().body(modifiedAt);
     }
 

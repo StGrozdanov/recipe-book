@@ -2,19 +2,26 @@ package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import recepiesserver.recipesserver.exceptions.notificationExceptions.NoSuchNotificationActionException;
+import recepiesserver.recipesserver.exceptions.notificationExceptions.NotificationNotFoundException;
+import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeNotFoundException;
+import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
 import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreateDTO;
 import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationDetailsDTO;
+import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreatedAtDTO;
+import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationModifiedAtDTO;
 import recepiesserver.recipesserver.models.entities.NotificationEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.models.enums.NotificationActionEnum;
 import recepiesserver.recipesserver.repositories.NotificationRepository;
+import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NotificationService {
@@ -34,57 +41,56 @@ public class NotificationService {
 
     public List<NotificationDetailsDTO> getUnreadUserNotifications(Long userId) {
         return this.notificationRepository
-                                .findAllByReceiverIdAndMarkedAsRead(userId, false)
-                                .stream()
-                                .map(notification -> this.modelMapper.map(notification, NotificationDetailsDTO.class))
-                                .toList();
+                .findAllByReceiverIdAndMarkedAsRead(userId, false)
+                .stream()
+                .map(notification -> this.modelMapper.map(notification, NotificationDetailsDTO.class))
+                .toList();
     }
 
     @Transactional
-    public void markNotificationAsRead(Long notificationId) {
-        Optional<NotificationEntity> notificationById = this.notificationRepository.findById(notificationId);
-        if (notificationById.isEmpty()) {
-            //TODO: exception
-        }
-        NotificationEntity notification = notificationById.get();
+    public NotificationModifiedAtDTO markNotificationAsRead(Long notificationId) {
+        NotificationEntity notification = this.notificationRepository
+                .findById(notificationId)
+                .orElseThrow(() -> new NotificationNotFoundException(ExceptionMessages.NOTIFICATION_NOT_FOUND));
+
         notification.setMarkedAsRead(true);
 
-        this.notificationRepository.save(notification);
+        return new NotificationModifiedAtDTO().setModifiedAt(LocalDateTime.now());
     }
 
-    public boolean createNotification(NotificationCreateDTO notificationDTO) {
-        Optional<RecipeEntity> recipeById = this.recipeService.findRecipeById(notificationDTO.getLocationId());
-        Optional<UserEntity> userByUsername = this.userService.findUserByUsername(notificationDTO.getSenderUsername());
+    public NotificationCreatedAtDTO createNotification(NotificationCreateDTO notificationDTO) {
+        RecipeEntity recipe = this.recipeService
+                .findRecipeById(notificationDTO.getLocationId())
+                .orElseThrow(() -> new RecipeNotFoundException(ExceptionMessages.RECIPE_NOT_FOUND));
 
-        if (recipeById.isPresent() && userByUsername.isPresent()) {
-            RecipeEntity recipe = recipeById.get();
-            UserEntity sender = userByUsername.get();
-            List<Long> notificationReceivers = new ArrayList<>();
-            Long ownerId = recipe.getOwnerId();
+        UserEntity sender = this.userService
+                .findUserByUsername(notificationDTO.getSenderUsername())
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
 
-            addRecipeOwnerInReceiversIfHeIsNotTheNotificationSender(sender, notificationReceivers, ownerId);
+        List<Long> notificationReceivers = new ArrayList<>();
+        Long ownerId = recipe.getOwnerId();
 
-            addAllUniqueCommentParticipantsToReceiversIfNotificationIsCommentRelated(
-                    notificationDTO,
-                    recipe,
-                    notificationReceivers
-            );
+        this.addRecipeOwnerInReceiversIfHeIsNotTheNotificationSender(sender, notificationReceivers, ownerId);
 
-            addAllModeratorsAndAdministratorsInReceivers(notificationReceivers);
+        this.addAllUniqueCommentParticipantsToReceiversIfNotificationIsCommentRelated(
+                notificationDTO,
+                recipe,
+                notificationReceivers
+        );
 
-            createNotificationForAllUniqueReceiversThatAreNotSenders(
-                    notificationDTO,
-                    sender,
-                    notificationReceivers
-            );
+        this.addAllModeratorsAndAdministratorsInReceivers(notificationReceivers);
 
-            return true;
-        }
-        //TODO: THROW ERROR
-        return false;
+        this.createNotificationForAllUniqueReceiversThatAreNotSenders(
+                notificationDTO,
+                sender,
+                notificationReceivers
+        );
+        return new NotificationCreatedAtDTO().setNotificationCreatedAt(LocalDateTime.now());
     }
 
-    private void createNotificationForAllUniqueReceiversThatAreNotSenders(NotificationCreateDTO notificationDTO, UserEntity sender, List<Long> notificationReceivers) {
+    private void createNotificationForAllUniqueReceiversThatAreNotSenders(NotificationCreateDTO notificationDTO,
+                                                                          UserEntity sender,
+                                                                          List<Long> notificationReceivers) {
         notificationReceivers
                 .stream()
                 .distinct()
@@ -106,16 +112,12 @@ public class NotificationService {
     private void addAllUniqueCommentParticipantsToReceiversIfNotificationIsCommentRelated(
             NotificationCreateDTO notificationDTO,
             RecipeEntity recipe,
-            List<Long> notificationReceivers
-    ) {
-        NotificationActionEnum notificationActionEnum = Arrays.stream(NotificationActionEnum.values())
-                .filter(action -> action.getName().equals(notificationDTO.getAction()))
-                .findFirst()
-                .orElse(null);
+            List<Long> notificationReceivers) {
+        NotificationActionEnum notificationActionEnum = this.findTheNotificationAction(notificationDTO);
 
-        //TODO: if null throw exception
+        boolean notificationIsCommentRelated = this.notificationActionIsCommentRelated(notificationActionEnum);
 
-        if (notificationActionEnum.ordinal() == 0 || notificationActionEnum.ordinal() == 1) {
+        if (notificationIsCommentRelated) {
             this.commentService
                     .getAllCommentsForTargetRecipe(recipe.getId())
                     .stream()
@@ -123,6 +125,17 @@ public class NotificationService {
                     .distinct()
                     .forEach(notificationReceivers::add);
         }
+    }
+
+    private boolean notificationActionIsCommentRelated(NotificationActionEnum notificationActionEnum) {
+        return notificationActionEnum.ordinal() == 0 || notificationActionEnum.ordinal() == 1;
+    }
+
+    private NotificationActionEnum findTheNotificationAction(NotificationCreateDTO notificationDTO) {
+        return Arrays.stream(NotificationActionEnum.values())
+                .filter(action -> action.getName().equals(notificationDTO.getAction()))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchNotificationActionException(ExceptionMessages.NO_SUCH_ACTION));
     }
 
     private void addRecipeOwnerInReceiversIfHeIsNotTheNotificationSender(UserEntity sender,
@@ -134,11 +147,18 @@ public class NotificationService {
     }
 
     public String getNotificationReceiverUsername(Long userId) {
-        return this.userService.findUserById(userId).orElseThrow().getUsername();
+        return this.userService
+                .findUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND))
+                .getUsername();
     }
 
     public String getNotificationReceiverUsernameByNotificationId(Long notificationId) {
-        Long receiverId = this.notificationRepository.findById(notificationId).orElseThrow().getReceiverId();
+        Long receiverId = this.notificationRepository
+                .findById(notificationId)
+                .orElseThrow(() -> new NotificationNotFoundException(ExceptionMessages.NOTIFICATION_NOT_FOUND))
+                .getReceiverId();
+
         return this.getNotificationReceiverUsername(receiverId);
     }
 }
