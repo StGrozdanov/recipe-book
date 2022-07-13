@@ -1,5 +1,5 @@
 import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
-import { COULD_NOT_DELETE_COMMENT, COULD_NOT_EDIT_COMMENT, COULD_NOT_FETCH_COMMENTS } from "../constants/errorMessages.js";
+import { AUTHENTICATE_FIRST, COULD_NOT_DELETE_COMMENT, COULD_NOT_EDIT_COMMENT, COULD_NOT_FETCH_COMMENTS } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { getCurrentUser, getUserToken } from "./authenticationService.js";
 
@@ -48,7 +48,7 @@ export async function commentRecipe(recipeId, comment) {
     };
 
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.CREATE_COMMENT, options);
-    return handleRequest(response, 'Не можете да коментирате');
+    return handleRequest(response, AUTHENTICATE_FIRST);
 }
 
 export async function removeComment(id) {
@@ -66,7 +66,6 @@ export async function editComment(commentContent, commentId) {
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
         body: JSON.stringify({ content: commentContent })
     };
-
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(commentId), options);
     return handleRequest(response, COULD_NOT_EDIT_COMMENT);
 }

@@ -7,6 +7,7 @@ import { socket } from '../../services/socketioService.js';
 import { getSingleRecipe } from '../../services/recipeService.js';
 import { createNotification } from '../../services/notificationService.js';
 import { createMobilePushNotification } from '../../services/mobilePushNotificationService.js';
+import { AUTHENTICATE_FIRST } from '../../constants/errorMessages.js';
 
 const ownerCommentTemplate = (comment) => html`
     <i 
@@ -135,7 +136,7 @@ async function addCommentHandler(e, ctx) {
 
     const response = await commentRecipe(ctx.params.id, createdComment);
 
-    if (response === 'Authenticate first') {
+    if (response === AUTHENTICATE_FIRST) {
         notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
         notify('Ако не сте регистриран потребител можете да се регистрирате тук', {
             ctx: ctx,

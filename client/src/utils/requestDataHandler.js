@@ -1,3 +1,4 @@
+import { AUTHENTICATE_FIRST } from "../constants/errorMessages.js";
 import { refreshToken } from "../services/authenticationService.js";
 import { notify } from "./notification.js";
 
@@ -13,8 +14,8 @@ export async function handleRequest(fetchResponse, errorMessage) {
             await refreshToken();
             return data;
         } catch (e) {
-            if (errorMessage == 'Не можете да коментирате') {
-                return 'Authenticate first';
+            if (errorMessage == AUTHENTICATE_FIRST) {
+                return AUTHENTICATE_FIRST;
             }
         }
     } else {
