@@ -1,4 +1,4 @@
-# Recepie Book
+# Recipe Book
 
 ## Project Description
 
