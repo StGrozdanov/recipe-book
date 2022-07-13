@@ -9,6 +9,10 @@ public class UserIdDTO {
     public UserIdDTO() {
     }
 
+    public UserIdDTO(Long userId) {
+        this.userId = userId;
+    }
+
     @Positive
     @NotNull
     public Long getUserId() {

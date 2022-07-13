@@ -85,7 +85,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                     Потребителското ви име трябва да е между 3 и 10 символа
                 </span>
                 <p>
-                    <i class="fa-solid fa-bowl-rice"></i> ${recepiesCount} created
+                    <i class="fa-solid fa-bowl-rice"></i> ${recepiesCount.recipesCount} created
                 </p>
                 <p>
                     <i class="fa-solid fa-envelope"></i>

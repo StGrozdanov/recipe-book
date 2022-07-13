@@ -18,7 +18,7 @@ const browseUserProfileTemplate = (user, recipes) => html`
         </div>
     </section>
     <section class="user-section-profile">
-        ${userProfileTemplate(user, recipes.length)}
+        ${userProfileTemplate(user, user.recipesCount)}
     </section>
 </section>
 `;

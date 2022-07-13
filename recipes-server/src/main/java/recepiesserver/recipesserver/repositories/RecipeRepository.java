@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.enums.CategoryEnum;
+import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,11 +28,11 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     List<RecipeEntity> findTop3ByOrderByVisitationsCountDesc();
 
-    List<RecipeEntity> findAllByRecipeNameContaining(String recipeName);
+    List<RecipeEntity> findAllByRecipeNameContainingAndStatusNot(String recipeName, PublicationStatusEnum status);
 
     List<RecipeEntity> findAllByOwnerIdAndRecipeNameContaining(Long ownerId, String recipeName);
 
-    List<RecipeEntity> findAllByCategoryIn(Collection<CategoryEnum> category);
+    List<RecipeEntity> findAllByCategoryInAndStatusNot(Collection<CategoryEnum> categories, PublicationStatusEnum status);
 
     @Query("SELECT r.ownerId FROM RecipeEntity r GROUP BY r.ownerId HAVING COUNT(r) >= ALL(SELECT COUNT(r) " +
             "FROM RecipeEntity r GROUP BY r.ownerId)")

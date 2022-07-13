@@ -14,6 +14,7 @@ import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCountDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeFavouritesDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.*;
 import recepiesserver.recipesserver.models.entities.BaseEntity;
+import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.models.enums.UserStatusEnum;
@@ -99,8 +100,6 @@ public class UserService {
                 coverPictureUrlProvided
         );
 
-        this.deleteOldProfileAndCoverPicturesFromAmazonIfAmazonPictureIsChanged(oldUserInfo, userDTO);
-
         this.setDefaultValuesForImagesIfNoImageUrlsAreProvided(userDTO);
 
         UserEntity editedUser = this.modelMapper.map(userDTO, UserEntity.class);
@@ -109,7 +108,7 @@ public class UserService {
 
         this.userRepository.save(editedUser);
 
-        return new UserIdDTO().setUserId(userId);
+        return new UserIdDTO(userId);
     }
 
     public boolean userWithTheSameUsernameExists(String username) {
@@ -237,6 +236,10 @@ public class UserService {
                 .anyMatch(recipe -> recipe.getId().equals(favouritesDTO.getRecipeId()));
     }
 
+    public List<UserEntity> findAllUsersThatAddedRecipeToFavourites(RecipeEntity recipe) {
+        return this.userRepository.findAllByFavouritesContaining(recipe);
+    }
+
     private UserEntity getUserById(Long userId) {
         return this.userRepository
                 .findById(userId)
@@ -246,7 +249,7 @@ public class UserService {
     private void uploadAvatarToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(UserProfileEditDTO dto,
                                                                          MultipartFile multipartFile,
                                                                          boolean pictureUrlProvided) {
-        if (!pictureUrlProvided) {
+        if (!pictureUrlProvided && !multipartFile.isEmpty()) {
             String uploadedFileURL = this.amazonS3Service.uploadFile(multipartFile);
             dto.setAvatarUrl(uploadedFileURL);
         }
@@ -255,7 +258,7 @@ public class UserService {
     private void uploadCoverImageToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(UserProfileEditDTO dto,
                                                                              MultipartFile multipartFile,
                                                                              boolean pictureUrlProvided) {
-        if (!pictureUrlProvided) {
+        if (!pictureUrlProvided && !multipartFile.isEmpty()) {
             String uploadedFileURL = this.amazonS3Service.uploadFile(multipartFile);
             dto.setCoverPhotoUrl(uploadedFileURL);
         }
@@ -282,32 +285,6 @@ public class UserService {
                 coverPictureFile,
                 coverPictureUrlProvided
         );
-    }
-
-    private void deleteOldProfilePictureFromAmazonIfTheAmazonPictureIsChanged(UserEntity oldUserInfo,
-                                                                              UserProfileEditDTO userDTO) {
-        if (
-                oldUserInfo.getAvatarUrl() != null
-                && oldUserInfo.getAvatarUrl().contains("amazonaws")
-                && !oldUserInfo.getAvatarUrl().equals(userDTO.getAvatarUrl())) {
-            this.amazonS3Service.deleteFile(oldUserInfo.getAvatarUrl());
-        }
-    }
-
-    private void deleteOldCoverPictureFromAmazonIfTheAmazonPictureIsChanged(UserEntity oldUserInfo,
-                                                                            UserProfileEditDTO userDTO) {
-        if (
-                oldUserInfo.getCoverPhotoUrl() != null
-                && oldUserInfo.getCoverPhotoUrl().contains("amazonaws")
-                && !oldUserInfo.getCoverPhotoUrl().equals(userDTO.getCoverPhotoUrl())) {
-            this.amazonS3Service.deleteFile(oldUserInfo.getCoverPhotoUrl());
-        }
-    }
-
-    private void deleteOldProfileAndCoverPicturesFromAmazonIfAmazonPictureIsChanged(UserEntity oldUserInfo,
-                                                                                    UserProfileEditDTO userDTO) {
-        this.deleteOldProfilePictureFromAmazonIfTheAmazonPictureIsChanged(oldUserInfo, userDTO);
-        this.deleteOldCoverPictureFromAmazonIfTheAmazonPictureIsChanged(oldUserInfo, userDTO);
     }
 
     private void setDefaultValuesForImagesIfNoImageUrlsAreProvided(UserProfileEditDTO userDTO) {

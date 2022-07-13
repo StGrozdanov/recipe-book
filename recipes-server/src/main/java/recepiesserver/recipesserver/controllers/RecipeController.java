@@ -116,7 +116,7 @@ public class RecipeController {
 
     @GetMapping(Api.SEARCH_IN_CREATED_RECIPES)
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
-            "#request.getHeader('Authorization'), @recipeService.getRecipeOwnerUsername(#id)) ")
+            "#request.getHeader('Authorization'), @recipeService.getOwnerUsername(#id)) ")
     public ResponseEntity<List<RecipeCatalogueDTO>> searchInUserCreatedRecipesByName(
             @RequestParam(name = "whereName") @NotBlank String name,
             @RequestParam(name = "whereUser") Long id,

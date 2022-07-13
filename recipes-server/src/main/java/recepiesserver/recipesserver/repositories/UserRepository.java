@@ -2,6 +2,7 @@ package recepiesserver.recipesserver.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 
@@ -23,4 +24,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByUsername(String username);
 
     List<UserEntity> findAllByUsernameContaining(String username);
+
+    List<UserEntity> findAllByFavouritesContaining(RecipeEntity recipe);
 }

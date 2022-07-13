@@ -20,7 +20,7 @@ export async function myProfilePage(ctx) {
 
     const [myRecepies, userNotifications] = await Promise.all([createdRecepies, myNotifications]);
 
-    const myPublications = myPublicationsTemplate(myRecepies);
+    const myPublications = myPublicationsTemplate(myRecepies.recipesCount);
 
     ctx.render(myPublications);
 

@@ -32,7 +32,7 @@ public class VisitationService {
     }
 
     public VisitationCountDTO getTotalWebsiteVisitationsCount() {
-        return new VisitationCountDTO().setVisitationsCount(this.visitationRepository.count());
+        return new VisitationCountDTO(this.visitationRepository.count());
     }
 
     public VisitationCountDTO getTotalWebsiteVisitationsCountForAGivenMonth(VisitationDTO visitationDTO) {
@@ -40,7 +40,7 @@ public class VisitationService {
 
         long visitationsCount = this.visitationRepository.countAllByVisitedAtLike(month);
 
-        return new VisitationCountDTO().setVisitationsCount(visitationsCount);
+        return new VisitationCountDTO(visitationsCount);
     }
 
     public VisitationCountDTO getTotalWebsiteVisitationsCountForTheLastSixMonths() {
@@ -58,7 +58,7 @@ public class VisitationService {
 
         long visitationsCount = this.visitationRepository.countAllByVisitedAtBetween(from, to);
 
-        return new VisitationCountDTO().setVisitationsCount(visitationsCount);
+        return new VisitationCountDTO(visitationsCount);
     }
 
     public VisitationCountDTO getTotalWebsiteVisitationsCountForToday() {
@@ -67,7 +67,7 @@ public class VisitationService {
 
         long visitationsCount = this.visitationRepository.countAllByVisitedAtBetween(from, to);
 
-        return new VisitationCountDTO().setVisitationsCount(visitationsCount);
+        return new VisitationCountDTO(visitationsCount);
     }
 
     public Map<String, Long> getWebsiteVisitationsSummaryForThePastSixMonths() {

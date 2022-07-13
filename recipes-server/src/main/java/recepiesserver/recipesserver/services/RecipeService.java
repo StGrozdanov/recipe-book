@@ -61,6 +61,8 @@ public class RecipeService {
     public RecipeModifiedAtDTO deleteRecipe(Long id) {
         RecipeEntity recipe = this.getRecipeById(id);
 
+        this.deleteRecipeFromUsersFavouriteCollection(recipe);
+
         this.deleteAllCommentsAttachedToTheTargetRecipe(recipe);
 
         this.deleteRecipeAmazonPictureIfPresent(recipe);
@@ -68,6 +70,12 @@ public class RecipeService {
         this.recipeRepository.deleteById(id);
 
         return new RecipeModifiedAtDTO().setModifiedAt(LocalDateTime.now());
+    }
+
+    private void deleteRecipeFromUsersFavouriteCollection(RecipeEntity recipe) {
+        this.userService
+                .findAllUsersThatAddedRecipeToFavourites(recipe)
+                .forEach(user -> user.removeRecipeFromFavourites(recipe));
     }
 
     public Page<RecipeCatalogueDTO> getRecipesByPage(Integer pageNumber, Integer collectionCount, String sortBy) {
@@ -198,7 +206,7 @@ public class RecipeService {
 
     public List<RecipeCatalogueDTO> findRecipesByName(String name) {
         return this.recipeRepository
-                .findAllByRecipeNameContaining(name)
+                .findAllByRecipeNameContainingAndStatusNot(name, PublicationStatusEnum.PENDING)
                 .stream()
                 .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
                 .toList();
@@ -217,7 +225,7 @@ public class RecipeService {
                 this.convertCategoryNamesCollectionToCategoryEnumsCollection(recipeCategoriesDTO);
 
         return this.recipeRepository
-                .findAllByCategoryIn(categoryEnums)
+                .findAllByCategoryInAndStatusNot(categoryEnums, PublicationStatusEnum.PENDING)
                 .stream()
                 .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
                 .toList();
@@ -270,6 +278,10 @@ public class RecipeService {
     public String getRecipeOwnerUsername(Long recipeId) {
         Long ownerId = this.getRecipeById(recipeId).getOwnerId();
         return this.getUserById(ownerId).getUsername();
+    }
+
+    public String getOwnerUsername(Long id) {
+        return this.getUserById(id).getUsername();
     }
 
     private RecipeEntity getRecipeById(Long id) {
@@ -357,6 +369,7 @@ public class RecipeService {
         oldRecipe.setImageUrl(editedRecipe.getImageUrl());
         oldRecipe.setProducts(editedRecipe.getProducts().stream().filter(product -> !product.isBlank()).toList());
         oldRecipe.setSteps(editedRecipe.getSteps().stream().filter(step -> !step.isBlank()).toList());
+        oldRecipe.setCategory(this.getCategoryEnumByCategoryName(editedRecipe.getCategory()));
     }
 
     private boolean otherRecipeWithTheSameNameOrImageExists(RecipeEditDTO recipeDTO, RecipeEntity oldRecipeInfo) {

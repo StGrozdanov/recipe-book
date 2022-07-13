@@ -153,7 +153,7 @@ async function addCommentHandler(e, ctx) {
 
     const notificationData = {
         senderUsername: sessionStorage.getItem('username'),
-        senderAvatar: sessionStorage.getItem('avatar'),
+        senderAvatar: sessionStorage.getItem('avatarUrl'),
         senderId: sessionStorage.getItem('id'),
         sendedOn: new Date(Date.now()).toLocaleString(),
         locationId: targetRecipe.id,
@@ -174,26 +174,26 @@ async function addCommentHandler(e, ctx) {
         socket.emit("sendNewMessageNotification", notificationData);
     }
 
-    let allRecepieComments = await getCommentsForRecipe(targetRecipe.id);
+    // let allRecepieComments = await getCommentsForRecipe(targetRecipe.id);
 
-    let uniqueCommentOwners = new Set();
+    // let uniqueCommentOwners = new Set();
 
-    allRecepieComments
-                    .filter(comment => comment.ownerId !== notificationData.senderId)
-                    .forEach(comment => uniqueCommentOwners.add(comment.ownerId));
+    // allRecepieComments
+    //                 .filter(comment => comment.ownerId !== notificationData.senderId)
+    //                 .forEach(comment => uniqueCommentOwners.add(comment.ownerId));
 
-    uniqueCommentOwners.forEach(owner => {
-        notificationData.receiverId = owner;
+    // uniqueCommentOwners.forEach(owner => {
+    //     notificationData.receiverId = owner;
 
-        sendNotification(notificationData);
+    //     sendNotification(notificationData);
 
-        async function sendNotification(notificationData) {
-            const createdNotification = await createNotification(notificationData);
+    //     async function sendNotification(notificationData) {
+    //         const createdNotification = await createNotification(notificationData);
 
-            notificationData.id = createdNotification.id;
-            socket.emit("sendNewMessageNotification", notificationData);
-        }
-    });
+    //         notificationData.id = createdNotification.id;
+    //         socket.emit("sendNewMessageNotification", notificationData);
+    //     }
+    // });
 }
 
 async function refreshCommentSection(ctx) {
