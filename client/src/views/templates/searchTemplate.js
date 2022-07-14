@@ -4,6 +4,8 @@ import { notify } from "../../utils/notification.js"
 import { myRecepiesCollectionTemplate as createdRecipesTemplate } from "../myRecepiesView.js";
 import { myRecepiesCollectionTemplate as favouriteRecipesTemplate } from "../myFavouritesView.js";
 import { recipeTemplate } from "./recipeTemplate.js";
+import { CREATED_RECIPES } from "../../constants/web.js";
+import { NICE_TRY_BUT_NO_CONTENT } from "../../constants/notificationMessages.js";
 
 export const searchTemplate = (ctx, userCollectionSearch) => html`
     <form @submit=${(e)=> search(e, ctx, userCollectionSearch)}>
@@ -26,7 +28,7 @@ async function search(e, ctx, userCollectionSearch) {
 
             let recipes;
 
-            if (userCollectionSearch.request == 'Създадени рецепти') {
+            if (userCollectionSearch.request == CREATED_RECIPES) {
                 const data = await searchInUserCreatedRecipesByRecipeName(query, currentUserId);
                 recipes = data.map(recipeTemplate);
                 ctx.render(createdRecipesTemplate(recipes, ctx));
@@ -37,7 +39,7 @@ async function search(e, ctx, userCollectionSearch) {
             }
 
         } else {
-            userCollectionSearch.request == 'Създадени рецепти' 
+            userCollectionSearch.request == CREATED_RECIPES
                 ? ctx.page.redirect('/my-profile/created-recepies')
                 : ctx.page.redirect('/my-profile/favourite-recepies');
         }
@@ -45,7 +47,7 @@ async function search(e, ctx, userCollectionSearch) {
         if (query.trim() !== '') {
             ctx.page.redirect(`/search=${query}`);
         } else {
-            notify('Добър опит! Сега пробвайте да въведете и буквички.')
+            notify(NICE_TRY_BUT_NO_CONTENT)
         }
     }
 }

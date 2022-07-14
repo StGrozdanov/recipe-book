@@ -4,11 +4,10 @@ import { showModal } from '../../utils/modalDialogue.js';
 import { notify } from '../../utils/notification.js';
 import { getCurrentUser, getCurrentUserAvatar, getCurrentUserUsername } from '../../services/authenticationService.js'
 import { socket } from '../../services/socketioService.js';
-import { getSingleRecipe } from '../../services/recipeService.js';
 import { createNotification } from '../../services/notificationService.js';
 import { createMobilePushNotification } from '../../services/mobilePushNotificationService.js';
 import { AUTHENTICATE_FIRST } from '../../constants/errorMessages.js';
-import { IF_YOU_ARE_NOT_REGISTERED, IF_YOU_ARE_REGISTERED, YOUR_COMMENT_SHOULD_NOT_BE_EMPTY, YOU_HAVE_TO_BE_REGISTERED } from '../../constants/notificationMessages.js';
+import { ARE_YOU_SURE_DELETE_COMMENT, DELETE_COMMENT_SUCCESS, EDIT_COMMENT_SUCCESS, IF_YOU_ARE_NOT_REGISTERED, IF_YOU_ARE_REGISTERED, YOUR_COMMENT_SHOULD_NOT_BE_EMPTY, YOU_HAVE_TO_BE_REGISTERED } from '../../constants/notificationMessages.js';
 import { NEW_COMMENT, POSTED_NEW_COMMENT } from '../../constants/userActions.js';
 
 const ownerCommentTemplate = (comment) => html`
@@ -113,21 +112,6 @@ async function toggleComments(e, ctx, recipeData) {
     } else {
         hideComments(comments, addCommentForm, e);
     }
-}
-
-async function showComments(comments, addCommentForm, e, ctx, recipeData) {
-    comments.style.display = 'flex';
-    addCommentForm.style.display = 'flex';
-    e.target.textContent = 'Скрий коментарите';
-    
-    render(commentLoadingTemplate(), comments);
-    await refreshCommentSection(ctx, recipeData)
-}
-
-function hideComments(comments, addCommentForm, e) {
-    comments.style.display = 'none';
-    addCommentForm.style.display = 'none';
-    e.target.textContent = 'Покажи коментарите';
 }
 
 async function addCommentHandler(e, ctx, recipeData) {
@@ -238,14 +222,14 @@ async function refreshCommentSection(ctx, recipeData) {
 }
 
 async function deleteCommentHandler(e) {
-    showModal('Сигурни ли сте, че искате да изтриете този коментар?', onSelect);
+    showModal(ARE_YOU_SURE_DELETE_COMMENT, onSelect);
     const targetComment = e.currentTarget.parentNode;
 
     async function onSelect(choice) {
         if (choice) {
             await removeComment(targetComment.id);
             targetComment.remove();
-            notify('Успешно изтрихте коментара!');
+            notify(DELETE_COMMENT_SUCCESS);
         }
     }
 }
@@ -322,8 +306,23 @@ async function editCommentHandler(e) {
         confirmEditIcon.style.display = 'none';
         cancelEditIcon.style.display = 'none';
 
-        notify('Успешно редактирахте коментара си.');
+        notify(EDIT_COMMENT_SUCCESS);
     } else {
-        return notify('Коментарът ви не трябва да бъде празен!');
+        return notify(YOUR_COMMENT_SHOULD_NOT_BE_EMPTY);
     }
+}
+
+async function showComments(comments, addCommentForm, e, ctx, recipeData) {
+    comments.style.display = 'flex';
+    addCommentForm.style.display = 'flex';
+    e.target.textContent = 'Скрий коментарите';
+    
+    render(commentLoadingTemplate(), comments);
+    await refreshCommentSection(ctx, recipeData)
+}
+
+function hideComments(comments, addCommentForm, e) {
+    comments.style.display = 'none';
+    addCommentForm.style.display = 'none';
+    e.target.textContent = 'Покажи коментарите';
 }
