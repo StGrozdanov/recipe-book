@@ -10,3 +10,8 @@ export const ONLY_REGISTERED_USERS_CAN_CREATE = 'Единствено регис
 export const THERE_ARE_EMPTY_FIELDS_LEFT = 'Моля попълнете всички полета.';
 export const THERE_ARE_INVALID_FIELDS_LEFT = 'Поправете невалидните полета.';
 export const CREATED_RECIPE_SUCCESS = 'Успешно създадохте рецептата си! Екипът ни ще я разгледа и одобри. При нужда можете да я редактирате от бутончетата.';
+export const EDIT_RECIPE_SUCCESS = 'Успешно редактирахте рецептата си!';
+export const ARE_YOU_SURE_DELETE_RECIPE = 'Сигурни ли сте, че искате да изтриете тази рецепта?';
+export const DELETE_RECIPE_SUCCESS = 'Успешно изтрихте рецептата!';
+export const REMOVE_FROM_FAVOURITES_SUCCESS = (recipeName) => `Успешно премахнахте ${recipeName} от любимите ви рецепти.`;
+export const ADD_TO_FAVOURITES_SUCCESS = (recipeName) => `Успешно добавихте ${recipeName} към любимите ви рецепти.`;

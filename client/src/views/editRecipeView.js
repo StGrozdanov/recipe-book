@@ -3,6 +3,9 @@ import { getSingleRecipe, updateRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import { getCurrentUser } from '../services/authenticationService.js';
+import { EDIT_RECIPE_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
+import { sendNotifications } from './templates/commentTemplate.js';
+import { EDITED_RECIPE, NEW_RECIPE } from '../constants/userActions.js';
 
 const editRecipeTemplate = (data, ctx) => html`
 <section id="edit-page" class="edit formData">
@@ -133,13 +136,12 @@ async function editHandler(e, context) {
     const category = form.get('category');
     const fileImg = form.get('fileImg');
 
-    form.append('file', fileImg);
+    const thereAreEmptyFieldsLeft = formDataValidator.recipeFormContainsEmptyFields(fileImg, img, name, products, steps, category);
 
-    //TODO: img validation
-    if (name.trim() == '' || products.length === 0 || steps.length === 0 || img.trim() == '' || category.trim() == '') {
-        return notify('Моля попълнете всички полета.');
+    if (thereAreEmptyFieldsLeft) {
+        return notify(THERE_ARE_EMPTY_FIELDS_LEFT);
     } else if (formDataValidator.formContainsInvalidInput(e.target)) {
-        return notify('Поправете невалидните полета.');
+        return notify(THERE_ARE_INVALID_FIELDS_LEFT);
     }
 
     const editRecipe = {
@@ -150,9 +152,17 @@ async function editHandler(e, context) {
         category: category
     }
 
+    form.append('file', fileImg);
     form.append('data', JSON.stringify(editRecipe));
 
     await updateRecipe(form, context.params.id);
-    notify('Успешно редактирахте рецептата си!');
+
+    notify(EDIT_RECIPE_SUCCESS);
     context.page.redirect(`/details-${context.params.id}`);
+
+    await sendNotifications(
+        { id: context.params.id, recipeName: editRecipe.recipeName }, 
+        EDITED_RECIPE, 
+        NEW_RECIPE
+    );
 }

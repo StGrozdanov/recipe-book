@@ -165,14 +165,11 @@ export async function sendNotifications(recipeData, action, actionHeader) {
         action: action,
     }
 
-    
-
-    // const pushNotification = createMobilePushNotification(actionHeader, `${notificationData.senderUsername} ${action}`);
-    //ADD TO PROMISE ALL !!!!!
+    const pushNotification = createMobilePushNotification(actionHeader, `${notificationData.senderUsername} ${action}`);
 
     const regularNotification = createNotification(notificationData);
 
-    const [userNotification] = await Promise.all([regularNotification]);
+    const [userNotification, mobileNotification] = await Promise.all([regularNotification, pushNotification]);
 
     const notifications = createSocketNotifications(userNotification, recipeData, action);
 

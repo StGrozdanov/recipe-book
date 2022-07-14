@@ -9,6 +9,7 @@ import { buttonToTop } from '../utils/backToTopButton.js';
 import { commentsTemplate } from './templates/commentTemplate.js';
 import { userIsAuthenticated, getCurrentUser } from '../services/authenticationService.js'
 import { navigateDownHandler } from './landingView.js';
+import { ADD_TO_FAVOURITES_SUCCESS, ARE_YOU_SURE_DELETE_RECIPE, DELETE_RECIPE_SUCCESS, REMOVE_FROM_FAVOURITES_SUCCESS } from '../constants/notificationMessages.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit-${id}">Редактирай</a>
@@ -83,7 +84,7 @@ export async function detailsPage(ctx) {
 
     if (sessionStorage.getItem('redirect') !== null) {
         const previousComment = sessionStorage.getItem('comment');
-        refreshCommentSectionRedirect(ctx, previousComment);
+        refreshCommentSectionRedirect(ctx, previousComment, data);
         sessionStorage.removeItem('redirect');
         sessionStorage.removeItem('comment');
     }   
@@ -97,13 +98,13 @@ export async function detailsPage(ctx) {
 }
 
 async function deleteHandler(id, ctx) {
-    showModal('Сигурни ли сте, че искате да изтриете тази рецепта?', onSelect);
+    showModal(ARE_YOU_SURE_DELETE_RECIPE, onSelect);
 
     async function onSelect(choice) {
         if (choice) {
             await removeRecipe(id);
             ctx.page.redirect('/catalogue');
-            notify('Успешно изтрихте рецептата!');
+            notify(DELETE_RECIPE_SUCCESS);
         }
     }
 }
@@ -115,16 +116,16 @@ async function addToFavouritesHandler(e, ctx, recipeName) {
         e.target.classList.remove('fa-solid');
         e.target.classList.add('fa-regular');
         await removeFromFavourites(ctx.params.id);
-        notify(`Успешно премахнахте ${recipeName} от любимите ви рецепти.`);
+        notify(REMOVE_FROM_FAVOURITES_SUCCESS(recipeName));
     } else {
         e.target.classList.add('fa-solid');
         e.target.classList.remove('fa-regular');
         await addToFavourites(ctx.params.id);
-        notify(`Успешно добавихте ${recipeName} към любимите ви рецепти.`);
+        notify(ADD_TO_FAVOURITES_SUCCESS(recipeName));
     }
 }
 
-async function refreshCommentSectionRedirect(ctx, comment) {
+async function refreshCommentSectionRedirect(ctx, comment, recipeData) {
     const refreshedCommentData = await getCommentsForRecipe(ctx.params.id);
 
     const commentContainer = document.getElementById('comment-container');
@@ -132,7 +133,7 @@ async function refreshCommentSectionRedirect(ctx, comment) {
     const oldComment = document.getElementById('comments-container');
     oldComment.textContent = '';
 
-    render(commentsTemplate(refreshedCommentData, ctx), commentContainer);
+    render(commentsTemplate(refreshedCommentData, ctx, recipeData), commentContainer);
 
     const commentTextField = document.getElementById('comment-text');
     commentTextField.textContent = comment;
