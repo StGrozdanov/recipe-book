@@ -121,3 +121,11 @@ export function getUserToken() {
 export function getCurrentUser() {
     return Number(sessionStorage.getItem('id'));
 }
+
+export function getCurrentUserUsername() {
+    return sessionStorage.getItem('username');
+}
+
+export function getCurrentUserAvatar() {
+    return sessionStorage.getItem('avatarUrl');
+}

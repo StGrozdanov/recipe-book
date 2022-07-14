@@ -5,7 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreateDTO;
 import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationDetailsDTO;
-import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreatedAtDTO;
+import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreatedDataDTO;
 import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationModifiedAtDTO;
 import recepiesserver.recipesserver.services.NotificationService;
 import recepiesserver.recipesserver.utils.constants.Api;
@@ -43,7 +43,7 @@ public class NotificationController {
     }
 
     @PostMapping(Api.NOTIFICATION_ENDPOINT)
-    public ResponseEntity<NotificationCreatedAtDTO> createNotification(
+    public ResponseEntity<NotificationCreatedDataDTO> createNotification(
             @RequestBody @Valid NotificationCreateDTO notificationDTO) {
         return ResponseEntity.ok().body(this.notificationService.createNotification(notificationDTO));
     }

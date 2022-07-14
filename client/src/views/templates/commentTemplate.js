@@ -2,12 +2,14 @@ import { html, nothing, render } from '../../../node_modules/lit-html/lit-html.j
 import { commentRecipe, editComment, getCommentsForRecipe, removeComment } from '../../services/commentService.js';
 import { showModal } from '../../utils/modalDialogue.js';
 import { notify } from '../../utils/notification.js';
-import { getCurrentUser } from '../../services/authenticationService.js'
+import { getCurrentUser, getCurrentUserAvatar, getCurrentUserUsername } from '../../services/authenticationService.js'
 import { socket } from '../../services/socketioService.js';
 import { getSingleRecipe } from '../../services/recipeService.js';
 import { createNotification } from '../../services/notificationService.js';
 import { createMobilePushNotification } from '../../services/mobilePushNotificationService.js';
 import { AUTHENTICATE_FIRST } from '../../constants/errorMessages.js';
+import { IF_YOU_ARE_NOT_REGISTERED, IF_YOU_ARE_REGISTERED, YOUR_COMMENT_SHOULD_NOT_BE_EMPTY, YOU_HAVE_TO_BE_REGISTERED } from '../../constants/notificationMessages.js';
+import { NEW_COMMENT, POSTED_NEW_COMMENT } from '../../constants/userActions.js';
 
 const ownerCommentTemplate = (comment) => html`
     <i 
@@ -53,15 +55,20 @@ export const commentLoadingTemplate = () => html`
     </div>
 `;
 
-export const commentsTemplate = (data, ctx) => html`
+export const commentsTemplate = (commentData, ctx, recipeData) => html`
 <div id="comments-container">
-    <button @click=${(e) => toggleComments(e, ctx)} class="button warning">Покажи коментарите</button>
+    <button 
+        @click=${(e) => toggleComments(e, ctx, recipeData)} 
+        class="button warning"
+    >
+        Покажи коментарите
+    </button>
     <div style="display: none;" class="details-comments">
         <h2>Коментари:</h2>
         <ul>
             ${
-                data !== null && data.length > 0
-                ? data.map(comment => html`
+                commentData !== null && commentData.length > 0
+                ? commentData.map(comment => html`
                     <li id=${comment.id} class="comment">
                         <p>
                             <a 
@@ -78,7 +85,7 @@ export const commentsTemplate = (data, ctx) => html`
                             : unauthorizedCommentTemplate(comment)
                         }
                     </li>`) 
-                : data !== null ? html`<p class="no-comments">Все още няма коментари за тази рецепта</p>` : nothing
+                : commentData !== null ? html`<p class="no-comments">Все още няма коментари за тази рецепта</p>` : nothing
             }
         </ul>
     </div>
@@ -87,7 +94,7 @@ export const commentsTemplate = (data, ctx) => html`
         <form id="add-comment-form" class="form">
             <textarea id="comment-text" name="comment" placeholder="Коментар......"> </textarea>
             <input 
-                @click=${(e) => addCommentHandler(e, ctx)} 
+                @click=${(e) => addCommentHandler(e, ctx, recipeData)} 
                 class="comment-btn" 
                 type="submit" 
                 value="Коментирай"
@@ -97,107 +104,116 @@ export const commentsTemplate = (data, ctx) => html`
 </div>
 `;
 
-async function toggleComments(e, ctx) {
+async function toggleComments(e, ctx, recipeData) {
     const comments = e.target.parentNode.querySelector('.details-comments');
     const addCommentForm = e.target.parentNode.querySelector('.create-comment');
 
     if (comments.style.display == 'none' && addCommentForm.style.display == 'none') {
-        comments.style.display = 'flex';
-        addCommentForm.style.display = 'flex';
-        e.target.textContent = 'Скрий коментарите';
-        
-        render(commentLoadingTemplate(), comments);
-        refreshCommentSection(ctx)
+        showComments(comments, addCommentForm, e, ctx, recipeData);
     } else {
-        comments.style.display = 'none';
-        addCommentForm.style.display = 'none';
-        e.target.textContent = 'Покажи коментарите';
+        hideComments(comments, addCommentForm, e);
     }
 }
 
-async function addCommentHandler(e, ctx) {
+async function showComments(comments, addCommentForm, e, ctx, recipeData) {
+    comments.style.display = 'flex';
+    addCommentForm.style.display = 'flex';
+    e.target.textContent = 'Скрий коментарите';
+    
+    render(commentLoadingTemplate(), comments);
+    await refreshCommentSection(ctx, recipeData)
+}
+
+function hideComments(comments, addCommentForm, e) {
+    comments.style.display = 'none';
+    addCommentForm.style.display = 'none';
+    e.target.textContent = 'Покажи коментарите';
+}
+
+async function addCommentHandler(e, ctx, recipeData) {
     e.preventDefault();
 
     const commentField = document.querySelector('#comment-text');
-    const comment = commentField.value;
+    const commentContent = commentField.value;
 
-    const targetRecipe = await getSingleRecipe(ctx.params.id);
-
-    if (comment.trim() == '') {
-        return notify('Коментарът ви не трябва да е празен.');
+    if (commentContent.trim() == '') {
+        return notify(YOUR_COMMENT_SHOULD_NOT_BE_EMPTY);
     }
 
     const createdComment = {
-        content: comment,
-        ownerName: sessionStorage.getItem('username'),
-        ownerAvatar: sessionStorage.getItem('avatar'),
-        recipeName: targetRecipe.recipeName
+        content: commentContent,
+        ownerName: getCurrentUserUsername(),
+        ownerAvatar: getCurrentUserAvatar(),
+        recipeName: recipeData.recipeName
     }
 
-    const response = await commentRecipe(ctx.params.id, createdComment);
+    const response = await commentRecipe(recipeData.id, createdComment);
 
     if (response === AUTHENTICATE_FIRST) {
-        notify('Трябва да сте регистриран потребител в сайта, за да можете да коментирате.');
-        notify('Ако не сте регистриран потребител можете да се регистрирате тук', {
+        notify(YOU_HAVE_TO_BE_REGISTERED);
+        notify(IF_YOU_ARE_NOT_REGISTERED, {
             ctx: ctx,
             location: 'register',
-            comment: comment
+            comment: commentContent
         });
 
-        return notify('Ако вече сте регистриран потребител можете да влезнете в сайта от тук',
+        return notify(IF_YOU_ARE_REGISTERED,
             {
                 ctx: ctx,
                 location: 'login',
-                comment: comment
+                comment: commentContent
             });
     }
 
-    const notificationData = {
-        senderUsername: sessionStorage.getItem('username'),
-        senderAvatar: sessionStorage.getItem('avatarUrl'),
-        senderId: sessionStorage.getItem('id'),
-        sendedOn: new Date(Date.now()).toLocaleString(),
-        locationId: targetRecipe.id,
-        locationName: targetRecipe.recipeName,
-        action: 'Публикува коментар',
-        receiverId: targetRecipe.ownerId,
-    }
-
     commentField.value = '';
-    refreshCommentSection(ctx);
-
-    await createMobilePushNotification('Нов коментар', notificationData.senderUsername + ' публикува нов коментар');
-
-    if (notificationData.senderId !== notificationData.receiverId) {
-        const createdNotification = await createNotification(notificationData);
-
-        notificationData.id = createdNotification.id;
-        socket.emit("sendNewMessageNotification", notificationData);
-    }
-
-    // let allRecepieComments = await getCommentsForRecipe(targetRecipe.id);
-
-    // let uniqueCommentOwners = new Set();
-
-    // allRecepieComments
-    //                 .filter(comment => comment.ownerId !== notificationData.senderId)
-    //                 .forEach(comment => uniqueCommentOwners.add(comment.ownerId));
-
-    // uniqueCommentOwners.forEach(owner => {
-    //     notificationData.receiverId = owner;
-
-    //     sendNotification(notificationData);
-
-    //     async function sendNotification(notificationData) {
-    //         const createdNotification = await createNotification(notificationData);
-
-    //         notificationData.id = createdNotification.id;
-    //         socket.emit("sendNewMessageNotification", notificationData);
-    //     }
-    // });
+    await refreshCommentSection(ctx, recipeData);
+    sendNewCommentNotifications(recipeData);
 }
 
-async function refreshCommentSection(ctx) {
+async function sendNewCommentNotifications(recipeData) {
+    const notificationData = {
+        senderUsername: getCurrentUserUsername(),
+        senderAvatar: getCurrentUserAvatar(),
+        senderId: getCurrentUser(),
+        sendedOn: new Date(Date.now()).toLocaleString(),
+        locationId: recipeData.id,
+        locationName: recipeData.recipeName,
+        action: POSTED_NEW_COMMENT,
+    }
+
+    const pushNotification = createMobilePushNotification(NEW_COMMENT, `${notificationData.senderUsername} ${POSTED_NEW_COMMENT}`);
+
+    const regularNotification = createNotification(notificationData);
+
+    const [mobileNotification, userNotification] = await Promise.all([pushNotification, regularNotification]);
+
+    const notifications = createSocketNotifications(userNotification, recipeData);
+
+    socket.emit("sendNewMessageNotification", notifications);
+}
+
+function createSocketNotifications(createdNotification, recipeData) {
+    const notifications = [];
+
+    createdNotification.receiverIds.forEach((receiverId, index) => {
+        let notificationData = {
+            senderUsername: getCurrentUserUsername(),
+            senderAvatar: getCurrentUserAvatar(),
+            senderId: getCurrentUser(),
+            sendedOn: new Date(Date.now()).toLocaleString(),
+            locationId: recipeData.id,
+            locationName: recipeData.recipeName,
+            action: POSTED_NEW_COMMENT,
+            receiverId: receiverId,
+            id: createdNotification.notificationIds[index]
+        }
+        notifications.push(notificationData);
+    });
+
+    return notifications;
+}
+
+async function refreshCommentSection(ctx, recipeData) {
     const refreshedCommentData = await getCommentsForRecipe(ctx.params.id);
 
     const commentContainer = document.getElementById('comment-container');
@@ -205,7 +221,7 @@ async function refreshCommentSection(ctx) {
     const oldComment = document.getElementById('comments-container');
     oldComment.textContent = '';
 
-    render(commentsTemplate(refreshedCommentData, ctx), commentContainer);
+    render(commentsTemplate(refreshedCommentData, ctx, recipeData), commentContainer);
 
     const comments = document.querySelector('.details-comments');
     comments.style.display = 'block';

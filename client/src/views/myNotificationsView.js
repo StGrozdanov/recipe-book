@@ -15,7 +15,7 @@ const notificationTemplate = (notification, ctx) => html`
             <img 
                 class="notification-article-header-image" 
                 src=${
-                    !notification.senderAvatar
+                    !notification.senderAvatar || notification.senderAvatar == 'null'
                         ? "../static/images/Avatar.png"
                         : notification.senderAvatar
                 } 

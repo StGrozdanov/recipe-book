@@ -33,38 +33,29 @@ io.on("connection", (socket) => {
         console.log(`new user - ${userId} is connected!`);
     });
 
-    socket.on('sendNewMessageNotification', ({ 
-        senderName, 
-        senderAvatar, 
-        senderId, 
-        receiverId, 
-        sendedOn, 
-        locationId,
-        locationName, 
-        action,
-        objectId 
-                    }) => {
-        
-        const receiver = getUser(receiverId);
+    socket.on('sendNewMessageNotification', (notifications) => {
 
-        if (receiver) {
-            console.log('receiver of notification is found');
+        notifications.forEach(notification => {
+            const receiver = getUser(notification.receiverId);
 
-            const notificationContent = {
-                createdAt: sendedOn,
-                action,
-                isMarkedAsRead: false,
-                senderId, 
-                senderName, 
-                senderAvatar,
-                receiverId,
-                locationId,
-                locationName,
-                objectId
+            if (receiver) {
+                console.log('receiver of notification is found.');
+
+                const notificationContent = {
+                    createdAt: notification.sendedOn,
+                    action: notification.action,
+                    isMarkedAsRead: false,
+                    senderId: notification.senderId,
+                    senderUsername: notification.senderUsername,
+                    senderAvatar: notification.senderAvatar,
+                    receiverId: notification.receiverId,
+                    locationId: notification.locationId,
+                    locationName: notification.locationName,
+                    id: notification.id
+                }
+                io.to(receiver.socketId).emit('receiveNotification', notificationContent);
             }
-
-            io.to(receiver.socketId).emit('receiveNotification', notificationContent);
-        }
+        });
     });
 
     socket.on('disconnect', () => {

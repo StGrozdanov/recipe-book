@@ -38,7 +38,7 @@ const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
                 <img alt="recipe-alt" src=${data.imageUrl}>
                 <div id="comment-container">
                     ${getCurrentUser() === data.ownerId ? ownerTemplate(data.id, ctx) : ''}
-                    ${commentsTemplate(commentData, ctx)}
+                    ${commentsTemplate(commentData, ctx, data)}
                 </div>
             </div>
             <div class="recipe-description">
