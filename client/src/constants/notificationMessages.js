@@ -15,3 +15,4 @@ export const ARE_YOU_SURE_DELETE_RECIPE = 'Сигурни ли сте, че ис
 export const DELETE_RECIPE_SUCCESS = 'Успешно изтрихте рецептата!';
 export const REMOVE_FROM_FAVOURITES_SUCCESS = (recipeName) => `Успешно премахнахте ${recipeName} от любимите ви рецепти.`;
 export const ADD_TO_FAVOURITES_SUCCESS = (recipeName) => `Успешно добавихте ${recipeName} към любимите ви рецепти.`;
+export const WELCOME = (username) => `Добре дошли, ${username}! Приятно прекарване!`;

@@ -81,14 +81,9 @@ public class RecipeService {
     public Page<RecipeCatalogueDTO> getRecipesByPage(Integer pageNumber, Integer collectionCount, String sortBy) {
         Pageable pageable = PageRequest.of(pageNumber, collectionCount, Sort.by(sortBy));
 
-        List<RecipeCatalogueDTO> recipeCatalogueDTOS = this.recipeRepository
-                .findAll(pageable)
-                .stream()
-                .filter(recipe -> recipe.getStatus() != PublicationStatusEnum.PENDING)
-                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
-                .toList();
-
-        return new PageImpl<>(recipeCatalogueDTOS);
+        return this.recipeRepository
+                .findAllByStatus(PublicationStatusEnum.APPROVED, pageable)
+                .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class));
     }
 
     public RecipeIdDTO createNewRecipe(RecipeCreateDTO recipeDTO, MultipartFile multipartFile) {

@@ -1,6 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { THERE_ARE_EMPTY_FIELDS_LEFT } from '../constants/notificationMessages.js';
-import { login } from '../services/authenticationService.js';
+import { THERE_ARE_EMPTY_FIELDS_LEFT, WELCOME } from '../constants/notificationMessages.js';
+import { getCurrentUserUsername, login } from '../services/authenticationService.js';
 import { formContainsEmptyFields } from '../utils/formDataValidator.js';
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 import { notify } from '../utils/notification.js';
@@ -59,7 +59,7 @@ async function loginHandler(e, ctx) {
         } else {
             ctx.page.redirect('/my-profile');
         }
-        notify(`Добре дошли, ${sessionStorage.getItem('username')}! Приятно прекарване!`);
+        notify(WELCOME(getCurrentUserUsername()));
     } else {
         const loginResponseData = await loginResponse.json();
         notify(loginResponseData.message);
