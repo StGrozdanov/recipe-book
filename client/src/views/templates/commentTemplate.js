@@ -8,9 +8,9 @@ import { createNotification } from '../../services/notificationService.js';
 import { createMobilePushNotification } from '../../services/mobilePushNotificationService.js';
 import { AUTHENTICATE_FIRST } from '../../constants/errorMessages.js';
 import { ARE_YOU_SURE_DELETE_COMMENT, DELETE_COMMENT_SUCCESS, EDIT_COMMENT_SUCCESS, IF_YOU_ARE_NOT_REGISTERED, IF_YOU_ARE_REGISTERED, YOUR_COMMENT_SHOULD_NOT_BE_EMPTY, YOU_HAVE_TO_BE_REGISTERED } from '../../constants/notificationMessages.js';
-import { NEW_COMMENT, POSTED_NEW_COMMENT } from '../../constants/userActions.js';
+import { EDITED_COMMENT, NEW_COMMENT, POSTED_NEW_COMMENT } from '../../constants/userActions.js';
 
-const ownerCommentTemplate = (comment) => html`
+const ownerCommentTemplate = (comment, recipeData) => html`
     <i 
     @click=${deleteCommentHandler} 
     class="fa-solid fa-trash-can" 
@@ -26,7 +26,7 @@ const ownerCommentTemplate = (comment) => html`
     class="fa-solid fa-xmark" 
     style="float: right; font-size: 110%; display: none; color: darkred; cursor: pointer;"
     ></i>
-    <form @submit=${editCommentHandler}>
+    <form @submit=${(e) => editCommentHandler(e, recipeData)}>
         <button type="submit" style="margin: 0; border: none; background-color: inherit; float: right; font-size: 85%; padding: 0;">
         <i 
         class="fa-solid fa-check" 
@@ -80,7 +80,7 @@ export const commentsTemplate = (commentData, ctx, recipeData) => html`
                         </p>
                         ${ 
                             getCurrentUser() === comment.owner.id 
-                            ? ownerCommentTemplate(comment)
+                            ? ownerCommentTemplate(comment, recipeData)
                             : unauthorizedCommentTemplate(comment)
                         }
                     </li>`) 
@@ -151,10 +151,10 @@ async function addCommentHandler(e, ctx, recipeData) {
 
     commentField.value = '';
     await refreshCommentSection(ctx, recipeData);
-    sendNewCommentNotifications(recipeData);
+    await sendNotifications(recipeData, POSTED_NEW_COMMENT, NEW_COMMENT);
 }
 
-async function sendNewCommentNotifications(recipeData) {
+export async function sendNotifications(recipeData, action, actionHeader) {
     const notificationData = {
         senderUsername: getCurrentUserUsername(),
         senderAvatar: getCurrentUserAvatar(),
@@ -162,21 +162,24 @@ async function sendNewCommentNotifications(recipeData) {
         sendedOn: new Date(Date.now()).toLocaleString(),
         locationId: recipeData.id,
         locationName: recipeData.recipeName,
-        action: POSTED_NEW_COMMENT,
+        action: action,
     }
 
-    const pushNotification = createMobilePushNotification(NEW_COMMENT, `${notificationData.senderUsername} ${POSTED_NEW_COMMENT}`);
+    
+
+    // const pushNotification = createMobilePushNotification(actionHeader, `${notificationData.senderUsername} ${action}`);
+    //ADD TO PROMISE ALL !!!!!
 
     const regularNotification = createNotification(notificationData);
 
-    const [mobileNotification, userNotification] = await Promise.all([pushNotification, regularNotification]);
+    const [userNotification] = await Promise.all([regularNotification]);
 
-    const notifications = createSocketNotifications(userNotification, recipeData);
+    const notifications = createSocketNotifications(userNotification, recipeData, action);
 
     socket.emit("sendNewMessageNotification", notifications);
 }
 
-function createSocketNotifications(createdNotification, recipeData) {
+function createSocketNotifications(createdNotification, recipeData, action) {
     const notifications = [];
 
     createdNotification.receiverIds.forEach((receiverId, index) => {
@@ -187,7 +190,7 @@ function createSocketNotifications(createdNotification, recipeData) {
             sendedOn: new Date(Date.now()).toLocaleString(),
             locationId: recipeData.id,
             locationName: recipeData.recipeName,
-            action: POSTED_NEW_COMMENT,
+            action: action,
             receiverId: receiverId,
             id: createdNotification.notificationIds[index]
         }
@@ -276,7 +279,7 @@ function cancelEditCommentHandler(e) {
     cancelEditIcon.style.display = 'none';
 }
 
-async function editCommentHandler(e) {
+async function editCommentHandler(e, recipeData) {
     e.preventDefault();
 
     const targetComment = e.currentTarget.parentNode;
@@ -307,6 +310,8 @@ async function editCommentHandler(e) {
         cancelEditIcon.style.display = 'none';
 
         notify(EDIT_COMMENT_SUCCESS);
+
+        await sendNotifications(recipeData, EDITED_COMMENT, NEW_COMMENT);
     } else {
         return notify(YOUR_COMMENT_SHOULD_NOT_BE_EMPTY);
     }

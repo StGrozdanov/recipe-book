@@ -96,7 +96,7 @@ public class RecipeService {
 
         this.handleNoPictureProvided(multipartFile, pictureUrlProvided);
 
-        this.uploadFileToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(recipeDTO, multipartFile, pictureUrlProvided);
+        this.uploadFileToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(recipeDTO, multipartFile);
 
         RecipeEntity newRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
         RecipeEntity createdRecipe = this.recipeRepository.save(newRecipe);
@@ -115,7 +115,7 @@ public class RecipeService {
 
         this.handleNoPictureProvided(multipartFile, pictureUrlProvided);
 
-        this.uploadFileToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(recipeDTO, multipartFile, pictureUrlProvided);
+        this.uploadFileToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(recipeDTO, multipartFile);
 
         boolean recipeWithTheSameNameOrImageAlreadyExists =
                 this.otherRecipeWithTheSameNameOrImageExists(recipeDTO, oldRecipe);
@@ -340,9 +340,8 @@ public class RecipeService {
     }
 
     private void uploadFileToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(ImageUrl dto,
-                                                                       MultipartFile multipartFile,
-                                                                       boolean pictureUrlProvided) {
-        if (!pictureUrlProvided) {
+                                                                       MultipartFile multipartFile) {
+        if (!multipartFile.isEmpty()) {
             String uploadedFileURL = this.amazonS3Service.uploadFile(multipartFile);
 
             boolean providedImageUrlIsAlreadyTaken = this.recipeWithTheSameImageExists(uploadedFileURL);

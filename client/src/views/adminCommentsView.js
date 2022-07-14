@@ -1,5 +1,4 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
-import { adminRootElement } from "../middlewares/adminPageMidware.js";
 import { loaderTemplate } from "./templates/adminLoadingTemplate.js";
 
 const applicationCommentsTemplate = () => html`

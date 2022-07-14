@@ -78,7 +78,7 @@ public class NotificationService {
                 receiverIds
         );
 
-        this.addAllModeratorsAndAdministratorsInReceivers(receiverIds);
+        this.addAllModeratorsAndAdministratorsInReceivers(receiverIds, notificationDTO);
 
         this.createNotificationForAllUniqueReceiversThatAreNotSenders(
                 notificationDTO,
@@ -127,9 +127,13 @@ public class NotificationService {
                 });
     }
 
-    private void addAllModeratorsAndAdministratorsInReceivers(Set<Long> notificationReceivers) {
+    private void addAllModeratorsAndAdministratorsInReceivers(Set<Long> notificationReceivers,
+                                                              NotificationCreateDTO notificationDTO) {
         notificationReceivers.addAll(this.userService.getAllAdministratorIds());
-        notificationReceivers.addAll(this.userService.getAllModeratorIds());
+        NotificationActionEnum notificationActionEnum = this.findTheNotificationAction(notificationDTO);
+        if (!notificationActionEnum.equals(NotificationActionEnum.CREATED_RECIPE)) {
+            notificationReceivers.addAll(this.userService.getAllModeratorIds());
+        }
     }
 
     private void addAllUniqueCommentParticipantsToReceiversIfNotificationIsCommentRelated(

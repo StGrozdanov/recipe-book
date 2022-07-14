@@ -50,6 +50,16 @@ export function profileFormContainsInvalidInput(formElement) {
     return formInvalidInputIterator(formInputFields);
 }
 
+export function recipeFormContainsEmptyFields(fileImg, img, name, products, steps, category) {
+    const noImageIsProvided = fileImg.size === 0 && img.trim() == '';
+    const nameIsEmpty = name.trim() == '';
+    const productsAreEmpty = products.length === 0;
+    const stepsAreEmpty = steps.length === 0;
+    const categoryIsEmpty = category.trim() == '';
+
+    return nameIsEmpty || productsAreEmpty || stepsAreEmpty || categoryIsEmpty || noImageIsProvided;
+}
+
 function formInvalidInputIterator(formInputFields, formTextFields, inputCriteria) {
     let isInvalid = false;
 

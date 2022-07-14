@@ -4,6 +4,9 @@ import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import multiLineInputProcessor from '../utils/multiLineInputProcessor.js';
 import { getUserToken, getCurrentUser } from '../services/authenticationService.js';
+import { CREATED_RECIPE_SUCCESS, ONLY_REGISTERED_USERS_CAN_CREATE, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
+import { sendNotifications } from './templates/commentTemplate.js';
+import { NEW_RECIPE, POSTED_NEW_RECIPE } from '../constants/userActions.js';
 
 const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
@@ -63,6 +66,7 @@ const createRecipeTemplate = (ctx) => html`
                 <label for="type">Категория</label>
                 <span class="input">
                     <select id="type" name="category">
+                        <option value="" selected hidden>Изберете категория...</option>
                         <option value="Пилешко">Пилешко</option>
                         <option value="Свинско">Свинско</option>
                         <option value="Телешко">Телешко</option>
@@ -87,7 +91,7 @@ export function addRecipePage(context) {
     if (getUserToken() != null) {
         context.render(createRecipeTemplate(context))
     } else {
-        notify('Единствено регистрираните потребители могат да създават рецепти.');
+        notify(ONLY_REGISTERED_USERS_CAN_CREATE);
     }
 }
 
@@ -96,24 +100,23 @@ async function createHandler(e, context) {
 
     const form = new FormData(e.target);
 
-    let name = form.get('name');
+    const name = form.get('name');
     const products = multiLineInputProcessor.process(form.get('products'));
     const steps = multiLineInputProcessor.process(form.get('steps'));
     const img = form.get('img');
     const category = form.get('category');
     const fileImg = form.get('fileImg');
 
-    form.append('file', fileImg);
-    
-    TODO: //IMAGE VALIDATION
-    if (name.trim() == '' || products.length === 0 || steps.length === 0 || category.trim() == '') {
-        return notify('Моля попълнете всички полета.');
+    const thereAreEmptyFieldsLeft = formDataValidator.recipeFormContainsEmptyFields(fileImg, img, name, products, steps, category);
+
+    if (thereAreEmptyFieldsLeft) {
+        return notify(THERE_ARE_EMPTY_FIELDS_LEFT);
     } else if (formDataValidator.formContainsInvalidInput(e.target)) {
-        return notify('Поправете невалидните полета.');
+        return notify(THERE_ARE_INVALID_FIELDS_LEFT);
     }
 
     const newRecipe = {
-        recipeName: name.toLowerCase(),
+        recipeName: name,
         products: products,
         steps: steps,
         imageUrl: img,
@@ -121,10 +124,17 @@ async function createHandler(e, context) {
         ownerId: getCurrentUser()
     }
 
+    form.append('file', fileImg);
     form.append('data', JSON.stringify(newRecipe));
 
-    notify('Успешно създадохте рецептата си! При нужда можете да я редактирате от бутончетата.');
-
     const createdRecipeId = await createRecipe(form);
+
     context.page.redirect(`/details-${createdRecipeId.recipeId}`);
+    notify(CREATED_RECIPE_SUCCESS);
+    
+    await sendNotifications(
+        { id: createdRecipeId.recipeId, recipeName: newRecipe.recipeName }, 
+        POSTED_NEW_RECIPE, 
+        NEW_RECIPE
+    );
 }
