@@ -1,10 +1,8 @@
-import { html, render } from '../../node_modules/lit-html/lit-html.js';
-import { login, register } from '../services/authenticationService.js'
+import { html } from '../../node_modules/lit-html/lit-html.js';
+import { register } from '../services/authenticationService.js'
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js'
-import { loaderTemplate } from './templates/loadingTemplate.js';
-import { commentLoadingTemplate } from './templates/commentTemplate.js';
-import { hideLoadingSpinner, showLoadingSpinner } from './loginView.js';
+import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 
 const registerTemplate = (context) => html`
 <section id="register-page" class="register formData">
@@ -93,8 +91,6 @@ async function registerHandler(e, context) {
         password: formData.get('password'),
         repeatPassword: formData.get('confirm-pass')
     }
-
-    render(commentLoadingTemplate(), registerForm);
 
     showLoadingSpinner(registerForm);
 

@@ -105,7 +105,7 @@ function resolvePageStyleArchitecture() {
     document.querySelector('body').style.width = initialBodyWidth;
 }
 
-const SCROLL_DOWN_RECIPE_CATALOGUE_VIEWPORT_VALUE = document.body.clientHeight / 0.45;
+const SCROLL_DOWN_RECIPE_CATALOGUE_VIEWPORT_VALUE = document.body.clientHeight / 0.39;
 
 export function navigateDownHandler() {
     window.scrollTo({

@@ -1,8 +1,9 @@
-import { html, render } from '../../node_modules/lit-html/lit-html.js';
+import { html } from '../../node_modules/lit-html/lit-html.js';
+import { THERE_ARE_EMPTY_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { login } from '../services/authenticationService.js';
 import { formContainsEmptyFields } from '../utils/formDataValidator.js';
+import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 import { notify } from '../utils/notification.js';
-import { commentLoadingTemplate } from './templates/commentTemplate.js'
 
 const loginTemplate = (ctx) => html`
 <section id="login-page" class="login formData">
@@ -40,7 +41,7 @@ async function loginHandler(e, ctx) {
     const formData = new FormData(loginForm);
 
     if (formContainsEmptyFields(formData)) {
-        return notify('Всички полета са задължителни!');
+        return notify(THERE_ARE_EMPTY_FIELDS_LEFT);
     }
 
     const loginData = {
@@ -64,13 +65,4 @@ async function loginHandler(e, ctx) {
         notify(loginResponseData.message);
         hideLoadingSpinner();
     }
-}
-
-export function showLoadingSpinner(element) {
-    render(commentLoadingTemplate(), element);
-    document.getElementById('loading-comments').style.display = 'block';
-}
-
-export function hideLoadingSpinner() {
-    document.getElementById('loading-comments').style.display = 'none';
 }

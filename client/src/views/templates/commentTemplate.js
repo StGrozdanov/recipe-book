@@ -48,7 +48,7 @@ const unauthorizedCommentTemplate = (comment) => html`
     <p class="comment-content">${comment.content}</p>
 `; 
 
-export const commentLoadingTemplate = () => html`
+export const dynamicLoadingTemplate = () => html`
     <div id="loading-comments" class="comment-loading-container">
         <img src="../../../static/images/loading-spinner.gif" alt="Loading..." class="comment-loading"/>
     </div>
@@ -116,6 +116,8 @@ async function toggleComments(e, ctx, recipeData) {
 
 async function addCommentHandler(e, ctx, recipeData) {
     e.preventDefault();
+
+    recipeData = await recipeData;
 
     const commentField = document.querySelector('#comment-text');
     const commentContent = commentField.value;
@@ -319,7 +321,7 @@ async function showComments(comments, addCommentForm, e, ctx, recipeData) {
     addCommentForm.style.display = 'flex';
     e.target.textContent = 'Скрий коментарите';
     
-    render(commentLoadingTemplate(), comments);
+    render(dynamicLoadingTemplate(), comments);
     await refreshCommentSection(ctx, recipeData)
 }
 
