@@ -18,6 +18,7 @@ import recepiesserver.recipesserver.exceptions.authenticationExceptions.MissingT
 import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileEditDTO;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.utils.JwtUtil;
@@ -55,18 +56,7 @@ public class AuthenticationService {
 
     @Transactional
     public AuthenticatedLoginDTO login(String userIpAddress, UserLoginDTO userLoginDTO) {
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userLoginDTO.getUsername(), userLoginDTO.getPassword());
-
-        Authentication authentication;
-
-        try {
-            authentication = this.authenticationManager.authenticate(authenticationToken);
-        } catch (Exception e) {
-            throw new LoginException(ExceptionMessages.INVALID_CREDENTIALS);
-        }
-
-        User user = (User) authentication.getPrincipal();
+        User user = this.checkUserCredentials(userLoginDTO.getUsername(), userLoginDTO.getPassword());
 
         boolean isAdministrator = this.checkForAuthority(user, Authorities.ADMINISTRATOR);
         boolean isModerator = this.checkForAuthority(user, Authorities.MODERATOR);
@@ -107,6 +97,21 @@ public class AuthenticationService {
         context.logout(request, response, null);
     }
 
+    public User checkUserCredentials(String username, String password) {
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(username, password);
+
+        Authentication authentication;
+
+        try {
+            authentication = this.authenticationManager.authenticate(authenticationToken);
+        } catch (Exception e) {
+            throw new LoginException(ExceptionMessages.INVALID_CREDENTIALS);
+        }
+
+        return (User) authentication.getPrincipal();
+    }
+
     @Transactional
     public void refreshUserToken(String authorizationHeader, HttpServletResponse response) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -124,6 +129,12 @@ public class AuthenticationService {
             }
         } else {
             throw new MissingTokenException(ExceptionMessages.MISSING_TOKEN);
+        }
+    }
+
+    public void handleInvalidPassword(String rawPassword, String encodedPassword) {
+        if (!this.passwordEncoder.matches(rawPassword, encodedPassword)) {
+            throw new LoginException(ExceptionMessages.INVALID_CREDENTIALS);
         }
     }
 

@@ -73,7 +73,7 @@ export function userIsModerator() {
     return sessionStorage.getItem('isModerator')
 }
 
-function saveUserData(data) {
+export function saveUserData(data) {
     sessionStorage.setItem('sessionToken', data.sessionToken);
     sessionStorage.setItem('refreshToken', data.refreshToken);
     sessionStorage.setItem('id', data.id);

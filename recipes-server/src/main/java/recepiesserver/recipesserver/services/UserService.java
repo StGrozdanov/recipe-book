@@ -9,6 +9,8 @@ import recepiesserver.recipesserver.exceptions.userExceptions.UserAlreadyBlocked
 import recepiesserver.recipesserver.exceptions.userExceptions.UserAlreadyExistsException;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserIsNotBlockedException;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
+import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
+import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCountDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeFavouritesDTO;
@@ -21,6 +23,8 @@ import recepiesserver.recipesserver.models.enums.UserStatusEnum;
 import recepiesserver.recipesserver.repositories.UserRepository;
 import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,14 +40,16 @@ public class UserService {
     private final RoleService roleService;
     private final BlacklistService blacklistService;
     private final AmazonS3Service amazonS3Service;
+    private final AuthenticationService authenticationService;
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, @Lazy RecipeService recipeService, RoleService roleService, BlacklistService blacklistService, AmazonS3Service amazonS3Service) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, @Lazy RecipeService recipeService, RoleService roleService, BlacklistService blacklistService, AmazonS3Service amazonS3Service, @Lazy AuthenticationService authenticationService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.recipeService = recipeService;
         this.roleService = roleService;
         this.blacklistService = blacklistService;
         this.amazonS3Service = amazonS3Service;
+        this.authenticationService = authenticationService;
     }
 
     public Optional<UserEntity> findUserById(Long id) {
@@ -76,11 +82,15 @@ public class UserService {
         return userDTO;
     }
 
-    public UserIdDTO editUserProfile(Long userId,
-                                     UserProfileEditDTO userDTO,
-                                     MultipartFile profileImageFile,
-                                     MultipartFile coverImageFile) {
+    public AuthenticatedLoginDTO editUserProfile(Long userId,
+                                              UserProfileEditDTO userDTO,
+                                              MultipartFile profileImageFile,
+                                              MultipartFile coverImageFile,
+                                              HttpServletRequest request,
+                                              HttpServletResponse response) {
         UserEntity oldUserInfo = this.getUserById(userId);
+
+        this.authenticationService.handleInvalidPassword(userDTO.getPassword(), oldUserInfo.getPassword());
 
         boolean userWithTheSameUsernameOrEmailExists =
                 this.otherUserWithSameUsernameOrEmailExists(userDTO, oldUserInfo);
@@ -108,7 +118,11 @@ public class UserService {
 
         this.userRepository.save(editedUser);
 
-        return new UserIdDTO(userId);
+        this.authenticationService.logout(request, response);
+
+        UserLoginDTO loginDTO = this.modelMapper.map(userDTO, UserLoginDTO.class);
+
+        return this.authenticationService.login(request.getRemoteAddr(), loginDTO);
     }
 
     public boolean userWithTheSameUsernameExists(String username) {

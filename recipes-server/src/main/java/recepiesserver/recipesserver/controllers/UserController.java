@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeFavouritesDTO;
 import recepiesserver.recipesserver.models.dtos.userDTOs.*;
@@ -13,6 +14,7 @@ import recepiesserver.recipesserver.services.UserService;
 import recepiesserver.recipesserver.utils.constants.Api;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -41,14 +43,19 @@ public class UserController {
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
             "#request.getHeader('Authorization'), @userService.getUserProfileOwnerUsername(#userId)) " +
             "|| hasRole('ADMINISTRATOR')")
-    public ResponseEntity<UserIdDTO> editUserProfile(@PathVariable Long userId,
-                                                     @RequestParam("data") String userData,
-                                                     @RequestParam("profileImageFile") MultipartFile profileImageFile,
-                                                     @RequestParam("coverImageFile") MultipartFile coverImageFile,
-                                                     HttpServletRequest request) throws JsonProcessingException {
+    public ResponseEntity<AuthenticatedLoginDTO> editUserProfile(
+            @PathVariable Long userId,
+            @RequestParam("data") String userData,
+            @RequestParam("profileImageFile") MultipartFile profileImageFile,
+            @RequestParam("coverImageFile") MultipartFile coverImageFile,
+            HttpServletRequest request,
+            HttpServletResponse response) throws JsonProcessingException {
+
         @Valid UserProfileEditDTO dto = new ObjectMapper().readValue(userData, UserProfileEditDTO.class);
-        UserIdDTO editedProfileId = this.userService.editUserProfile(userId, dto, profileImageFile, coverImageFile);
-        return ResponseEntity.ok().body(editedProfileId);
+        AuthenticatedLoginDTO editedProfile =
+                this.userService.editUserProfile(userId, dto, profileImageFile, coverImageFile, request, response);
+
+        return ResponseEntity.ok().body(editedProfile);
     }
 
     @PostMapping(Api.RECIPE_IS_IN_USER_FAVOURITES)

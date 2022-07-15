@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 
 public class UserProfileEditDTO {
     private String username;
+    private String password;
     private String email;
     private String avatarUrl;
     private String coverPhotoUrl;
@@ -46,5 +47,14 @@ public class UserProfileEditDTO {
 
     public void setCoverPhotoUrl(String coverPhotoUrl) {
         this.coverPhotoUrl = coverPhotoUrl;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public UserProfileEditDTO setPassword(String password) {
+        this.password = password;
+        return this;
     }
 }

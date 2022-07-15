@@ -18,3 +18,5 @@ export const ADD_TO_FAVOURITES_SUCCESS = (recipeName) => `Успешно доб�
 export const WELCOME = (username) => `Добре дошли, ${username}! Приятно прекарване!`;
 export const MARKED_AS_READ = 'Отметнахте съобщението, като прочетено.';
 export const REGISTRATION_SUCCESS = 'Регистрирахте се успешно. Добре дошли!';
+export const ARE_YOU_SURE_PROFILE_EDIT = 'Сигурни ли сте, че искате да промените данните си?';
+export const PROFILE_EDIT_SUCCESS = 'Успешно редактирахте профила си!';

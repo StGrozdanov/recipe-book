@@ -6,7 +6,10 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
-import { logout, getCurrentUser } from '../services/authenticationService.js';
+import { getCurrentUser, saveUserData } from '../services/authenticationService.js';
+import { ARE_YOU_SURE_PROFILE_EDIT, PROFILE_EDIT_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
+import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
+import { modalPassword, showPasswordModal } from '../utils/passwordModalDialogue.js';
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
 <section class="my-profile-section">
@@ -153,41 +156,48 @@ async function editProfileHandler(e, ctx) {
 
     const formData = new FormData(e.target);
 
-    let coverImage = formData.get('cover-img');
-    let avatar = formData.get('avatar');
+    const coverImage = formData.get('cover-img');
+    const avatar = formData.get('avatar');
     const username = formData.get('username');
     const email = formData.get('email');
     const coverUpload = formData.get('coverUpload');
     const avatarUpload = formData.get('avatarUpload');
 
-    TODO: //IMAGE VALIDATION
     if (email == '' || username == '') {
-        return notify('Всички полета са задължителни!');
+        return notify(THERE_ARE_EMPTY_FIELDS_LEFT);
     } else if (formDataValidator.profileFormContainsInvalidInput(e.currentTarget)) {
-        return notify('Поправете невалидните полета.')
+        return notify(THERE_ARE_INVALID_FIELDS_LEFT);
     }
 
-    showModal('Сигурни ли сте, че искате да промените данните си?', onSelect);
-
-    formData.append('profileImageFile', avatarUpload);
-    formData.append('coverImageFile', coverUpload);
-
-    const editedProfile = {
-        username: username,
-        email: email,
-        avatarUrl: avatar,
-        coverPhotoUrl: coverImage,
-    }
-
-    formData.append('data', JSON.stringify(editedProfile));
+    showModal(ARE_YOU_SURE_PROFILE_EDIT, onSelect);
 
     async function onSelect(choice) {
         if (choice) {
-            ctx.render(loaderTemplate());
-            await update(getCurrentUser(), formData);
-            notify("Успешно редактирахте профила си! Моля влезте наново, за да отразите промените.")
-            await logout();
-            ctx.page.redirect('/login');
+            showPasswordModal(onInput);
+
+            async function onInput(choice) {
+
+                const editedProfile = {
+                    username: username,
+                    email: email,
+                    avatarUrl: avatar,
+                    coverPhotoUrl: coverImage,
+                    password: modalPassword
+                }
+    
+                formData.append('profileImageFile', avatarUpload);
+                formData.append('coverImageFile', coverUpload);
+                formData.append('data', JSON.stringify(editedProfile));
+    
+                showLoadingSpinner(e.target);
+                
+                const newProfileData = await update(getCurrentUser(), formData);
+    
+                saveUserData(newProfileData);
+                hideLoadingSpinner();
+                ctx.page.redirect('/my-profile/edit');
+                notify(PROFILE_EDIT_SUCCESS);
+            }
         }
     }
 }
