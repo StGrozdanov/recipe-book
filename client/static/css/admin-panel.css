@@ -235,6 +235,7 @@ h4 {
 
 .most-active-user .user-profile-avatar-container {
     width: 95px;
+    height: 95px;
     margin-top: -42px;
     box-shadow: none;
 }
@@ -511,6 +512,7 @@ tbody tr td:nth-child(2) {
 @media all and (min-width: 1680px) {
     .most-active-user .user-profile-avatar-container {
         width: 130px;
+        height: 130px;
         margin-top: -60px;
     }
 }
@@ -542,6 +544,7 @@ tbody tr td:nth-child(2) {
 
     .most-active-user .user-profile-avatar-container {
         width: 180px;
+        height: 180px;
         margin-top: -82px;
         box-shadow: none;
     }
@@ -558,6 +561,7 @@ tbody tr td:nth-child(2) {
 
     .most-active-user .user-profile-avatar-container {
         width: 65px;
+        height: 65px;
         margin-top: -26px;
         box-shadow: none;
     }
@@ -584,6 +588,7 @@ tbody tr td:nth-child(2) {
 
     .most-active-user .user-profile-avatar-container {
         width: 70px;
+        height: 70px;
         margin-top: -32px;
     }
 

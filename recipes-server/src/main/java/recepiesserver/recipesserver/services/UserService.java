@@ -22,6 +22,7 @@ import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.models.enums.UserStatusEnum;
 import recepiesserver.recipesserver.repositories.UserRepository;
 import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
+import recepiesserver.recipesserver.utils.constants.FileMessages;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -99,15 +100,10 @@ public class UserService {
             throw new UserAlreadyExistsException(ExceptionMessages.USER_ALREADY_EXISTS);
         }
 
-        boolean avatarPictureUrlProvided = this.isPictureUrlProvided(userDTO.getAvatarUrl());
-        boolean coverPictureUrlProvided = this.isPictureUrlProvided(userDTO.getCoverPhotoUrl());
-
         this.uploadCoverAndAvatarImagesToAmazonIfSuchFilesAreProvidedAndSetThemAsDTOImageUrl(
                 userDTO,
                 profileImageFile,
-                coverImageFile,
-                avatarPictureUrlProvided,
-                coverPictureUrlProvided
+                coverImageFile
         );
 
         this.setDefaultValuesForImagesIfNoImageUrlsAreProvided(userDTO);
@@ -122,7 +118,7 @@ public class UserService {
 
         UserLoginDTO loginDTO = this.modelMapper.map(userDTO, UserLoginDTO.class);
 
-        return this.authenticationService.login(request.getRemoteAddr(), loginDTO);
+        return this.authenticationService.login(this.getUserIpAddress(request), loginDTO);
     }
 
     public boolean userWithTheSameUsernameExists(String username) {
@@ -260,52 +256,32 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
     }
 
-    private void uploadAvatarToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(UserProfileEditDTO dto,
-                                                                         MultipartFile multipartFile,
-                                                                         boolean pictureUrlProvided) {
-        if (!pictureUrlProvided && !multipartFile.isEmpty()) {
+    private void uploadImageToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(UserProfileEditDTO dto,
+                                                                        MultipartFile multipartFile,
+                                                                        String type) {
+        if (!multipartFile.isEmpty()) {
             String uploadedFileURL = this.amazonS3Service.uploadFile(multipartFile);
-            dto.setAvatarUrl(uploadedFileURL);
+            if (type.equals(FileMessages.AVATAR_PHOTO)) {
+                dto.setAvatarUrl(uploadedFileURL);
+            } else if (type.equals(FileMessages.COVER_PHOTO)) {
+                dto.setCoverPhotoUrl(uploadedFileURL);
+            }
         }
-    }
-
-    private void uploadCoverImageToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(UserProfileEditDTO dto,
-                                                                             MultipartFile multipartFile,
-                                                                             boolean pictureUrlProvided) {
-        if (!pictureUrlProvided && !multipartFile.isEmpty()) {
-            String uploadedFileURL = this.amazonS3Service.uploadFile(multipartFile);
-            dto.setCoverPhotoUrl(uploadedFileURL);
-        }
-    }
-
-    private boolean isPictureUrlProvided(String imageUrl) {
-        return imageUrl != null && !imageUrl.isBlank();
     }
 
     private void uploadCoverAndAvatarImagesToAmazonIfSuchFilesAreProvidedAndSetThemAsDTOImageUrl(
             UserProfileEditDTO dto,
             MultipartFile avatarPictureFile,
-            MultipartFile coverPictureFile,
-            boolean avatarPictureUrlProvided,
-            boolean coverPictureUrlProvided) {
-
-        this.uploadAvatarToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(
-                dto,
-                avatarPictureFile,
-                avatarPictureUrlProvided
-        );
-        this.uploadCoverImageToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(
-                dto,
-                coverPictureFile,
-                coverPictureUrlProvided
-        );
+            MultipartFile coverPictureFile) {
+        this.uploadImageToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(dto, avatarPictureFile, FileMessages.AVATAR_PHOTO);
+        this.uploadImageToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(dto, coverPictureFile, FileMessages.COVER_PHOTO);
     }
 
     private void setDefaultValuesForImagesIfNoImageUrlsAreProvided(UserProfileEditDTO userDTO) {
-        if (userDTO.getAvatarUrl().equals("")) {
+        if (userDTO.getAvatarUrl().isBlank()) {
             userDTO.setAvatarUrl(null);
         }
-        if (userDTO.getCoverPhotoUrl().equals("")) {
+        if (userDTO.getCoverPhotoUrl().isBlank()) {
             userDTO.setCoverPhotoUrl(null);
         }
     }
@@ -350,6 +326,11 @@ public class UserService {
         RoleEntity moderatorEntity = this.roleService.getModeratorEntity();
         RoleEntity userEntity = this.roleService.getUserEntity();
         user.setRoles(new ArrayList<>(List.of(administratorEntity, moderatorEntity, userEntity)));
+    }
+
+    private String getUserIpAddress(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        return ip == null ? request.getRemoteAddr() : ip;
     }
 
 }

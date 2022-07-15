@@ -24,9 +24,9 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
             style="display: none; margin-top: -300px; z-index: 2; position: absolute;" 
             placeholder="Адрес на картинка"
             value=${
-                sessionStorage.getItem('coverPhoto') === 'null'
+                sessionStorage.getItem('coverPhotoUrl') === 'null'
                     ? nothing 
-                    : sessionStorage.getItem('coverPhoto')} 
+                    : sessionStorage.getItem('coverPhotoUrl')} 
             autocomplete="off"
         />
         <div class="element" style="position: absolute; top: 0; display: none;" id="upload-cover">
