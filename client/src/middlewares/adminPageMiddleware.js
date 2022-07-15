@@ -1,6 +1,6 @@
 import { render } from '../../node_modules/lit-html/lit-html.js';
 import { adminPanelTemplate } from '../views/templates/adminPageTemplate.js';
-import { mainRootElement } from './setUpMidware.js';
+import { mainRootElement } from './setUpMiddleware.js';
 
 const timeParts = {
     "Добро утро": [3, 4, 5, 6, 7, 8, 9, 10, 11],

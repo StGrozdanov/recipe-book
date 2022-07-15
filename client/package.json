@@ -1,5 +1,5 @@
 {
-  "name": "recepie-book",
+  "name": "recipe-book",
   "version": "1.0.0",
   "description": "Personal cookbook",
   "main": "index.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/StGrozdanov/recepie-book.git"
+    "url": "git+https://github.com/StGrozdanov/recipe-book.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/StGrozdanov/recepie-book/issues"
+    "url": "https://github.com/StGrozdanov/recipe-book/issues"
   },
-  "homepage": "https://github.com/StGrozdanov/recepie-book#readme",
+  "homepage": "https://github.com/StGrozdanov/recipe-book#readme",
   "dependencies": {
     "chart.js": "^3.8.0",
     "firebase": "^9.6.1",

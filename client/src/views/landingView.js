@@ -1,5 +1,5 @@
 import { html, nothing, render } from "../../node_modules/lit-html/lit-html.js";
-import { mainRootElement } from "../middlewares/setUpMidware.js";
+import { mainRootElement } from "../middlewares/setUpMiddleware.js";
 import page from '../../node_modules/page/page.mjs';
 import { getTheLastThreeRecepies, getTheThreeMostViewedRecepies  } from "../services/recipeService.js";
 import { getTheLatestSixComments } from "../services/commentService.js";

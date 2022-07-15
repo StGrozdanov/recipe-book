@@ -11,7 +11,7 @@
 @import 'scrollbar.css';
 @import 'profile-page.css';
 @import 'user-page.css';
-@import 'landingPage.css';
+@import 'landing-page.css';
 @import 'admin-panel.css';
 
 @import './responsive/monitors.css';
@@ -19,4 +19,4 @@
 @import './responsive/tablets.css';
 @import './responsive/smartphones.css';
 @import './responsive/smaller-devices.css';
-@import './buttonBackToTop.css'
+@import './button-back-to-top.css';
