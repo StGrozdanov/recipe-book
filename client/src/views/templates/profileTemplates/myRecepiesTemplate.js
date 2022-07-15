@@ -1,9 +1,9 @@
 import { html } from "../../../../node_modules/lit-html/lit-html.js";
-import { searchTemplate } from "../searchTemplate.js";
+import { profileSearchTemplate } from "./profileSearchTemplate.js";
 
 export const myRecepiesTemplate = (recepies, heading, ctx) => html`
 <section class="user-recepies-section">
-    ${searchTemplate(ctx, { request: heading })}
+    ${profileSearchTemplate(ctx, { request: heading })}
     <section id="cards-section">
         <div id="cards">
             <h2 class="user-recepies-heading">${heading}:</h2>
