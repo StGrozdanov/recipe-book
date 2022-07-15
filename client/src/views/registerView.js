@@ -7,21 +7,15 @@ import { REGISTRATION_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FI
 
 const registerTemplate = (context) => html`
 <section id="register-page" class="register formData">
-    <form @submit=${(e)=> registerHandler(e, context)} id="register-form" action="" method="">
+    <form @submit=${(e) => registerHandler(e, context)} id="register-form" action="" method="">
         <fieldset>
             <legend>Регистрация</legend>
             <p class="field">
                 <label for="email">Имейл</label>
                 <span class="input">
                     <i class="fa-solid fa-envelope"></i>
-                    <input 
-                    @input=${formDataValidator.inputValidateHandler} 
-                    type="text" 
-                    name="email" 
-                    id="email" 
-                    placeholder="Email"
-                    autocomplete="off"
-                    >
+                    <input @input=${formDataValidator.inputValidateHandler} type="text" name="email" id="email"
+                        placeholder="Email" autocomplete="off">
                     <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
                     <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
@@ -44,8 +38,14 @@ const registerTemplate = (context) => html`
                 <label for="password">Парола</label>
                 <span class="input">
                     <i class="fa-solid fa-key"></i>
-                    <input @input=${formDataValidator.inputValidateHandler} type="password" name="password" id="password"
-                        placeholder="Password">
+                    <input 
+                        @input=${formDataValidator.inputValidateHandler}
+                        @blur=${fireRepeatPassEvent}
+                        type="password" 
+                        name="password" 
+                        id="password" 
+                        placeholder="Password"
+                    >
                     <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
                     <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
@@ -57,8 +57,13 @@ const registerTemplate = (context) => html`
                 <label for="repeat-pass">Повтори паролата</label>
                 <span class="input">
                     <i class="fa-solid fa-repeat"></i>
-                    <input @input=${formDataValidator.inputValidateHandler} type="password" name="confirm-pass" id="repeat-pass"
-                        placeholder="Repeat Password">
+                    <input 
+                        @input=${formDataValidator.inputValidateHandler} 
+                        type="password" 
+                        name="confirm-pass"
+                        id="repeat-pass" 
+                        placeholder="Repeat Password"
+                    >
                     <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
                     <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
@@ -73,7 +78,7 @@ const registerTemplate = (context) => html`
 export function registerPage(context) {
     context.render(registerTemplate(context));
 }
-    
+
 async function registerHandler(e, context) {
     e.preventDefault();
 
@@ -108,5 +113,19 @@ async function registerHandler(e, context) {
         const registerResponseData = await registerResponse.json();
         registerResponseData.errors.forEach(error => notify(error.defaultMessage));
         hideLoadingSpinner();
+    }
+}
+
+function fireRepeatPassEvent(e) {
+    const passwordField = e.target;
+    const repeatPasswordField = document.getElementById('repeat-pass');
+    
+    if (passwordField.value !== repeatPasswordField) {
+        repeatPasswordField.parentNode.classList.remove('valid-input');
+        repeatPasswordField.parentNode.querySelector('.check-icon').style.display = 'none';
+        
+        repeatPasswordField.parentNode.classList.add('invalid-input');
+        repeatPasswordField.parentNode.querySelector('.warning-icon').style.display = 'block';
+        repeatPasswordField.parentNode.parentNode.querySelector('.invalid-input-text').style.display = 'block';
     }
 }

@@ -64,8 +64,8 @@ function formInvalidInputIterator(formInputFields, formTextFields, inputCriteria
     let isInvalid = false;
 
     inputCriteria 
-    ? formInputFields = Array.from(formInputFields).map(input => input = input[inputCriteria]) 
-    : formInputFields;
+        ? formInputFields = Array.from(formInputFields).map(input => input = input[inputCriteria]) 
+        : formInputFields;
 
     Array.from(formInputFields).forEach(input => {
         if (input.classList.contains('invalid-input')) {
@@ -82,7 +82,6 @@ function formInvalidInputIterator(formInputFields, formTextFields, inputCriteria
             }
         });
     }
-
     return isInvalid;
 }
 
