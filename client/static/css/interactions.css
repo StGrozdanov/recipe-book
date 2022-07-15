@@ -164,6 +164,18 @@
     left: 92%;
 }
 
+.invalid-credentials {
+    text-align: center;
+    font-weight: bold;
+    color: red;
+    display: none;
+}
+
+.invalid-credentials i {
+    position: relative;
+    left: 0;
+}
+
 @media all and (min-width: 1700px) {
     .earth-container-404 {
         width: 280px;

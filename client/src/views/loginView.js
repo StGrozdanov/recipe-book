@@ -10,6 +10,9 @@ const loginTemplate = (ctx) => html`
     <form @submit=${(e)=> loginHandler(e, ctx)} id="login-form" action="" method="" class="login-form">
         <fieldset>
             <legend>Форма за вход</legend>
+            <p class="invalid-credentials">
+                <i class="fa-solid fa-triangle-exclamation"></i> Невалидно потребителско име или парола.
+            </p>
             <p class="field">
                 <label for="username">Потребителско име</label>
                 <span class="input">
@@ -50,6 +53,7 @@ async function loginHandler(e, ctx) {
     }
 
     showLoadingSpinner(loginForm);
+    hideInvalidCredentialsMessage();
 
     const loginResponse = await login(loginData);
 
@@ -61,8 +65,15 @@ async function loginHandler(e, ctx) {
         }
         notify(WELCOME(getCurrentUserUsername()));
     } else {
-        const loginResponseData = await loginResponse.json();
-        notify(loginResponseData.message);
         hideLoadingSpinner();
+        showInvalidCredentialsMessage();
     }
+}
+
+function showInvalidCredentialsMessage() {
+    document.querySelector('.invalid-credentials').style.display = 'block';
+}
+
+function hideInvalidCredentialsMessage() {
+    document.querySelector('.invalid-credentials').style.display = 'none';
 }
