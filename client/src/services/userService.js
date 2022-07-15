@@ -10,6 +10,8 @@ const USERS_END_POINTS = {
     UPDATE: (userId) => `${USER_END_POINT}/profile/${userId}`,
     DELETE: (userId) => `${USER_END_POINT}/${userId}`,
     USER_INFO: (userId) => `${USER_END_POINT}/profile/${userId}`,
+    EXISTS_BY_USERNAME: (username) => `${USER_END_POINT}/existsByUsername?username=${username}`,
+    EXISTS_BY_EMAIL: (email) => `${USER_END_POINT}/existsByEmail?email=${email}`,
 }
 
 export async function update(userId, formData) {
@@ -39,6 +41,20 @@ export async function getUser(userId) {
         headers: getUserToken() ? MODIFIYNG_OPERATIONS_HEADERS(getUserToken()) : BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_FIND_USER);
+}
+
+export async function userExistsByUsername(username) {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.EXISTS_BY_USERNAME(username));
+    if (response.ok) {
+        return response.json();
+    }
+}
+
+export async function userExistsByEmail(email) {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.EXISTS_BY_EMAIL(email));
+    if (response.ok) {
+        return response.json();
+    }
 }
 
 async function handleUserRequestError(requestResponse) {

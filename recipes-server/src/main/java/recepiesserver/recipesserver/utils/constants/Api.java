@@ -52,11 +52,13 @@ public class Api {
     public static final String BLOCK_USER = "/users/block";
     public static final String UNBLOCK_USER = "/users/unblock/{userId}";
     public static final String DELETE_USER = "/users/{userId}";
+    public static final String USER_EXISTS_BY_USERNAME = "/users/existsByUsername";
+    public static final String USER_EXISTS_BY_EMAIL = "/users/existsByEmail";
+
     //visitations
     public static final String VISITATIONS_ENDPOINT = "/visitations";
     public static final String VISITATIONS_FOR_GIVEN_MONTH = "/visitations/by-target-month";
     public static final String VISITATIONS_FOR_LAST_SIX_MONTHS = "/visitations/the-last-six-months";
     public static final String VISITATIONS_TODAY = "/visitations/today";
     public static final String VISITATIONS_FOR_LAST_SIX_MONTHS_SUMMARY = "/visitations/the-last-six-months-summary";
-
 }

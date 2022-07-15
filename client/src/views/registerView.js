@@ -4,6 +4,7 @@ import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js'
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 import { REGISTRATION_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
+import { userExistsByEmail, userExistsByUsername } from '../services/userService.js';
 
 const registerTemplate = (context) => html`
 <section id="register-page" class="register formData">
@@ -14,24 +15,44 @@ const registerTemplate = (context) => html`
                 <label for="email">Имейл</label>
                 <span class="input">
                     <i class="fa-solid fa-envelope"></i>
-                    <input @input=${formDataValidator.inputValidateHandler} type="text" name="email" id="email"
-                        placeholder="Email" autocomplete="off">
+                    <input 
+                        @input=${formDataValidator.inputValidateHandler} 
+                        @blur=${checkForExistingEmail}
+                        type="text" 
+                        name="email" 
+                        id="email"
+                        placeholder="Email" 
+                        autocomplete="off"
+                    >
                     <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
                     <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">Имейлът трябва да е валиден</span>
+                <span class="invalid-input-text non-unique-email" style="display: none;">
+                    Вече съществува потребител със зададения имейл.
+                </span>
             </p>
             <p class="field">
                 <label for="username">Потребителско име</label>
                 <span class="input">
                     <i class="fa-solid fa-user"></i>
-                    <input @input=${formDataValidator.inputValidateHandler} type="text" name="username" id="username"
-                        placeholder="Username" autocomplete="off">
+                    <input 
+                        @input=${formDataValidator.inputValidateHandler} 
+                        @blur=${checkForExistingUsername}
+                        type="text" 
+                        name="username" 
+                        id="username"
+                        placeholder="Username" 
+                        autocomplete="off"
+                    >
                     <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
                     <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">
                     Потребителското ви име трябва да е между 3 и 10 символа
+                </span>
+                <span class="invalid-input-text non-unique-username" style="display: none;">
+                    Потребителското име е заето, моля въведете друго.
                 </span>
             </p>
             <p class="field">
@@ -119,13 +140,54 @@ async function registerHandler(e, context) {
 function fireRepeatPassEvent(e) {
     const passwordField = e.target;
     const repeatPasswordField = document.getElementById('repeat-pass');
+    const invalidMessageClass = '.invalid-input-text';
     
-    if (passwordField.value !== repeatPasswordField) {
-        repeatPasswordField.parentNode.classList.remove('valid-input');
-        repeatPasswordField.parentNode.querySelector('.check-icon').style.display = 'none';
-        
-        repeatPasswordField.parentNode.classList.add('invalid-input');
-        repeatPasswordField.parentNode.querySelector('.warning-icon').style.display = 'block';
-        repeatPasswordField.parentNode.parentNode.querySelector('.invalid-input-text').style.display = 'block';
+    if (passwordField.value !== repeatPasswordField.value) {
+        cancelValidFieldDecorationAndSetAsInvalid(repeatPasswordField, invalidMessageClass);
     }
+}
+
+async function checkForExistingEmail(e) {
+    const emailField = e.target;
+    const emailFieldValue = emailField.value;
+    const invalidEmailClass = '.invalid-input-text.non-unique-email';
+
+    hideInvalidFieldMessage(emailField, invalidEmailClass);
+
+    if (emailFieldValue.trim() !== '') {
+        const data = await userExistsByEmail(emailFieldValue);
+        
+        if (data.emailExists) {
+            cancelValidFieldDecorationAndSetAsInvalid(emailField, invalidEmailClass);
+        }
+    }
+}
+
+async function checkForExistingUsername(e) {
+    const usernameField = e.target;
+    const usernameFieldValue = usernameField.value;
+    const invalidUsernameClass = '.invalid-input-text.non-unique-username';
+
+    hideInvalidFieldMessage(usernameField, invalidUsernameClass);
+
+    if (usernameFieldValue.trim() !== '') {
+        const data = await userExistsByUsername(usernameFieldValue);
+        
+        if (data.usernameExists) {
+            cancelValidFieldDecorationAndSetAsInvalid(usernameField, invalidUsernameClass);
+        }
+    }
+}
+
+function cancelValidFieldDecorationAndSetAsInvalid(field, invalidMessageClass) {
+    field.parentNode.classList.remove('valid-input');
+    field.parentNode.querySelector('.check-icon').style.display = 'none';
+    
+    field.parentNode.classList.add('invalid-input');
+    field.parentNode.querySelector('.warning-icon').style.display = 'block';
+    field.parentNode.parentNode.querySelector(invalidMessageClass).style.display = 'block';
+}
+
+function hideInvalidFieldMessage(field, invalidFieldClass) {
+    field.parentNode.parentNode.querySelector(invalidFieldClass).style.display = 'none';
 }

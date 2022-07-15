@@ -102,7 +102,12 @@ public class SecurityConfiguration {
                         Api.RECIPE_IS_IN_USER_FAVOURITES,
                         Api.GET_USER_FAVOURITE_RECIPES
                 ).authenticated()
-                .antMatchers(Api.GET_USER_DETAILS, Api.GET_USER_PROFILE).permitAll()
+                .antMatchers(
+                        Api.GET_USER_DETAILS,
+                        Api.GET_USER_PROFILE,
+                        Api.USER_EXISTS_BY_USERNAME,
+                        Api.USER_EXISTS_BY_EMAIL
+                ).permitAll()
 
                 //visitations controller
                 .antMatchers(GET, Api.VISITATIONS_ENDPOINT).hasRole(RoleEnum.ADMINISTRATOR.name())

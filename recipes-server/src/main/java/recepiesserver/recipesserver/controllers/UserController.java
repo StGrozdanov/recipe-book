@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -114,6 +115,18 @@ public class UserController {
     @DeleteMapping(Api.DELETE_USER)
     public ResponseEntity<UserIdDTO> deleteUser(@PathVariable @NotNull Long userId) {
         return ResponseEntity.ok().body(this.userService.deleteUser(userId));
+    }
+
+    @GetMapping(Api.USER_EXISTS_BY_USERNAME)
+    public ResponseEntity<Map<String, Boolean>> userExistsByUsername(@RequestParam("username") String username) {
+        boolean exists = this.userService.userWithTheSameUsernameExists(username);
+        return ResponseEntity.ok().body(Map.of("usernameExists", exists));
+    }
+
+    @GetMapping(Api.USER_EXISTS_BY_EMAIL)
+    public ResponseEntity<Map<String, Boolean>> userExistsByEmail(@RequestParam("email") String email) {
+        boolean exists = this.userService.userWithTheSameEmailExists(email);
+        return ResponseEntity.ok().body(Map.of("emailExists", exists));
     }
 
 }
