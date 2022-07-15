@@ -76,7 +76,7 @@ export async function detailsPage(ctx) {
     ctx.render(loaderTemplate());
     
     const data = getSingleRecipe(ctx.params.id);
-    const isFavourite = isFavouriteRecipe(ctx.params.id);
+    let isFavourite = userIsAuthenticated() ? isFavouriteRecipe(ctx.params.id) : null;
 
     const[recipeData, favouriteRecipeData] = await Promise.all([data, isFavourite]);
 
