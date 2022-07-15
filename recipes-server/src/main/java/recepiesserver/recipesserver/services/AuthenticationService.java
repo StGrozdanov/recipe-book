@@ -12,13 +12,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
+import recepiesserver.recipesserver.exceptions.authenticationExceptions.InvalidPasswordException;
 import recepiesserver.recipesserver.exceptions.authenticationExceptions.InvalidTokenException;
 import recepiesserver.recipesserver.exceptions.authenticationExceptions.LoginException;
 import recepiesserver.recipesserver.exceptions.authenticationExceptions.MissingTokenException;
 import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserProfileEditDTO;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.utils.JwtUtil;
@@ -134,7 +134,7 @@ public class AuthenticationService {
 
     public void handleInvalidPassword(String rawPassword, String encodedPassword) {
         if (!this.passwordEncoder.matches(rawPassword, encodedPassword)) {
-            throw new LoginException(ExceptionMessages.INVALID_CREDENTIALS);
+            throw new InvalidPasswordException(ExceptionMessages.INVALID_PASSWORD);
         }
     }
 

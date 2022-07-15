@@ -38,7 +38,7 @@ export async function logout() {
     if (response.ok) {
         clearUserData();
     } else {
-        if (data.status === 401) {
+        if (data.status === 403) {
             refreshToken();
         } else {
             notify(errorMessage);

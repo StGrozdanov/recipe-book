@@ -18,8 +18,7 @@ export async function update(userId, formData) {
         headers: { "Authorization": `Bearer ${getUserToken()}` },
         body: formData
     };
-    const response = await fetch(`${BASE_URL}${USERS_END_POINTS.UPDATE(userId)}`, options);
-    return handleRequest(response, COULD_NOT_EDIT_USER);
+    return await fetch(`${BASE_URL}${USERS_END_POINTS.UPDATE(userId)}`, options);
 }
 
 export async function remove(userId) {

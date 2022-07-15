@@ -20,4 +20,5 @@ public class ExceptionMessages {
     public static final String INVALID_FILE_FORMAT = "Something went wrong while converting the multipart file.";
     public static final String BLACKLIST_ALREADY_CONTAINS_IP = "Blacklist already contains one of the ip addresses you attempted to add.";
     public static final String BLACKLIST_DOES_NOT_CONTAIN_IP = "One of the requested user IP to remove from the blacklist is non existent.";
+    public static final String INVALID_PASSWORD = "Wrong password.";
 }

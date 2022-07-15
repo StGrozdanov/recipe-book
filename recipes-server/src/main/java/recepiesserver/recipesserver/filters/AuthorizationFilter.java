@@ -49,7 +49,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             }
             catch (Exception e) {
-                response.sendError(401, ExceptionMessages.INVALID_TOKEN);
+                response.sendError(403, ExceptionMessages.INVALID_TOKEN);
             }
         } else {
             filterChain.doFilter(request, response);

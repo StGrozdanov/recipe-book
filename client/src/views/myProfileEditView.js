@@ -6,10 +6,11 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
-import { getCurrentUser, saveUserData } from '../services/authenticationService.js';
+import { getCurrentUser, logout, saveUserData } from '../services/authenticationService.js';
 import { ARE_YOU_SURE_PROFILE_EDIT, PROFILE_EDIT_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 import { modalPassword, showPasswordModal } from '../utils/passwordModalDialogue.js';
+import { COULD_NOT_EDIT_USER, COULD_NOT_EDIT_USER_WRONG_CREDENTIALS } from '../constants/errorMessages.js';
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
 <section class="my-profile-section">
@@ -175,8 +176,7 @@ async function editProfileHandler(e, ctx) {
         if (choice) {
             showPasswordModal(onInput);
 
-            async function onInput(choice) {
-
+            async function onInput() {
                 const editedProfile = {
                     username: username,
                     email: email,
@@ -191,14 +191,33 @@ async function editProfileHandler(e, ctx) {
     
                 showLoadingSpinner(e.target);
                 
-                const newProfileData = await update(getCurrentUser(), formData);
-    
-                saveUserData(newProfileData);
+                const response = await update(getCurrentUser(), formData);
+                const data = await response.json();
+
+                if (response.ok) {
+                    handleProfileUpdate(data, ctx);
+                } else {
+                    await handleProfileUpdateError(response, ctx);
+                }
                 hideLoadingSpinner();
-                ctx.page.redirect('/my-profile/edit');
-                notify(PROFILE_EDIT_SUCCESS);
             }
         }
+    }
+}
+
+function handleProfileUpdate(data, ctx) {
+    saveUserData(data);
+    ctx.page.redirect('/my-profile/edit');
+    notify(PROFILE_EDIT_SUCCESS);
+}
+
+async function handleProfileUpdateError(response, ctx) {
+    if (response.status === 401) {
+        notify(COULD_NOT_EDIT_USER_WRONG_CREDENTIALS);
+        await logout();
+        ctx.page.redirect('/login');
+    } else {
+        notify(COULD_NOT_EDIT_USER);
     }
 }
 

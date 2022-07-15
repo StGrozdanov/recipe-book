@@ -14,7 +14,8 @@ export const COULD_NOT_EDIT_RECEPIE = 'Възникна грешка при ре
 export const COULD_NOT_DELETE_RECEPIE = 'Възникна грешка при изтриването на рецептата. Моля, опитайте по-късно.';
 
 export const COULD_NOT_FIND_USER = 'Не успяхме да намерим търсения от вас потребител. Моля, опитайте по-късно.';
-export const COULD_NOT_EDIT_USER = 'Не успяхме да редактираме потребителския профил. Моля, опитайте по-късно.';
+export const COULD_NOT_EDIT_USER_WRONG_CREDENTIALS = 'Въведохте грешна парола. Моля, влезте наново в сайта.';
+export const COULD_NOT_EDIT_USER = 'Не успяхме да редактираме потребителския профил. Ако проблемът продължава се обърнете към екипа на сайта.';
 
 export const COULD_NOT_GET_NOTIFICATIONS = 'Възникна грешка при откриването на нотификациите. Моля, опитайте по-късно.';
 export const COULD_NOT_POST_NOTIFICATION = 'Не успяхме да създадем нотификация до собственика на рецептата.';

@@ -9,7 +9,7 @@ export async function handleRequest(fetchResponse, errorMessage) {
         return data;
     }
 
-    if (data.status === 401) {
+    if (data.status === 403) {
         try {
             await refreshToken();
             return data;
