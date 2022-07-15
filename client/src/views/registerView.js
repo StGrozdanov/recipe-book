@@ -3,6 +3,7 @@ import { register } from '../services/authenticationService.js'
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js'
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
+import { REGISTRATION_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 
 const registerTemplate = (context) => html`
 <section id="register-page" class="register formData">
@@ -80,9 +81,9 @@ async function registerHandler(e, context) {
     const formData = new FormData(registerForm);
 
     if (formDataValidator.formContainsEmptyFields(formData)) {
-        return notify('Всички полета са задължителни.');
+        return notify(THERE_ARE_EMPTY_FIELDS_LEFT);
     } else if (formDataValidator.formContainsInvalidInput(registerForm)) {
-        return notify('Поправете невалидните полета.');
+        return notify(THERE_ARE_INVALID_FIELDS_LEFT);
     }
 
     const registerData = {
@@ -102,7 +103,7 @@ async function registerHandler(e, context) {
         } else {
             context.page.redirect('/my-profile');
         }
-        notify('Регистрирахте се успешно!');
+        notify(REGISTRATION_SUCCESS);
     } else {
         const registerResponseData = await registerResponse.json();
         registerResponseData.errors.forEach(error => notify(error.defaultMessage));

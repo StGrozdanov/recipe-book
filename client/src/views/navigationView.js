@@ -1,5 +1,5 @@
 import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
-import { logout } from '../services/authenticationService.js'
+import { logout, userIsAuthenticated } from '../services/authenticationService.js'
 
 const container = document.getElementById('nav-container');
 
@@ -25,7 +25,7 @@ const navigationTemplate = (ctx) => html`
         <nav>
             <a id="catalogLink" href="/catalogue" class="active">Всички рецепти</a>
             ${
-                userIsLoggedIn()
+                userIsAuthenticated()
                         ? userViewTemplate(ctx)
                         : guestViewTemplate()
             }
@@ -56,10 +56,6 @@ function trackActiveLink(ctx) {
     } else {
         navLinks[0].classList.add('active');
     }
-}
-
-function userIsLoggedIn() {
-    return sessionStorage.getItem('sessionToken') !== null;
 }
 
 function profileLinkClickHandler(e) {

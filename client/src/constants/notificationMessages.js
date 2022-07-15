@@ -16,3 +16,5 @@ export const DELETE_RECIPE_SUCCESS = 'Успешно изтрихте рецеп
 export const REMOVE_FROM_FAVOURITES_SUCCESS = (recipeName) => `Успешно премахнахте ${recipeName} от любимите ви рецепти.`;
 export const ADD_TO_FAVOURITES_SUCCESS = (recipeName) => `Успешно добавихте ${recipeName} към любимите ви рецепти.`;
 export const WELCOME = (username) => `Добре дошли, ${username}! Приятно прекарване!`;
+export const MARKED_AS_READ = 'Отметнахте съобщението, като прочетено.';
+export const REGISTRATION_SUCCESS = 'Регистрирахте се успешно. Добре дошли!';

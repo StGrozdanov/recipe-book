@@ -4,6 +4,7 @@ import { loaderTemplate } from './templates/loadingTemplate.js';
 import { getMyNotifications, markNotificationAsRead } from '../services/notificationService.js';
 import { getCurrentUser } from '../services/authenticationService.js';
 import { notify } from '../utils/notification.js';
+import { MARKED_AS_READ } from '../constants/notificationMessages.js';
 
 const notificationTemplate = (notification, ctx) => html`
     <article 
@@ -71,5 +72,5 @@ async function checkNotificationHandler(e) {
 
     await markNotificationAsRead(notificationContainer.id);
 
-    notify('Отметнахте съобщението, като прочетено.');
+    notify(MARKED_AS_READ);
 }
