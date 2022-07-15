@@ -6,16 +6,16 @@ import { getCurrentUser } from '../services/authenticationService.js';
 import { EDIT_RECIPE_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { sendNotifications } from './templates/commentTemplate.js';
 import { EDITED_RECIPE, NEW_RECIPE } from '../constants/userActions.js';
+import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 
 const editRecipeTemplate = (data, ctx) => html`
 <section id="edit-page" class="edit formData">
     <form 
         @submit=${(e) => editHandler(e, ctx)} 
         id="edit-form" 
-        action="#" 
-        method="" 
         autocomplete="off"
         enctype='multipart/form-data'
+        style="position: relative;"
     >
         <fieldset>
             <legend>Редактирай Рецепта</legend>
@@ -155,6 +155,8 @@ async function editHandler(e, context) {
     form.append('file', fileImg);
     form.append('data', JSON.stringify(editRecipe));
 
+    showLoadingSpinner(document.getElementById('edit-form'));
+
     await updateRecipe(form, context.params.id);
 
     notify(EDIT_RECIPE_SUCCESS);
@@ -165,4 +167,6 @@ async function editHandler(e, context) {
         EDITED_RECIPE, 
         NEW_RECIPE
     );
+
+    hideLoadingSpinner();
 }

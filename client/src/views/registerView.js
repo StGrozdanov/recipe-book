@@ -3,12 +3,12 @@ import { register } from '../services/authenticationService.js'
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js'
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
-import { REGISTRATION_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
+import { REGISTRATION_FAIL, REGISTRATION_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { userExistsByEmail, userExistsByUsername } from '../services/userService.js';
 
 const registerTemplate = (context) => html`
 <section id="register-page" class="register formData">
-    <form @submit=${(e) => registerHandler(e, context)} id="register-form" action="" method="">
+    <form @submit=${(e) => registerHandler(e, context)} id="register-form" style="position: relative;">
         <fieldset>
             <legend>Регистрация</legend>
             <p class="field">
@@ -131,8 +131,7 @@ async function registerHandler(e, context) {
         }
         notify(REGISTRATION_SUCCESS);
     } else {
-        const registerResponseData = await registerResponse.json();
-        registerResponseData.errors.forEach(error => notify(error.defaultMessage));
+        notify(REGISTRATION_FAIL);
         hideLoadingSpinner();
     }
 }

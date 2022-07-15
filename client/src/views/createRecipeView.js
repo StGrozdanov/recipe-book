@@ -7,16 +7,16 @@ import { getUserToken, getCurrentUser } from '../services/authenticationService.
 import { CREATED_RECIPE_SUCCESS, ONLY_REGISTERED_USERS_CAN_CREATE, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { sendNotifications } from './templates/commentTemplate.js';
 import { NEW_RECIPE, POSTED_NEW_RECIPE } from '../constants/userActions.js';
+import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 
 const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
     <form @submit=${(e)=> createHandler(e, ctx)}
         id="create-form"
-        action=""
-        method=""
         autocomplete="off"
         enctype='multipart/form-data'
-        >
+        style="position: relative;"
+    >
         <fieldset>
             <legend>Нова рецепта</legend>
             <p class="field">
@@ -127,6 +127,8 @@ async function createHandler(e, context) {
     form.append('file', fileImg);
     form.append('data', JSON.stringify(newRecipe));
 
+    showLoadingSpinner(document.getElementById('create-form'));
+
     const createdRecipeId = await createRecipe(form);
 
     context.page.redirect(`/details-${createdRecipeId.recipeId}`);
@@ -137,4 +139,6 @@ async function createHandler(e, context) {
         POSTED_NEW_RECIPE, 
         NEW_RECIPE
     );
+
+    hideLoadingSpinner();
 }
