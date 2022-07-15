@@ -126,7 +126,6 @@ async function addToFavouritesHandler(e, ctx, recipeName) {
 }
 
 async function refreshCommentSectionRedirect(ctx, comment, recipeData) {
-    console.log(recipeData);
     const refreshedCommentData = await getCommentsForRecipe(ctx.params.id);
 
     const commentContainer = document.getElementById('comment-container');

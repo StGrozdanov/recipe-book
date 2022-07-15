@@ -1,23 +1,28 @@
-import { html, render } from '../../node_modules/lit-html/lit-html.js';
+import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
 import { searchByRecipeName } from '../services/filtrationService.js';
 import { noSuchRecipesTemplate } from './templates/noRecepiesFoundTemplate.js';
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { searchTemplate } from './templates/searchTemplate.js';
 
 const searchPageTemplate = (recepies, ctx, query) => html`
-<section id="filtration-section" class="dashboard">
-    ${searchTemplate(ctx)}
-</section>
+    <section id="filtration-section" class="dashboard">
+        ${searchTemplate(ctx)}
+    </section>
     <section id="cards-section">
-    <div id="cards">
-        <h2 class="filtration-heading">Рецепти, съдържащи "${query}" в името си:</h2>
-        <img class="search-img" src="../static/images/istockphoto-1209388288-612x612-removebg-preview.png">
-        <div id="cards-content">
-            <ul class="recipe-card-list">
-                ${recepies.length > 0 ? recepies : noSuchRecipesTemplate()}
-            </ul>
+        <div id="cards">
+            ${
+                recepies.length > 0 
+                    ? html`<a class="return-anker" style="font-weight: bold;" href="/catalogue"></a>` 
+                    : nothing
+            }
+            <h2 class="filtration-heading">Рецепти, съдържащи "${query}" в името си:</h2>
+            <img class="search-img" src="../static/images/istockphoto-1209388288-612x612-removebg-preview.png">
+            <div id="cards-content">
+                <ul class="recipe-card-list">
+                    ${recepies.length > 0 ? recepies : noSuchRecipesTemplate()}
+                </ul>
+            </div>
         </div>
-    </div>
     </section>
 `;
 
