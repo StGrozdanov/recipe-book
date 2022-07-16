@@ -129,4 +129,20 @@ public class UserController {
         return ResponseEntity.ok().body(Map.of("emailExists", exists));
     }
 
+    @GetMapping(Api.OTHER_USER_EXISTS_BY_USERNAME)
+    public ResponseEntity<Map<String, Boolean>> otherUserExistsByUsername(
+            @RequestParam("username") String username,
+            @RequestParam("userUsername") String userUsername) {
+        boolean exists = this.userService.otherUserWithSameUsernameExists(username, userUsername);
+        return ResponseEntity.ok().body(Map.of("usernameExists", exists));
+    }
+
+    @GetMapping(Api.OTHER_USER_EXISTS_BY_EMAIL)
+    public ResponseEntity<Map<String, Boolean>> otherUserExistsByEmail(
+            @RequestParam("email") String email,
+            @RequestParam("userEmail") String userEmail) {
+        boolean exists = this.userService.otherUserWithSameEmailExists(email, userEmail);
+        return ResponseEntity.ok().body(Map.of("emailExists", exists));
+    }
+
 }

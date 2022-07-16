@@ -1,6 +1,6 @@
 import { html, nothing } from '../../node_modules/lit-html/lit-html.js';
 import { getMyPublicationsCount } from '../services/recipeService.js';
-import { update } from '../services/userService.js';
+import { update, otherUserExistsByEmail, otherUserExistsByUsername } from '../services/userService.js';
 import { notify } from '../utils/notification.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
@@ -79,6 +79,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                 <i class="fa-solid fa-square-check check-icon profile-check" style="display: none;"></i>
                 <input
                     @input=${formDataValidator.profileEditValidateHandler}
+                    @blur=${checkForExistingUsername}
                     type="text" 
                     placeholder="username" 
                     name="username" 
@@ -87,7 +88,10 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                     autocomplete="off"
                 />
                 <span class="invalid-input-text profile-edit-text" style="display: none;">
-                    Потребителското ви име трябва да е между 3 и 10 символа
+                    Потребителското ви име трябва да е между 3 и 10 символа.
+                </span>
+                <span class="invalid-input-text profile-edit-text non-unique-username" style="display: none;">
+                    Потребителското име е заето.
                 </span>
             </span>
                 <p>
@@ -100,6 +104,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                         <i class="fa-solid fa-square-check check-icon second-check profile-check" style="display: none;"></i>
                         <input 
                             @input=${formDataValidator.profileEditValidateHandler} 
+                            @blur=${checkForExistingEmail}
                             type="text" 
                             placeholder="email" 
                             name="email" 
@@ -107,8 +112,11 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                             autocomplete="off"
                         />
                         <span class="invalid-input-text email-edit-msg" style="display: none;">
-                        Имейлът ви е невалиден
-                    </span>
+                            Имейлът ви е невалиден
+                        </span>
+                        <span class="invalid-input-text profile-edit-text non-unique-email" style="display: none;">
+                            Имейлът е зает
+                        </span>
                     </span>
                 </p> 
         </main>
@@ -232,4 +240,49 @@ function addEventListenersToUploadImageIcons() {
     document.getElementById('avatar-button').addEventListener('click', () => {
         document.getElementById('avatar-upload').click();
     });
+}
+
+async function checkForExistingEmail(e) {
+    const emailField = e.target;
+    const emailFieldValue = emailField.value;
+    const invalidEmailClass = '.invalid-input-text.non-unique-email';
+
+    hideInvalidFieldMessage(emailField, invalidEmailClass);
+
+    if (emailFieldValue.trim() !== '') {
+        const data = await otherUserExistsByEmail(emailFieldValue);
+        
+        if (data.emailExists) {
+            cancelValidFieldDecorationAndSetAsInvalid(emailField, invalidEmailClass);
+        }
+    }
+}
+
+async function checkForExistingUsername(e) {
+    const usernameField = e.target;
+    const usernameFieldValue = usernameField.value;
+    const invalidUsernameClass = '.invalid-input-text.non-unique-username';
+
+    hideInvalidFieldMessage(usernameField, invalidUsernameClass);
+
+    if (usernameFieldValue.trim() !== '') {
+        const data = await otherUserExistsByUsername(usernameFieldValue);
+        
+        if (data.usernameExists) {
+            cancelValidFieldDecorationAndSetAsInvalid(usernameField, invalidUsernameClass);
+        }
+    }
+}
+
+function cancelValidFieldDecorationAndSetAsInvalid(field, invalidMessageClass) {
+    field.classList.remove('valid-input');
+    field.parentNode.querySelector('.check-icon').style.display = 'none';
+    
+    field.classList.add('invalid-input');
+    field.parentNode.querySelector('.warning-icon').style.display = 'block';
+    field.parentNode.parentNode.querySelector(invalidMessageClass).style.display = 'block';
+}
+
+function hideInvalidFieldMessage(field, invalidFieldClass) {
+    field.parentNode.parentNode.querySelector(invalidFieldClass).style.display = 'none';
 }

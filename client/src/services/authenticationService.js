@@ -129,3 +129,7 @@ export function getCurrentUserUsername() {
 export function getCurrentUserAvatar() {
     return sessionStorage.getItem('avatarUrl');
 }
+
+export function getCurrentUserEmail() {
+    return sessionStorage.getItem('email');
+}

@@ -106,7 +106,9 @@ public class SecurityConfiguration {
                         Api.GET_USER_DETAILS,
                         Api.GET_USER_PROFILE,
                         Api.USER_EXISTS_BY_USERNAME,
-                        Api.USER_EXISTS_BY_EMAIL
+                        Api.USER_EXISTS_BY_EMAIL,
+                        Api.OTHER_USER_EXISTS_BY_EMAIL,
+                        Api.OTHER_USER_EXISTS_BY_USERNAME
                 ).permitAll()
 
                 //visitations controller

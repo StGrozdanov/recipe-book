@@ -250,6 +250,14 @@ public class UserService {
         return this.userRepository.findAllByFavouritesContaining(recipe);
     }
 
+    public boolean otherUserWithSameUsernameExists(String username, String userUsername) {
+        return this.userRepository.existsByUsernameAndUsernameNot(username, userUsername);
+    }
+
+    public boolean otherUserWithSameEmailExists(String email, String userEmail) {
+        return this.userRepository.existsByEmailAndEmailNot(email, userEmail);
+    }
+
     private UserEntity getUserById(Long userId) {
         return this.userRepository
                 .findById(userId)
@@ -294,10 +302,8 @@ public class UserService {
     }
 
     private boolean otherUserWithSameUsernameOrEmailExists(UserProfileEditDTO userDTO, UserEntity oldUserInfo) {
-        Boolean nonUniqueUsername = this.userRepository
-                .existsByUsernameAndUsernameNot(userDTO.getUsername(), oldUserInfo.getUsername());
-        Boolean nonUniqueEmail = this.userRepository
-                .existsByEmailAndEmailNot(userDTO.getEmail(), oldUserInfo.getEmail());
+        Boolean nonUniqueUsername = otherUserWithSameUsernameExists(userDTO.getUsername(), oldUserInfo.getUsername());
+        Boolean nonUniqueEmail = otherUserWithSameEmailExists(userDTO.getEmail(), oldUserInfo.getEmail());
 
         return nonUniqueUsername || nonUniqueEmail;
     }

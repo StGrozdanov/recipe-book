@@ -54,6 +54,8 @@ public class Api {
     public static final String DELETE_USER = "/users/{userId}";
     public static final String USER_EXISTS_BY_USERNAME = "/users/existsByUsername";
     public static final String USER_EXISTS_BY_EMAIL = "/users/existsByEmail";
+    public static final String OTHER_USER_EXISTS_BY_USERNAME = "/users/otherExistsByUsername";
+    public static final String OTHER_USER_EXISTS_BY_EMAIL = "/users/otherExistsByEmail";
 
     //visitations
     public static final String VISITATIONS_ENDPOINT = "/visitations";
