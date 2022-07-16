@@ -74,6 +74,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
             autocomplete="off"
         />
         <main class="user-profile-article-info">
+            <span class="profile-edit-username-container">
                 <i class="fa-solid fa-triangle-exclamation warning-icon profile-warning" style="display: none;"></i>
                 <i class="fa-solid fa-square-check check-icon profile-check" style="display: none;"></i>
                 <input
@@ -85,26 +86,29 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
                     value=${sessionStorage.getItem('username')} 
                     autocomplete="off"
                 />
-                <span class="invalid-input-text" style="display: none;">
+                <span class="invalid-input-text profile-edit-text" style="display: none;">
                     Потребителското ви име трябва да е между 3 и 10 символа
                 </span>
+            </span>
                 <p>
                     <i class="fa-solid fa-bowl-rice"></i> ${recepiesCount.recipesCount} created
                 </p>
                 <p>
                     <i class="fa-solid fa-envelope"></i>
-                    <i class="fa-solid fa-triangle-exclamation second-warning warning-icon profile-warning" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon second-check profile-check" style="display: none;"></i>
-                    <input 
-                        @input=${formDataValidator.profileEditValidateHandler} 
-                        type="text" 
-                        placeholder="email" 
-                        name="email" 
-                        value=${sessionStorage.getItem('email')}
-                        autocomplete="off"
-                    />
-                    <span class="invalid-input-text email-edit-msg" style="display: none;">
-                    Имейлът ви е невалиден
+                    <span class="profile-edit-email-container">
+                        <i class="fa-solid fa-triangle-exclamation warning-icon profile-warning second-warning" style="display: none;"></i>
+                        <i class="fa-solid fa-square-check check-icon second-check profile-check" style="display: none;"></i>
+                        <input 
+                            @input=${formDataValidator.profileEditValidateHandler} 
+                            type="text" 
+                            placeholder="email" 
+                            name="email" 
+                            value=${sessionStorage.getItem('email')}
+                            autocomplete="off"
+                        />
+                        <span class="invalid-input-text email-edit-msg" style="display: none;">
+                        Имейлът ви е невалиден
+                    </span>
                     </span>
                 </p> 
         </main>

@@ -173,17 +173,25 @@
     align-items: center;
 }
 
-.profile-warning,
-.profile-check {
-    left: 56%;
+.profile-edit-username-container {
+    width: 100%;
+    position: relative;
 }
 
 .profile-check {
-    margin-bottom: 75px;
+    right: 5%;
+    top: 22%;
 }
 
 .profile-warning {
-    margin-bottom: 120px;
+    right: 5%;
+    top: 19%;
+}
+
+.profile-edit-text {
+    position: absolute;
+    text-align: center;
+    top: -134%;
 }
 
 .profile-edit-msg {
@@ -191,107 +199,37 @@
     margin-top: 170px;
 }
 
-.second-warning {
-    font-size: 113% !important;
-    left: 60%;
-}
-
-.email-edit-msg {
-    left: 50%;
+.profile-edit-email-container {
+    width: 100%;
+    position: relative;
 }
 
 .second-check {
     font-size: 113% !important;
-    margin-bottom: -20px !important;
-    left: 60%;
+    z-index: -1;
 }
 
-@media all and (min-width: 1600px) {
-    .second-check, .second-warning {
-        left: 58%;
-        font-size: 113%
-    }
+.second-warning {
+    font-size: 113% !important;
+    right: 2%;
+    top: 21%;
+    z-index: -1;
 }
 
-@media all and (min-width: 2000px) {
-    .profile-warning {
-        margin-bottom: 227px;
-        left: 58%;
-    }
+.email-edit-msg {
+    position: absolute;
+    text-align: center;
+}
 
-    .profile-check {
-        margin-bottom: 140px;
-        left: 58%;
-    }
-
+@media all and (max-width: 430px) {
     .second-warning,
     .second-check {
-        left: 62%;
-    }
-}
-
-@media all and (max-width: 1280px) {
-    .profile-warning,
-    .profile-check {
-        left: 64%;
-    }
-}
-
-@media all and (max-width: 826px) {
-    .profile-warning,
-    .profile-check {
-        left: 81%;
+        right: 3%;
+        top: 31%;
     }
 
-    .profile-check {
-        margin-bottom: 69px;
-    }
-
+    .profile-check,
     .profile-warning {
-        margin-bottom: 103px;
-    }
-}
-
-@media all and (max-width: 730px) {
-    .profile-warning,
-    .profile-check {
-        left: 67%;
-    }
-}
-
-@media all and (max-width: 480px) {
-    .profile-warning,
-    .profile-check {
-        left: 76%;
-    }
-}
-
-@media all and (max-width: 380px) {
-    .profile-warning,
-    .profile-check {
-        left: 79%;
-        font-size: 130%;
-    }
-
-    .second-check, .second-warning {
-        font-size: 130% !important
-    }
-
-    .profile-check {
-        margin-bottom: 67px;
-    }
-
-    .profile-warning {
-        margin-bottom: 96px;
-    }
-
-    .second-check {
-        margin-bottom: -13px !important;
-    }
-}
-
-@media all and (max-width: 360px) {
-    .profile-check {
-        left: 82%;
+        top: 31%;
     }
 }

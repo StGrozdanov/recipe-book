@@ -197,14 +197,12 @@ textarea:focus {
 
 .fa-triangle-exclamation {
     position: absolute;
-    left: 92%;
     font-size: 110%;
     color: #d73333;
 }
 
 .fa-square-check {
     position: absolute;
-    left: 92%;
     font-size: 110%;
     color: #008000b8;
 }
