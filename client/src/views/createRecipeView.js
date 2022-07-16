@@ -32,8 +32,8 @@ const createRecipeTemplate = (ctx) => html`
                         placeholder="Име на рецепта" 
                         autocomplete="off"
                     >
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon validate-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">
                     Името трябва да е на български, минимум 4 букви, без символи.
@@ -48,8 +48,8 @@ const createRecipeTemplate = (ctx) => html`
                     <i class="fa-solid fa-book-open"></i>
                     <textarea @input=${formDataValidator.inputValidateHandler} name="products" id="description"
                         placeholder="Продукти и грамаж, всеки на нов ред"></textarea>
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">Минимум 3 продукта</span>
             </p>
@@ -59,8 +59,8 @@ const createRecipeTemplate = (ctx) => html`
                     <i class="fa-solid fa-shoe-prints"></i>
                     <textarea @input=${formDataValidator.inputValidateHandler} name="steps" id="description"
                         placeholder="Стъпки за приготвяне, всяка на нов ред"></textarea>
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">Минимум 3 стъпки</span>
             </p>
@@ -75,8 +75,8 @@ const createRecipeTemplate = (ctx) => html`
                         id="image" 
                         placeholder="Адрес на изображение"
                     >
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <input type="file" name="fileImg" id="fileImg" />
                 <span class="invalid-input-text non-unique-picture" style="display: none;">

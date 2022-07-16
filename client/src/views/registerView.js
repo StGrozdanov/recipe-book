@@ -24,8 +24,8 @@ const registerTemplate = (context) => html`
                         placeholder="Email" 
                         autocomplete="off"
                     >
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">Имейлът трябва да е валиден</span>
                 <span class="invalid-input-text non-unique-email" style="display: none;">
@@ -45,8 +45,8 @@ const registerTemplate = (context) => html`
                         placeholder="Username" 
                         autocomplete="off"
                     >
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">
                     Потребителското ви име трябва да е между 3 и 10 символа
@@ -67,8 +67,8 @@ const registerTemplate = (context) => html`
                         id="password" 
                         placeholder="Password"
                     >
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">
                     Минималната дължина на паролата е 4 символа
@@ -85,8 +85,8 @@ const registerTemplate = (context) => html`
                         id="repeat-pass" 
                         placeholder="Repeat Password"
                     >
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">Паролите ви не съвпадат</span>
             </p>

@@ -32,8 +32,8 @@ const editRecipeTemplate = (data, ctx) => html`
                         placeholder="Име на рецепта" 
                         value=${data.recipeName}
                     >
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">
                     Името трябва да е на български, минимум 4 букви, без символи.
@@ -56,8 +56,8 @@ const editRecipeTemplate = (data, ctx) => html`
                                 }) 
                         }
                     </textarea>
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">Минимум 3 продукта</span>
             </p>
@@ -75,8 +75,8 @@ const editRecipeTemplate = (data, ctx) => html`
                                 })
                         }
                     </textarea>
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">Минимум 3 стъпки</span>
             </p>
@@ -92,8 +92,8 @@ const editRecipeTemplate = (data, ctx) => html`
                         placeholder="Адрес на изображение" 
                         value=${data.imageUrl}
                     >
-                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
                 <input type="file" name="fileImg" id="fileImgEdit" />
                 <span class="invalid-input-text non-unique-picture" style="display: none;">

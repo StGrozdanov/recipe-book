@@ -225,3 +225,7 @@ textarea:focus {
     box-shadow: -1px 2px 3px 0px grey;
     background: #2344650f;
 }
+
+.validate-icon {
+    right: 3%;
+}
