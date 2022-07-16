@@ -93,10 +93,24 @@ public class RecipeService {
 
         this.uploadFileToAmazonIfFileIsProvidedAndSetAsDTOImageUrl(recipeDTO, multipartFile);
 
+        this.setPublicationStatusDependingOnPublisherRole(recipeDTO);
+
         RecipeEntity newRecipe = this.modelMapper.map(recipeDTO, RecipeEntity.class);
         RecipeEntity createdRecipe = this.recipeRepository.save(newRecipe);
 
         return this.modelMapper.map(createdRecipe, RecipeIdDTO.class);
+    }
+
+    private void setPublicationStatusDependingOnPublisherRole(RecipeCreateDTO recipeDTO) {
+        UserEntity owner = this.getUserById(recipeDTO.getOwnerId());
+        boolean theOwnerIsAdministrator = this.userService.userIsAdministrator(owner);
+        boolean theOwnerIsModerator = this.userService.userIsModerator(owner);
+
+        if (theOwnerIsAdministrator || theOwnerIsModerator) {
+            recipeDTO.setStatus(PublicationStatusEnum.APPROVED);
+        } else {
+            recipeDTO.setStatus(PublicationStatusEnum.PENDING);
+        }
     }
 
     public Optional<RecipeEntity> findRecipeById(Long id) {

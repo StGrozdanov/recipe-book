@@ -139,6 +139,16 @@ public class UserService {
         return this.userRepository.findAllByRolesContaining(moderator).stream().map(BaseEntity::getId).toList();
     }
 
+    public boolean userIsAdministrator(UserEntity user) {
+        RoleEntity administrator = this.roleService.getAdministratorEntity();
+        return this.userRepository.existsByRolesContainingAndId(administrator, user.getId());
+    }
+
+    public boolean userIsModerator(UserEntity user) {
+        RoleEntity moderator = this.roleService.getModeratorEntity();
+        return this.userRepository.existsByRolesContainingAndId(moderator, user.getId());
+    }
+
     public Optional<UserEntity> findUserByUsername(String username) {
         return this.userRepository.findByUsername(username);
     }

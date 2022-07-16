@@ -65,9 +65,9 @@ public class RecipeController {
             "#request.getHeader('Authorization'), @recipeService.getRecipeOwnerUsername(#recipeId)) " +
             "|| hasRole('ADMINISTRATOR') || hasRole('MODERATOR')")
     public ResponseEntity<RecipeIdDTO> editRecipe(@PathVariable("recipeId") Long recipeId,
-                                           @RequestParam("data") String recipeData,
-                                           @RequestParam("file") MultipartFile file,
-                                           HttpServletRequest request) throws JsonProcessingException {
+                                                  @RequestParam("data") String recipeData,
+                                                  @RequestParam("file") MultipartFile file,
+                                                  HttpServletRequest request) throws JsonProcessingException {
         @Valid RecipeEditDTO dto = new ObjectMapper().readValue(recipeData, RecipeEditDTO.class);
         return ResponseEntity.ok().body(this.recipeService.editRecipe(dto, file, recipeId));
     }

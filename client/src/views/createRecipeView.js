@@ -3,8 +3,8 @@ import { createRecipe, recipeExistsByName, recipeExistsByPicture } from '../serv
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import multiLineInputProcessor from '../utils/multiLineInputProcessor.js';
-import { getUserToken, getCurrentUser } from '../services/authenticationService.js';
-import { CREATED_RECIPE_SUCCESS, ONLY_REGISTERED_USERS_CAN_CREATE, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
+import { getUserToken, getCurrentUser, userIsAdministrator, userIsModerator } from '../services/authenticationService.js';
+import { CREATED_RECIPE_SUCCESS, CREATED_RECIPE_SUCCESS_APPROVAL, ONLY_REGISTERED_USERS_CAN_CREATE, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { sendNotifications } from './templates/commentTemplate.js';
 import { NEW_RECIPE, POSTED_NEW_RECIPE } from '../constants/userActions.js';
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
@@ -153,7 +153,7 @@ async function createHandler(e, context) {
     const createdRecipeId = await createRecipe(form);
 
     context.page.redirect(`/details-${createdRecipeId.recipeId}`);
-    notify(CREATED_RECIPE_SUCCESS);
+    userIsAdministrator || userIsModerator ? notify(CREATED_RECIPE_SUCCESS) : notify(CREATED_RECIPE_SUCCESS_APPROVAL);
     
     await sendNotifications(
         { id: createdRecipeId.recipeId, recipeName: newRecipe.recipeName }, 

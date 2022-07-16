@@ -26,4 +26,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findAllByUsernameContaining(String username);
 
     List<UserEntity> findAllByFavouritesContaining(RecipeEntity recipe);
+
+    boolean existsByRolesContainingAndId(RoleEntity role, Long id);
 }

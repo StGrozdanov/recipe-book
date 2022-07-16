@@ -25,7 +25,6 @@ public class RecipeCreateDTO implements ImageUrl {
     public RecipeCreateDTO() {
         this.createdAt = LocalDateTime.now();
         this.visitationsCount = 0L;
-        this.status = PublicationStatusEnum.PENDING;
     }
 
     @UniqueRecipeName
