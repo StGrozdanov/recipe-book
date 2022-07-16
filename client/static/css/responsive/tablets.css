@@ -94,6 +94,12 @@
         width: 42vw;
         height: 32vh;
     }
+
+    .custom-file-input::before {
+        margin-top: 0;
+        font-size: 65%;
+    }
+    
 }
 
 @media all and (max-width: 860px) {

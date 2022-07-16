@@ -229,3 +229,37 @@ textarea:focus {
 .validate-icon {
     right: 3%;
 }
+
+input[type='file'] {
+    color: rgba(0, 0, 0, 0)
+}
+
+.custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.custom-file-input::before {
+    margin-top: 5px;
+    content: 'Прикачете картинка';
+    display: inline-block;
+    background: linear-gradient(top, #f9f9f9, #234465);
+    border: 1.5px solid #999;
+    border-radius: 7px;
+    padding: 3px 7px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    color: #666;
+    font-size: 100%;
+}
+
+.custom-file-input:hover::before {
+    border-color: #234465;
+}
+
+.custom-file-input:active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #234465);
+}

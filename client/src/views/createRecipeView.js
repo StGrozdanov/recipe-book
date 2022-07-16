@@ -78,7 +78,7 @@ const createRecipeTemplate = (ctx) => html`
                     <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
                     <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
-                <input type="file" name="fileImg" id="fileImg" />
+                <input type="file" name="fileImg" id="fileImg" class="custom-file-input" />
                 <span class="invalid-input-text non-unique-picture" style="display: none;">
                     Вече съществува рецепта с тази картинка.
                 </span>

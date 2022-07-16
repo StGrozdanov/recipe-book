@@ -44,3 +44,7 @@ async function search(e, ctx, userCollectionSearch) {
             : ctx.page.redirect(`/my-profile/favourite-recepies?search=${query}`);
     }
 }
+
+export function focusSearchField() {
+    document.getElementById('myInput').focus();
+}

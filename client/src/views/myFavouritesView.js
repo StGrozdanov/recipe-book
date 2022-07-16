@@ -5,6 +5,7 @@ import { myRecepiesTemplate } from './templates/profileTemplates/myRecepiesTempl
 import { recipeTemplate } from './templates/recipeTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { getCurrentUser } from '../services/authenticationService.js';
+import { focusSearchField } from './templates/profileTemplates/profileSearchTemplate.js';
 
 
 export const myRecepiesCollectionTemplate = (recepies, ctx) => html`
@@ -23,4 +24,6 @@ export async function myFavouriteRecepiesPage(ctx) {
     ctx.render(myRecepiesCollectionTemplate(myFavouriteRecepies, ctx));
     
     trackActiveLink(ctx);
+
+    focusSearchField();
 }
