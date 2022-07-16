@@ -1,6 +1,6 @@
 import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
-import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
+import { BASE_HEADERS, BASE_URL, CALLBACK, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { getUserToken } from "./authenticationService.js";
 
 export const RECEPIES_PER_PAGE = 6;
@@ -44,13 +44,15 @@ export async function getAllRecepies(page) {
 }
 
 export async function createRecipe(recipe) {
+    CALLBACK.call = () => createRecipe(recipe);
+
     const options = {
         method: 'POST',
         headers: { "Authorization": `Bearer ${getUserToken()}` },
         body: recipe
     };
     const response = await fetch(BASE_URL + RECEPIES_END_POINT, options);
-    return handleRequest(response, COULD_NOT_CREATE_RECEPIE);
+    return handleRequest(response, COULD_NOT_CREATE_RECEPIE, CALLBACK);
 }
 
 export async function getSingleRecipe(recipeId) {
@@ -70,22 +72,26 @@ export async function getTheLastThreeRecepies() {
 }
 
 export async function updateRecipe(recipeData, recipeId) {
+    CALLBACK.call = () => updateRecipe(recipeData, recipeId);
+
     const options = {
         method: 'PUT',
         headers: { "Authorization": `Bearer ${getUserToken()}` },
         body: recipeData
     };
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(recipeId), options);
-    return handleRequest(response, COULD_NOT_EDIT_RECEPIE);
+    return handleRequest(response, COULD_NOT_EDIT_RECEPIE, CALLBACK);
 }
 
 export async function removeRecipe(id) {
+    CALLBACK.call = () => removeRecipe(id);
+
     const options = {
         method: 'DELETE',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     };
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), options);
-    return handleRequest(response, COULD_NOT_EDIT_RECEPIE);
+    return handleRequest(response, COULD_NOT_EDIT_RECEPIE, CALLBACK);
 }
 
 export async function getMyPublications(userId) {

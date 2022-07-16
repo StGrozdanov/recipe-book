@@ -2,7 +2,7 @@ import { AUTHENTICATE_FIRST } from "../constants/errorMessages.js";
 import { refreshToken } from "../services/authenticationService.js";
 import { notify } from "./notification.js";
 
-export async function handleRequest(fetchResponse, errorMessage) {
+export async function handleRequest(fetchResponse, errorMessage, callback) {
     let data = await fetchResponse.json();
 
     if (fetchResponse.ok) {
@@ -12,7 +12,7 @@ export async function handleRequest(fetchResponse, errorMessage) {
     if (data.status === 403) {
         try {
             await refreshToken();
-            return data;
+            return callback.call();
         } catch (e) {
             if (errorMessage == AUTHENTICATE_FIRST) {
                 return AUTHENTICATE_FIRST;

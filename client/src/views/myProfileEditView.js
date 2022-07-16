@@ -6,7 +6,7 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
-import { getCurrentUser, logout, saveUserData } from '../services/authenticationService.js';
+import { getCurrentUser, logout, refreshToken, saveUserData } from '../services/authenticationService.js';
 import { ARE_YOU_SURE_PROFILE_EDIT, PROFILE_EDIT_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 import { modalPassword, showPasswordModal } from '../utils/passwordModalDialogue.js';
@@ -209,7 +209,7 @@ async function editProfileHandler(e, ctx) {
                 if (response.ok) {
                     handleProfileUpdate(data, ctx);
                 } else {
-                    await handleProfileUpdateError(response, ctx);
+                    await handleProfileUpdateError(response, ctx, formData);
                 }
                 hideLoadingSpinner();
             }
@@ -223,11 +223,16 @@ function handleProfileUpdate(data, ctx) {
     notify(PROFILE_EDIT_SUCCESS);
 }
 
-async function handleProfileUpdateError(response, ctx) {
+async function handleProfileUpdateError(response, ctx, formData) {
     if (response.status === 401) {
         notify(COULD_NOT_EDIT_USER_WRONG_CREDENTIALS);
         await logout();
         ctx.page.redirect('/login');
+    } else if (response.status === 403) {
+        await refreshToken();
+        const response = await update(getCurrentUser(), formData);
+        const data = await response.json();
+        handleProfileUpdate(data, ctx);
     } else {
         notify(COULD_NOT_EDIT_USER);
     }

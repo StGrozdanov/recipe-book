@@ -10,3 +10,7 @@ export const MODIFIYNG_OPERATIONS_HEADERS = (userToken) => {
         "Authorization": `Bearer ${userToken}`,
     }
 }
+
+export const CALLBACK = {
+    call: undefined
+}

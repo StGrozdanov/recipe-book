@@ -70,7 +70,7 @@ public class JwtUtil {
         return JWT
                 .create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000)) //expires after 30 min
+                .withExpiresAt(new Date(System.currentTimeMillis() + 15 * 60 * 1000)) //expires after 15 min
                 .withClaim("roles", user
                         .getAuthorities()
                         .stream()

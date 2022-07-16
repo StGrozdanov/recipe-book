@@ -1,5 +1,5 @@
 import { handleRequest } from "../utils/requestDataHandler.js";
-import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
+import { BASE_HEADERS, BASE_URL, CALLBACK, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { RECEPIES_END_POINT } from "./recipeService.js";
 import { getCurrentUser, getUserToken } from "./authenticationService.js";
 import { COULD_NOT_SEARCH } from "../constants/errorMessages.js";
@@ -35,19 +35,23 @@ export async function filterByCategory(query) {
 }
 
 export async function searchInUserCreatedRecipesByRecipeName(query) {
+    CALLBACK.call = () => searchInUserCreatedRecipesByRecipeName(query);
+
     const response = await fetch(BASE_URL + 
         FILTRATION_END_POINTS.FIND_IN_CREATED_RECIPES_BY_NAME_CONTAINS(query, getCurrentUser()), {
         method: 'GET',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
     });
-    return handleRequest(response, COULD_NOT_SEARCH);
+    return handleRequest(response, COULD_NOT_SEARCH, CALLBACK);
 }
 
 export async function searchByNameOfFavouriteRecipe(query) {
+    CALLBACK.call = () => searchByNameOfFavouriteRecipe(query);
+
     const response = await fetch(BASE_URL + 
         FILTRATION_END_POINTS.FIND_IN_USER_FAVOURITE_RECIPES(query, getCurrentUser()), {
         method: 'GET',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
     });
-    return handleRequest(response, COULD_NOT_SEARCH);
+    return handleRequest(response, COULD_NOT_SEARCH, CALLBACK);
 }

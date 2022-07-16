@@ -1,4 +1,4 @@
-import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
+import { BASE_HEADERS, BASE_URL, CALLBACK, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { AUTHENTICATE_FIRST, COULD_NOT_DELETE_COMMENT, COULD_NOT_EDIT_COMMENT, COULD_NOT_FETCH_COMMENTS } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { getCurrentUser, getUserToken } from "./authenticationService.js";
@@ -22,11 +22,13 @@ export async function getCommentsForRecipe(recipeId) {
 }
 
 export async function getTotalCommentsCount() {
+    CALLBACK.call = () => getTotalCommentsCount();
+
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.TOTAL_COMMENTS_COUNT, {
         method: 'GET',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     });
-    return handleRequest(response, COULD_NOT_FETCH_COMMENTS);
+    return handleRequest(response, COULD_NOT_FETCH_COMMENTS, CALLBACK);
 }
 
 export async function getTheLatestSixComments() {
@@ -38,6 +40,7 @@ export async function getTheLatestSixComments() {
 }
 
 export async function commentRecipe(recipeId, comment) {
+    CALLBACK.call = () => commentRecipe(recipeId, comment);
     comment.targetRecipeId = recipeId;
     comment.ownerId = getCurrentUser();
 
@@ -48,24 +51,28 @@ export async function commentRecipe(recipeId, comment) {
     };
 
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.CREATE_COMMENT, options);
-    return handleRequest(response, AUTHENTICATE_FIRST);
+    return handleRequest(response, AUTHENTICATE_FIRST, CALLBACK);
 }
 
 export async function removeComment(id) {
+    CALLBACK.call = () => removeComment(id);
+
     const options = {
         method: 'DELETE',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     };
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(id), options);
-    return handleRequest(response, COULD_NOT_DELETE_COMMENT);
+    return handleRequest(response, COULD_NOT_DELETE_COMMENT, CALLBACK);
 }
 
 export async function editComment(commentContent, commentId) {
+    CALLBACK.call = () => editComment(commentContent, commentId);
+
     const options = {
         method: 'PUT',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
         body: JSON.stringify({ content: commentContent })
     };
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(commentId), options);
-    return handleRequest(response, COULD_NOT_EDIT_COMMENT);
+    return handleRequest(response, COULD_NOT_EDIT_COMMENT, CALLBACK);
 }

@@ -38,10 +38,12 @@ export async function logout() {
     if (response.ok) {
         clearUserData();
     } else {
+        const data = await response.json();
         if (data.status === 403) {
-            refreshToken();
+            await refreshToken();
+            await logout();
         } else {
-            notify(errorMessage);
+            notify(data.message);
             throw new Error(data.error);
         }
     }
