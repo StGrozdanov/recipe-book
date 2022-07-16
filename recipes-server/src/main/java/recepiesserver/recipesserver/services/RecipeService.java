@@ -151,7 +151,7 @@ public class RecipeService {
 
     public List<RecipeLandingPageDTO> getTheLatestThreeRecipes() {
         return this.recipeRepository
-                .findTop3ByOrderByCreatedAtDesc()
+                .findTop3ByStatusNotOrderByCreatedAtDesc(PublicationStatusEnum.PENDING)
                 .stream()
                 .map(recipe -> this.modelMapper.map(recipe, RecipeLandingPageDTO.class))
                 .toList();
@@ -159,7 +159,7 @@ public class RecipeService {
 
     public List<RecipeCatalogueDTO> getTheThreeMostViewedRecipes() {
         return this.recipeRepository
-                .findTop3ByOrderByVisitationsCountDesc()
+                .findTop3ByStatusNotOrderByVisitationsCountDesc(PublicationStatusEnum.PENDING)
                 .stream()
                 .map(recipe -> this.modelMapper.map(recipe, RecipeCatalogueDTO.class))
                 .toList();

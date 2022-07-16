@@ -26,9 +26,9 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     boolean existsByRecipeName(String recipeName);
 
-    List<RecipeEntity> findTop3ByOrderByCreatedAtDesc();
+    List<RecipeEntity> findTop3ByStatusNotOrderByCreatedAtDesc(PublicationStatusEnum status);
 
-    List<RecipeEntity> findTop3ByOrderByVisitationsCountDesc();
+    List<RecipeEntity> findTop3ByStatusNotOrderByVisitationsCountDesc(PublicationStatusEnum status);
 
     List<RecipeEntity> findAllByRecipeNameContainingAndStatusNot(String recipeName, PublicationStatusEnum status);
 
