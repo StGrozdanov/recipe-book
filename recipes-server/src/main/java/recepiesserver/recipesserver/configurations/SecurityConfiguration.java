@@ -17,6 +17,7 @@ import recepiesserver.recipesserver.utils.constants.Api;
 
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static recepiesserver.recipesserver.utils.constants.Api.RECIPE_NAME_EXISTS;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -76,14 +77,18 @@ public class SecurityConfiguration {
                         Api.USER_CREATED_RECIPES,
                         Api.USER_CREATED_RECIPES_COUNT,
                         Api.RECIPES_COUNT
-                        ).permitAll()
+                ).permitAll()
                 .antMatchers(Api.RECORD_NEW_RECIPE_VISITATION, Api.SEARCH_BY_RECIPE_CATEGORY).permitAll()
                 .antMatchers(
                         Api.DELETE_RECIPE,
                         Api.EDIT_RECIPE,
                         Api.ADD_RECIPE_TO_FAVOURITES,
                         Api.REMOVE_RECIPE_FROM_FAVOURITES,
-                        Api.SEARCH_IN_CREATED_RECIPES
+                        Api.SEARCH_IN_CREATED_RECIPES,
+                        Api.RECIPE_NAME_EXISTS,
+                        Api.RECIPE_PICTURE_EXISTS,
+                        Api.OTHER_RECIPE_NAME_EXISTS,
+                        Api.OTHER_RECIPE_PICTURE_EXISTS
                 ).authenticated()
                 .antMatchers(POST, Api.RECIPES_ENDPOINT).authenticated()
 

@@ -17,6 +17,14 @@ const RECIPE_END_POINTS = {
     OWNER_PUBLICATIONS: (ownerId) => `${RECEPIES_END_POINT}/created-by/${ownerId}`,
     OWNER_PUBLICATIONS_COUNT: (ownerId) => `${RECEPIES_END_POINT}/created-by/${ownerId}/count`,
     THE_THREE_MOST_VIEWED_RECIPES: `${RECEPIES_END_POINT}/most-viewed-three-recipes`,
+    EXISTS_BY_NAME: (name) => `${RECEPIES_END_POINT}/existsByName?name=${name}`,
+    EXISTS_BY_PICTURE: (pictureUrl) => `${RECEPIES_END_POINT}/existsByPicture?pictureUrl=${pictureUrl}`,
+    OTHER_EXISTS_BY_NAME: (name, originalName) => {
+        return `${RECEPIES_END_POINT}/otherExistsByName?name=${name}&originalName=${originalName}`;
+    },
+    OTHER_EXISTS_BY_PICTURE: (pictureUrl, originalPictureUrl) => {
+       return `${RECEPIES_END_POINT}/otherExistsByPicture?pictureUrl=${pictureUrl}&originalPictureUrl=${originalPictureUrl}`;
+    },
 }
 
 export async function getRecepiesCount() {
@@ -102,4 +110,34 @@ export async function getTheThreeMostViewedRecepies() {
         headers: BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_GET_RECEPIES);
+}
+
+export async function recipeExistsByName(name) {
+    const response = await fetch(BASE_URL + RECIPE_END_POINTS.EXISTS_BY_NAME(name));
+    if (response.ok) {
+        return response.json();
+    }
+}
+
+export async function recipeExistsByPicture(pictureUrl) {
+    const response = await fetch(BASE_URL + RECIPE_END_POINTS.EXISTS_BY_PICTURE(pictureUrl));
+    if (response.ok) {
+        return response.json();
+    }
+}
+
+export async function otherRecipeExistsByName(name, originalName) {
+    const response = await fetch(BASE_URL + RECIPE_END_POINTS.OTHER_EXISTS_BY_NAME(name, originalName));
+
+    if (response.ok) {
+        return response.json();
+    }
+}
+
+export async function otherRecipeExistsByPicture(pictureUrl, originalPictureUrl) {
+    const response = await fetch(BASE_URL + RECIPE_END_POINTS.OTHER_EXISTS_BY_PICTURE(pictureUrl, originalPictureUrl));
+
+    if (response.ok) {
+        return response.json();
+    }
 }

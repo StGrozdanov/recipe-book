@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { createRecipe } from '../services/recipeService.js';
+import { createRecipe, otherRecipeExistsByPicture, recipeExistsByName, recipeExistsByPicture } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import multiLineInputProcessor from '../utils/multiLineInputProcessor.js';
@@ -23,13 +23,23 @@ const createRecipeTemplate = (ctx) => html`
                 <label for="title">Наименование</label>
                 <span class="input">
                     <i class="fa-solid fa-bowl-rice"></i>
-                    <input @input=${formDataValidator.inputValidateHandler} type="search" name="name" id="title"
-                        placeholder="Име на рецепта" autocomplete="off">
+                    <input 
+                        @input=${formDataValidator.inputValidateHandler} 
+                        @blur=${checkForExistingName}
+                        type="search" 
+                        name="name" 
+                        id="title"
+                        placeholder="Име на рецепта" 
+                        autocomplete="off"
+                    >
                     <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
                     <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">
                     Името трябва да е на български, минимум 4 букви, без символи.
+                </span>
+                <span class="invalid-input-text non-unique-name" style="display: none;">
+                    Вече съществува рецепта с това име.
                 </span>
             </p>
             <p class="field">
@@ -58,9 +68,20 @@ const createRecipeTemplate = (ctx) => html`
                 <label for="image">Картинка</label>
                 <span class="input">
                     <i class="fa-solid fa-utensils"></i>
-                    <input type="text" name="img" id="image" placeholder="Адрес на изображение">
+                    <input 
+                        @blur=${checkForExistingPicture}
+                        type="text" 
+                        name="img" 
+                        id="image" 
+                        placeholder="Адрес на изображение"
+                    >
+                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
                 <input type="file" name="fileImg" id="fileImg" />
+                <span class="invalid-input-text non-unique-picture" style="display: none;">
+                    Вече съществува рецепта с тази картинка.
+                </span>
             </p>
             <p class="field">
                 <label for="type">Категория</label>
@@ -141,4 +162,55 @@ async function createHandler(e, context) {
     );
 
     hideLoadingSpinner();
+}
+
+async function checkForExistingName(e) {
+    const nameField = e.target;
+    const nameFieldValue = nameField.value;
+    const invalidNameClass = '.invalid-input-text.non-unique-name';
+
+    hideInvalidFieldMessage(nameField, invalidNameClass);
+
+    if (nameFieldValue.trim() !== '') {
+        const data = await recipeExistsByName(nameFieldValue);
+        
+        if (data.nameExists) {
+            cancelValidFieldDecorationAndSetAsInvalid(nameField, invalidNameClass);
+        }
+    }
+}
+
+async function checkForExistingPicture(e) {
+    const pictureField = e.target;
+    const pictureFieldValue = pictureField.value;
+    const invalidPictureClass = '.invalid-input-text.non-unique-picture';
+
+    cancelInvalidFieldDecoration(pictureField);
+    hideInvalidFieldMessage(pictureField, invalidPictureClass);
+
+    if (pictureFieldValue.trim() !== '') {
+        const data = await recipeExistsByPicture(pictureFieldValue);
+        
+        if (data.pictureExists) {
+            cancelValidFieldDecorationAndSetAsInvalid(pictureField, invalidPictureClass);
+        }
+    }
+}
+
+function cancelInvalidFieldDecoration(field) {
+    field.parentNode.classList.remove('invalid-input');
+    field.parentNode.querySelector('.warning-icon').style.display = 'none';
+}
+
+function cancelValidFieldDecorationAndSetAsInvalid(field, invalidMessageClass) {
+    field.parentNode.classList.remove('valid-input');
+    field.parentNode.querySelector('.check-icon').style.display = 'none';
+    
+    field.parentNode.classList.add('invalid-input');
+    field.parentNode.querySelector('.warning-icon').style.display = 'block';
+    field.parentNode.parentNode.querySelector(invalidMessageClass).style.display = 'block';
+}
+
+function hideInvalidFieldMessage(field, invalidFieldClass) {
+    field.parentNode.parentNode.querySelector(invalidFieldClass).style.display = 'none';
 }

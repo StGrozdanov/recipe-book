@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -148,6 +149,34 @@ public class RecipeController {
     @PatchMapping(Api.APPROVE_RECIPE)
     public ResponseEntity<RecipeModifiedAtDTO> approveRecipe(@PathVariable Long id) {
         return ResponseEntity.ok().body(this.recipeService.approveRecipe(id));
+    }
+
+    @GetMapping(Api.RECIPE_NAME_EXISTS)
+    public ResponseEntity<Map<String, Boolean>> recipeExistsByName(@RequestParam("name") String name) {
+        boolean exists = this.recipeService.recipeWithTheSameNameExists(name);
+        return ResponseEntity.ok().body(Map.of("nameExists", exists));
+    }
+
+    @GetMapping(Api.RECIPE_PICTURE_EXISTS)
+    public ResponseEntity<Map<String, Boolean>> recipeExistsByPicture(@RequestParam("pictureUrl") String picture) {
+        boolean exists = this.recipeService.recipeWithTheSameImageExists(picture);
+        return ResponseEntity.ok().body(Map.of("pictureExists", exists));
+    }
+
+    @GetMapping(Api.OTHER_RECIPE_NAME_EXISTS)
+    public ResponseEntity<Map<String, Boolean>> otherRecipeExistsByName(
+            @RequestParam("name") String name,
+            @RequestParam("originalName") String originalName) {
+        boolean exists = this.recipeService.otherRecipeWithTheSameNameExists(name, originalName);
+        return ResponseEntity.ok().body(Map.of("nameExists", exists));
+    }
+
+    @GetMapping(Api.OTHER_RECIPE_PICTURE_EXISTS)
+    public ResponseEntity<Map<String, Boolean>> otherRecipeExistsByPicture(
+            @RequestParam("pictureUrl") String picture,
+            @RequestParam("originalPictureUrl") String originalPicture) {
+        boolean exists = this.recipeService.otherRecipeWithTheSameImageExists(picture, originalPicture);
+        return ResponseEntity.ok().body(Map.of("pictureExists", exists));
     }
 
 }

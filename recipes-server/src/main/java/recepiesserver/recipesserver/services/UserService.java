@@ -302,8 +302,10 @@ public class UserService {
     }
 
     private boolean otherUserWithSameUsernameOrEmailExists(UserProfileEditDTO userDTO, UserEntity oldUserInfo) {
-        Boolean nonUniqueUsername = otherUserWithSameUsernameExists(userDTO.getUsername(), oldUserInfo.getUsername());
-        Boolean nonUniqueEmail = otherUserWithSameEmailExists(userDTO.getEmail(), oldUserInfo.getEmail());
+        Boolean nonUniqueUsername =
+                this.otherUserWithSameUsernameExists(userDTO.getUsername(), oldUserInfo.getUsername());
+        Boolean nonUniqueEmail =
+                this.otherUserWithSameEmailExists(userDTO.getEmail(), oldUserInfo.getEmail());
 
         return nonUniqueUsername || nonUniqueEmail;
     }

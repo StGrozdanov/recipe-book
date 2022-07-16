@@ -39,6 +39,10 @@ public class Api {
     public static final String RECIPES_MOST_ACTIVE_USER = "/recipes/most-active-user";
     public static final String RECIPES_FOR_ADMIN = "/recipes/admin-panel";
     public static final String APPROVE_RECIPE = "/recipes/approve/{id}";
+    public static final String RECIPE_NAME_EXISTS = "/recipes/existsByName";
+    public static final String RECIPE_PICTURE_EXISTS = "/recipes/existsByPicture";
+    public static final String OTHER_RECIPE_NAME_EXISTS = "/recipes/otherExistsByName";
+    public static final String OTHER_RECIPE_PICTURE_EXISTS = "/recipes/otherExistsByPicture";
     //users
     public static final String GET_USER_DETAILS = "/users/{userId}";
     public static final String GET_USER_PROFILE = "/users/profile/{userId}";

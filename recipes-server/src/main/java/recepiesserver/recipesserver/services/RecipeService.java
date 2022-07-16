@@ -279,6 +279,14 @@ public class RecipeService {
         return this.getUserById(id).getUsername();
     }
 
+    public boolean otherRecipeWithTheSameNameExists(String recipeName, String originalName) {
+        return this.recipeRepository.existsByRecipeNameAndRecipeNameNot(recipeName, originalName);
+    }
+
+    public boolean otherRecipeWithTheSameImageExists(String image, String originalImage) {
+        return this.recipeRepository.existsByImageUrlAndImageUrlNot(image, originalImage);
+    }
+
     private RecipeEntity getRecipeById(Long id) {
         return this.recipeRepository
                 .findById(id)
@@ -367,10 +375,10 @@ public class RecipeService {
     }
 
     private boolean otherRecipeWithTheSameNameOrImageExists(RecipeEditDTO recipeDTO, RecipeEntity oldRecipeInfo) {
-        Boolean nonUniqueRecipeName = this.recipeRepository
-                .existsByRecipeNameAndRecipeNameNot(recipeDTO.getRecipeName(), oldRecipeInfo.getRecipeName());
-        Boolean nonUniqueImageUrl = this.recipeRepository
-                .existsByImageUrlAndImageUrlNot(recipeDTO.getImageUrl(), oldRecipeInfo.getImageUrl());
+        Boolean nonUniqueRecipeName =
+                this.otherRecipeWithTheSameNameExists(recipeDTO.getRecipeName(), oldRecipeInfo.getRecipeName());
+        Boolean nonUniqueImageUrl =
+                this.otherRecipeWithTheSameImageExists(recipeDTO.getImageUrl(), oldRecipeInfo.getImageUrl());
 
         return nonUniqueRecipeName || nonUniqueImageUrl;
     }
