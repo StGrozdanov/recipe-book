@@ -22,6 +22,14 @@
         width: 35vw;
         height: 32vh;
     }
+
+    #filtration-section > form:nth-child(2) {
+        width: 16vw;
+    }
+    
+    #checkboxes {
+        width: 16vw;
+    }    
 }
 
 @media all and (max-width: 1250px) {

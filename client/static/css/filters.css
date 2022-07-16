@@ -22,7 +22,7 @@
 }
 
 #filtration-section > form:nth-child(2) {
-    width: 11vw;
+    width: 13vw;
 }
 
 .multiselect {
@@ -63,7 +63,7 @@
 #checkboxes {
     position: absolute;
     top: 99%;
-    width: 11vw;
+    width: 13vw;
     display: flex;
     flex-direction: column;
     z-index: 1;
@@ -73,6 +73,7 @@
 
 #checkboxes label {
     position: relative;
+    padding: 3px;
 }
 
 #checkboxes label:hover {
@@ -89,6 +90,7 @@ label span {
     display: inline-block;
     position: relative;
     margin-top: 2px;
+    border-radius: 3px;
 }
 
 label input {

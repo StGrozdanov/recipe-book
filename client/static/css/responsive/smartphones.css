@@ -146,12 +146,12 @@
         top: -7px;
     }
 
-    #filtration-section>form:nth-child(2) {
-        width: 30vw;
+    #filtration-section > form:nth-child(2) {
+        width: 40vw;
     }
-
+    
     #checkboxes {
-        width: 30vw;
+        width: 40vw;
     }
 
     .no-recipes {

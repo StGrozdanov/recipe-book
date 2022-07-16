@@ -113,6 +113,14 @@
         max-width: 45%;
         width: 45%;
     }
+
+    #filtration-section > form:nth-child(2) {
+        width: 22vw;
+    }
+    
+    #checkboxes {
+        width: 22vw;
+    }
 } 
 
 @media all and (max-width: 825px) {
