@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getSingleRecipe, updateRecipe } from '../services/recipeService.js';
+import { getSingleRecipe, otherRecipeExistsByName, otherRecipeExistsByPicture, updateRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import { getCurrentUser } from '../services/authenticationService.js';
@@ -25,6 +25,7 @@ const editRecipeTemplate = (data, ctx) => html`
                     <i class="fa-solid fa-bowl-rice"></i>
                     <input 
                         @input=${formDataValidator.inputValidateHandler} 
+                        @blur=${(e) => checkForOtherExistingName(e, data.recipeName)}
                         type="text" 
                         name="name" 
                         id="title" 
@@ -36,6 +37,9 @@ const editRecipeTemplate = (data, ctx) => html`
                 </span>
                 <span class="invalid-input-text" style="display: none;">
                     Името трябва да е на български, минимум 4 букви, без символи.
+                </span>
+                <span class="invalid-input-text non-unique-name" style="display: none;">
+                    Вече съществува рецепта с това име.
                 </span>
             </p>
             <p class="field">
@@ -81,14 +85,20 @@ const editRecipeTemplate = (data, ctx) => html`
                 <span class="input">
                     <i class="fa-solid fa-utensils"></i>
                     <input 
+                        @blur=${(e) => checkForOtherExistingPicture(e, data.imageUrl)}
                         type="text" 
                         name="img" 
                         id="image" 
                         placeholder="Адрес на изображение" 
                         value=${data.imageUrl}
                     >
+                    <i class="fa-solid fa-triangle-exclamation warning-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon" style="display: none;"></i>
                 </span>
                 <input type="file" name="fileImg" id="fileImgEdit" />
+                <span class="invalid-input-text non-unique-picture" style="display: none;">
+                    Вече съществува рецепта с тази картинка.
+                </span>
             </p>
             <p class="field">
                 <label for="type">Категория</label>
@@ -169,4 +179,55 @@ async function editHandler(e, context) {
     );
 
     hideLoadingSpinner();
+}
+
+async function checkForOtherExistingName(e, originalRecipeName) {
+    const nameField = e.target;
+    const nameFieldValue = nameField.value;
+    const invalidNameClass = '.invalid-input-text.non-unique-name';
+
+    hideInvalidFieldMessage(nameField, invalidNameClass);
+
+    if (nameFieldValue.trim() !== '') {
+        const data = await otherRecipeExistsByName(nameFieldValue, originalRecipeName);
+        
+        if (data.nameExists) {
+            cancelValidFieldDecorationAndSetAsInvalid(nameField, invalidNameClass);
+        }
+    }
+}
+
+async function checkForOtherExistingPicture(e, originalRecipePicture) {
+    const pictureField = e.target;
+    const pictureFieldValue = pictureField.value;
+    const invalidPictureClass = '.invalid-input-text.non-unique-picture';
+
+    cancelInvalidFieldDecoration(pictureField);
+    hideInvalidFieldMessage(pictureField, invalidPictureClass);
+
+    if (pictureFieldValue.trim() !== '') {
+        const data = await otherRecipeExistsByPicture(pictureFieldValue, originalRecipePicture);
+        
+        if (data.pictureExists) {
+            cancelValidFieldDecorationAndSetAsInvalid(pictureField, invalidPictureClass);
+        }
+    }
+}
+
+function cancelInvalidFieldDecoration(field) {
+    field.parentNode.classList.remove('invalid-input');
+    field.parentNode.querySelector('.warning-icon').style.display = 'none';
+}
+
+function cancelValidFieldDecorationAndSetAsInvalid(field, invalidMessageClass) {
+    field.parentNode.classList.remove('valid-input');
+    field.parentNode.querySelector('.check-icon').style.display = 'none';
+    
+    field.parentNode.classList.add('invalid-input');
+    field.parentNode.querySelector('.warning-icon').style.display = 'block';
+    field.parentNode.parentNode.querySelector(invalidMessageClass).style.display = 'block';
+}
+
+function hideInvalidFieldMessage(field, invalidFieldClass) {
+    field.parentNode.parentNode.querySelector(invalidFieldClass).style.display = 'none';
 }

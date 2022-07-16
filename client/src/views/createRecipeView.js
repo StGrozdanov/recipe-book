@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { createRecipe, otherRecipeExistsByPicture, recipeExistsByName, recipeExistsByPicture } from '../services/recipeService.js';
+import { createRecipe, recipeExistsByName, recipeExistsByPicture } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import multiLineInputProcessor from '../utils/multiLineInputProcessor.js';
