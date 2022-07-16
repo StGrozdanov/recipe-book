@@ -3,8 +3,8 @@ modalDialogue.id = 'overlay';
 
 modalDialogue.innerHTML = `
 <div id="modal">
-    <p>Your password</p>
-    <input type="password" placeholder="password" class="profile-password" />
+    <p>Моля въведете паролата си</p>
+    <input type="password" placeholder="парола" class="profile-password" />
     <button class="modal-ok">Потвърди</button>
 </div>
 `;

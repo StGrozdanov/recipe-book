@@ -263,3 +263,9 @@ input[type='file'] {
 .custom-file-input:active::before {
     background: -webkit-linear-gradient(top, #e3e3e3, #234465);
 }
+
+.profile-password {
+    padding: 5px;
+    border-radius: 5px;
+    background: whitesmoke;
+}
