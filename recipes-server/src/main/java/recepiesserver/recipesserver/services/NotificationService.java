@@ -175,4 +175,8 @@ public class NotificationService {
     private boolean notificationReceiverIsNotTheNotificationSender(UserEntity sender, Long ownerId) {
         return !sender.getId().equals(ownerId);
     }
+
+    public void clearMarkedAsReadNotifications() {
+        this.notificationRepository.deleteAll(this.notificationRepository.findAllByMarkedAsReadTrue());
+    }
 }
