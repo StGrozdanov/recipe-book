@@ -1,39 +1,32 @@
 import { html } from "../../../node_modules/lit-html/lit-html.js";
-import { getRecepiesCount, RECEPIES_PER_PAGE } from "../../services/recipeService.js";
 
 const pageButtonTemplate = (pageNumber) => html`
     <a href="?page=${pageNumber}" class="button warning page-btn"}>${pageNumber}</a>
 `
-export const paginationTemplate = (pages, currentPage, totalPagesCount) => html`
+export const paginationTemplate = ({ first, last, totalPages, number }, pages) => html`
     <section id="pagination-section">
         <div class="page-div"}>
-            <a href=${
-                currentPage - 1 > 0 
-                            ? `?page=${currentPage - 1 > 0 ? currentPage - 1 : 1}` 
-                            : "javascript:void[0]"
-            }
-            class="button warning page-btn"> < </a> ${pages} <a href=${
-            currentPage + 1 <= totalPagesCount 
-                            ?`?page=${currentPage + 1 < totalPagesCount ? currentPage + 1 : totalPagesCount}` 
-                            : 'javascript:void[0]'
-            } 
-            class="button warning page-btn"> > </a>
+            <a href=${first ? 'javascript:void[0]' : `?page=${number}`} class="button warning page-btn"> < </a>
+                ${
+                    totalPages > 4
+                        ? pages.pageData.slice(number, number + 4).length === 3 
+                            ? pages.pageData.slice(number, number + 4)
+                            : pages.pageData.slice(number - 1, number + 3)
+                        : pages.pageData
+                } 
+            <a href=${last ? 'javascript:void[0]' : `?page=${number + 2}`} class="button warning page-btn"> > </a>
         </div>
     </section>
 `;
 
-export async function buildPagination() {
-    const totalRecepies = await getRecepiesCount();
-    const PAGE_SIZE = RECEPIES_PER_PAGE;
-    const totalPagesCount = Math.ceil(totalRecepies.recipesCount / PAGE_SIZE);
-
+export function buildPagination(data) {
     const pageData = [];
 
-    for (let i = 1; i <= totalPagesCount; i++) {
+    for (let i = 1; i <= data.totalPages; i++) {
         pageData.push(pageButtonTemplate(i));
     }
     
-    return { pageData: pageData, totalPagesCount: totalPagesCount }
+    return { pageData: pageData }
 }
 
 export function lightUpActivePaginationButton(ctx) {

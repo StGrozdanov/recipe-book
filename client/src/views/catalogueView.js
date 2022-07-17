@@ -8,12 +8,12 @@ import { categoryDropdownTemplate } from './templates/categoryDropdownTemplate.j
 import { searchTemplate } from './templates/searchTemplate.js';
 import { navigateDownHandler } from './landingView.js';
 
-const allRecordsTemplate = (recepies, currentPage, totalPagesCount, pages, ctx) => html`
+const allRecordsTemplate = (recepies, paginationButtons, data, ctx) => html`
     <section id="filtration-section" class="dashboard">
         ${searchTemplate(ctx)}
         ${categoryDropdownTemplate(ctx)}
     </section>
-    ${paginationTemplate(pages, currentPage, totalPagesCount)}
+    ${paginationTemplate(data, paginationButtons)}
     <section id="cards-section">
         <div id="cards">
             <div id="cards-content">
@@ -30,19 +30,16 @@ export async function cataloguePage(ctx) {
 
     const currentPage = Number(ctx.querystring.split('=')[1] || 1);
 
-    let data = getAllRecepies(currentPage);
+    let data = await getAllRecepies(currentPage);
 
-    const pagination = buildPagination();
+    const paginationButtons = buildPagination(data);
 
-    const[recipeData, paginationData] = await Promise.all([data, pagination]);
-
-    const recipes = recipeData.content.map(recipeTemplate);
+    const recipes = data.content.map(recipeTemplate);
 
     const allRecords = allRecordsTemplate(
         recipes,
-        currentPage,
-        paginationData.totalPagesCount,
-        paginationData.pageData,
+        paginationButtons,
+        data,
         ctx
     );
 
@@ -50,6 +47,10 @@ export async function cataloguePage(ctx) {
 
     lightUpActivePaginationButton(ctx);
 
+    handleRedirectFromLandingPage();
+}
+
+function handleRedirectFromLandingPage() {
     if (sessionStorage.getItem('landingRedirect')) {
         sessionStorage.removeItem('landingRedirect');
         navigateDownHandler();
