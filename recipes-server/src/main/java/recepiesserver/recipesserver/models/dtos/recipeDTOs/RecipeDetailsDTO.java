@@ -1,5 +1,6 @@
 package recepiesserver.recipesserver.models.dtos.recipeDTOs;
 
+import recepiesserver.recipesserver.models.enums.PublicationStatusEnum;
 import recepiesserver.recipesserver.models.interfaces.ImageUrl;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class RecipeDetailsDTO implements ImageUrl {
     private String imageUrl;
     private String categoryName;
     private Long ownerId;
+    private PublicationStatusEnum status;
 
     public RecipeDetailsDTO() {
     }
@@ -70,5 +72,14 @@ public class RecipeDetailsDTO implements ImageUrl {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public PublicationStatusEnum getStatus() {
+        return status;
+    }
+
+    public RecipeDetailsDTO setStatus(PublicationStatusEnum status) {
+        this.status = status;
+        return this;
     }
 }

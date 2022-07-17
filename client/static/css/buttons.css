@@ -42,6 +42,30 @@
     width: 14em;
 }
 
+.approve-recipe {
+    color: #096a09b3;
+    cursor: pointer;
+}
+
+.approve-recipe:hover {
+    color: #096a09
+}
+
+.approved-recipe {
+    color: green;
+    animation: fade 1.5s linear;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 @media all and (min-width: 1600px) {
     #comment-container .button {
         width: 15em;

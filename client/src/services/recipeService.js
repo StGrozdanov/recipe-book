@@ -1,4 +1,4 @@
-import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE } from "../constants/errorMessages.js";
+import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE, COULD_NOT_APPROVE_RECEPIE } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_HEADERS, BASE_URL, CALLBACK, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { getUserToken } from "./authenticationService.js";
@@ -16,6 +16,7 @@ const RECIPE_END_POINTS = {
     SINGLE_RECIPE: (id) => `${RECEPIES_END_POINT}/${id}`,
     OWNER_PUBLICATIONS: (ownerId) => `${RECEPIES_END_POINT}/created-by/${ownerId}`,
     OWNER_PUBLICATIONS_COUNT: (ownerId) => `${RECEPIES_END_POINT}/created-by/${ownerId}/count`,
+    APPROVE_RECIPE: (recipeId) => `${RECEPIES_END_POINT}/approve/${recipeId}`,
     THE_THREE_MOST_VIEWED_RECIPES: `${RECEPIES_END_POINT}/most-viewed-three-recipes`,
     EXISTS_BY_NAME: (name) => `${RECEPIES_END_POINT}/existsByName?name=${name}`,
     EXISTS_BY_PICTURE: (pictureUrl) => `${RECEPIES_END_POINT}/existsByPicture?pictureUrl=${pictureUrl}`,
@@ -146,4 +147,12 @@ export async function otherRecipeExistsByPicture(pictureUrl, originalPictureUrl)
     if (response.ok) {
         return response.json();
     }
+}
+
+export async function approveRecipe(recipeId) {
+    const response = await fetch(BASE_URL + RECIPE_END_POINTS.APPROVE_RECIPE(recipeId), {
+        method: 'PATCH',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+    });
+    return handleRequest(response, COULD_NOT_APPROVE_RECEPIE);
 }

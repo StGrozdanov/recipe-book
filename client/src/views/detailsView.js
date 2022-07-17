@@ -1,5 +1,5 @@
 import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
-import { getSingleRecipe, removeRecipe } from '../services/recipeService.js';
+import { approveRecipe, getSingleRecipe, removeRecipe } from '../services/recipeService.js';
 import { removeFromFavourites, addToFavourites, isFavouriteRecipe } from '../services/favouritesService.js';
 import { getCommentsForRecipe } from '../services/commentService.js'
 import { loaderTemplate } from './templates/loadingTemplate.js';
@@ -27,6 +27,14 @@ const recipeFavouritesTemplate = (ctx, data, isFavourite) => html`
     ></i>
 `;
 
+const approveRecipeTemplate = (recipeId) => html`
+    <i 
+        @click=${(e) => approveRecipeHandler(e, recipeId)} 
+        class="fa-solid fa-file-circle-plus approve-recipe" 
+    >
+    </i>
+`;
+
 const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
     <section id="recipe-details">
         <h1 class="recipe-name">
@@ -37,6 +45,7 @@ const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
                     ? recipeFavouritesTemplate(ctx, data, isFavourite)
                     : nothing                 
             }
+            ${userIsAdministrator() && data.status !== 'APPROVED' ? approveRecipeTemplate(data.id) : nothing}
         </h1>
         <div class="recipe-details-div">
             <div class="recipe-img">
@@ -158,4 +167,12 @@ async function refreshCommentSectionRedirect(ctx, comment, recipeData) {
     button.textContent = 'Скрий коментарите';
 
     navigateDownHandler();
+}
+
+async function approveRecipeHandler(e, recipeId) {
+    await approveRecipe(recipeId);
+
+    e.target.classList.remove('fa-file-circle-plus');
+    e.target.classList.add('approved-recipe');
+    e.target.classList.add('fa-check');
 }
