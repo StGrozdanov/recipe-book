@@ -133,7 +133,9 @@ public class AuthenticationService {
     }
 
     public void handleInvalidPassword(String rawPassword, String encodedPassword) {
-        if (!this.passwordEncoder.matches(rawPassword, encodedPassword)) {
+        boolean matches = this.passwordEncoder.matches(rawPassword, encodedPassword);
+
+        if (!matches) {
             throw new InvalidPasswordException(ExceptionMessages.INVALID_PASSWORD);
         }
     }
@@ -161,5 +163,11 @@ public class AuthenticationService {
         authResponse.setRefreshToken(tokens.get("refresh_token"));
         authResponse.setModerator(isModerator);
         authResponse.setAdministrator(isAdministrator);
+    }
+
+    public UserEntity setNewUserPassword(UserEntity oldUserInfo, String rawPassword) {
+        String encodedPassword = this.passwordEncoder.encode(rawPassword);
+        oldUserInfo.setPassword(encodedPassword);
+        return oldUserInfo;
     }
 }

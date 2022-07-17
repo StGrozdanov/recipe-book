@@ -124,6 +124,21 @@ public class UserService {
         return this.authenticationService.login(this.getUserIpAddress(request), loginDTO);
     }
 
+    @Modifying
+    public UserModifiedAtDTO editUserPassword(Long userId, UserPasswordChangeDTO userPasswordDTO) {
+        UserEntity oldUserInfo = this.getUserById(userId);
+
+        this.authenticationService
+                .handleInvalidPassword(userPasswordDTO.getOldPassword(), oldUserInfo.getPassword());
+
+        UserEntity editedUser =
+                this.authenticationService.setNewUserPassword(oldUserInfo, userPasswordDTO.getNewPassword());
+
+        this.userRepository.save(editedUser);
+
+        return new UserModifiedAtDTO().setModifiedAt(LocalDateTime.now());
+    }
+
     public boolean userWithTheSameUsernameExists(String username) {
         return this.userRepository.existsByUsername(username);
     }
@@ -359,5 +374,4 @@ public class UserService {
         String ip = request.getHeader("X-Forwarded-For");
         return ip == null ? request.getRemoteAddr() : ip;
     }
-
 }

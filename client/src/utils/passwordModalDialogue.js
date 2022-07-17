@@ -26,5 +26,6 @@ function onChoice(choice) {
 }
 
 function clear() {
+    document.querySelector('.profile-password').value = '';
     modalDialogue.remove();
 }

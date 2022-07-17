@@ -1,7 +1,7 @@
 import { COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
 import { notify } from "../utils/notification.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
-import { getCurrentUserEmail, getCurrentUserUsername, getUserToken } from "./authenticationService.js";
+import { getCurrentUser, getCurrentUserEmail, getCurrentUserUsername, getUserToken } from "./authenticationService.js";
 import { BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS, CALLBACK } from "./customService.js";
 
 const USER_END_POINT = '/users'
@@ -18,6 +18,7 @@ const USERS_END_POINTS = {
     OTHER_EXISTS_BY_EMAIL: (email, userEmail) => {
         return `${USER_END_POINT}/otherExistsByEmail?email=${email}&userEmail=${userEmail}`;
     },
+    CHANGE_PASSWORD: (userId) => `${USER_END_POINT}/changePassword/${userId}`
 }
 
 export async function update(userId, formData) {
@@ -93,8 +94,12 @@ export async function otherUserExistsByEmail(email) {
     }
 }
 
-async function handleUserRequestError(requestResponse) {
-    const error = await requestResponse.json();
-    notify(error.error);
-    throw new Error(error.error);
+export async function changeUserPassword(data) {
+    const options = {
+        method: 'PATCH',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        body: JSON.stringify(data)
+    };
+    
+    return await fetch(`${BASE_URL}${USERS_END_POINTS.CHANGE_PASSWORD(getCurrentUser())}`, options);
 }

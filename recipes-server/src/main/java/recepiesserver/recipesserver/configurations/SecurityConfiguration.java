@@ -105,7 +105,8 @@ public class SecurityConfiguration {
                         Api.EDIT_USER_PROFILE,
                         Api.SEARCH_IN_USER_FAVOURITES_RECIPES,
                         Api.RECIPE_IS_IN_USER_FAVOURITES,
-                        Api.GET_USER_FAVOURITE_RECIPES
+                        Api.GET_USER_FAVOURITE_RECIPES,
+                        Api.CHANGE_USER_PASSWORD
                 ).authenticated()
                 .antMatchers(
                         Api.GET_USER_DETAILS,

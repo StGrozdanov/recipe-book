@@ -47,6 +47,7 @@ public class Api {
     public static final String GET_USER_DETAILS = "/users/{userId}";
     public static final String GET_USER_PROFILE = "/users/profile/{userId}";
     public static final String EDIT_USER_PROFILE = "/users/profile/{userId}";
+    public static final String CHANGE_USER_PASSWORD = "/users/changePassword/{userId}";
     public static final String GET_USER_FAVOURITE_RECIPES = "/users/favourites/{userId}";
     public static final String SEARCH_IN_USER_FAVOURITES_RECIPES = "/users/search-favourite-recipe-by-name";
     public static final String RECIPE_IS_IN_USER_FAVOURITES = "/users/recipe-is-in-favourites";
@@ -60,7 +61,6 @@ public class Api {
     public static final String USER_EXISTS_BY_EMAIL = "/users/existsByEmail";
     public static final String OTHER_USER_EXISTS_BY_USERNAME = "/users/otherExistsByUsername";
     public static final String OTHER_USER_EXISTS_BY_EMAIL = "/users/otherExistsByEmail";
-
     //visitations
     public static final String VISITATIONS_ENDPOINT = "/visitations";
     public static final String VISITATIONS_FOR_GIVEN_MONTH = "/visitations/by-target-month";

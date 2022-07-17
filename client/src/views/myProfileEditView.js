@@ -1,16 +1,17 @@
 import { html, nothing } from '../../node_modules/lit-html/lit-html.js';
 import { getMyPublicationsCount } from '../services/recipeService.js';
-import { update, otherUserExistsByEmail, otherUserExistsByUsername } from '../services/userService.js';
+import { update, otherUserExistsByEmail, otherUserExistsByUsername, changeUserPassword } from '../services/userService.js';
 import { notify } from '../utils/notification.js';
 import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates/myProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import { getCurrentUser, logout, refreshToken, saveUserData } from '../services/authenticationService.js';
-import { ARE_YOU_SURE_PROFILE_EDIT, PROFILE_EDIT_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
+import { ARE_YOU_SURE_PROFILE_EDIT, PASSWORD_EDIT_CONFIRM, PASSWORD_EDIT_SUCCESS, PROFILE_EDIT_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 import { modalPassword, showPasswordModal } from '../utils/passwordModalDialogue.js';
 import { COULD_NOT_EDIT_USER, COULD_NOT_EDIT_USER_WRONG_CREDENTIALS } from '../constants/errorMessages.js';
+import { newPassword, oldPassword, showChangePasswordModal } from '../utils/changePasswordModalDialogue.js';
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
 <section class="my-profile-section">
@@ -18,6 +19,8 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
 <section class="profile-edit-section">
     <article class="user-profile-article">
     <form @submit=${(e) => editProfileHandler(e, ctx)} class="edit-profile-form" enctype='multipart/form-data'>
+        <i @click=${(e) => passwordEditHandler(e, ctx)} class="fa-solid fa-key edit-icon password-icon"></i>
+        <i @click=${settingsEditHandler} class="fa-solid fa-gears edit-icon settings-icon"></i>
         <input
             name="cover-img" 
             type="text" 
@@ -290,4 +293,44 @@ function cancelValidFieldDecorationAndSetAsInvalid(field, invalidMessageClass) {
 
 function hideInvalidFieldMessage(field, invalidFieldClass) {
     field.parentNode.parentNode.querySelector(invalidFieldClass).style.display = 'none';
+}
+
+function passwordEditHandler(e, ctx) {
+    showModal(PASSWORD_EDIT_CONFIRM, onSelect);
+
+    async function onSelect(choice) {
+        if (choice) {
+            showChangePasswordModal(onInput);
+
+            async function onInput() {
+                showLoadingSpinner(e.target);
+
+                const response = await changeUserPassword({ oldPassword, newPassword });
+                await response.json();
+
+                if (response.ok) {
+                    notify(PASSWORD_EDIT_SUCCESS);
+                    await logout();
+                    ctx.page.redirect('/login');
+                } else {
+                    if (response.status === 403) {
+                        await refreshToken();
+                        const response = await changeUserPassword({ oldPassword, newPassword });
+                        await response.json();
+                        notify(PASSWORD_EDIT_SUCCESS);
+                        await logout();
+                        ctx.page.redirect('/login');
+                    } else {
+                        notify(COULD_NOT_EDIT_USER_WRONG_CREDENTIALS);
+                        await logout();
+                        ctx.page.redirect('/login');
+                    }
+                }
+            }
+        }
+    }
+}
+
+function settingsEditHandler() {
+    console.log(settings);    
 }

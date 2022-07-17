@@ -59,6 +59,17 @@ public class UserController {
         return ResponseEntity.ok().body(editedProfile);
     }
 
+    @PatchMapping(Api.CHANGE_USER_PASSWORD)
+    @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
+            "#request.getHeader('Authorization'), @userService.getUserProfileOwnerUsername(#userId)) " +
+            "|| hasRole('ADMINISTRATOR')")
+    public ResponseEntity<UserModifiedAtDTO> editUserProfile(
+            @PathVariable Long userId,
+            @Valid @RequestBody UserPasswordChangeDTO userPasswordDTO,
+            HttpServletRequest request) {
+        return ResponseEntity.ok().body(this.userService.editUserPassword(userId, userPasswordDTO));
+    }
+
     @PostMapping(Api.RECIPE_IS_IN_USER_FAVOURITES)
     @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
             "#request.getHeader('Authorization'), @userService.getUserProfileOwnerUsername(#favouritesDTO.userId))")
