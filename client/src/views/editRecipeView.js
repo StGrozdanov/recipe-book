@@ -2,7 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getSingleRecipe, otherRecipeExistsByName, otherRecipeExistsByPicture, updateRecipe } from '../services/recipeService.js';
 import { notify } from '../utils/notification.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
-import { getCurrentUser } from '../services/authenticationService.js';
+import { getCurrentUser, userIsAdministrator, userIsModerator } from '../services/authenticationService.js';
 import { EDIT_RECIPE_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { sendNotifications } from './templates/commentTemplate.js';
 import { EDITED_RECIPE, NEW_RECIPE } from '../constants/userActions.js';
@@ -127,10 +127,7 @@ const editRecipeTemplate = (data, ctx) => html`
 export async function editPage(context) {
     const data = await getSingleRecipe(context.params.id);
 
-    if (getCurrentUser() !== data.ownerId) {
-        context.page.redirect('/catalogue');
-        return notify('Тази рецепта не е ваша!');
-    }
+    unauthorizedAccessHandler(data, context);
 
     context.render(editRecipeTemplate(data, context));
 }
@@ -230,4 +227,11 @@ function cancelValidFieldDecorationAndSetAsInvalid(field, invalidMessageClass) {
 
 function hideInvalidFieldMessage(field, invalidFieldClass) {
     field.parentNode.parentNode.querySelector(invalidFieldClass).style.display = 'none';
+}
+
+function unauthorizedAccessHandler(data, context) {
+    if (getCurrentUser() !== data.ownerId && !userIsAdministrator() && !userIsModerator()) {
+        context.page.redirect('/catalogue');
+        return notify('Тази рецепта не е ваша!');
+    }
 }

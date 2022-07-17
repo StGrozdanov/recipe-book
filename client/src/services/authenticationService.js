@@ -68,11 +68,11 @@ export function userIsAuthenticated() {
 }
 
 export function userIsAdministrator() {
-    return sessionStorage.getItem('isAdministrator');
+    return Boolean(sessionStorage.getItem('isAdministrator') == 'true');
 }
 
 export function userIsModerator() {
-    return sessionStorage.getItem('isModerator')
+    return Boolean(sessionStorage.getItem('isModerator') == 'true');
 }
 
 export function saveUserData(data) {
@@ -134,4 +134,8 @@ export function getCurrentUserAvatar() {
 
 export function getCurrentUserEmail() {
     return sessionStorage.getItem('email');
+}
+
+export function userIsResourceOwner(resourceOwnerId) {
+    return resourceOwnerId === getCurrentUser();
 }

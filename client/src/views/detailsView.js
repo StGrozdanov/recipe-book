@@ -7,13 +7,17 @@ import { showModal } from '../utils/modalDialogue.js';
 import { notify } from '../utils/notification.js';
 import { buttonToTop } from '../utils/backToTopButton.js';
 import { commentsTemplate } from './templates/commentTemplate.js';
-import { userIsAuthenticated, getCurrentUser } from '../services/authenticationService.js'
+import { userIsAuthenticated, userIsAdministrator, userIsModerator, userIsResourceOwner } from '../services/authenticationService.js'
 import { navigateDownHandler } from './landingView.js';
 import { ADD_TO_FAVOURITES_SUCCESS, ARE_YOU_SURE_DELETE_RECIPE, DELETE_RECIPE_SUCCESS, REMOVE_FROM_FAVOURITES_SUCCESS } from '../constants/notificationMessages.js';
 
 const ownerTemplate = (id, ctx) => html`
     <a class="button warning" href="/edit-${id}">Редактирай</a>
     <button @click=${() => deleteHandler(id, ctx)} class="button danger">Изтрий</button>
+`;
+
+const moderatorTemplate = (id) => html`
+    <a class="button warning" href="/edit-${id}">Редактирай</a>
 `;
 
 const recipeFavouritesTemplate = (ctx, data, isFavourite) => html`
@@ -30,15 +34,21 @@ const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
             ${data.recipeName} 
             ${
                 userIsAuthenticated()
-                ? recipeFavouritesTemplate(ctx, data, isFavourite)
-                : nothing                 
+                    ? recipeFavouritesTemplate(ctx, data, isFavourite)
+                    : nothing                 
             }
         </h1>
         <div class="recipe-details-div">
             <div class="recipe-img">
                 <img alt="recipe-alt" src=${data.imageUrl}>
                 <div id="comment-container">
-                    ${getCurrentUser() === data.ownerId ? ownerTemplate(data.id, ctx) : ''}
+                    ${
+                        userIsResourceOwner(data.ownerId) || userIsAdministrator()
+                            ? ownerTemplate(data.id, ctx) 
+                            : !userIsResourceOwner(data.ownerId) && userIsModerator() 
+                                ? moderatorTemplate(data.id) 
+                                : nothing
+                    }
                     ${commentsTemplate(commentData, ctx, data)}
                 </div>
             </div>

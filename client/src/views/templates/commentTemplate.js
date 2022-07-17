@@ -2,7 +2,7 @@ import { html, nothing, render } from '../../../node_modules/lit-html/lit-html.j
 import { commentRecipe, editComment, getCommentsForRecipe, removeComment } from '../../services/commentService.js';
 import { showModal } from '../../utils/modalDialogue.js';
 import { notify } from '../../utils/notification.js';
-import { getCurrentUser, getCurrentUserAvatar, getCurrentUserUsername } from '../../services/authenticationService.js'
+import { getCurrentUser, getCurrentUserAvatar, getCurrentUserUsername, userIsAdministrator, userIsModerator, userIsResourceOwner } from '../../services/authenticationService.js'
 import { socket } from '../../services/socketioService.js';
 import { createNotification } from '../../services/notificationService.js';
 import { createMobilePushNotification } from '../../services/mobilePushNotificationService.js';
@@ -79,9 +79,9 @@ export const commentsTemplate = (commentData, ctx, recipeData) => html`
                             ${comment.createdAt.replace('T', ', ').substring(0, 17)}
                         </p>
                         ${ 
-                            getCurrentUser() === comment.owner.id 
-                            ? ownerCommentTemplate(comment, recipeData)
-                            : unauthorizedCommentTemplate(comment)
+                             userIsResourceOwner(comment.owner.id) || userIsAdministrator() || userIsModerator()
+                                ? ownerCommentTemplate(comment, recipeData)
+                                : unauthorizedCommentTemplate(comment)
                         }
                     </li>`) 
                 : commentData !== null ? html`<p class="no-comments">Все още няма коментари за тази рецепта</p>` : nothing
