@@ -103,7 +103,7 @@ public class UserController {
     }
 
     @PatchMapping(Api.BLOCK_USER)
-    public ResponseEntity<UserModifiedAtDTO> blockUser(@Valid UserBlockDTO userBlockDTO) {
+    public ResponseEntity<UserModifiedAtDTO> blockUser(@Valid @RequestBody UserBlockDTO userBlockDTO) {
         return ResponseEntity.ok().body(this.userService.blockUser(userBlockDTO));
     }
 

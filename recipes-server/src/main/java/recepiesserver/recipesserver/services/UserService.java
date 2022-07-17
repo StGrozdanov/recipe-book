@@ -1,10 +1,13 @@
 package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import recepiesserver.recipesserver.events.BlockUserEvent;
+import recepiesserver.recipesserver.events.UnblockUserEvent;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserAlreadyBlockedException;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserAlreadyExistsException;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserIsNotBlockedException;
@@ -39,18 +42,18 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final RecipeService recipeService;
     private final RoleService roleService;
-    private final BlacklistService blacklistService;
     private final AmazonS3Service amazonS3Service;
     private final AuthenticationService authenticationService;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, @Lazy RecipeService recipeService, RoleService roleService, BlacklistService blacklistService, AmazonS3Service amazonS3Service, @Lazy AuthenticationService authenticationService) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, @Lazy RecipeService recipeService, RoleService roleService, AmazonS3Service amazonS3Service, @Lazy AuthenticationService authenticationService, ApplicationEventPublisher eventPublisher) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.recipeService = recipeService;
         this.roleService = roleService;
-        this.blacklistService = blacklistService;
         this.amazonS3Service = amazonS3Service;
         this.authenticationService = authenticationService;
+        this.eventPublisher = eventPublisher;
     }
 
     public Optional<UserEntity> findUserById(Long id) {
@@ -195,15 +198,17 @@ public class UserService {
         return new UserModifiedAtDTO().setModifiedAt(LocalDateTime.now());
     }
 
-    @Modifying
+    @Transactional
     public UserModifiedAtDTO blockUser(UserBlockDTO userBlockDTO) {
         UserEntity user = this.getUserById(userBlockDTO.getId());
 
         if (!user.getBlocked()) {
             user.setBlocked(true);
-
             Set<String> ipAddresses = user.getIpAddresses();
-            this.blacklistService.addToBlacklist(ipAddresses, userBlockDTO.getReason());
+
+            this.eventPublisher.publishEvent(new BlockUserEvent(
+                    UserService.class.getSimpleName(), ipAddresses, userBlockDTO.getReason()
+            ));
 
             this.userRepository.save(user);
 
@@ -212,13 +217,17 @@ public class UserService {
         throw new UserAlreadyBlockedException(ExceptionMessages.USER_ALREADY_BLOCKED);
     }
 
-    @Modifying
+    @Transactional
     public UserModifiedAtDTO unblockUser(Long userId) {
         UserEntity user = this.getUserById(userId);
 
         if (user.getBlocked()) {
             user.setBlocked(false);
-            this.blacklistService.removeFromBlacklist(user.getIpAddresses());
+
+            this.eventPublisher.publishEvent(new UnblockUserEvent(
+                    UserService.class.getSimpleName(), user.getIpAddresses()
+            ));
+
             this.userRepository.save(user);
 
             return new UserModifiedAtDTO().setModifiedAt(LocalDateTime.now());
