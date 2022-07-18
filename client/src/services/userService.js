@@ -18,7 +18,8 @@ const USERS_END_POINTS = {
     OTHER_EXISTS_BY_EMAIL: (email, userEmail) => {
         return `${USER_END_POINT}/otherExistsByEmail?email=${email}&userEmail=${userEmail}`;
     },
-    CHANGE_PASSWORD: (userId) => `${USER_END_POINT}/changePassword/${userId}`
+    CHANGE_PASSWORD: (userId) => `${USER_END_POINT}/changePassword/${userId}`,
+    USERS_COUNT: `${USER_END_POINT}/count`,
 }
 
 export async function update(userId, formData) {
@@ -102,4 +103,14 @@ export async function changeUserPassword(data) {
     };
     
     return await fetch(`${BASE_URL}${USERS_END_POINTS.CHANGE_PASSWORD(getCurrentUser())}`, options);
+}
+
+export async function getTotalUsersCount() {
+    CALLBACK.call = () => getTotalUsersCount();
+
+    const response = await fetch(`${BASE_URL}${USERS_END_POINTS.USERS_COUNT}`, {
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+    });
+
+    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
 }

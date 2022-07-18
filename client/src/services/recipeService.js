@@ -1,4 +1,4 @@
-import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE, COULD_NOT_APPROVE_RECEPIE, COULD_NOT_RECORD_VISITATION } from "../constants/errorMessages.js";
+import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE, COULD_NOT_APPROVE_RECEPIE, COULD_NOT_RECORD_VISITATION, COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_HEADERS, BASE_URL, CALLBACK, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { getUserToken } from "./authenticationService.js";
@@ -27,6 +27,7 @@ const RECIPE_END_POINTS = {
     OTHER_EXISTS_BY_PICTURE: (pictureUrl, originalPictureUrl) => {
        return `${RECEPIES_END_POINT}/otherExistsByPicture?pictureUrl=${pictureUrl}&originalPictureUrl=${originalPictureUrl}`;
     },
+    MOST_ACTIVE_USER: `${RECEPIES_END_POINT}/most-active-user`,
 }
 
 export async function getRecepiesCount() {
@@ -164,4 +165,14 @@ export async function recordRecipeVisitation(recipeId) {
         headers: BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_RECORD_VISITATION);
+}
+
+export async function findTheMostActiveUser() {
+    CALLBACK.call = () => findTheMostActiveUser();
+
+    const response = await fetch(`${BASE_URL}${RECIPE_END_POINTS.MOST_ACTIVE_USER}`, {
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+    });
+
+    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
 }

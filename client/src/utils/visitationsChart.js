@@ -44,7 +44,8 @@ export function drawVisitationsChart() {
                 y: {
                     ticks: {
                         display: false,
-                    }
+                    },
+                    beginAtZero: true,
                 }
             },
             fill: true,

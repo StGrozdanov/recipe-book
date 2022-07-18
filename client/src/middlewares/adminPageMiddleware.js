@@ -1,4 +1,5 @@
 import { render } from '../../node_modules/lit-html/lit-html.js';
+import { getCurrentUserAvatar, getCurrentUserUsername } from '../services/authenticationService.js';
 import { adminPanelTemplate } from '../views/templates/adminPageTemplate.js';
 import { mainRootElement } from './setUpMiddleware.js';
 
@@ -27,8 +28,8 @@ export function adminSetUp(ctx, next) {
         }
     });
 
-    const username = sessionStorage.getItem('username');
-    const avatar = sessionStorage.getItem('avatar');
+    const username = getCurrentUserUsername();
+    const avatar = getCurrentUserAvatar();
 
     const adminTemplate = adminPanelTemplate(greeting, username, avatar);
 
