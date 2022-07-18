@@ -6,9 +6,9 @@ import { loaderTemplate } from './templates/loadingTemplate.js';
 import { getCurrentUser } from '../services/authenticationService.js';
 import { getMyNotifications } from '../services/notificationService.js'
 
-const myPublicationsTemplate = (recepiesCount) => html`
+const myPublicationsTemplate = (recepiesCount, ctx) => html`
     <section class="my-profile-section">
-        ${myProfileTemplate()}
+        ${myProfileTemplate(ctx)}
         ${userProfileTemplate(sessionStorage, recepiesCount)}
     </section>
 `;
@@ -20,7 +20,7 @@ export async function myProfilePage(ctx) {
 
     const [myRecepies, userNotifications] = await Promise.all([createdRecepies, myNotifications]);
 
-    const myPublications = myPublicationsTemplate(myRecepies.recipesCount);
+    const myPublications = myPublicationsTemplate(myRecepies.recipesCount, ctx);
 
     ctx.render(myPublications);
 

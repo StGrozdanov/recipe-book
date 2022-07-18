@@ -16,9 +16,12 @@ import recepiesserver.recipesserver.exceptions.authenticationExceptions.InvalidP
 import recepiesserver.recipesserver.exceptions.authenticationExceptions.InvalidTokenException;
 import recepiesserver.recipesserver.exceptions.authenticationExceptions.LoginException;
 import recepiesserver.recipesserver.exceptions.authenticationExceptions.MissingTokenException;
+import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
 import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
+import recepiesserver.recipesserver.models.dtos.authDTOs.UserPasswordDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
+import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.utils.JwtUtil;
@@ -169,5 +172,19 @@ public class AuthenticationService {
         String encodedPassword = this.passwordEncoder.encode(rawPassword);
         oldUserInfo.setPassword(encodedPassword);
         return oldUserInfo;
+    }
+
+    public void checkCredentials(Long userId, UserPasswordDTO passwordDto) {
+        UserEntity user = this.userService
+                .findUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+
+        String password = passwordDto.getPassword();
+
+        boolean passwordMatch = this.passwordEncoder.matches(password, user.getPassword());
+
+        if (!passwordMatch) {
+            throw new InvalidPasswordException(ExceptionMessages.INVALID_PASSWORD);
+        }
     }
 }

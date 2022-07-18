@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
 
                 //authentication controller
-                .antMatchers(Api.LOGOUT).authenticated()
+                .antMatchers(Api.LOGOUT, Api.CHECK_CREDENTIALS).authenticated()
                 .antMatchers(Api.LOGIN, Api.REGISTER).anonymous()
                 .antMatchers(Api.REFRESH_TOKEN).permitAll()
 

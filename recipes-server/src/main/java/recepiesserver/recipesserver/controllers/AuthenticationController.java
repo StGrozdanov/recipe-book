@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
+import recepiesserver.recipesserver.models.dtos.authDTOs.UserPasswordDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
 import recepiesserver.recipesserver.services.AuthenticationService;
 import recepiesserver.recipesserver.utils.constants.Api;
@@ -49,6 +50,13 @@ public class AuthenticationController {
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         this.authenticationService.refreshUserToken(authorizationHeader, response);
+    }
+
+    @PostMapping(Api.CHECK_CREDENTIALS)
+    public ResponseEntity<?> checkUserCredentials(@PathVariable Long userId,
+                                                  @RequestBody @Valid UserPasswordDTO passwordDto) {
+        this.authenticationService.checkCredentials(userId, passwordDto);
+        return ResponseEntity.ok().build();
     }
 
     private String getUserIpAddress(HttpServletRequest request) {

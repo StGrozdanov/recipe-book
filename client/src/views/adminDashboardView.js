@@ -77,8 +77,6 @@ export async function adminPanelDashboardPage() {
         mostActiveUserData,
     ]);
 
-    console.log(mostActiveUser);
-
     render(dashboardTemplate(totalRecipes, totalComments, totalUsers, visitationsToday, mostActiveUser), document.getElementById('admin-root'));
 
     drawVisitationsChart();
