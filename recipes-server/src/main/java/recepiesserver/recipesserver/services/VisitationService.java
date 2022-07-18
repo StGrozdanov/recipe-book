@@ -94,4 +94,10 @@ public class VisitationService {
         }
         return pastSixMonths;
     }
+
+    public long restartVisitationStatistics() {
+        long visitationsForTheYear = this.visitationRepository.count();
+        this.visitationRepository.deleteAll();
+        return visitationsForTheYear;
+    }
 }
