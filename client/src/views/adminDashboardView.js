@@ -35,12 +35,16 @@ const dashboardTemplate = (avatar, recipesCount=12) => html`
             <h4>shushan</h4>
         </header>
         <div class="user-profile-avatar-container">
-            <img alt="user-profile" class="user-profile-avatar" src=${
-                                                                !avatar || avatar.includes('undefined')
-                                                                ? "../../static/images/Avatar.png"
-                                                                : avatar
-                                                                    }
-            >
+        <img 
+            alt="user-profile" 
+            class="user-profile-avatar" 
+            src=${
+                    !avatarUrl || avatarUrl == 'null'
+                        ? "../../static/images/Avatar.png"
+                        : avatarUrl
+                }
+            onerror="this.onerror=null;this.src='../../static/images/Avatar.png';" 
+        >
         </div>
         <main class="user-profile-article-info">
             <h4 class="username-header">16 публикации</h4>

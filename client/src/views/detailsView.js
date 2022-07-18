@@ -49,7 +49,11 @@ const detailsTemplate = (data, ctx, commentData, isFavourite) => html`
         </h1>
         <div class="recipe-details-div">
             <div class="recipe-img">
-                <img alt="recipe-alt" src=${data.imageUrl}>
+                <img 
+                    src=${data.imageUrl}
+                    alt="" 
+                    onerror="this.onerror=null;this.src='../../static/images/food.jpg';"
+                >
                 <div id="comment-container">
                     ${
                         userIsResourceOwner(data.ownerId) || userIsAdministrator()

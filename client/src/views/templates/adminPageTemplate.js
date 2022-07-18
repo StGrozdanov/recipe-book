@@ -42,6 +42,7 @@ export const adminPanelTemplate = (greeting, username, avatar) => html`
                                     : avatar
                                     } 
                                 alt="" 
+                                onerror="this.onerror=null;this.src='../static/images/Avatar.png';" 
                             />
                         </div>
                     </article>

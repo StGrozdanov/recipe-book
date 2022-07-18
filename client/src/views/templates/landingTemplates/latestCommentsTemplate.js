@@ -6,11 +6,15 @@ export const latestCommentsTemplate = (comment) => html`
         <header @click=${()=> navigateHandler(`/user-${comment.owner.id}`, true)}
             class="landing-latest-recepies-article-picture-container"
         >
-            <img src=${
-                !comment.owner.avatarUrl
-                    ? "../../static/images/Avatar.png"
-                    : comment.owner.avatarUrl
-                } alt="profile-image" />
+            <img 
+                src=${
+                    !comment.owner.avatarUrl
+                        ? "../../static/images/Avatar.png"
+                        : comment.owner.avatarUrl
+                    } 
+                alt=""
+                onerror="this.onerror=null;this.src='../../static/images/Avatar.png';" 
+            >
         </header>
         <section class="landing-comment-section">
             <p>${comment.owner.username}</p>

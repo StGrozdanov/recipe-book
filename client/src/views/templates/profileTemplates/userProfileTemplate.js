@@ -4,19 +4,27 @@ import { userIsAuthenticated } from '../../../services/authenticationService.js'
 export const userProfileTemplate = ({coverPhotoUrl, avatarUrl, username, email}, recipesCount) => html`
     <article class="user-profile-article">
         <header class="user-profile-header">
-            <img class="user-profile-header-picture" src=${
-                                                            !coverPhotoUrl || coverPhotoUrl == 'null'
-                                                                ? "../../static/images/user-profile-header.jpeg"
-                                                                : coverPhotoUrl
-                                                                    }
+            <img 
+                class="user-profile-header-picture" 
+                src=${
+                        !coverPhotoUrl || coverPhotoUrl == 'null'
+                            ? "../../static/images/user-profile-header.jpeg"
+                            : coverPhotoUrl
+                    }
+                alt=""
+                onerror="this.onerror=null;this.src='../../static/images/user-profile-header.jpeg';" 
             >
         </header>
         <div class="user-profile-avatar-container">
-            <img alt="user-profile" class="user-profile-avatar" src=${
-                                                                !avatarUrl || avatarUrl == 'null'
-                                                                    ? "../../static/images/Avatar.png"
-                                                                    : avatarUrl
-                                                                    }
+            <img 
+                class="user-profile-avatar" 
+                src=${
+                        !avatarUrl || avatarUrl == 'null'
+                            ? "../../static/images/Avatar.png"
+                            : avatarUrl
+                }
+                alt=""
+                onerror="this.onerror=null;this.src='../../static/images/Avatar.png';" 
             >
         </div>
         <main class="user-profile-article-info">

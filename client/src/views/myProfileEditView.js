@@ -7,7 +7,7 @@ import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
 import { getCurrentUser, logout, refreshToken, saveUserData } from '../services/authenticationService.js';
-import { ARE_YOU_SURE_PROFILE_EDIT, PASSWORD_EDIT_CONFIRM, PASSWORD_EDIT_SUCCESS, PROFILE_EDIT_SUCCESS, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
+import { ARE_YOU_SURE_PROFILE_EDIT, PASSWORD_EDIT_CONFIRM, PASSWORD_EDIT_SUCCESS, PROFILE_EDIT_SUCCESS, SETTINGS_EDIT_MESSAGE, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 import { modalPassword, showPasswordModal } from '../utils/passwordModalDialogue.js';
 import { COULD_NOT_EDIT_USER, COULD_NOT_EDIT_USER_WRONG_CREDENTIALS } from '../constants/errorMessages.js';
@@ -43,19 +43,27 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
             <input type="file" name="coverUpload" id="cover-upload" style="display:none;">
         </div>
         <header @click=${pictureChangeHandler} id="user-profile-cover" class="user-profile-header">
-            <img class="user-profile-header-picture" src=${
-                                                                sessionStorage.getItem('coverPhotoUrl') === 'null'
-                                                                    ? "../../static/images/user-profile-header.jpeg"
-                                                                    : sessionStorage.getItem('coverPhotoUrl')
-                                                                    }
+            <img 
+                class="user-profile-header-picture" 
+                src=${
+                        sessionStorage.getItem('coverPhotoUrl') === 'null'
+                            ? "../../static/images/user-profile-header.jpeg"
+                            : sessionStorage.getItem('coverPhotoUrl')
+                    }
+                alt=""
+                onerror="this.onerror=null;this.src='../../static/images/user-profile-header.jpeg';" 
             >
         </header>
         <div @click=${pictureChangeHandler} id="user-profile-avatar" class="user-profile-avatar-container">
-            <img alt="user-profile" class="user-profile-avatar" src=${
-                                                                sessionStorage.getItem('avatarUrl') === 'null'
-                                                                    ? "../../static/images/Avatar.png"
-                                                                    : sessionStorage.getItem('avatarUrl')
-                                                                    }
+            <img 
+            class="user-profile-avatar" 
+            src=${
+                    sessionStorage.getItem('avatarUrl') === 'null'
+                        ? "../../static/images/Avatar.png"
+                        : sessionStorage.getItem('avatarUrl')
+                }
+            alt=""
+            onerror="this.onerror=null;this.src='../../static/images/Avatar.png';" 
             >
         </div>
         <div class="element" style="position: absolute; top: 24%; display: none;" id="upload-avatar">
@@ -214,7 +222,6 @@ async function editProfileHandler(e, ctx) {
                 } else {
                     await handleProfileUpdateError(response, ctx, formData);
                 }
-                hideLoadingSpinner();
             }
         }
     }
@@ -238,6 +245,7 @@ async function handleProfileUpdateError(response, ctx, formData) {
         handleProfileUpdate(data, ctx);
     } else {
         notify(COULD_NOT_EDIT_USER);
+        hideLoadingSpinner();
     }
 }
 
@@ -310,27 +318,23 @@ function passwordEditHandler(e, ctx) {
 
                 if (response.ok) {
                     notify(PASSWORD_EDIT_SUCCESS);
-                    await logout();
-                    ctx.page.redirect('/login');
                 } else {
                     if (response.status === 403) {
                         await refreshToken();
                         const response = await changeUserPassword({ oldPassword, newPassword });
                         await response.json();
                         notify(PASSWORD_EDIT_SUCCESS);
-                        await logout();
-                        ctx.page.redirect('/login');
                     } else {
                         notify(COULD_NOT_EDIT_USER_WRONG_CREDENTIALS);
-                        await logout();
-                        ctx.page.redirect('/login');
                     }
                 }
+                await logout();
+                ctx.page.redirect('/login');
             }
         }
     }
 }
 
 function settingsEditHandler() {
-    console.log(settings);    
+    notify(SETTINGS_EDIT_MESSAGE);   
 }

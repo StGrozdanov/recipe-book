@@ -7,7 +7,11 @@ export const latestRecepieTemplate = (recipe) => html`
             @click=${() => navigateHandler(`/details-${recipe.id}`, true)} 
             class="landing-latest-recepies-article-picture-container"
         >
-            <img src=${recipe.imageUrl} alt="" />
+            <img 
+                src=${recipe.imageUrl} 
+                alt="" 
+                onerror="this.onerror=null;this.src='../../../static/images/food.jpg';" 
+            />
         </header>
         <main>
             <h4 class="recipe-name">${recipe.recipeName}</h4>

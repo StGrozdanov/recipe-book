@@ -13,7 +13,11 @@ export const mostViewedRecepieTemplate = (recipe) => html`
             @click=${() => navigateHandler(`/details-${recipe.id}`, true)} 
             class="landing-latest-recepies-article-picture-container"
         >
-            <img src=${recipe.imageUrl} alt="" />
+            <img 
+                src=${recipe.imageUrl} 
+                alt="" 
+                onerror="this.onerror=null;this.src='../../../static/images/food.jpg';" 
+            />
         </header>
     </article>
 `;

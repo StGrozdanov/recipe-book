@@ -20,7 +20,8 @@ const notificationTemplate = (notification, ctx) => html`
                         ? "../static/images/Avatar.png"
                         : notification.senderAvatar
                 } 
-                alt="broken-avatar" 
+                alt="" 
+                onerror="this.onerror=null;this.src='../static/images/Avatar.png';" 
             />
         </header>
         <main>
