@@ -1,5 +1,5 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
-import { loaderTemplate } from "./templates/adminLoadingTemplate.js";
+import { loaderTemplate } from "./templates/adminTemplates/adminLoadingTemplate.js";
 
 const applicationUsersSettingsTemplate = () => html`
 <div class="wrapper-table-wrapper">

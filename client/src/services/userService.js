@@ -1,4 +1,4 @@
-import { COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
+import { COULD_NOT_FETCH_USER_COUNT, COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
 import { notify } from "../utils/notification.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
 import { getCurrentUser, getCurrentUserEmail, getCurrentUserUsername, getUserToken } from "./authenticationService.js";
@@ -20,6 +20,7 @@ const USERS_END_POINTS = {
     },
     CHANGE_PASSWORD: (userId) => `${USER_END_POINT}/changePassword/${userId}`,
     USERS_COUNT: `${USER_END_POINT}/count`,
+    GET_ALL_USERS: (page) => `${USER_END_POINT}?skip=${(page - 1)}`,
 }
 
 export async function update(userId, formData) {
@@ -113,4 +114,15 @@ export async function getTotalUsersCount() {
     });
 
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
+}
+
+export async function getAllUsers(page) {
+    CALLBACK.call = () => getAllUsers(page);
+
+    const response = await fetch(BASE_URL + USERS_END_POINTS.GET_ALL_USERS(page), {
+        method: 'GET',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+    });
+
+    return handleRequest(response, COULD_NOT_FETCH_USER_COUNT, CALLBACK);
 }

@@ -1,6 +1,6 @@
 import { render } from '../../node_modules/lit-html/lit-html.js';
 import { getCurrentUserAvatar, getCurrentUserUsername } from '../services/authenticationService.js';
-import { adminPanelTemplate } from '../views/templates/adminPageTemplate.js';
+import { adminPanelTemplate } from '../views/templates/adminTemplates/adminPageTemplate.js';
 import { mainRootElement } from './setUpMiddleware.js';
 
 const timeParts = {

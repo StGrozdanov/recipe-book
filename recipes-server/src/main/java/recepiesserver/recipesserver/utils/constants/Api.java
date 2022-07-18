@@ -38,7 +38,7 @@ public class Api {
     public static final String SEARCH_BY_RECIPE_CATEGORY = "/recipes/search-by-categories";
     public static final String RECIPES_COUNT = "/recipes/count";
     public static final String RECIPES_MOST_ACTIVE_USER = "/recipes/most-active-user";
-    public static final String RECIPES_FOR_ADMIN = "/recipes/admin-panel";
+    public static final String RECIPES_FOR_ADMIN = "/recipes/admin";
     public static final String APPROVE_RECIPE = "/recipes/approve/{id}";
     public static final String RECIPE_NAME_EXISTS = "/recipes/existsByName";
     public static final String RECIPE_PICTURE_EXISTS = "/recipes/existsByPicture";
@@ -62,6 +62,7 @@ public class Api {
     public static final String USER_EXISTS_BY_EMAIL = "/users/existsByEmail";
     public static final String OTHER_USER_EXISTS_BY_USERNAME = "/users/otherExistsByUsername";
     public static final String OTHER_USER_EXISTS_BY_EMAIL = "/users/otherExistsByEmail";
+    public static final String GET_ALL_USERS = "/users";
     //visitations
     public static final String VISITATIONS_ENDPOINT = "/visitations";
     public static final String VISITATIONS_FOR_GIVEN_MONTH = "/visitations/by-target-month";

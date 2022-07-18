@@ -10,7 +10,7 @@ public class UserAdminPanelDTO {
     private String email;
     private String avatarUrl;
     private String coverPhotoUrl;
-    private RoleEnum primaryRole;
+    private String primaryRole;
     private UserStatusEnum status;
 
     public UserAdminPanelDTO() {
@@ -48,11 +48,11 @@ public class UserAdminPanelDTO {
         this.coverPhotoUrl = coverPhotoUrl;
     }
 
-    public RoleEnum getPrimaryRole() {
+    public String getPrimaryRole() {
         return primaryRole;
     }
 
-    public void setPrimaryRole(RoleEnum primaryRole) {
+    public void setPrimaryRole(String primaryRole) {
         this.primaryRole = primaryRole;
     }
 

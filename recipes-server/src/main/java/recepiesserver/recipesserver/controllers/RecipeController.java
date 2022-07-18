@@ -142,8 +142,13 @@ public class RecipeController {
     }
 
     @GetMapping(Api.RECIPES_FOR_ADMIN)
-    public ResponseEntity<List<RecipeAdminPanelDTO>> getAllAdminPanelRecipes() {
-        return ResponseEntity.ok().body(this.recipeService.getAllAdminPanelRecipes());
+    public ResponseEntity<Page<RecipeAdminPanelDTO>> getAllAdminPanelRecipes(
+            @RequestParam(name = "skip", defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "limit", defaultValue = "8") Integer collectionCount,
+            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy) {
+        return ResponseEntity
+                .ok()
+                .body(this.recipeService.getAllAdminPanelRecipes(pageNumber, collectionCount, sortBy));
     }
 
     @PatchMapping(Api.APPROVE_RECIPE)

@@ -4,7 +4,7 @@ import { findTheMostActiveUser, getRecepiesCount } from "../services/recipeServi
 import { getTotalUsersCount } from "../services/userService.js";
 import { getVisitationsToday } from "../services/visitationsService.js";
 import { drawVisitationsChart } from "../utils/visitationsChart.js";
-import { loaderTemplate } from "./templates/adminLoadingTemplate.js";
+import { loaderTemplate } from "./templates/adminTemplates/adminLoadingTemplate.js";
 
 const dashboardTemplate = (totalRecipes, totalComments, totalUsers, visitationsToday, mostActiveUser) => html`
                     <article class="stats-card">

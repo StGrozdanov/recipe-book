@@ -406,7 +406,6 @@ tbody tr:hover {
     border-radius: 20px;
     color: #2AC991;
     z-index: 2;
-    border: 1.5px solid #2ac991db;
 }
 
 .user-status-offline {
@@ -415,7 +414,6 @@ tbody tr:hover {
     border-radius: 20px;
     color: red;
     z-index: 2;
-    border: 1.5px solid #ff000070;
 }
 
 .user-action-edit {
@@ -426,6 +424,12 @@ tbody tr:hover {
     z-index: 2;
     margin-right: 10px;
     border: 1.5px solid #b8860b8c;
+    cursor: pointer;
+}
+
+.user-action-edit:hover {
+    background-color: #b8860b8c;
+    color: white;
 }
 
 .user-action-delete {
@@ -435,6 +439,12 @@ tbody tr:hover {
     color: red;
     z-index: 2;
     border: 1.5px solid #ff000070;
+    cursor: pointer;
+}
+
+.user-action-delete:hover {
+    background-color: #ff000070;
+    color: white;
 }
 
 .user-action-block {
@@ -445,6 +455,23 @@ tbody tr:hover {
     z-index: 2;
     margin-right: 10px;
     border: 1.5px solid #a9a9a9d1;
+    cursor: pointer;
+}
+
+.user-action-block:hover {
+    background-color: #a9a9a9d1;
+    color: white;
+}
+
+.pagination-btn {
+    border-radius: 25px;
+    background: #b1b7ea;
+    padding: 0px 14px;
+}
+
+.pagination-container {
+    position: absolute;
+    bottom: 7%;
 }
 
 .user-current-status {

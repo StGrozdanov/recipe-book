@@ -1,5 +1,5 @@
-import { html } from "../../../node_modules/lit-html/lit-html.js";
-import page from '../../../node_modules/page/page.mjs';
+import { html } from "../../../../node_modules/lit-html/lit-html.js";
+import page from '../../../../node_modules/page/page.mjs';
 
 export const adminPanelTemplate = (greeting, username, avatar) => html`
     <section class="admin-panel-section">
@@ -25,7 +25,7 @@ export const adminPanelTemplate = (greeting, username, avatar) => html`
             <article class="admin-panel-content">
                 <header class="admin-panel-content-header">
                     <article class="admin-panel-content-header-greeting-article">
-                        <h2>${greeting}, shushan</h2>
+                        <h2>${greeting}, ${username}</h2>
                         <p id="page-message">Статистически данни за сайта</p>
                     </article>
                     <article class="admin-panel-content-header-nav-article">
@@ -38,11 +38,11 @@ export const adminPanelTemplate = (greeting, username, avatar) => html`
                             <img 
                                 src=${
                                     !avatar || avatar.includes('undefined')
-                                    ? "../static/images/Avatar.png"
+                                    ? "../../static/images/Avatar.png"
                                     : avatar
                                     } 
                                 alt="" 
-                                onerror="this.onerror=null;this.src='../static/images/Avatar.png';" 
+                                onerror="this.onerror=null;this.src='../../static/images/Avatar.png';" 
                             />
                         </div>
                     </article>

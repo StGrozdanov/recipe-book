@@ -263,12 +263,13 @@ public class RecipeService {
         return mostActiveUser;
     }
 
-    public List<RecipeAdminPanelDTO> getAllAdminPanelRecipes() {
+    public Page<RecipeAdminPanelDTO> getAllAdminPanelRecipes(Integer pageNumber,
+                                                             Integer collectionCount,
+                                                             String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber, collectionCount, Sort.by(sortBy));
         return this.recipeRepository
-                .findAll()
-                .stream()
-                .map(recipe -> this.modelMapper.map(recipe, RecipeAdminPanelDTO.class))
-                .toList();
+                .findAll(pageable)
+                .map(recipe -> this.modelMapper.map(recipe, RecipeAdminPanelDTO.class));
     }
 
     @Modifying

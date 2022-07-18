@@ -3,6 +3,10 @@ package recepiesserver.recipesserver.services;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -292,6 +296,14 @@ public class UserService {
         return this.userRepository.existsByEmailAndEmailNot(email, userEmail);
     }
 
+    @Transactional
+    public Page<UserAdminPanelDTO> getAllUsers(Integer pageNumber, Integer collectionCount, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber, collectionCount, Sort.by(sortBy));
+        return this.userRepository
+                .findAll(pageable)
+                .map(this::mapToUserAdminPanelDTO);
+    }
+
     private UserEntity getUserById(Long userId) {
         return this.userRepository
                 .findById(userId)
@@ -331,7 +343,7 @@ public class UserService {
     private UserAdminPanelDTO mapToUserAdminPanelDTO(UserEntity user) {
         UserAdminPanelDTO dto = this.modelMapper.map(user, UserAdminPanelDTO.class);
         dto.setStatus(UserStatusEnum.OFFLINE);
-        dto.setPrimaryRole(user.getRoles().get(0).getRole());
+        dto.setPrimaryRole(user.getRoles().get(0).getRole().getName());
         return dto;
     }
 

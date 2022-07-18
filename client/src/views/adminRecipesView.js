@@ -1,302 +1,40 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
-import { loaderTemplate } from "./templates/adminLoadingTemplate.js";
+import { getAllRecipesAdmin } from "../services/recipeService.js";
+import { loaderTemplate } from "./templates/adminTemplates/adminLoadingTemplate.js";
+import { adminPaginationTemplate } from "./templates/adminTemplates/adminPaginationTemplate.js";
+import { recipeRowTemplate } from "./templates/adminTemplates/adminTableRecipeRowTemplate.js";
 
-const applicationRecipesTemplate = () => html`
+const applicationRecipesTemplate = (recipes, data) => html`
 <div class="wrapper-table-wrapper">
 <div class="table-wrapper">
      <table>
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>Owner</th>
-                <th>Location</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>Име</th>
+                <th>Собственик</th>
+                <th>Локация</th>
+                <th>Статус</th>
+                <th>Действия</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-status-online">Approved</span></td>
-                <td><span class="user-action-edit">Pending</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>
-                <div class="user-table-profile-avatar-container">
-                    <img alt="user-profile" class="user-profile-avatar" src="../../static/images/Avatar.png" />
-                </div>
-                    Болонезе
-                </td>
-                <td><i class="fa-solid fa-share-from-square"></i></td>
-                <td><i class="fa-solid fa-location-arrow"></i></td>
-                <td><span class="user-action-edit">Pending</span></td>
-                <td><span class="user-status-online">Approve</span> <span class="user-action-delete">Remove</span></td>
-            </tr>
+            ${recipes}
         </tbody>
     </table>
     </div>
     </div>
+    ${adminPaginationTemplate(data)}
 `;
 
-export async function adminPanelRecipesPage() {
+export async function adminPanelRecipesPage(ctx) {
     render(loaderTemplate(), document.getElementById('admin-root'));
 
-    render(applicationRecipesTemplate(), document.getElementById('admin-root'));
+    const currentPage = Number(ctx.querystring.split('=')[1] || 1);
+
+    let data = await getAllRecipesAdmin(currentPage);
+
+    const recipes = data.content.map(recipeRowTemplate);
+    
+    render(applicationRecipesTemplate(recipes, data), document.getElementById('admin-root'));
 }

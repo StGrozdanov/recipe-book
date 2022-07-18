@@ -99,7 +99,8 @@ public class SecurityConfiguration {
                         Api.CHANGE_USER_ROLE,
                         Api.BLOCK_USER,
                         Api.UNBLOCK_USER,
-                        Api.DELETE_USER
+                        Api.DELETE_USER,
+                        Api.GET_ALL_USERS
                 ).hasRole(RoleEnum.ADMINISTRATOR.name())
                 .antMatchers(
                         Api.EDIT_USER_PROFILE,

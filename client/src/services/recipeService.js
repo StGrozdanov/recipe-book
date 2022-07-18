@@ -28,6 +28,7 @@ const RECIPE_END_POINTS = {
        return `${RECEPIES_END_POINT}/otherExistsByPicture?pictureUrl=${pictureUrl}&originalPictureUrl=${originalPictureUrl}`;
     },
     MOST_ACTIVE_USER: `${RECEPIES_END_POINT}/most-active-user`,
+    ALL_RECIPES_ADMIN: (page) => `${RECEPIES_END_POINT}/admin?skip=${(page - 1)}`,
 }
 
 export async function getRecepiesCount() {
@@ -175,4 +176,14 @@ export async function findTheMostActiveUser() {
     });
 
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
+}
+
+export async function getAllRecipesAdmin(page) {
+    CALLBACK.call = () => getAllRecipesAdmin(page);
+
+    const response = await fetch(`${BASE_URL}${RECIPE_END_POINTS.ALL_RECIPES_ADMIN(page)}`, {
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+    });
+
+    return handleRequest(response, COULD_NOT_GET_RECEPIES, CALLBACK);
 }

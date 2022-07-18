@@ -2,6 +2,7 @@ package recepiesserver.recipesserver.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -154,6 +155,14 @@ public class UserController {
             @RequestParam("userEmail") String userEmail) {
         boolean exists = this.userService.otherUserWithSameEmailExists(email, userEmail);
         return ResponseEntity.ok().body(Map.of("emailExists", exists));
+    }
+
+    @GetMapping(Api.GET_ALL_USERS)
+    public ResponseEntity<Page<UserAdminPanelDTO>> getAllUsers(
+            @RequestParam(name = "skip", defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "limit", defaultValue = "8") Integer collectionCount,
+            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy) {
+        return ResponseEntity.ok().body(this.userService.getAllUsers(pageNumber, collectionCount, sortBy));
     }
 
 }
