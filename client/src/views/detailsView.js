@@ -1,5 +1,5 @@
 import { html, nothing, render } from '../../node_modules/lit-html/lit-html.js';
-import { approveRecipe, getSingleRecipe, removeRecipe } from '../services/recipeService.js';
+import { approveRecipe, getSingleRecipe, recordRecipeVisitation, removeRecipe } from '../services/recipeService.js';
 import { removeFromFavourites, addToFavourites, isFavouriteRecipe } from '../services/favouritesService.js';
 import { getCommentsForRecipe } from '../services/commentService.js'
 import { loaderTemplate } from './templates/loadingTemplate.js';
@@ -116,8 +116,8 @@ export async function detailsPage(ctx) {
         sessionStorage.removeItem('landingRedirect');
         navigateDownHandler();
     }
-
     buttonToTop();
+    await recordRecipeVisitation(ctx.params.id);
 }
 
 async function deleteHandler(id, ctx) {

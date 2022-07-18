@@ -7,6 +7,7 @@ import { latestRecepieTemplate } from "./templates/landingTemplates/latestRecepi
 import { mostViewedRecepieTemplate } from "./templates/landingTemplates/mostViewedRecepieTemplate.js";
 import { latestCommentsTemplate } from "./templates/landingTemplates/latestCommentsTemplate.js";
 import { loaderTemplate } from "./templates/loadingTemplate.js";
+import { recordWebsiteVisitation } from "../services/visitationsService.js";
 
 const landingPageTemplate = (latestRecipes, comments, mostViewedRecipes) => html`
 <section class="landing-page">
@@ -87,12 +88,14 @@ export async function landingPage() {
     const [lastThreeRecepies, latestSixComments, mostViewedRecepies] = await Promise.all([
         lastThreeRecipesData,
         latestSixCommentsData,
-        mostViewedRecepiesData
+        mostViewedRecepiesData,
     ]);
 
     const landingTemplate = landingPageTemplate(lastThreeRecepies, latestSixComments, mostViewedRecepies);
 
     render(landingTemplate, mainRootElement);
+
+    await recordWebsiteVisitation();
 }
 
 function resetBaseStyleArchitecture() {
