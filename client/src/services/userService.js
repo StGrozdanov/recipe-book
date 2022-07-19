@@ -24,6 +24,7 @@ const USERS_END_POINTS = {
     UPDATE_AS_ADMIN: (userId) => `${USER_END_POINT}/administrate/profile/${userId}`,
     BLOCK_USER: `${USER_END_POINT}/block`,
     UNBLOCK_USER: (userId) => `${USER_END_POINT}/unblock/${userId}`,
+    CHANGE_ROLE: (userId) => `${USER_END_POINT}/change-role/${userId}`,
 }
 
 export async function update(userId, formData) {
@@ -147,5 +148,16 @@ export async function unblockUser(userId) {
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     });
 
+    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
+}
+
+export async function changeUserRole(userId, role) {
+    CALLBACK.call = () => changeUserRole(userId);
+
+    const response = await fetch(BASE_URL + USERS_END_POINTS.CHANGE_ROLE(userId), {
+        method: 'PATCH',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        body: JSON.stringify({ role })
+    });
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
 }

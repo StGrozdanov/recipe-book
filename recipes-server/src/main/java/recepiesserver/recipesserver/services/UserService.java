@@ -197,11 +197,11 @@ public class UserService {
     public UserModifiedAtDTO changeUserRole(Long userId, UserRoleDTO userRoleDTO) {
         UserEntity user = this.getUserById(userId);
 
-        String desiredRole = userRoleDTO.getRole().toLowerCase();
+        String desiredRole = userRoleDTO.getRole();
 
-        if (desiredRole.equals("administrator")) {
+        if (desiredRole.equals("Администратор")) {
             makeUserAdministrator(user);
-        } else if (desiredRole.equals("moderator")) {
+        } else if (desiredRole.equals("Модератор")) {
             makeUserModerator(user);
         } else {
             makeUserRegularUser(user);
