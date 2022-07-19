@@ -17,7 +17,6 @@ import recepiesserver.recipesserver.utils.constants.Api;
 
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-import static recepiesserver.recipesserver.utils.constants.Api.RECIPE_NAME_EXISTS;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -100,7 +99,8 @@ public class SecurityConfiguration {
                         Api.BLOCK_USER,
                         Api.UNBLOCK_USER,
                         Api.DELETE_USER,
-                        Api.GET_ALL_USERS
+                        Api.GET_ALL_USERS,
+                        Api.EDIT_USER_PROFILE_ADMIN
                 ).hasRole(RoleEnum.ADMINISTRATOR.name())
                 .antMatchers(
                         Api.EDIT_USER_PROFILE,

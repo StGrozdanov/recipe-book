@@ -1,6 +1,6 @@
-import {html} from '../../../../node_modules/lit-html/lit-html.js';
+import { html } from '../../../../node_modules/lit-html/lit-html.js';
 
-export const userRowTemplate = ({ id, avatarUrl, username, status, primaryRole }) => html`
+export const userRowTemplate = (ctx, { id, avatarUrl, username, status, primaryRole }) => html`
     <tr>
         <td>${id}</td>
         <td>
@@ -27,9 +27,13 @@ export const userRowTemplate = ({ id, avatarUrl, username, status, primaryRole }
             </span>
         </td>
         <td>
-            <span class="user-action-edit">Редактирай</span> 
+            <span @click=${() => userEditHandler(id, ctx)} class="user-action-edit">Редактирай</span> 
             <span class="user-action-block">Блокирай</span> 
             <span class="user-action-delete">Изтрий</span>
         </td>
     </tr>
 `;
+
+function userEditHandler(userId, ctx) {
+    ctx.page.redirect(`/administrate/users/edit-${userId}`);
+}

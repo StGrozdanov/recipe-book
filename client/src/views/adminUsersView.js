@@ -33,7 +33,7 @@ export async function adminPanelUsersPage(ctx) {
 
     let data = await getAllUsers(currentPage);
 
-    const users = data.content.map(userRowTemplate);
+    const users = data.content.map(data => userRowTemplate(ctx, data));
 
     render(applicationUsersTemplate(users, data), document.getElementById('admin-root'));
 }

@@ -21,6 +21,7 @@ const USERS_END_POINTS = {
     CHANGE_PASSWORD: (userId) => `${USER_END_POINT}/changePassword/${userId}`,
     USERS_COUNT: `${USER_END_POINT}/count`,
     GET_ALL_USERS: (page) => `${USER_END_POINT}?skip=${(page - 1)}`,
+    UPDATE_AS_ADMIN: (userId) => `${USER_END_POINT}/administrate/profile/${userId}`,
 }
 
 export async function update(userId, formData) {
@@ -30,6 +31,15 @@ export async function update(userId, formData) {
         body: formData
     };
     return await fetch(`${BASE_URL}${USERS_END_POINTS.UPDATE(userId)}`, options);
+}
+
+export async function updateAsAdmin(userId, formData) {
+    const options = {
+        method: 'PUT',
+        headers: { "Authorization": `Bearer ${getUserToken()}` },
+        body: formData
+    };
+    return await fetch(`${BASE_URL}${USERS_END_POINTS.UPDATE_AS_ADMIN(userId)}`, options);
 }
 
 export async function remove(userId) {
@@ -76,20 +86,16 @@ export async function userExistsByEmail(email) {
     }
 }
 
-export async function otherUserExistsByUsername(username) {
-    const userUsername = getCurrentUserUsername();
-
-    const response = await fetch(BASE_URL + USERS_END_POINTS.OTHER_EXISTS_BY_USERNAME(username, userUsername));
+export async function otherUserExistsByUsername(username, currentUserUsername) {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.OTHER_EXISTS_BY_USERNAME(username, currentUserUsername));
 
     if (response.ok) {
         return response.json();
     }
 }
 
-export async function otherUserExistsByEmail(email) {
-    const userEmail = getCurrentUserEmail();
-
-    const response = await fetch(BASE_URL + USERS_END_POINTS.OTHER_EXISTS_BY_EMAIL(email, userEmail));
+export async function otherUserExistsByEmail(email, currentUserEmail) {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.OTHER_EXISTS_BY_EMAIL(email, currentUserEmail));
 
     if (response.ok) {
         return response.json();

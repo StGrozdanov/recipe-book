@@ -100,12 +100,7 @@ public class UserService {
 
         this.authenticationService.handleInvalidPassword(userDTO.getPassword(), oldUserInfo.getPassword());
 
-        boolean userWithTheSameUsernameOrEmailExists =
-                this.otherUserWithSameUsernameOrEmailExists(userDTO, oldUserInfo);
-
-        if (userWithTheSameUsernameOrEmailExists) {
-            throw new UserAlreadyExistsException(ExceptionMessages.USER_ALREADY_EXISTS);
-        }
+        this.handleOtherUserWithTheSameEmailOrUsernameExists(userDTO, oldUserInfo);
 
         this.uploadCoverAndAvatarImagesToAmazonIfSuchFilesAreProvidedAndSetThemAsDTOImageUrl(
                 userDTO,
@@ -385,5 +380,39 @@ public class UserService {
     private String getUserIpAddress(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
         return ip == null ? request.getRemoteAddr() : ip;
+    }
+
+    public UserModifiedAtDTO editUserProfileAdmin(Long userId,
+                                                  UserProfileEditDTO dto,
+                                                  MultipartFile profileImageFile,
+                                                  MultipartFile coverImageFile) {
+        UserEntity oldUserInfo = this.getUserById(userId);
+
+        handleOtherUserWithTheSameEmailOrUsernameExists(dto, oldUserInfo);
+
+        this.uploadCoverAndAvatarImagesToAmazonIfSuchFilesAreProvidedAndSetThemAsDTOImageUrl(
+                dto,
+                profileImageFile,
+                coverImageFile
+        );
+
+        this.setDefaultValuesForImagesIfNoImageUrlsAreProvided(dto);
+
+        UserEntity editedUser = this.modelMapper.map(dto, UserEntity.class);
+
+        this.setTheOldUserDefaultInformationToTheEditedUser(oldUserInfo, editedUser);
+
+        this.userRepository.save(editedUser);
+
+        return new UserModifiedAtDTO().setModifiedAt(LocalDateTime.now());
+    }
+
+    private void handleOtherUserWithTheSameEmailOrUsernameExists(UserProfileEditDTO dto, UserEntity oldUserInfo) {
+        boolean userWithTheSameUsernameOrEmailExists =
+                this.otherUserWithSameUsernameOrEmailExists(dto, oldUserInfo);
+
+        if (userWithTheSameUsernameOrEmailExists) {
+            throw new UserAlreadyExistsException(ExceptionMessages.USER_ALREADY_EXISTS);
+        }
     }
 }

@@ -6,7 +6,7 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { showModal } from '../utils/modalDialogue.js';
 import * as formDataValidator from '../utils/formDataValidator.js';
-import { getCurrentUser, logout, refreshToken, saveUserData } from '../services/authenticationService.js';
+import { getCurrentUser, getCurrentUserEmail, getCurrentUserUsername, logout, refreshToken, saveUserData } from '../services/authenticationService.js';
 import { ARE_YOU_SURE_PROFILE_EDIT, PASSWORD_EDIT_CONFIRM, PASSWORD_EDIT_SUCCESS, PROFILE_EDIT_SUCCESS, SETTINGS_EDIT_MESSAGE, THERE_ARE_EMPTY_FIELDS_LEFT, THERE_ARE_INVALID_FIELDS_LEFT } from '../constants/notificationMessages.js';
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 import { modalPassword, showPasswordModal } from '../utils/passwordModalDialogue.js';
@@ -266,7 +266,7 @@ async function checkForExistingEmail(e) {
     hideInvalidFieldMessage(emailField, invalidEmailClass);
 
     if (emailFieldValue.trim() !== '') {
-        const data = await otherUserExistsByEmail(emailFieldValue);
+        const data = await otherUserExistsByEmail(emailFieldValue, getCurrentUserEmail());
         
         if (data.emailExists) {
             cancelValidFieldDecorationAndSetAsInvalid(emailField, invalidEmailClass);
@@ -282,7 +282,7 @@ async function checkForExistingUsername(e) {
     hideInvalidFieldMessage(usernameField, invalidUsernameClass);
 
     if (usernameFieldValue.trim() !== '') {
-        const data = await otherUserExistsByUsername(usernameFieldValue);
+        const data = await otherUserExistsByUsername(usernameFieldValue, getCurrentUserUsername());
         
         if (data.usernameExists) {
             cancelValidFieldDecorationAndSetAsInvalid(usernameField, invalidUsernameClass);

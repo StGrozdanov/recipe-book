@@ -165,4 +165,16 @@ public class UserController {
         return ResponseEntity.ok().body(this.userService.getAllUsers(pageNumber, collectionCount, sortBy));
     }
 
+    @PutMapping(Api.EDIT_USER_PROFILE_ADMIN)
+    public ResponseEntity<UserModifiedAtDTO> editUserProfile(
+            @PathVariable Long userId,
+            @RequestParam("data") String userData,
+            @RequestParam("profileImageFile") MultipartFile profileImageFile,
+            @RequestParam("coverImageFile") MultipartFile coverImageFile) throws JsonProcessingException {
+        @Valid UserProfileEditDTO dto = new ObjectMapper().readValue(userData, UserProfileEditDTO.class);
+        return ResponseEntity
+                .ok()
+                .body(this.userService.editUserProfileAdmin(userId, dto, profileImageFile, coverImageFile));
+    }
+
 }

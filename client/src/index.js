@@ -23,6 +23,7 @@ import { adminPanelUsersPage } from './views/adminUsersView.js';
 import { adminPanelRecipesPage } from './views/adminRecipesView.js';
 import { adminPanelCommentsPage } from './views/adminCommentsView.js';
 import { adminPanelUsersSettingsPage } from './views/adminSettingsView.js';
+import { userEditPage } from './views/templates/adminTemplates/adminUserEditTemplate.js';
 
 page('/', landingPage);
 page('/catalogue', setUp, cataloguePage);
@@ -41,6 +42,7 @@ page('/my-profile/edit', setUp, isAuthenticated, myProfileEditPage);
 page('/user-:id', setUp, userProfilePage);
 page('/administrate-dashboard', adminSetUp, adminPanelDashboardPage);
 page('/administrate/users', adminSetUp, adminPanelUsersPage);
+page('/administrate/users/edit-:id', adminSetUp, userEditPage);
 page('/administrate/recipes', adminSetUp, adminPanelRecipesPage);
 page('/administrate/comments', adminSetUp, adminPanelCommentsPage);
 page('/administrate/settings', adminSetUp, adminPanelUsersSettingsPage);
