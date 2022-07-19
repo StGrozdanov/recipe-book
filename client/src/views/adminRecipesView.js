@@ -1,5 +1,6 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
 import { getAllRecipesAdmin } from "../services/recipeService.js";
+import { showModal } from "../utils/modalDialogue.js";
 import { loaderTemplate } from "./templates/adminTemplates/adminLoadingTemplate.js";
 import { adminPaginationTemplate } from "./templates/adminTemplates/adminPaginationTemplate.js";
 import { recipeRowTemplate } from "./templates/adminTemplates/adminTableRecipeRowTemplate.js";

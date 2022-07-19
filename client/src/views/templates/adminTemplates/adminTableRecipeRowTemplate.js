@@ -1,5 +1,7 @@
 import {html} from '../../../../node_modules/lit-html/lit-html.js';
-import { approveRecipe } from '../../../services/recipeService.js';
+import { ARE_YOU_SURE_DELETE_RECIPE } from '../../../constants/notificationMessages.js';
+import { approveRecipe, removeRecipe } from '../../../services/recipeService.js';
+import { showModal } from '../../../utils/modalDialogue.js';
 import { resolvePageStyleArchitecture } from '../../landingView.js';
 
 export const recipeRowTemplate = ({ id, imageUrl, recipeName, statusName, ownerId }, ctx) => html`
@@ -53,7 +55,7 @@ export const recipeRowTemplate = ({ id, imageUrl, recipeName, statusName, ownerI
             >
                 Одобри
             </span> 
-            <span class="user-action-delete">Изтрий</span>
+            <span @click=${() => deleteHandler(id, ctx)} class="user-action-delete">Изтрий</span>
         </td>
     </tr>
 `;
@@ -70,4 +72,15 @@ function redirectToRecipeHandler(recipeId, ctx) {
 async function approveRecipeHandler(recipeId, ctx) {
     await approveRecipe(recipeId);
     ctx.page.redirect(ctx.canonicalPath);
+}
+
+async function deleteHandler(recipeId, ctx) {
+    showModal(ARE_YOU_SURE_DELETE_RECIPE, onSelect, 'admin');
+
+    async function onSelect(choice) {
+        if (choice) {
+            await removeRecipe(recipeId);
+            ctx.page.redirect(ctx.canonicalPath);
+        }
+    }
 }
