@@ -52,7 +52,7 @@ function resetBaseStyleArchitecture() {
 }
 
 function trackActiveNavLink(ctx) {
-    const currentPage = ctx.path;
+    const currentPage = ctx.path.split('?')[0];
     const navLinks = document.querySelectorAll('.nav-icon');
 
     navLinks.forEach(navLink => navLink.classList.remove('admin-icon-selected'));

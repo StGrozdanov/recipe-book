@@ -34,7 +34,7 @@ export async function adminPanelRecipesPage(ctx) {
 
     let data = await getAllRecipesAdmin(currentPage);
 
-    const recipes = data.content.map(recipeRowTemplate);
+    const recipes = data.content.map(data => recipeRowTemplate(data, ctx));
     
     render(applicationRecipesTemplate(recipes, data), document.getElementById('admin-root'));
 }

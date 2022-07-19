@@ -103,7 +103,7 @@ function resetBaseStyleArchitecture() {
     document.querySelector('body').style.width = '100%';
 }
 
-function resolvePageStyleArchitecture() {
+export function resolvePageStyleArchitecture() {
     document.querySelector('header').style.display = 'flex';
     document.querySelector('body').style.width = initialBodyWidth;
 }
