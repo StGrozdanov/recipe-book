@@ -497,9 +497,10 @@ tbody tr:hover {
 .user-table-profile-avatar-container {
     border-radius: 50%;
     width: 30px;
+    height: 30px;
     position: absolute;
     left: 0px;
-    bottom: 1px;
+    bottom: 22%;
 }
 
 tbody tr td:nth-child(2) {
@@ -508,6 +509,10 @@ tbody tr td:nth-child(2) {
 
 #admin-loader img {
     width: 260px;
+}
+
+.recipe-name-image-container {
+    position: relative;
 }
 
 @media all and (min-width: 1535px) {
@@ -690,12 +695,8 @@ tbody tr td:nth-child(2) {
     }
 
     .user-table-profile-avatar-container {
-        width: 25px;
-        top: 30%;
-    }
-
-    .user-table-profile-avatar-container {
         width: 27px;
+        height: 27px;
         top: 24%;
     }
 }
@@ -815,6 +816,7 @@ tbody tr td:nth-child(2) {
 
     .user-table-profile-avatar-container {
         width: 25px;
+        height: 27px;
         top: 30%;
     }
 

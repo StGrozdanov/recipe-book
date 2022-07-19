@@ -16,7 +16,9 @@ export const recipeRowTemplate = ({ id, imageUrl, recipeName, status, ownerId })
                     onerror="this.onerror=null;this.src='../../static/images/food.jpg';" 
                 />
             </div>
-            ${recipeName}
+            <div style="margin-left: 18%">
+                ${recipeName}
+            </div>
         </td>
         <td><i class="fa-solid fa-share-from-square"></i></td>
         <td><i class="fa-solid fa-location-arrow"></i></td>
