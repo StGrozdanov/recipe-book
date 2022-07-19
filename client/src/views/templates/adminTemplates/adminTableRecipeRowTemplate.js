@@ -1,7 +1,8 @@
 import {html} from '../../../../node_modules/lit-html/lit-html.js';
+import { approveRecipe } from '../../../services/recipeService.js';
 import { resolvePageStyleArchitecture } from '../../landingView.js';
 
-export const recipeRowTemplate = ({ id, imageUrl, recipeName, status, ownerId }, ctx) => html`
+export const recipeRowTemplate = ({ id, imageUrl, recipeName, statusName, ownerId }, ctx) => html`
     <tr>
         <td>${id}</td>
         <td>
@@ -37,9 +38,21 @@ export const recipeRowTemplate = ({ id, imageUrl, recipeName, status, ownerId },
             >
             </i>
         </td>
-        <td><span class="user-action-edit">${status}</span></td>
         <td>
-            <span class="user-status-online">Одобри</span> 
+            <span 
+                class="recipe-status-${statusName === 'одобрена' ? 'approved' : 'pending'}"
+            >
+                ${statusName}
+            </span>
+        </td>
+        <td>
+            <span
+                @click=${(e) => approveRecipeHandler(id, ctx)}
+                class="recipe-approve" 
+                style="${statusName == 'одобрена' ? 'display: none' : ''}"
+            >
+                Одобри
+            </span> 
             <span class="user-action-delete">Изтрий</span>
         </td>
     </tr>
@@ -52,4 +65,9 @@ function redirectToOwnerHandler(ownerId, ctx) {
 function redirectToRecipeHandler(recipeId, ctx) {
     ctx.page.redirect(`/details-${recipeId}`);
     resolvePageStyleArchitecture();
+}
+
+async function approveRecipeHandler(recipeId, ctx) {
+    await approveRecipe(recipeId);
+    ctx.page.redirect(ctx.canonicalPath);
 }

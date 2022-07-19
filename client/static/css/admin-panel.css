@@ -408,6 +408,37 @@ tbody tr:hover {
     z-index: 2;
 }
 
+.recipe-status-approved {
+    padding: 5px 10px;
+    background-color: #2ac99117;
+    border-radius: 20px;
+    color: #2AC991;
+    z-index: 2;
+}
+
+.recipe-status-pending {
+    padding: 5px 10px;
+    background-color: #ffa50047;
+    border-radius: 20px;
+    color: darkgoldenrod;
+    z-index: 2;
+}
+
+.recipe-approve {
+    padding: 5px 10px;
+    background-color: #2ac99117;
+    border-radius: 20px;
+    color: #2AC991;
+    z-index: 2;
+    border: 1.5px solid #0080005c;
+    cursor: pointer;
+}
+
+.recipe-approve:hover {
+    background-color: #008000ac;
+    color: white;
+}
+
 .user-status-offline {
     padding: 5px 8px;
     background-color: #ff00001c;
@@ -826,7 +857,10 @@ tbody tr td:nth-child(2) {
     .user-status-online,
     .user-status-offline,
     .user-possible-status,
-    .user-current-status {
+    .user-current-status,
+    .recipe-status-approved,
+    .recipe-status-pending,
+    .recipe-approve {
         padding: 2px 4px;
         margin-right: 0;
     }

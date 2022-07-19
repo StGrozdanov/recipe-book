@@ -7,7 +7,7 @@ public class RecipeAdminPanelDTO implements ImageUrl {
     private Long id;
     private String recipeName;
     private String imageUrl;
-    private PublicationStatusEnum status;
+    private String statusName;
     private Long ownerId;
 
     public RecipeAdminPanelDTO() {
@@ -37,12 +37,13 @@ public class RecipeAdminPanelDTO implements ImageUrl {
         this.imageUrl = imageUrl;
     }
 
-    public PublicationStatusEnum getStatus() {
-        return status;
+    public String getStatusName() {
+        return statusName;
     }
 
-    public void setStatus(PublicationStatusEnum status) {
-        this.status = status;
+    public RecipeAdminPanelDTO setStatusName(String statusName) {
+        this.statusName = statusName;
+        return this;
     }
 
     public Long getOwnerId() {
