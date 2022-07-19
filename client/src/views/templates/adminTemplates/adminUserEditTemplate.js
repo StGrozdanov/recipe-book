@@ -154,7 +154,7 @@ async function editProfileHandler(e, ctx) {
         return notify(THERE_ARE_INVALID_FIELDS_LEFT);
     }
 
-    showModal(ARE_YOU_SURE_PROFILE_EDIT, onSelect);
+    showModal(ARE_YOU_SURE_PROFILE_EDIT, onSelect, 'admin');
 
     async function onSelect(choice) {
         if (choice) {
