@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.events.BlockUserEvent;
+import recepiesserver.recipesserver.events.DeleteUserEvent;
 import recepiesserver.recipesserver.events.UnblockUserEvent;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserAlreadyBlockedException;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserAlreadyExistsException;
@@ -248,9 +249,12 @@ public class UserService {
         throw new UserIsNotBlockedException(ExceptionMessages.USER_IS_NOT_BLOCKED);
     }
 
+    @Transactional
     public UserIdDTO deleteUser(Long userId) {
-        this.userRepository.deleteById(userId);
-        return new UserIdDTO().setUserId(userId);
+        UserEntity user = this.getUserById(userId);
+        this.eventPublisher.publishEvent(new DeleteUserEvent(UserService.class.getSimpleName(), userId));
+        this.userRepository.delete(user);
+        return new UserIdDTO(userId);
     }
 
     public String getUserProfileOwnerUsername(Long userId) {

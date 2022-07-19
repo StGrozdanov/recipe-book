@@ -2,10 +2,13 @@ package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import recepiesserver.recipesserver.events.DeleteUserEvent;
 import recepiesserver.recipesserver.exceptions.imageExceptions.NoPictureProvidedException;
 import recepiesserver.recipesserver.exceptions.imageExceptions.PictureUrlAlreadyExistsException;
 import recepiesserver.recipesserver.exceptions.recipeExceptions.NoSuchRecipeCategoryException;
@@ -300,6 +303,19 @@ public class RecipeService {
 
     public boolean otherRecipeWithTheSameImageExists(String image, String originalImage) {
         return this.recipeRepository.existsByImageUrlAndImageUrlNot(image, originalImage);
+    }
+
+    @Order(2)
+    @EventListener(DeleteUserEvent.class)
+    @Modifying
+    public void detachAllRecipesFromDeletedUser(DeleteUserEvent event) {
+        List<RecipeEntity> modifiedRecipes = this.recipeRepository
+                .findAllByOwnerId(event.getUserId())
+                .stream()
+                .peek(recipe -> recipe.setOwnerId(1L))
+                .toList();
+
+        this.recipeRepository.saveAll(modifiedRecipes);
     }
 
     private RecipeEntity getRecipeById(Long id) {

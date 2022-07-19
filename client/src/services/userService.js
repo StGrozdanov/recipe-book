@@ -1,7 +1,7 @@
 import { COULD_NOT_FETCH_USER_COUNT, COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
 import { notify } from "../utils/notification.js";
 import { handleRequest } from "../utils/requestDataHandler.js";
-import { getCurrentUser, getCurrentUserEmail, getCurrentUserUsername, getUserToken } from "./authenticationService.js";
+import { getCurrentUser, getCurrentUserEmail, getCurrentUserUsername, getUserToken, refreshToken } from "./authenticationService.js";
 import { BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS, CALLBACK } from "./customService.js";
 
 const USER_END_POINT = '/users'
@@ -22,6 +22,8 @@ const USERS_END_POINTS = {
     USERS_COUNT: `${USER_END_POINT}/count`,
     GET_ALL_USERS: (page) => `${USER_END_POINT}?skip=${(page - 1)}`,
     UPDATE_AS_ADMIN: (userId) => `${USER_END_POINT}/administrate/profile/${userId}`,
+    BLOCK_USER: `${USER_END_POINT}/block`,
+    UNBLOCK_USER: (userId) => `${USER_END_POINT}/unblock/${userId}`,
 }
 
 export async function update(userId, formData) {
@@ -43,22 +45,14 @@ export async function updateAsAdmin(userId, formData) {
 }
 
 export async function remove(userId) {
+    CALLBACK.call = () => remove(userId);
+
     const response = await fetch(BASE_URL + USERS_END_POINTS.DELETE(userId), {
         method: 'DELETE',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-        if (data.status === 403) {
-            await refreshToken();
-            await remove(userId);
-        } else {
-            notify(data.message);
-            throw new Error(data.error);
-        }
-    }
+    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
 }
 
 export async function getUser(userId) {
@@ -131,4 +125,27 @@ export async function getAllUsers(page) {
     });
 
     return handleRequest(response, COULD_NOT_FETCH_USER_COUNT, CALLBACK);
+}
+
+export async function blockUser(id, reason) {
+    CALLBACK.call = () => blockUser(userId, reason);
+
+    const response = await fetch(BASE_URL + USERS_END_POINTS.BLOCK_USER, {
+        method: 'PATCH',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        body: JSON.stringify({ id, reason })
+    });
+
+    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
+}
+
+export async function unblockUser(userId) {
+    CALLBACK.call = () => unblockUser(userId);
+
+    const response = await fetch(BASE_URL + USERS_END_POINTS.UNBLOCK_USER(userId), {
+        method: 'PATCH',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+    });
+
+    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
 }

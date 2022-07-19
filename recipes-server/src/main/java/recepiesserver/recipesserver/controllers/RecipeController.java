@@ -144,7 +144,7 @@ public class RecipeController {
     @GetMapping(Api.RECIPES_FOR_ADMIN)
     public ResponseEntity<Page<RecipeAdminPanelDTO>> getAllAdminPanelRecipes(
             @RequestParam(name = "skip", defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "limit", defaultValue = "8") Integer collectionCount,
+            @RequestParam(name = "limit", defaultValue = "7") Integer collectionCount,
             @RequestParam(name = "sortBy", defaultValue = "id") String sortBy) {
         return ResponseEntity
                 .ok()

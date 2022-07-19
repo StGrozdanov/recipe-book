@@ -7,6 +7,7 @@ public class UserAdminPanelDTO {
     private String avatarUrl;
     private String coverPhotoUrl;
     private String primaryRole;
+    private Boolean isBlocked;
 
     public UserAdminPanelDTO() {
     }
@@ -57,5 +58,14 @@ public class UserAdminPanelDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getBlocked() {
+        return isBlocked;
+    }
+
+    public UserAdminPanelDTO setBlocked(Boolean blocked) {
+        isBlocked = blocked;
+        return this;
     }
 }

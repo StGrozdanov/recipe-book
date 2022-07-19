@@ -1,7 +1,11 @@
 package recepiesserver.recipesserver.services;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import recepiesserver.recipesserver.events.DeleteUserEvent;
 import recepiesserver.recipesserver.exceptions.commentExceptions.CommentNotFoundException;
 import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeNotFoundException;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
@@ -110,5 +114,16 @@ public class CommentService {
 
     public Optional<CommentEntity> findCommentById(Long value) {
         return this.commentRepository.findById(value);
+    }
+
+    @Order(1)
+    @EventListener(DeleteUserEvent.class)
+    @Modifying
+    public void cleanUpUserComments(DeleteUserEvent event) {
+        Long userId = event.getUserId();
+        UserEntity userEntity = this.userService.findUserById(userId).orElseThrow();
+        List<CommentEntity> commentsFromOwner = this.commentRepository.findAllByOwner(userEntity);
+        this.commentRepository.deleteAll(commentsFromOwner);
+        System.out.println();
     }
 }

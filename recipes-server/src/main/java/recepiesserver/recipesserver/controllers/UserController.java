@@ -160,7 +160,7 @@ public class UserController {
     @GetMapping(Api.GET_ALL_USERS)
     public ResponseEntity<Page<UserAdminPanelDTO>> getAllUsers(
             @RequestParam(name = "skip", defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "limit", defaultValue = "8") Integer collectionCount,
+            @RequestParam(name = "limit", defaultValue = "7") Integer collectionCount,
             @RequestParam(name = "sortBy", defaultValue = "id") String sortBy) {
         return ResponseEntity.ok().body(this.userService.getAllUsers(pageNumber, collectionCount, sortBy));
     }
