@@ -50,7 +50,8 @@ public class SecurityConfiguration {
                 //comment controller
                 .antMatchers(
                         Api.COMMENT_COUNT,
-                        Api.SEARCH_COMMENTS_BY_CONTENT
+                        Api.SEARCH_COMMENTS_BY_CONTENT,
+                        Api.GET_ALL_COMMENTS
                 ).hasRole(RoleEnum.ADMINISTRATOR.name())
                 .antMatchers(Api.LATEST_SIX_COMMENTS, Api.GET_ALL_RECIPE_COMMENTS).permitAll()
                 .antMatchers(POST, Api.COMMENT_ENDPOINT).authenticated()

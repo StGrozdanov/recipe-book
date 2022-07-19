@@ -11,6 +11,7 @@ const COMMENT_REQUEST_POINTS = {
     GET_SINGLE_COMMENT: (id) => { return `${COMMENT_END_POINT}/${id}` },
     GET_LAST_SIX_COMMENTS: `${COMMENT_END_POINT}/latest-six-comments`,
     TOTAL_COMMENTS_COUNT: `${COMMENT_END_POINT}/count`,
+    GET_ALL_COMMENTS: (page) => `${COMMENT_END_POINT}/admin?skip=${(page - 1)}`,
 }
 
 export async function getCommentsForRecipe(recipeId) {
@@ -75,4 +76,14 @@ export async function editComment(commentContent, commentId) {
     };
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(commentId), options);
     return handleRequest(response, COULD_NOT_EDIT_COMMENT, CALLBACK);
+}
+
+export async function getAllCommentsAdmin(page) {
+    CALLBACK.call = () => getAllCommentsAdmin(page);
+
+    const response = await fetch(`${BASE_URL}${COMMENT_REQUEST_POINTS.GET_ALL_COMMENTS(page)}`, {
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+    });
+
+    return handleRequest(response, COULD_NOT_FETCH_COMMENTS, CALLBACK);
 }

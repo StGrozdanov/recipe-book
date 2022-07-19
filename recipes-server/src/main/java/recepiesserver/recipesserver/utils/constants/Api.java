@@ -16,6 +16,7 @@ public class Api {
     public static final String LATEST_SIX_COMMENTS = "/comments/latest-six-comments";
     public static final String COMMENT_COUNT = "/comments/count";
     public static final String SEARCH_COMMENTS_BY_CONTENT = "/comments/search-by-content";
+    public static final String GET_ALL_COMMENTS = "/comments/admin";
     //notifications
     public static final String USER_NOTIFICATIONS = "/notifications/{userId}";
     public static final String MARK_NOTIFICATION_AS_READ = "/notifications/{notificationId}";

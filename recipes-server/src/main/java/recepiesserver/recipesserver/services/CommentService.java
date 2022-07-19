@@ -3,6 +3,10 @@ package recepiesserver.recipesserver.services;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.events.DeleteUserEvent;
@@ -125,5 +129,12 @@ public class CommentService {
         List<CommentEntity> commentsFromOwner = this.commentRepository.findAllByOwner(userEntity);
         this.commentRepository.deleteAll(commentsFromOwner);
         System.out.println();
+    }
+
+    public Page<CommentAdminPanelDTO> getAllRecipes(Integer pageNumber, Integer collectionCount, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber, collectionCount, Sort.by(sortBy));
+        return this.commentRepository
+                .findAll(pageable)
+                .map(comment -> this.modelMapper.map(comment, CommentAdminPanelDTO.class));
     }
 }

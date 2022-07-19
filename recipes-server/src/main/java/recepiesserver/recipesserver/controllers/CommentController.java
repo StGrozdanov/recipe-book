@@ -1,5 +1,6 @@
 package recepiesserver.recipesserver.controllers;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -66,5 +67,15 @@ public class CommentController {
     public ResponseEntity<List<CommentDetailsDTO>> searchCommentsByContent(
             @RequestParam(name = "whereContent") @NotBlank String content) {
         return ResponseEntity.ok().body(this.commentService.findCommentsByContent(content));
+    }
+
+    @GetMapping(Api.GET_ALL_COMMENTS)
+    public ResponseEntity<Page<CommentAdminPanelDTO>> getAllComments(
+            @RequestParam(name = "skip", defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "limit", defaultValue = "7") Integer collectionCount,
+            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy) {
+        return ResponseEntity
+                .ok()
+                .body(this.commentService.getAllRecipes(pageNumber, collectionCount, sortBy));
     }
 }

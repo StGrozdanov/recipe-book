@@ -12,7 +12,7 @@ const applicationRecipesTemplate = (recipes, data) => html`
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Име</th>
+                <th style="padding-left: 4%;">Име</th>
                 <th>Собственик</th>
                 <th>Локация</th>
                 <th>Статус</th>
