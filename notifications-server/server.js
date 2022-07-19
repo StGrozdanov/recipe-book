@@ -31,6 +31,8 @@ io.on("connection", (socket) => {
     socket.on('newUser', (userId) => {
         connectUser(userId, socket.id);
         console.log(`new user - ${userId} is connected!`);
+        console.log('Online users:')
+        connectedUsers.forEach(user => console.log(`user - ${user.userId}`))
     });
 
     socket.on('sendNewMessageNotification', (notifications) => {
@@ -56,6 +58,13 @@ io.on("connection", (socket) => {
                 io.to(receiver.socketId).emit('receiveNotification', notificationContent);
             }
         });
+    });
+
+    socket.on('checkForOnlineUsers', (receiverId) => {
+        const receiver = getUser(receiverId);
+        if (receiver) {
+            io.to(receiver.socketId).emit('connectedUsers', connectedUsers);
+        }
     });
 
     socket.on('disconnect', () => {

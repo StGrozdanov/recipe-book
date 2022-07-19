@@ -1,5 +1,6 @@
 import { render } from '../../node_modules/lit-html/lit-html.js';
-import { getCurrentUserAvatar, getCurrentUserUsername } from '../services/authenticationService.js';
+import { getCurrentUser, getCurrentUserAvatar, getCurrentUserUsername } from '../services/authenticationService.js';
+import { socket } from '../services/socketioService.js';
 import { adminPanelTemplate } from '../views/templates/adminTemplates/adminPageTemplate.js';
 import { mainRootElement } from './setUpMiddleware.js';
 
@@ -37,6 +38,9 @@ export function adminSetUp(ctx, next) {
 
     trackActiveNavLink(ctx);
     trackPageNaming(ctx);
+
+    const currentUser = getCurrentUser();
+    currentUser ? socket.emit("newUser", currentUser) : '';
 
     next();
 }

@@ -26,7 +26,6 @@ import recepiesserver.recipesserver.models.entities.BaseEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
-import recepiesserver.recipesserver.models.enums.UserStatusEnum;
 import recepiesserver.recipesserver.repositories.UserRepository;
 import recepiesserver.recipesserver.utils.constants.ExceptionMessages;
 import recepiesserver.recipesserver.utils.constants.FileMessages;
@@ -337,7 +336,6 @@ public class UserService {
 
     private UserAdminPanelDTO mapToUserAdminPanelDTO(UserEntity user) {
         UserAdminPanelDTO dto = this.modelMapper.map(user, UserAdminPanelDTO.class);
-        dto.setStatus(UserStatusEnum.OFFLINE);
         dto.setPrimaryRole(user.getRoles().get(0).getRole().getName());
         return dto;
     }

@@ -1,4 +1,6 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
+import { getCurrentUser } from "../services/authenticationService.js";
+import { socket } from "../services/socketioService.js";
 import { getAllUsers } from "../services/userService.js";
 import { loaderTemplate } from "./templates/adminTemplates/adminLoadingTemplate.js";
 import { adminPaginationTemplate } from "./templates/adminTemplates/adminPaginationTemplate.js";
@@ -36,4 +38,17 @@ export async function adminPanelUsersPage(ctx) {
     const users = data.content.map(data => userRowTemplate(ctx, data));
 
     render(applicationUsersTemplate(users, data), document.getElementById('admin-root'));
+
+    socket.emit("checkForOnlineUsers", getCurrentUser());
 }
+
+socket.on('connectedUsers', data => {
+    data.forEach(user => {
+        console.log(user.userId);
+        const userStatusSpan = document.querySelector(`.status-container-${user.userId}`);
+
+        userStatusSpan.textContent = 'Online';
+        userStatusSpan.classList.remove('user-status-offline');
+        userStatusSpan.classList.add('user-status-online');
+    });
+});

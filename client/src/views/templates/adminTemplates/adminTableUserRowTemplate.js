@@ -1,6 +1,6 @@
 import { html } from '../../../../node_modules/lit-html/lit-html.js';
 
-export const userRowTemplate = (ctx, { id, avatarUrl, username, status, primaryRole }) => html`
+export const userRowTemplate = (ctx, { id, avatarUrl, username, primaryRole }) => html`
     <tr>
         <td>${id}</td>
         <td>
@@ -20,11 +20,7 @@ export const userRowTemplate = (ctx, { id, avatarUrl, username, status, primaryR
         </td>
         <td>${primaryRole}</td>
         <td>
-            <span 
-                class=${`user-status-${status.toLowerCase()}`}
-            >
-                ${status.charAt(0) + status.slice(1).toLowerCase()}
-            </span>
+            <span class=${`user-status-offline status-container-${id}`}>Offline</span>
         </td>
         <td>
             <span @click=${() => userEditHandler(id, ctx)} class="user-action-edit">Редактирай</span> 

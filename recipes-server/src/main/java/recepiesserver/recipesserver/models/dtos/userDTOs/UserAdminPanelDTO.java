@@ -1,9 +1,5 @@
 package recepiesserver.recipesserver.models.dtos.userDTOs;
 
-
-import recepiesserver.recipesserver.models.enums.RoleEnum;
-import recepiesserver.recipesserver.models.enums.UserStatusEnum;
-
 public class UserAdminPanelDTO {
     private Long id;
     private String username;
@@ -11,7 +7,6 @@ public class UserAdminPanelDTO {
     private String avatarUrl;
     private String coverPhotoUrl;
     private String primaryRole;
-    private UserStatusEnum status;
 
     public UserAdminPanelDTO() {
     }
@@ -54,14 +49,6 @@ public class UserAdminPanelDTO {
 
     public void setPrimaryRole(String primaryRole) {
         this.primaryRole = primaryRole;
-    }
-
-    public UserStatusEnum getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatusEnum status) {
-        this.status = status;
     }
 
     public Long getId() {
