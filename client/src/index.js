@@ -50,6 +50,7 @@ page('/administrate/recipes/search=:query', adminSetUp, adminPanelRecipesPage);
 page('/administrate/comments', adminSetUp, adminPanelCommentsPage);
 page('/administrate/comments/search=:query', adminSetUp, adminPanelCommentsPage);
 page('/administrate/settings', adminSetUp, adminPanelUsersSettingsPage);
+page('/administrate/settings/search=:query', adminSetUp, adminPanelUsersSettingsPage);
 page('/administrate/notifications', adminSetUp, adminPanelNotificationsPage);
 page ('*', page404);
 

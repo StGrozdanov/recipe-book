@@ -1,7 +1,7 @@
 import { html, render } from "../../node_modules/lit-html/lit-html.js";
 import { getCurrentUser } from "../services/authenticationService.js";
 import { socket } from "../services/socketioService.js";
-import { getAllUsers } from "../services/userService.js";
+import { getAllUsers, searchUsersByUsername } from "../services/userService.js";
 import { loaderTemplate } from "./templates/adminTemplates/adminLoadingTemplate.js";
 import { adminPaginationTemplate } from "./templates/adminTemplates/adminPaginationTemplate.js";
 import { userSettingsRowTemplate } from "./templates/adminTemplates/adminTableUserSettingsRowTemplate.js";
@@ -32,8 +32,15 @@ export async function adminPanelUsersSettingsPage(ctx) {
     render(loaderTemplate(), document.getElementById('admin-root'));
 
     const currentPage = Number(ctx.querystring.split('=')[1] || 1);
+    const query = ctx.canonicalPath.split('=')[1];
 
-    let data = await getAllUsers(currentPage);
+    let data;
+
+    if (ctx.canonicalPath.includes('search')) {
+        data = await searchUsersByUsername(currentPage, query);
+    } else {
+        data = await getAllUsers(currentPage);
+    }
 
     const users = data.content.map(data => userSettingsRowTemplate(ctx, data));
 
