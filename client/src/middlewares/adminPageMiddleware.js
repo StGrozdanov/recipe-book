@@ -1,6 +1,7 @@
 import { render } from '../../node_modules/lit-html/lit-html.js';
-import { getCurrentUser, getCurrentUserAvatar, getCurrentUserUsername } from '../services/authenticationService.js';
+import { getCurrentUser, getCurrentUserAvatar, getCurrentUserUsername, userIsAdministrator } from '../services/authenticationService.js';
 import { socket } from '../services/socketioService.js';
+import { notify } from '../utils/notification.js';
 import { adminPanelTemplate } from '../views/templates/adminTemplates/adminPageTemplate.js';
 import { mainRootElement } from './setUpMiddleware.js';
 
@@ -18,6 +19,12 @@ socket.on('receiveNotification', data => {
 });
 
 export function adminSetUp(ctx, next) {
+    
+    if (userIsAdministrator() === false) {
+        ctx.page.redirect('/dashboard');
+        return;
+    }
+
     resetBaseStyleArchitecture();
 
     const currentHour = new Date(Date.now()).getHours();
