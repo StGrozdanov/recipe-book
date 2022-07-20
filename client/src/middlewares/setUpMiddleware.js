@@ -7,9 +7,9 @@ export const mainRootElement = document.querySelector('.container');
 
 socket.on('receiveNotification', data => {
     let notificationIcon = document.getElementById('myProfileLinkNotificationIcon');
-    notificationIcon.style.display = 'inline-block';
+    notificationIcon ? notificationIcon.style.display = 'inline-block' : '';
 
-    let notificationCounterContainer = document.getElementById('myProfileNavNotificationCounter')
+    let notificationCounterContainer = document.getElementById('myProfileNavNotificationCounter');
     notificationCounterContainer.style.display = 'inline-block';
     let counterValue = Number(notificationCounterContainer.textContent);
     let newCounterValue = counterValue + 1;

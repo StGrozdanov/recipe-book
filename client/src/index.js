@@ -24,6 +24,7 @@ import { adminPanelRecipesPage } from './views/adminRecipesView.js';
 import { adminPanelCommentsPage } from './views/adminCommentsView.js';
 import { adminPanelUsersSettingsPage } from './views/adminSettingsView.js';
 import { userEditPage } from './views/templates/adminTemplates/adminUserEditTemplate.js';
+import { adminPanelNotificationsPage } from './views/adminNotificationsView.js';
 
 page('/', landingPage);
 page('/catalogue', setUp, cataloguePage);
@@ -46,6 +47,7 @@ page('/administrate/users/edit-:id', adminSetUp, userEditPage);
 page('/administrate/recipes', adminSetUp, adminPanelRecipesPage);
 page('/administrate/comments', adminSetUp, adminPanelCommentsPage);
 page('/administrate/settings', adminSetUp, adminPanelUsersSettingsPage);
+page('/administrate/notifications', adminSetUp, adminPanelNotificationsPage);
 page ('*', page404);
 
 page.start();

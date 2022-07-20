@@ -58,6 +58,23 @@
     border-radius: 20px;
     background: #F0F2FF;
     box-shadow: 0px 15px 20px 0px #808adabd;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.admin-panel-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 .admin-panel-nav-logo {
@@ -570,6 +587,31 @@ tbody tr td:nth-child(2) {
 
 .recipe-name-image-container {
     position: relative;
+}
+
+.notification-article-admin {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background: #a5abe6b5;
+    padding: 15px;
+    width: 25vw;
+    border-radius: 25px;
+    position: relative;
+    color: white;
+    margin-top: 20px;
+    font-size: 86%;
+}
+
+.notification-article-header-admin {
+    display: block;
+    background: none;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.notification-paragraph {
+    margin: 1% 0;
 }
 
 @media all and (min-width: 1535px) {

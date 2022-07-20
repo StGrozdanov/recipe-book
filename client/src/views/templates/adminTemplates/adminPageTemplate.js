@@ -33,7 +33,10 @@ export const adminPanelTemplate = (greeting, username, avatar) => html`
                             <input class="admin-panel-search-input slideFadeInUp" type="search" autocomplete="off">
                         </form>
                         <i @click=${toggleSearchInputHandler} class="fa-solid fa-magnifying-glass"></i>
-                        <i class="fa-regular fa-bell"></i>
+                        <div style="position: relative;">
+                            <i @click=${panelNavigateHandler} class="administrate/notifications fa-regular fa-bell"></i>
+                            <span id="myProfileNavNotificationCounter" class="admin-counter">0</span>
+                        </div>
                         <div class="admin-avatar-container">
                             <img 
                                 src=${
