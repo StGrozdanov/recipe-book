@@ -185,12 +185,14 @@ public class UserService {
     }
 
     @Transactional
-    public List<UserAdminPanelDTO> findUsersByUsername(String username) {
+    public Page<UserAdminPanelDTO> findUsersByUsername(String username,
+                                                       Integer pageNumber,
+                                                       Integer collectionCount,
+                                                       String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber, collectionCount, Sort.by(sortBy));
         return this.userRepository
-                .findAllByUsernameContaining(username)
-                .stream()
-                .map(this::mapToUserAdminPanelDTO)
-                .toList();
+                .findAllByUsernameContaining(username, pageable)
+                .map(this::mapToUserAdminPanelDTO);
     }
 
     @Modifying

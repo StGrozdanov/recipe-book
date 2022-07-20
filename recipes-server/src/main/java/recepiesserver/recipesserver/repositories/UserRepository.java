@@ -1,5 +1,7 @@
 package recepiesserver.recipesserver.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
@@ -23,7 +25,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByUsername(String username);
 
-    List<UserEntity> findAllByUsernameContaining(String username);
+    Page<UserEntity> findAllByUsernameContaining(String username, Pageable pageable);
 
     List<UserEntity> findAllByFavouritesContaining(RecipeEntity recipe);
 

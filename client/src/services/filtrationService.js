@@ -13,6 +13,9 @@ const FILTRATION_END_POINTS = {
     FIND_IN_USER_FAVOURITE_RECIPES: (query, userId) => {
         return `/users/search-favourite-recipe-by-name?whereName=${query}&whereUser=${userId}`
     },
+    FIND_RECIPES_BY_NAME_CONTAINS_ADMIN: (query, page) => {
+        return `/recipes/admin/search-by-name?whereName=${query}&page=${(page - 1)}`
+    },
 }
 
 export async function searchByRecipeName(query) {
@@ -21,6 +24,16 @@ export async function searchByRecipeName(query) {
         headers: BASE_HEADERS
     });
     return handleRequest(response, COULD_NOT_SEARCH);
+}
+
+export async function searchByRecipeNameAdmin(query, page) {
+    CALLBACK.call = () => searchByRecipeNameAdmin(query, page);
+
+    const response = await fetch(BASE_URL + FILTRATION_END_POINTS.FIND_RECIPES_BY_NAME_CONTAINS_ADMIN(query, page), {
+        method: 'GET',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+    });
+    return handleRequest(response, COULD_NOT_SEARCH, CALLBACK);
 }
 
 export async function filterByCategory(query) {

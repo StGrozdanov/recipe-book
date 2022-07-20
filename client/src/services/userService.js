@@ -25,6 +25,9 @@ const USERS_END_POINTS = {
     BLOCK_USER: `${USER_END_POINT}/block`,
     UNBLOCK_USER: (userId) => `${USER_END_POINT}/unblock/${userId}`,
     CHANGE_ROLE: (userId) => `${USER_END_POINT}/change-role/${userId}`,
+    SEARCH_USERS: (query, page) => {
+       return `${USER_END_POINT}/search-by-username?whereUsername=${query}&skip=${(page - 1)}`
+    },
 }
 
 export async function update(userId, formData) {
@@ -160,4 +163,15 @@ export async function changeUserRole(userId, role) {
         body: JSON.stringify({ role })
     });
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
+}
+
+export async function searchUsersByUsername(page, query) {
+    CALLBACK.call = () => searchUsersByUsername(page, query);
+
+    const response = await fetch(BASE_URL + USERS_END_POINTS.SEARCH_USERS(query, page), {
+        method: 'GET',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+    });
+
+    return handleRequest(response, COULD_NOT_FETCH_USER_COUNT, CALLBACK);
 }

@@ -103,9 +103,14 @@ public class UserController {
     }
 
     @GetMapping(Api.SEARCH_USERS_BY_USERNAME)
-    public ResponseEntity<List<UserAdminPanelDTO>> searchUsersByUsername(
-            @RequestParam(name = "whereUsername") @NotBlank String username) {
-        return ResponseEntity.ok().body(this.userService.findUsersByUsername(username));
+    public ResponseEntity<Page<UserAdminPanelDTO>> searchUsersByUsername(
+            @RequestParam(name = "whereUsername") @NotBlank String username,
+            @RequestParam(name = "skip", defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "limit", defaultValue = "7") Integer collectionCount,
+            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy) {
+        return ResponseEntity
+                .ok()
+                .body(this.userService.findUsersByUsername(username, pageNumber, collectionCount, sortBy));
     }
 
     @PatchMapping(Api.CHANGE_USER_ROLE)

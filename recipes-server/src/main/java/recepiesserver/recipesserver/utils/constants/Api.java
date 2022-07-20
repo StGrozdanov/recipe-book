@@ -45,6 +45,7 @@ public class Api {
     public static final String RECIPE_PICTURE_EXISTS = "/recipes/existsByPicture";
     public static final String OTHER_RECIPE_NAME_EXISTS = "/recipes/otherExistsByName";
     public static final String OTHER_RECIPE_PICTURE_EXISTS = "/recipes/otherExistsByPicture";
+    public static final String RECIPES_FOR_ADMIN_SEARCH = "/recipes/admin/search-by-name";
     //users
     public static final String GET_USER_DETAILS = "/users/{userId}";
     public static final String GET_USER_PROFILE = "/users/profile/{userId}";

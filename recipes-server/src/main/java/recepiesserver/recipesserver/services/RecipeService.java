@@ -318,6 +318,16 @@ public class RecipeService {
         this.recipeRepository.saveAll(modifiedRecipes);
     }
 
+    public Page<RecipeAdminPanelDTO> searchAdminPanelRecipes(Integer pageNumber,
+                                                             Integer collectionCount,
+                                                             String sortBy,
+                                                             String query) {
+        Pageable pageable = PageRequest.of(pageNumber, collectionCount, Sort.by(sortBy));
+        return this.recipeRepository
+                .findAllByRecipeNameContaining(query, pageable)
+                .map(recipe -> this.modelMapper.map(recipe, RecipeAdminPanelDTO.class));
+    }
+
     private RecipeEntity getRecipeById(Long id) {
         return this.recipeRepository
                 .findById(id)

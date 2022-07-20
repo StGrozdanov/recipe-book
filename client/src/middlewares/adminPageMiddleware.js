@@ -37,7 +37,7 @@ export function adminSetUp(ctx, next) {
     const username = getCurrentUserUsername();
     const avatar = getCurrentUserAvatar();
 
-    const adminTemplate = adminPanelTemplate(greeting, username, avatar);
+    const adminTemplate = adminPanelTemplate(greeting, username, avatar, ctx);
 
     render(adminTemplate, mainRootElement);
 

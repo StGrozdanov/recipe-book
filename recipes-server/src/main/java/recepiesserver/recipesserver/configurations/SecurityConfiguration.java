@@ -65,7 +65,8 @@ public class SecurityConfiguration {
                 .antMatchers(
                         Api.RECIPES_MOST_ACTIVE_USER,
                         Api.RECIPES_FOR_ADMIN,
-                        Api.APPROVE_RECIPE
+                        Api.APPROVE_RECIPE,
+                        Api.RECIPES_FOR_ADMIN_SEARCH
                 ).hasRole(RoleEnum.ADMINISTRATOR.name())
                 .antMatchers(GET,
                         Api.RECIPES_ENDPOINT,

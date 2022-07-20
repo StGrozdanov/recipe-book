@@ -151,6 +151,17 @@ public class RecipeController {
                 .body(this.recipeService.getAllAdminPanelRecipes(pageNumber, collectionCount, sortBy));
     }
 
+    @GetMapping(Api.RECIPES_FOR_ADMIN_SEARCH)
+    public ResponseEntity<Page<RecipeAdminPanelDTO>> getAllAdminPanelRecipes(
+            @RequestParam(name = "whereName") @NotBlank String query,
+            @RequestParam(name = "skip", defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "limit", defaultValue = "7") Integer collectionCount,
+            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy) {
+        return ResponseEntity
+                .ok()
+                .body(this.recipeService.searchAdminPanelRecipes(pageNumber, collectionCount, sortBy, query));
+    }
+
     @PatchMapping(Api.APPROVE_RECIPE)
     public ResponseEntity<RecipeModifiedAtDTO> approveRecipe(@PathVariable Long id) {
         return ResponseEntity.ok().body(this.recipeService.approveRecipe(id));

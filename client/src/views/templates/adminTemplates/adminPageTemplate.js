@@ -1,7 +1,7 @@
 import { html } from "../../../../node_modules/lit-html/lit-html.js";
 import page from '../../../../node_modules/page/page.mjs';
 
-export const adminPanelTemplate = (greeting, username, avatar) => html`
+export const adminPanelTemplate = (greeting, username, avatar, ctx) => html`
     <section class="admin-panel-section">
         <nav class="admin-panel-nav">
             <img @click=${panelNavigateHandler} class="home admin-panel-nav-logo" src="../static/images/cooking.png" alt="" />
@@ -29,7 +29,10 @@ export const adminPanelTemplate = (greeting, username, avatar) => html`
                         <p id="page-message">Статистически данни за сайта</p>
                     </article>
                     <article class="admin-panel-content-header-nav-article">
-                        <form class="admin-panel-search-form slideFadeInUp">
+                        <form
+                            @input=${(e)=> search(e, ctx)} 
+                            class="admin-panel-search-form slideFadeInUp"
+                        >
                             <input class="admin-panel-search-input" type="search" autocomplete="off">
                         </form>
                         <i @click=${(e) => toggleSearchInputHandler(e)} class="fa-solid fa-magnifying-glass"></i>
@@ -73,4 +76,13 @@ function panelNavigateHandler(e) {
         return;
     } 
     page.redirect(`/${e.target.classList[0]}`);
+}
+
+function search(e, ctx) {
+    e.preventDefault();
+    if (e.target.value !== '') {
+        ctx.page.redirect(ctx.canonicalPath.split('/search')[0] + `/search=${e.target.value}`); 
+    } else {
+        ctx.page.redirect(ctx.canonicalPath.split('/search')[0]);
+    }
 }

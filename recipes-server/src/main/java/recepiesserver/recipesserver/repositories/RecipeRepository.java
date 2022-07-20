@@ -41,4 +41,6 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     Long findMostActiveUser();
 
     Page<RecipeEntity> findAllByStatus(PublicationStatusEnum status, Pageable pageable);
+
+    Page<RecipeEntity> findAllByRecipeNameContaining(String query, Pageable pageable);
 }

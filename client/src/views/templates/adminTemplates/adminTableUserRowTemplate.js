@@ -13,7 +13,7 @@ const unblockUserTemplate = (id, ctx) => html`
 `;
 
 export const userRowTemplate = (ctx, { id, avatarUrl, username, primaryRole, blocked }) => html`
-    <tr>
+    <tr class="user-table-tr">
         <td>${id}</td>
         <td>
             <div class="user-table-profile-avatar-container">
