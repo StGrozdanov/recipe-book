@@ -10,7 +10,7 @@ import { focusSearchField } from './templates/profileTemplates/profileSearchTemp
 
 export const myRecepiesCollectionTemplate = (recepies, ctx) => html`
 <section class="my-profile-section">
-    ${myProfileTemplate()}
+    ${myProfileTemplate(ctx)}
     ${myRecepiesTemplate(recepies, "Любими рецепти", ctx)}
 </section>
 `;

@@ -15,7 +15,7 @@ import { newPassword, oldPassword, showChangePasswordModal } from '../utils/chan
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
 <section class="my-profile-section">
-    ${myProfileTemplate()}
+    ${myProfileTemplate(ctx)}
 <section class="profile-edit-section">
     <article class="user-profile-article">
     <form @submit=${(e) => editProfileHandler(e, ctx)} class="edit-profile-form" enctype='multipart/form-data'>

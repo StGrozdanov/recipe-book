@@ -33,9 +33,9 @@ const notificationTemplate = (notification, ctx) => html`
     </article>
 `;
 
-const myProfileNotificationsTemplate = (notifications) => html`
+const myProfileNotificationsTemplate = (notifications, ctx) => html`
     <section class="my-profile-section">
-        ${myProfileTemplate()}
+        ${myProfileTemplate(ctx)}
         ${notifications.length > 0 ? notifications : html`<h2 class="user-recepies-heading">Нямате нови известия</h2>`}
     </section>
 `;
@@ -47,7 +47,7 @@ export async function myProfileNotificationsPage(ctx) {
     
     let notificationResults = notifications.map(notification => notificationTemplate(notification, ctx));
 
-    ctx.render(myProfileNotificationsTemplate(notificationResults));
+    ctx.render(myProfileNotificationsTemplate(notificationResults, ctx));
 
     trackActiveLink(ctx);
 }
