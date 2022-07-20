@@ -305,19 +305,21 @@ h4 {
 
 .admin-panel-search-form {
     margin-right: 20px;
+    display: none;
 }
 
 .admin-panel-search-input {
-    width: 200px;
+    width: 40vw;
     height: 35px;
-    border-radius: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
     border: none;
     box-shadow: 0px 9px 20px 0px #808ada45;
     padding: 10px 10px 10px 20px;
     transition: width 2s;
-    display: none;
 }
-
 .slideFadeInUp {
     -webkit-animation-duration: 1.5s;
     animation-duration: 1.5s;
@@ -668,7 +670,7 @@ tbody tr td:nth-child(2) {
     }
 
     .admin-panel-search-input {
-        width: 300px;
+        width: 42vw;
         height: 50px;
         font-size: 100%;
     }
@@ -820,6 +822,12 @@ tbody tr td:nth-child(2) {
         order: 1;
         top: 91%;
         z-index: 3;
+    }
+
+    .admin-panel-search-input {
+        width: 55vw;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
     }
 
     .admin-panel-nav-logo {

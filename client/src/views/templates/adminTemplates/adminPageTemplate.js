@@ -29,10 +29,10 @@ export const adminPanelTemplate = (greeting, username, avatar) => html`
                         <p id="page-message">Статистически данни за сайта</p>
                     </article>
                     <article class="admin-panel-content-header-nav-article">
-                        <form class="admin-panel-search-form">
-                            <input class="admin-panel-search-input slideFadeInUp" type="search" autocomplete="off">
+                        <form class="admin-panel-search-form slideFadeInUp">
+                            <input class="admin-panel-search-input" type="search" autocomplete="off">
                         </form>
-                        <i @click=${toggleSearchInputHandler} class="fa-solid fa-magnifying-glass"></i>
+                        <i @click=${(e) => toggleSearchInputHandler(e)} class="fa-solid fa-magnifying-glass"></i>
                         <div style="position: relative;">
                             <i @click=${panelNavigateHandler} class="administrate/notifications fa-regular fa-bell"></i>
                             <span id="myProfileNavNotificationCounter" class="admin-counter">0</span>
@@ -57,9 +57,13 @@ export const adminPanelTemplate = (greeting, username, avatar) => html`
 `;
 
 function toggleSearchInputHandler(e) {
-    const adminNav = e.target.parentNode.querySelector('.admin-panel-search-input');
-
-    adminNav.style.display == 'none' ? adminNav.style.display = 'block' : adminNav.style.display = 'none';
+    const searchInput = e.target.parentNode.querySelector('.admin-panel-search-form');
+    
+    if (searchInput.style.display == 'block') {
+        searchInput.style.display = 'none';
+    } else {
+        searchInput.style.display = 'block';
+    }
 }
 
 function panelNavigateHandler(e) {
