@@ -29,7 +29,6 @@ public class GlobalSearchService {
     public void adminSearchResult(GlobalSearchEvent event) {
         adminSearchResults.clear();
         List<AdminGlobalSearchDTO> searchResults = event.getSearchResults();
-
         this.adminSearchResults.addAll(searchResults);
     }
 

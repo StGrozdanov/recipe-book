@@ -108,27 +108,29 @@ async function handleGlobalSearch(e, ctx) {
     }
 }
 
+function iconTypeGenerator(resultType) {
+    const types = {
+        comments: html`<i id="search-dropdown-icon" class="fa-solid fa-comment-dots"></i>`,
+        recipes: html`<i id="search-dropdown-icon" class="fa-solid fa-bowl-rice"></i>`,
+        users: html`<i id="search-dropdown-icon" class="fa-solid fa-user-large"></i>`,
+    }
+    return types[resultType];
+}
+
 const globalSearchDropdownTemplate = (results) => html`
     <div id="search-dropdown" class="global-search-dropdown-container">
         ${results}
     </div>
 `;
 
-const globalSearchDropdownOptionTemplate = ({ imageUrl, resultTypeDefaultImage, name, resultType }, ctx) => html`
+const globalSearchDropdownOptionTemplate = ({ name, resultType }, ctx) => html`
 <div @click=${() => globalSearchRedirectHandler(ctx, resultType, name)} style="position: relative;">
     <option class="global-search-option" value=${name}>
         <div style="margin-left: 18%">
             ${name.length > 25 ? name.substring(0, 25) + '...' : name}
         </div>
     </option>
-    <div class="user-table-profile-avatar-container" style="bottom: 14%; z-index: 5; left: 5%; width: 25px; height: 25px;">
-            <img 
-                alt="image" 
-                class="user-profile-avatar" 
-                src=${`../../static/images/${resultTypeDefaultImage}`}
-                onerror="this.onerror=null;this.src='../../static/images/Avatar.png';"
-            />
-    </div>
+    ${iconTypeGenerator(resultType)}
 </div>
 `;
 

@@ -336,7 +336,7 @@ public class RecipeService {
         List<AdminGlobalSearchDTO> recipesCollection = this.recipeRepository
                 .findAllByRecipeNameContaining(event.getQuery())
                 .stream()
-                .map(recipe -> new AdminGlobalSearchDTO(recipe.getRecipeName(), recipe.getImageUrl(), "food.jpg", "recipes"))
+                .map(recipe -> new AdminGlobalSearchDTO(recipe.getRecipeName(), "recipes"))
                 .toList();
         event.getSearchResults().addAll(recipesCollection);
     }

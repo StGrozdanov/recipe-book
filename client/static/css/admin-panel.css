@@ -395,6 +395,21 @@ h4 {
     display: none;
 }
 
+#search-dropdown-icon {
+    font-size: 150%;
+    margin: 0;
+    color: #483d8b;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    position: absolute;
+    left: 8%;
+    bottom: 22%;
+    z-index: 5;
+}
+
 .global-search-option {
     padding: 1% 0;
     border-bottom-left-radius: 20px;

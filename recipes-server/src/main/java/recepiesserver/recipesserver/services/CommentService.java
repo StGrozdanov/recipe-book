@@ -114,7 +114,7 @@ public class CommentService {
         List<AdminGlobalSearchDTO> commentCollection = this.commentRepository
                 .findAllByContentContaining(event.getQuery())
                 .stream()
-                .map(comment -> new AdminGlobalSearchDTO(comment.getContent(), "", "Avatar.png", "comments"))
+                .map(comment -> new AdminGlobalSearchDTO(comment.getContent(), "comments"))
                 .toList();
         event.getSearchResults().addAll(commentCollection);
     }

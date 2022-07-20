@@ -24,8 +24,8 @@ export const commentRowTemplate = ({ id, content, ownerId, ownerAvatarUrl, targe
                 ${content}
             </div>
         </td>
-        <td><i @click=${() => redirectToOwnerHandler(ownerId, ctx)} class="fa-solid fa-share-from-square"></i></td>
-        <td><i @click=${() => redirectToRecipeHandler(targetRecipeId, ctx)} class="fa-solid fa-location-arrow"></i></td>
+        <td><i @click=${() => redirectToOwnerHandler(ownerId, ctx)} class="fa-solid fa-share-from-square" style="cursor: pointer;"></i></td>
+        <td><i @click=${() => redirectToRecipeHandler(targetRecipeId, ctx)} class="fa-solid fa-location-arrow" style="cursor: pointer;"></i></td>
         <td><span @click=${() => deleteHandler(id, ctx)} class="user-action-delete">Изтрий</span></td>
     </tr>
 `;

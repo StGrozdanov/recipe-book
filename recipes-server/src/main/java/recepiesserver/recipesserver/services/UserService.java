@@ -205,7 +205,7 @@ public class UserService {
         List<AdminGlobalSearchDTO> userCollection = this.userRepository
                 .findAllByUsernameContaining(event.getQuery())
                 .stream()
-                .map(user -> new AdminGlobalSearchDTO(user.getUsername(), user.getAvatarUrl(), "Avatar.png", "users"))
+                .map(user -> new AdminGlobalSearchDTO(user.getUsername(), "users"))
                 .toList();
         event.getSearchResults().addAll(userCollection);
     }
