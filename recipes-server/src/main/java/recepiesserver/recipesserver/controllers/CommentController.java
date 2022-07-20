@@ -64,9 +64,14 @@ public class CommentController {
     }
 
     @GetMapping(Api.SEARCH_COMMENTS_BY_CONTENT)
-    public ResponseEntity<List<CommentDetailsDTO>> searchCommentsByContent(
-            @RequestParam(name = "whereContent") @NotBlank String content) {
-        return ResponseEntity.ok().body(this.commentService.findCommentsByContent(content));
+    public ResponseEntity<Page<CommentAdminPanelDTO>> searchCommentsByContent(
+            @RequestParam(name = "whereContent") @NotBlank String content,
+            @RequestParam(name = "skip", defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "limit", defaultValue = "7") Integer collectionCount,
+            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy) {
+        return ResponseEntity
+                .ok()
+                .body(this.commentService.findCommentsByContent(content, pageNumber, collectionCount, sortBy));
     }
 
     @GetMapping(Api.GET_ALL_COMMENTS)

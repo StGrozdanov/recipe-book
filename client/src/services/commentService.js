@@ -12,6 +12,9 @@ const COMMENT_REQUEST_POINTS = {
     GET_LAST_SIX_COMMENTS: `${COMMENT_END_POINT}/latest-six-comments`,
     TOTAL_COMMENTS_COUNT: `${COMMENT_END_POINT}/count`,
     GET_ALL_COMMENTS: (page) => `${COMMENT_END_POINT}/admin?skip=${(page - 1)}`,
+    SEARCH_BY_COMMENT_CONTENT: (query, page) => {
+        return `${COMMENT_END_POINT}/search-by-content?whereContent=${query}&page=${page}`;
+    },
 }
 
 export async function getCommentsForRecipe(recipeId) {
@@ -82,6 +85,16 @@ export async function getAllCommentsAdmin(page) {
     CALLBACK.call = () => getAllCommentsAdmin(page);
 
     const response = await fetch(`${BASE_URL}${COMMENT_REQUEST_POINTS.GET_ALL_COMMENTS(page)}`, {
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+    });
+
+    return handleRequest(response, COULD_NOT_FETCH_COMMENTS, CALLBACK);
+}
+
+export async function searchComments(query, page) {
+    CALLBACK.call = () => searchComments(query, page);
+
+    const response = await fetch(`${BASE_URL}${COMMENT_REQUEST_POINTS.SEARCH_BY_COMMENT_CONTENT(query, page)}`, {
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
     });
 

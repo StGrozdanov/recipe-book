@@ -99,12 +99,11 @@ public class CommentService {
         return Math.toIntExact(this.commentRepository.countAllByOwner_Id(mostActiveUser));
     }
 
-    public List<CommentDetailsDTO> findCommentsByContent(String content) {
+    public Page<CommentAdminPanelDTO> findCommentsByContent(String content, Integer pageNumber, Integer collectionCount, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber, collectionCount, Sort.by(sortBy));
         return this.commentRepository
-                .findAllByContentContaining(content)
-                .stream()
-                .map(comment -> this.modelMapper.map(comment, CommentDetailsDTO.class))
-                .toList();
+                .findAllByContentContaining(content, pageable)
+                .map(comment -> this.modelMapper.map(comment, CommentAdminPanelDTO.class));
     }
 
     @Transactional
