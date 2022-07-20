@@ -19,5 +19,7 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
 
     Page<CommentEntity> findAllByContentContaining(String content, Pageable pageable);
 
+    List<CommentEntity> findAllByContentContaining(String content);
+
     List<CommentEntity> findAllByOwner(UserEntity owner);
 }

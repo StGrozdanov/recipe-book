@@ -3,6 +3,8 @@ package recepiesserver.recipesserver.services;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.events.BlockUserEvent;
 import recepiesserver.recipesserver.events.DeleteUserEvent;
+import recepiesserver.recipesserver.events.GlobalSearchEvent;
 import recepiesserver.recipesserver.events.UnblockUserEvent;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserAlreadyBlockedException;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserAlreadyExistsException;
@@ -19,6 +22,7 @@ import recepiesserver.recipesserver.exceptions.userExceptions.UserIsNotBlockedEx
 import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
 import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
+import recepiesserver.recipesserver.models.dtos.globalSearchDTOs.AdminGlobalSearchDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCatalogueDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeCountDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.RecipeFavouritesDTO;
@@ -193,6 +197,17 @@ public class UserService {
         return this.userRepository
                 .findAllByUsernameContaining(username, pageable)
                 .map(this::mapToUserAdminPanelDTO);
+    }
+
+    @Order(2)
+    @EventListener(GlobalSearchEvent.class)
+    public void findUsersByUsernameGlobalSearch(GlobalSearchEvent event) {
+        List<AdminGlobalSearchDTO> userCollection = this.userRepository
+                .findAllByUsernameContaining(event.getQuery())
+                .stream()
+                .map(user -> new AdminGlobalSearchDTO(user.getUsername(), user.getAvatarUrl(), "Avatar.png", "users"))
+                .toList();
+        event.getSearchResults().addAll(userCollection);
     }
 
     @Modifying

@@ -72,4 +72,6 @@ public class Api {
     public static final String VISITATIONS_FOR_LAST_SIX_MONTHS = "/visitations/the-last-six-months";
     public static final String VISITATIONS_TODAY = "/visitations/today";
     public static final String VISITATIONS_FOR_LAST_SIX_MONTHS_SUMMARY = "/visitations/the-last-six-months-summary";
+    //global search
+    public static final String GLOBAL_SEARCH_ADMIN = "/global-search/admin";
 }

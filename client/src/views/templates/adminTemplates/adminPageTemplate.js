@@ -1,5 +1,6 @@
-import { html } from "../../../../node_modules/lit-html/lit-html.js";
+import { html, render } from "../../../../node_modules/lit-html/lit-html.js";
 import page from '../../../../node_modules/page/page.mjs';
+import { globalSearchAdmin } from "../../../services/filtrationService.js";
 
 export const adminPanelTemplate = (greeting, username, avatar, ctx) => html`
     <section class="admin-panel-section">
@@ -32,6 +33,7 @@ export const adminPanelTemplate = (greeting, username, avatar, ctx) => html`
                         <form
                             @input=${(e)=> search(e, ctx)} 
                             class="admin-panel-search-form slideFadeInUp"
+                            style="z-index: 5"
                         >
                             <input class="admin-panel-search-input" type="search" autocomplete="off">
                         </form>
@@ -80,9 +82,67 @@ function panelNavigateHandler(e) {
 
 function search(e, ctx) {
     e.preventDefault();
-    if (e.target.value !== '') {
-        ctx.page.redirect(ctx.canonicalPath.split('/search')[0] + `/search=${e.target.value}`); 
+    if (ctx.canonicalPath.includes('dashboard')) {
+        handleGlobalSearch(e, ctx);
     } else {
-        ctx.page.redirect(ctx.canonicalPath.split('/search')[0]);
+        if (e.target.value !== '') {
+            ctx.page.redirect(ctx.canonicalPath.split('/search')[0] + `/search=${e.target.value}`); 
+        } else {
+            ctx.page.redirect(ctx.canonicalPath.split('/search')[0]);
+        }
+    }   
+}
+
+async function handleGlobalSearch(e, ctx) {
+    if (e.target.value !== '') {
+        const query = e.target.value;
+
+        let data = await globalSearchAdmin(query);
+
+        const results = data.map(data => globalSearchDropdownOptionTemplate(data, ctx));
+
+        render(globalSearchDropdownTemplate(results), document.querySelector('.admin-panel-search-form'));
+        showDropdown();
+    } else {
+        hideDropdown();
     }
+}
+
+const globalSearchDropdownTemplate = (results) => html`
+    <div id="search-dropdown" class="global-search-dropdown-container">
+        ${results}
+    </div>
+`;
+
+const globalSearchDropdownOptionTemplate = ({ imageUrl, resultTypeDefaultImage, name, resultType }, ctx) => html`
+<div @click=${() => globalSearchRedirectHandler(ctx, resultType, name)} style="position: relative;">
+    <option class="global-search-option" value=${name}>
+        <div style="margin-left: 18%">
+            ${name.length > 25 ? name.substring(0, 25) + '...' : name}
+        </div>
+    </option>
+    <div class="user-table-profile-avatar-container" style="bottom: 14%; z-index: 5; left: 5%; width: 25px; height: 25px;">
+            <img 
+                alt="image" 
+                class="user-profile-avatar" 
+                src=${`../../static/images/${resultTypeDefaultImage}`}
+                onerror="this.onerror=null;this.src='../../static/images/Avatar.png';"
+            />
+    </div>
+</div>
+`;
+
+function hideDropdown() {
+    document.querySelector('#search-dropdown').style.display = 'none';
+}
+
+function showDropdown() {
+    document.querySelector('#search-dropdown').style.display = 'block';
+}
+
+function globalSearchRedirectHandler(ctx, resultType, name) {
+    ctx.page.redirect(`/administrate/${resultType}/search=${name.includes('/') 
+                                                                ? name.replaceAll('/', '').substring(0, 5)
+                                                                : name}`);
+    hideDropdown();
 }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import recepiesserver.recipesserver.events.DeleteUserEvent;
+import recepiesserver.recipesserver.events.GlobalSearchEvent;
 import recepiesserver.recipesserver.exceptions.imageExceptions.NoPictureProvidedException;
 import recepiesserver.recipesserver.exceptions.imageExceptions.PictureUrlAlreadyExistsException;
 import recepiesserver.recipesserver.exceptions.recipeExceptions.NoSuchRecipeCategoryException;
@@ -16,6 +17,7 @@ import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeAlreadyApp
 import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeNotFoundException;
 import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeWithTheSameNameOrImageAlreadyExistsException;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
+import recepiesserver.recipesserver.models.dtos.globalSearchDTOs.AdminGlobalSearchDTO;
 import recepiesserver.recipesserver.models.dtos.recipeDTOs.*;
 import recepiesserver.recipesserver.models.dtos.userDTOs.UserMostActiveDTO;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
@@ -326,6 +328,17 @@ public class RecipeService {
         return this.recipeRepository
                 .findAllByRecipeNameContaining(query, pageable)
                 .map(recipe -> this.modelMapper.map(recipe, RecipeAdminPanelDTO.class));
+    }
+
+    @Order(3)
+    @EventListener(GlobalSearchEvent.class)
+    public void findRecipesByNameGlobalSearch(GlobalSearchEvent event) {
+        List<AdminGlobalSearchDTO> recipesCollection = this.recipeRepository
+                .findAllByRecipeNameContaining(event.getQuery())
+                .stream()
+                .map(recipe -> new AdminGlobalSearchDTO(recipe.getRecipeName(), recipe.getImageUrl(), "food.jpg", "recipes"))
+                .toList();
+        event.getSearchResults().addAll(recipesCollection);
     }
 
     private RecipeEntity getRecipeById(Long id) {

@@ -10,10 +10,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import recepiesserver.recipesserver.events.DeleteUserEvent;
+import recepiesserver.recipesserver.events.GlobalSearchEvent;
 import recepiesserver.recipesserver.exceptions.commentExceptions.CommentNotFoundException;
 import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeNotFoundException;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
 import recepiesserver.recipesserver.models.dtos.commentDTOs.*;
+import recepiesserver.recipesserver.models.dtos.globalSearchDTOs.AdminGlobalSearchDTO;
 import recepiesserver.recipesserver.models.entities.CommentEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
@@ -104,6 +106,17 @@ public class CommentService {
         return this.commentRepository
                 .findAllByContentContaining(content, pageable)
                 .map(comment -> this.modelMapper.map(comment, CommentAdminPanelDTO.class));
+    }
+
+    @Order(1)
+    @EventListener(GlobalSearchEvent.class)
+    public void findCommentsByContentGlobalSearch(GlobalSearchEvent event) {
+        List<AdminGlobalSearchDTO> commentCollection = this.commentRepository
+                .findAllByContentContaining(event.getQuery())
+                .stream()
+                .map(comment -> new AdminGlobalSearchDTO(comment.getContent(), "", "Avatar.png", "comments"))
+                .toList();
+        event.getSearchResults().addAll(commentCollection);
     }
 
     @Transactional

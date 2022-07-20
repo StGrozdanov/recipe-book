@@ -324,6 +324,7 @@ h4 {
     padding: 10px 10px 10px 20px;
     transition: width 2s;
 }
+
 .slideFadeInUp {
     -webkit-animation-duration: 1.5s;
     animation-duration: 1.5s;
@@ -371,6 +372,43 @@ h4 {
 
 .table-wrapper::-webkit-scrollbar {
     display: none;
+}
+
+.global-search-dropdown-container {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    position: absolute;
+    width: 96%;
+    left: 2%;
+    z-index: 5;
+    background: rgba(128, 138, 218, 0.77);
+    display: block;
+    max-height: 42vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.global-search-dropdown-container::-webkit-scrollbar {
+    display: none;
+}
+
+.global-search-option {
+    padding: 1% 0;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    text-align: center;
+    border-bottom: 1px solid whitesmoke;
+    position: relative;
+    z-index: 5;
+    color: white;
+    cursor: pointer;
+}
+
+.global-search-option:hover {
+    background: rgba(128, 138, 218, 0.85);
 }
 
 table {

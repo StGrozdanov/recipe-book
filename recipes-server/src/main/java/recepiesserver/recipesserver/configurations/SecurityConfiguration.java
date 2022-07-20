@@ -126,6 +126,10 @@ public class SecurityConfiguration {
                 .antMatchers(
                         Api.VISITATIONS_ENDPOINT + Api.PREFIX
                 ).hasRole(RoleEnum.ADMINISTRATOR.name())
+
+                //global-search controller
+                .antMatchers(Api.GLOBAL_SEARCH_ADMIN).hasRole(RoleEnum.ADMINISTRATOR.name())
+
                 .and()
                 .addFilterBefore(this.authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 

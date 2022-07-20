@@ -43,4 +43,6 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     Page<RecipeEntity> findAllByStatus(PublicationStatusEnum status, Pageable pageable);
 
     Page<RecipeEntity> findAllByRecipeNameContaining(String query, Pageable pageable);
+
+    List<RecipeEntity> findAllByRecipeNameContaining(String query);
 }
