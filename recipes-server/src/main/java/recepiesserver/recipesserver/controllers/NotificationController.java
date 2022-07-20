@@ -3,10 +3,7 @@ package recepiesserver.recipesserver.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreateDTO;
-import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationDetailsDTO;
-import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreatedDataDTO;
-import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationModifiedAtDTO;
+import recepiesserver.recipesserver.models.dtos.notificationDTOs.*;
 import recepiesserver.recipesserver.services.NotificationService;
 import recepiesserver.recipesserver.utils.constants.Api;
 
@@ -31,6 +28,15 @@ public class NotificationController {
                                                                              HttpServletRequest request) {
         List<NotificationDetailsDTO> userNotifications = this.notificationService.getUnreadUserNotifications(userId);
         return ResponseEntity.ok().body(userNotifications);
+    }
+
+    @GetMapping(Api.USER_NOTIFICATIONS_COUNT)
+    @PreAuthorize("@jwtUtil.userIsResourceOwner(" +
+            "#request.getHeader('Authorization'), @notificationService.getNotificationReceiverUsername(#userId)) " +
+            "|| hasRole('ADMINISTRATOR')")
+    public ResponseEntity<NotificationCountDTO> getUserNotificationsCount(@PathVariable Long userId,
+                                                                          HttpServletRequest request) {
+        return ResponseEntity.ok().body(this.notificationService.getUnreadUserNotificationsCount(userId));
     }
 
     @PatchMapping(Api.MARK_NOTIFICATION_AS_READ)

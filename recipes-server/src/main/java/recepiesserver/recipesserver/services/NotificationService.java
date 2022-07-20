@@ -6,10 +6,7 @@ import recepiesserver.recipesserver.exceptions.notificationExceptions.NoSuchNoti
 import recepiesserver.recipesserver.exceptions.notificationExceptions.NotificationNotFoundException;
 import recepiesserver.recipesserver.exceptions.recipeExceptions.RecipeNotFoundException;
 import recepiesserver.recipesserver.exceptions.userExceptions.UserNotFoundException;
-import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreateDTO;
-import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationDetailsDTO;
-import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationCreatedDataDTO;
-import recepiesserver.recipesserver.models.dtos.notificationDTOs.NotificationModifiedAtDTO;
+import recepiesserver.recipesserver.models.dtos.notificationDTOs.*;
 import recepiesserver.recipesserver.models.entities.NotificationEntity;
 import recepiesserver.recipesserver.models.entities.RecipeEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
@@ -178,5 +175,10 @@ public class NotificationService {
 
     public void clearMarkedAsReadNotifications() {
         this.notificationRepository.deleteAll(this.notificationRepository.findAllByMarkedAsReadTrue());
+    }
+
+    public NotificationCountDTO getUnreadUserNotificationsCount(Long userId) {
+        long unreadNotificationsCount = this.notificationRepository.countAllByReceiverIdAndMarkedAsReadFalse(userId);
+        return new NotificationCountDTO().setNotificationsCount(unreadNotificationsCount);
     }
 }

@@ -21,6 +21,7 @@ public class Api {
     public static final String USER_NOTIFICATIONS = "/notifications/{userId}";
     public static final String MARK_NOTIFICATION_AS_READ = "/notifications/{notificationId}";
     public static final String NOTIFICATION_ENDPOINT = "/notifications";
+    public static final String USER_NOTIFICATIONS_COUNT = "/notifications/{userId}/count";
     //recipes
     public static final String RECIPES_ENDPOINT = "/recipes";
     public static final String EDIT_RECIPE = "/recipes/{recipeId}";

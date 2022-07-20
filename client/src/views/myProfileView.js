@@ -4,7 +4,7 @@ import { myProfileTemplate, trackActiveLink } from './templates/profileTemplates
 import { userProfileTemplate } from './templates/profileTemplates/userProfileTemplate.js';
 import { loaderTemplate } from './templates/loadingTemplate.js';
 import { getCurrentUser } from '../services/authenticationService.js';
-import { getMyNotifications } from '../services/notificationService.js'
+import { getMyNotificationsCount } from '../services/notificationService.js'
 
 const myPublicationsTemplate = (recepiesCount, ctx) => html`
     <section class="my-profile-section">
@@ -16,7 +16,7 @@ const myPublicationsTemplate = (recepiesCount, ctx) => html`
 export async function myProfilePage(ctx) {
     ctx.render(loaderTemplate());
     const createdRecepies = getMyPublicationsCount(getCurrentUser());
-    let myNotifications = getMyNotifications(getCurrentUser());
+    let myNotifications = getMyNotificationsCount();
 
     const [myRecepies, userNotifications] = await Promise.all([createdRecepies, myNotifications]);
 
@@ -27,9 +27,9 @@ export async function myProfilePage(ctx) {
     trackActiveLink(ctx);
 
     let notificationCounterContainer = document.getElementById('myProfileNavNotificationCounter')
-    notificationCounterContainer.textContent = userNotifications.length;
+    notificationCounterContainer.textContent = userNotifications.notificationsCount;
 
-    if (userNotifications.length > 0) {
+    if (userNotifications.notificationsCount > 0) {
         notificationCounterContainer.style.display = 'inline-block';
     }
 }

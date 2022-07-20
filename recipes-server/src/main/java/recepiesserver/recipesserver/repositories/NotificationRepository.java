@@ -11,4 +11,6 @@ public interface NotificationRepository extends JpaRepository<NotificationEntity
     List<NotificationEntity> findAllByReceiverIdAndMarkedAsRead(Long userId, boolean markedAsRead);
 
     List<NotificationEntity> findAllByMarkedAsReadTrue();
+
+    long countAllByReceiverIdAndMarkedAsReadFalse(Long receiverId);
 }

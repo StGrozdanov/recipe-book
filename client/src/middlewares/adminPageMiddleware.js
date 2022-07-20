@@ -1,7 +1,7 @@
 import { render } from '../../node_modules/lit-html/lit-html.js';
 import { getCurrentUser, getCurrentUserAvatar, getCurrentUserUsername, userIsAdministrator } from '../services/authenticationService.js';
+import { getMyNotificationsCount } from '../services/notificationService.js';
 import { socket } from '../services/socketioService.js';
-import { notify } from '../utils/notification.js';
 import { adminPanelTemplate } from '../views/templates/adminTemplates/adminPageTemplate.js';
 import { mainRootElement } from './setUpMiddleware.js';
 
@@ -18,7 +18,7 @@ socket.on('receiveNotification', data => {
     notificationCounterContainer.style.display = 'inline-block';
 });
 
-export function adminSetUp(ctx, next) {
+export async function adminSetUp(ctx, next) {
     
     if (userIsAdministrator() === false) {
         ctx.page.redirect('/dashboard');
@@ -53,6 +53,15 @@ export function adminSetUp(ctx, next) {
 
     const currentUser = getCurrentUser();
     currentUser ? socket.emit("newUser", currentUser) : '';
+
+    let myNotifications = await getMyNotificationsCount();
+
+    let notificationCounterContainer = document.querySelector('.admin-counter');
+    notificationCounterContainer.textContent = myNotifications.notificationsCount;
+
+    if (myNotifications.notificationsCount > 0) {
+        notificationCounterContainer.style.display = 'inline-block';
+    }
 
     next();
 }

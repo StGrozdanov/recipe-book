@@ -6,9 +6,10 @@ import { getCurrentUser, getUserToken } from "./authenticationService.js";
 export const NOTIFICATION_END_POINT = '/notifications';
 
 const NOTIFICATIONS_END_POINTS = {
-    GET_USER_NOTIFICATIONS: (userId) => { return `${NOTIFICATION_END_POINT}/${userId}` },
+    GET_USER_NOTIFICATIONS: (userId) => `${NOTIFICATION_END_POINT}/${userId}`,
     CREATE_NOTIFICATION: NOTIFICATION_END_POINT,
-    MARK_AS_READ: (notificationId) => { return `${NOTIFICATION_END_POINT}/${notificationId}` }
+    MARK_AS_READ: (notificationId) => `${NOTIFICATION_END_POINT}/${notificationId}`,
+    USER_NOTIFICATIONS_COUNT: (userId) => `${NOTIFICATION_END_POINT}/${userId}/count`,
 }
 
 export async function getMyNotifications() {
@@ -18,6 +19,17 @@ export async function getMyNotifications() {
         method: 'GET',
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
     });
+    return handleRequest(response, COULD_NOT_GET_NOTIFICATIONS, CALLBACK);
+}
+
+export async function getMyNotificationsCount() {
+    CALLBACK.call = () => getMyNotificationsCount();
+
+    const response = await fetch(BASE_URL + NOTIFICATIONS_END_POINTS.USER_NOTIFICATIONS_COUNT(getCurrentUser()), {
+        method: 'GET',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+    });
+    
     return handleRequest(response, COULD_NOT_GET_NOTIFICATIONS, CALLBACK);
 }
 
