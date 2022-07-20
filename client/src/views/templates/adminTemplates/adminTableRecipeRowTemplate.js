@@ -2,7 +2,7 @@ import {html} from '../../../../node_modules/lit-html/lit-html.js';
 import { ARE_YOU_SURE_DELETE_RECIPE } from '../../../constants/notificationMessages.js';
 import { approveRecipe, removeRecipe } from '../../../services/recipeService.js';
 import { showModal } from '../../../utils/modalDialogue.js';
-import { resolvePageStyleArchitecture } from '../../landingView.js';
+import { navigateDownHandler, resolvePageStyleArchitecture } from '../../landingView.js';
 
 export const recipeRowTemplate = ({ id, imageUrl, recipeName, statusName, ownerId }, ctx) => html`
     <tr>
@@ -67,6 +67,8 @@ function redirectToOwnerHandler(ownerId, ctx) {
 function redirectToRecipeHandler(recipeId, ctx) {
     ctx.page.redirect(`/details-${recipeId}`);
     resolvePageStyleArchitecture();
+    document.querySelector('footer').style.display = 'flex';
+    navigateDownHandler();
 }
 
 async function approveRecipeHandler(recipeId, ctx) {

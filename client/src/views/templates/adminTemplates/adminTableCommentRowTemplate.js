@@ -2,7 +2,7 @@ import { html } from '../../../../node_modules/lit-html/lit-html.js';
 import { ARE_YOU_SURE_DELETE_COMMENT } from '../../../constants/notificationMessages.js';
 import { removeComment } from '../../../services/commentService.js';
 import { showModal } from '../../../utils/modalDialogue.js';
-import { resolvePageStyleArchitecture } from '../../landingView.js';
+import { navigateDownHandler, resolvePageStyleArchitecture } from '../../landingView.js';
 
 export const commentRowTemplate = ({ id, content, ownerId, ownerAvatarUrl, targetRecipeId }, ctx) => html`
     <tr>
@@ -35,8 +35,11 @@ function redirectToOwnerHandler(ownerId, ctx) {
 }
 
 function redirectToRecipeHandler(recipeId, ctx) {
+    sessionStorage.setItem('redirect', '');
+    sessionStorage.setItem('comment', '')
     ctx.page.redirect(`/details-${recipeId}`);
     resolvePageStyleArchitecture();
+    document.querySelector('footer').style.display = 'flex';
 }
 
 async function deleteHandler(commentId, ctx) {
