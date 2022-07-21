@@ -13,12 +13,13 @@ export default function ActionsDropdown({
     deleteAction,
     changeRoleAction,
     removeAction,
-    approveAction
+    approveAction,
+    objectId
 }) {
     return (
         <TouchableOpacity style={actionsDropdownStyles.container} >
             {deleteAction && <DeleteAction collection={deleteAction} />}
-            {editAction && <EditAction collection={editAction} />}
+            {editAction && <EditAction collection={editAction} objectId={objectId} />}
             {changeRoleAction && <ChangeRoleAction collection={changeRoleAction} />}
             {blockAction && <BlockAction collection={blockAction} />}
             {removeAction && <RemoveAction collection={removeAction} />}

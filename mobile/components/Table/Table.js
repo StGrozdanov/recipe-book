@@ -59,7 +59,8 @@ export default function Table({
                 toggleHandler={toggleHandler}
             />
             <TableBody isToggled={isToggled} data={data} />
-            {dropdownIsExpanded &&
+            {
+            dropdownIsExpanded &&
                 <ActionsDropdown
                     deleteAction={deleteAction}
                     editAction={editAction}
@@ -67,6 +68,7 @@ export default function Table({
                     approveAction={approveAction}
                     removeAction={removeAction}
                     changeRoleAction={changeRoleAction}
+                    objectId={data.id}
                 />
             }
         </>
