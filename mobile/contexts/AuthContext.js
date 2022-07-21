@@ -4,7 +4,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const initialUserState = {
     username: '',
     id: null,
-    userToken: '',
+    sessionToken: '',
+    refreshToken: '',
+    administrator: false,
+    avatarUrl: '',
 }
 
 export const AuthContext = createContext();
@@ -38,11 +41,26 @@ export const AuthProvider = ({ children }) => {
     const userIsAuthenticated = async () => {
         const storageResponse = await AsyncStorage.getItem('user');
         const user = JSON.parse(storageResponse);
-        return user !== null && user.username === 'shushan' || user !== null && user.username === 'ani';
+
+        return user !== null && Boolean(user.administrator) === true;
+    }
+
+    const getRefreshToken = async () => {
+        const storageResponse = await AsyncStorage.getItem('user');
+        const user = JSON.parse(storageResponse);
+
+        return user.refreshToken;
+    }
+
+    const getUserToken = async () => {
+        const storageResponse = await AsyncStorage.getItem('user');
+        const user = JSON.parse(storageResponse);
+
+        return user.sessionToken;
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, userIsAuthenticated }}>
+        <AuthContext.Provider value={{ user, login, logout, userIsAuthenticated, getRefreshToken, getUserToken }}>
             {children}
         </AuthContext.Provider>
     );

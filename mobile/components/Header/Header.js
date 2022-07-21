@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-export default function Header({ notificationsCount, navigation, markNotificationsAsSeen }) {
+export default function Header({ notificationsCount, markNotificationsAsSeen }) {
     const [showSearchBar, setShowSearchBar] = useState(false);
     const { theme, changeTheme } = useThemeContext();
     const { user } = useAuthContext();
@@ -37,6 +37,13 @@ export default function Header({ notificationsCount, navigation, markNotificatio
     function showNotificationsHandler() {
         navigator.navigate('Notifications');
         markNotificationsAsSeen();
+    }
+
+    function userAvatarIsPresent() {
+        return user.avatarUrl !== undefined 
+                && user.avatarUrl.trim() !== '' 
+                && user.avatarUrl !== null 
+                && user.avatarUrl !== '/avatar.png';
     }
 
     return (
@@ -80,9 +87,9 @@ export default function Header({ notificationsCount, navigation, markNotificatio
                     />
                 </TouchableOpacity>
                 {
-                    user.avatar !== undefined
+                    userAvatarIsPresent()
                         ? <Image
-                            source={{ uri: user.avatar }}
+                            source={{ uri: user.avatarUrl }}
                             style={headerStyle[theme + 'Avatar']}
                         />
                         : <Image

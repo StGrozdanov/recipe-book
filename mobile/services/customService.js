@@ -1,0 +1,16 @@
+export const BASE_URL = 'http://192.168.0.150:8080';
+
+export const BASE_HEADERS = {
+    'Content-Type': 'application/json'
+}
+
+export const MODIFIYNG_OPERATIONS_HEADERS = (userToken) => {
+    return {
+        ...BASE_HEADERS,
+        "Authorization": `Bearer ${userToken}`,
+    }
+}
+
+export const CALLBACK = {
+    call: undefined
+}

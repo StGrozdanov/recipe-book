@@ -18,17 +18,17 @@ export default function Panel({ navigation, content }) {
 
     useEffect(() => {
         notificationService
-            .getMyNotifications(user.objectId)
+            .getMyNotificationsCount()
             .then(notifications => {
-                unreadNotificationsCount = notifications.length;
-                setNotificationsCount(unreadNotificationsCount);
+                console.log(`You have ${notifications.notificationsCount} new notifications.`)
+                setNotificationsCount(notifications.notificationsCount);
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.message));
     }, []);
 
     useEffect(() => {
-        socket.emit("newUser", user.objectId);
-    }, [user]);
+        socket.emit("newUser", user.id);
+    }, []);
 
     socket.on('receiveNotification', data => {
         let newCount = notificationsCount + 1;

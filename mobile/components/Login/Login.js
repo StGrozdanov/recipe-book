@@ -3,7 +3,7 @@ import { loginStyles } from "./LoginStyleSheet";
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useState } from "react";
 import LoginInput from "./LoginInput";
-import * as userService from "../../services/userService";
+import { login as attendLogin } from '../../services/authenticationService'
 
 export default function Login({ navigation }) {
     const [username, setUsername] = useState('');
@@ -23,9 +23,9 @@ export default function Login({ navigation }) {
         setErrorMessage('');
         setIsLoading(true);
 
-        userService.login({ username, password })
+        attendLogin({ username, password })
             .then(authData => {
-                if (authData.username === 'shushan' || authData.username === 'ani') {
+                if (Boolean(authData.administrator)) {
                     login(authData)
                         .then(setIsLoading(false))
                         .then(navigation.navigate('Dashboard'));
