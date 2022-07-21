@@ -10,6 +10,7 @@ import { greetingGenerator } from "../../helpers/headerGreetingGenerator";
 import { useState } from "react";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { userAvatarIsPresent } from "../../helpers/avatarIsPresent";
 
 export default function Header({ notificationsCount, markNotificationsAsSeen }) {
     const [showSearchBar, setShowSearchBar] = useState(false);
@@ -37,13 +38,6 @@ export default function Header({ notificationsCount, markNotificationsAsSeen }) 
     function showNotificationsHandler() {
         navigator.navigate('Notifications');
         markNotificationsAsSeen();
-    }
-
-    function userAvatarIsPresent() {
-        return user.avatarUrl !== undefined 
-                && user.avatarUrl.trim() !== '' 
-                && user.avatarUrl !== null 
-                && user.avatarUrl !== '/avatar.png';
     }
 
     return (
@@ -87,7 +81,7 @@ export default function Header({ notificationsCount, markNotificationsAsSeen }) 
                     />
                 </TouchableOpacity>
                 {
-                    userAvatarIsPresent()
+                    userAvatarIsPresent(user.avatarUrl)
                         ? <Image
                             source={{ uri: user.avatarUrl }}
                             style={headerStyle[theme + 'Avatar']}

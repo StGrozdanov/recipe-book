@@ -47,7 +47,7 @@ export async function findTheMostActiveUser() {
     CALLBACK.call = () => findTheMostActiveUser();
 
     const response = await fetch(`${BASE_URL}${RECIPE_END_POINTS.MOST_ACTIVE_USER}`, {
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken()),
     });
 
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);

@@ -20,7 +20,6 @@ export default function Panel({ navigation, content }) {
         notificationService
             .getMyNotificationsCount()
             .then(notifications => {
-                console.log(`You have ${notifications.notificationsCount} new notifications.`)
                 setNotificationsCount(notifications.notificationsCount);
             })
             .catch(err => console.log(err.message));

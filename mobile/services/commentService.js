@@ -19,7 +19,7 @@ export async function getTotalCommentsCount() {
 
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.TOTAL_COMMENTS_COUNT, {
         method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken())
     });
     return handleRequest(response, COULD_NOT_FETCH_COMMENTS, CALLBACK);
 }

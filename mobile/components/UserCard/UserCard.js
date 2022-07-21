@@ -4,24 +4,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBowlRice } from '@fortawesome/free-solid-svg-icons/faBowlRice';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots';
 import { useThemeContext } from "../../hooks/useThemeContext";
+import { userAvatarIsPresent } from '../../helpers/avatarIsPresent';
 
-export default function UserCard({ mostActiveUserName, totalPublications, recipesCount, commentsCount }) {
+export default function UserCard({ username, totalPublicationsCount, recipesCount, commentsCount, avatarUrl }) {
     const { theme } = useThemeContext();
 
     return (
         <View style={userCardStyles[theme + 'Card']}>
             <View style={userCardStyles[theme + 'CardTextSection']}>
                 <Text style={userCardStyles[theme + 'Title']}>Най-активен потребител:</Text>
-                <Text style={[userCardStyles[theme + 'Title'], userCardStyles.userName]}>{mostActiveUserName}</Text>
+                <Text style={[userCardStyles[theme + 'Title'], userCardStyles.userName]}>{username}</Text>
             </View>
             <View style={ userCardStyles[theme + 'AvatarContainer'] }>
-                <Image style={userCardStyles.avatar} source={require('../../assets/avatar.png')} />
+                {userAvatarIsPresent(avatarUrl)
+                        ? <Image
+                            source={{ uri: user.avatarUrl }}
+                            style={headerStyle[theme + 'Avatar']}
+                        />
+                        : <Image style={userCardStyles.avatar} source={require('../../assets/avatar.png')} />
+                }
             </View>
             <View style={userCardStyles.cardMainSection}>
                 <Text
                     style={[userCardStyles[theme + 'Title'], userCardStyles[theme + 'Publications']]}
                 >
-                    {totalPublications} Публикации
+                    {totalPublicationsCount} Публикации
                 </Text>
                 <View style={userCardStyles.publicationStats}>
                     <View>
@@ -29,7 +36,7 @@ export default function UserCard({ mostActiveUserName, totalPublications, recipe
                         <Text
                             style={[userCardStyles[theme + 'Title'], userCardStyles.publicationsCounts]}
                         >
-                            {recipesCount}12 рецепети
+                            {recipesCount} рецепти
                         </Text>
                     </View>
                     <View>
@@ -37,7 +44,7 @@ export default function UserCard({ mostActiveUserName, totalPublications, recipe
                         <Text
                             style={[userCardStyles[theme + 'Title'], userCardStyles.publicationsCounts]}
                         >
-                            {commentsCount}12 коментара
+                            {commentsCount} коментара
                         </Text>
                     </View>
                 </View>

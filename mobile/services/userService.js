@@ -113,7 +113,7 @@ export async function getTotalUsersCount() {
     CALLBACK.call = () => getTotalUsersCount();
 
     const response = await fetch(`${BASE_URL}${USERS_END_POINTS.USERS_COUNT}`, {
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken()),
     });
 
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);

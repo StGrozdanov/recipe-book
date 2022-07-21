@@ -14,7 +14,7 @@ export async function getVisitationsToday() {
 
     const response = await fetch(BASE_URL + VISITATIONS_END_POINTS.VISITATIONS_TODAY, {
         method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken())
     });
 
     return handleRequest(response, COULD_NOT_FIND_VISITATIONS_TODAY, CALLBACK);
