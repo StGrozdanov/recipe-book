@@ -61,9 +61,11 @@ export async function remove(userId) {
 export async function getUser(userId) {
     CALLBACK.call = () => getUser(userId);
 
+    const userToken = await getUserToken();
+
     const response = await fetch(BASE_URL + USERS_END_POINTS.USER_INFO(userId), {
         method: 'GET',
-        headers: getUserToken() ? MODIFIYNG_OPERATIONS_HEADERS(getUserToken()) : BASE_HEADERS
+        headers: userToken ? MODIFIYNG_OPERATIONS_HEADERS(userToken) : BASE_HEADERS
     });
 
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);

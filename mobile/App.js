@@ -10,6 +10,7 @@ import Users from './components/Users/Users';
 import Recipes from './components/Recipes/Recipes';
 import Comments from './components/Comments/Comments';
 import Settings from './components/Settings/Settings';
+import UserProfile from './components/UserProfile/UserProfile';
 import Notifications from './components/Notifications/Notifications';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 
@@ -31,6 +32,9 @@ export default function App() {
               </Stack.Screen>
               <Stack.Screen name="Users" initialParams={{ itemId: 0 }}>
                 {(props) => <Panel {...props} content={<Users />} />}
+              </Stack.Screen>
+              <Stack.Screen name="Profile" initialParams={{ itemId: 0 }}>
+                {(props) => <Panel {...props} content={<UserProfile />} />}
               </Stack.Screen>
               <Stack.Screen name="Recipes" initialParams={{ itemId: 0 }}>
                 {(props) => <Panel {...props} content={<Recipes />} />}

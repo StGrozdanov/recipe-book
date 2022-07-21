@@ -36,6 +36,7 @@ export default function Users() {
         getAllUsers()
         .then(res => {
             const results = res.content.map(user => {
+                user.Profile = user.id;
                 onlineUsers.includes(user.id) ? user.Status = 'online' : user.Status = 'offline';
                 return user;
             });
@@ -49,6 +50,7 @@ export default function Users() {
         getAllUsers()
         .then(res => {
             const results = res.content.map(user => {
+                user.Profile = user.id;
                 onlineUsers.includes(user.id) ? user.Status = 'online' : user.Status = 'offline';
                 return user;
             });

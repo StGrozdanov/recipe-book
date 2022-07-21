@@ -4,11 +4,13 @@ import Cell from './TableBodyTypes/TableBodyCell';
 import Status from './TableBodyTypes/TableBodyStatus';
 import Owner from "./TableBodyTypes/TableBodyOwner";
 import Location from "./TableBodyTypes/TableBodyLocation";
+import Profile from "./TableBodyTypes/TableBodyProfile";
 import { useThemeContext } from "../../../hooks/useThemeContext";
 
 const CELL_TYPES = {
     Status: (cellData, cellKey) => <Status status={cellData} key={cellKey} />,
     Owner: (location, cellKey) => <Owner pointer={location} key={cellKey} />,
+    Profile: (location, cellKey) => <Profile pointer={location} key={cellKey} />,
     Location: (location, cellKey) => <Location pointer={location} key={cellKey} />,
 }
 
