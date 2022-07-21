@@ -3,6 +3,7 @@ package recepiesserver.recipesserver.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +58,7 @@ public class RecipeController {
     public ResponseEntity<RecipeIdDTO> createRecipe(@RequestParam("data") String recipeData,
                                                     @RequestParam("file") MultipartFile file) throws JsonProcessingException {
         @Valid RecipeCreateDTO dto = new ObjectMapper().readValue(recipeData, RecipeCreateDTO.class);
-        return ResponseEntity.ok().body(this.recipeService.createNewRecipe(dto, file));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.recipeService.createNewRecipe(dto, file));
     }
 
     @PutMapping(Api.EDIT_RECIPE)

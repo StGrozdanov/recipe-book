@@ -1,6 +1,7 @@
 package recepiesserver.recipesserver.controllers;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class CommentController {
     @PostMapping(Api.COMMENT_ENDPOINT)
     public ResponseEntity<CommentIdDTO> createComment(@RequestBody @Valid CommentCreateDTO commentDTO) {
         CommentIdDTO createdCommentId = this.commentService.createNewComment(commentDTO);
-        return ResponseEntity.ok().body(createdCommentId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentId);
     }
 
     @DeleteMapping(Api.DELETE_COMMENT)

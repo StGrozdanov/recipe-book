@@ -1,5 +1,6 @@
 package recepiesserver.recipesserver.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +52,8 @@ public class NotificationController {
     @PostMapping(Api.NOTIFICATION_ENDPOINT)
     public ResponseEntity<NotificationCreatedDataDTO> createNotification(
             @RequestBody @Valid NotificationCreateDTO notificationDTO) {
-        return ResponseEntity.ok().body(this.notificationService.createNotification(notificationDTO));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(this.notificationService.createNotification(notificationDTO));
     }
 }
