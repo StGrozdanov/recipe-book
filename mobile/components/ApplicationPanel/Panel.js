@@ -23,16 +23,19 @@ export default function Panel({ navigation, content }) {
                 setNotificationsCount(notifications.notificationsCount);
             })
             .catch(err => console.log(err.message));
-    }, []);
+    }, [notificationsCount]);
 
     useEffect(() => {
         socket.emit("newUser", user.id);
     }, []);
 
-    socket.on('receiveNotification', data => {
-        let newCount = notificationsCount + 1;
-        setNotificationsCount(newCount);
-    });
+    useEffect(() => {
+        socket.on('receiveNotification', data => {
+            let newCount = notificationsCount + 1;
+            setNotificationsCount(newCount);
+        });
+    }, [socket]);
+
 
     function markNotificationsAsSeen() {
         setNotificationsCount(0);

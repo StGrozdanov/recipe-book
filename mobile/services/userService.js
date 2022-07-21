@@ -19,7 +19,7 @@ const USERS_END_POINTS = {
     },
     CHANGE_PASSWORD: (userId) => `${USER_END_POINT}/changePassword/${userId}`,
     USERS_COUNT: `${USER_END_POINT}/count`,
-    GET_ALL_USERS: (page) => `${USER_END_POINT}?skip=${(page - 1)}`,
+    GET_ALL_USERS: `${USER_END_POINT}?limit=1000`,
     UPDATE_AS_ADMIN: (userId) => `${USER_END_POINT}/administrate/profile/${userId}`,
     BLOCK_USER: `${USER_END_POINT}/block`,
     UNBLOCK_USER: (userId) => `${USER_END_POINT}/unblock/${userId}`,
@@ -119,12 +119,12 @@ export async function getTotalUsersCount() {
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
 }
 
-export async function getAllUsers(page) {
-    CALLBACK.call = () => getAllUsers(page);
+export async function getAllUsers() {
+    CALLBACK.call = () => getAllUsers();
 
-    const response = await fetch(BASE_URL + USERS_END_POINTS.GET_ALL_USERS(page), {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.GET_ALL_USERS, {
         method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken())
     });
 
     return handleRequest(response, COULD_NOT_FETCH_USER_COUNT, CALLBACK);

@@ -41,15 +41,15 @@ export default function Dashboard() {
             totalUsersData,
             visitationsTodayData,
             mostActiveUserData,
-        ]).then(res => {
-            const [totalRecipes, totalComments, totalUsers, visitationsToday, mostActiveUser] = res;
+        ]).then(response => {
+            const [totalRecipes, totalComments, totalUsers, visitationsToday, mostActiveUser] = response;
             setTotalRecipes(totalRecipes.recipesCount);
             setTotalComments(totalComments.count);
             setTotalUsers(totalUsers.usersCount);
             setVisitationsToday(visitationsToday.visitationsCount);
             setMostActiveUser(mostActiveUser);
         }).catch(err => console.log(err.message));
-    }, []);
+    }, [totalRecipes, totalComments, totalUsers, visitationsToday]);
 
     return (
         <ScrollView style={{ flex: 1 }}>

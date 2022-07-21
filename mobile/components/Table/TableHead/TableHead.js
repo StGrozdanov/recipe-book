@@ -36,7 +36,7 @@ export default function TableHead({
                 />
                 <View style={tableHeadStyles.leftUserSectionContent}>
                     {
-                        pictureSource
+                        pictureSource && pictureSource !== '/avatar.png'
                             ? <Image
                                 source={{ uri: pictureSource }}
                                 style={tableHeadStyles[theme + 'Avatar']}

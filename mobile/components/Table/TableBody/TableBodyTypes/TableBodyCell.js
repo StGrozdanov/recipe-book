@@ -1,20 +1,10 @@
 import { View, Text } from "react-native";
 import { tableBodyStyles } from "../TableBodyStyleSheet";
 import { useThemeContext } from "../../../../hooks/useThemeContext";
-import { summary } from "../../../../helpers/contentSummary";
 
 const VALID_CELLS = [
-    'Email',
-    'Avatar',
-    'Cover',
     'Status',
-    'Role',
-]
-
-const SUMMARIZED_CELLS = [
-    'Email',
-    'Avatar',
-    'Cover'
+    'primaryRole',
 ]
 
 export default function Cell({ heading, data }) {
@@ -24,13 +14,15 @@ export default function Cell({ heading, data }) {
         return null;
     }
 
+    if (heading === 'primaryRole') {
+        heading = 'Role';
+    }
+
     return (
         <>
             <View>
                 <Text style={tableBodyStyles[theme + 'AdditionalDataHeading']}>{heading}</Text>
-                <Text style={tableBodyStyles[theme + 'AdditionalDataContent']}>
-                    { SUMMARIZED_CELLS.includes(heading) ? summary(data, 3) : data }
-                </Text>
+                <Text style={tableBodyStyles[theme + 'AdditionalDataContent']}>{data}</Text>
             </View>
         </>
     );
