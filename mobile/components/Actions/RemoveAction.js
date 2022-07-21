@@ -6,7 +6,6 @@ import { remove } from "../../services/userService";
 
 export default function RemoveAction({ collection, objectId, removeUser }) {
     async function deleteUserHandler() {
-        console.log('here');
         await remove(objectId);
         removeUser(objectId);
     }

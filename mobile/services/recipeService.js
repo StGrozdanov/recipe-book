@@ -18,7 +18,6 @@ export async function getRecepiesCount() {
         method: 'GET',
         headers: BASE_HEADERS
     });
-
     return handleRequest(response, COULD_NOT_GET_RECEPIES);
 }
 
