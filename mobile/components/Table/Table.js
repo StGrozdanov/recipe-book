@@ -18,6 +18,7 @@ export default function Table({
     blockAction,
     approveAction,
     changeRoleAction,
+    removeUser,
 }) {
     const route = useRoute();
     const [isToggled, setIsToggled] = useState(false);
@@ -69,6 +70,7 @@ export default function Table({
                     removeAction={removeAction}
                     changeRoleAction={changeRoleAction}
                     objectId={data.id}
+                    removeUser={removeUser}
                 />
             }
         </>

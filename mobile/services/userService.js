@@ -52,7 +52,7 @@ export async function remove(userId) {
 
     const response = await fetch(BASE_URL + USERS_END_POINTS.DELETE(userId), {
         method: 'DELETE',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken())
     });
 
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);

@@ -60,6 +60,9 @@ export default function Users() {
         .catch(error => console.log(error.message));
     }, []);
 
+    function removeUser(userId) {
+        setUserData(userData.filter(user => user.id !== userId));
+    }
     return (
         <FlatList
             refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
@@ -79,6 +82,7 @@ export default function Users() {
                     changeRoleAction={true}
                     deleteAction={'user'}
                     editAction={'user'}
+                    removeUser={removeUser}
                 />
             )}
         />

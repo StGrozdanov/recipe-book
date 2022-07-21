@@ -14,15 +14,16 @@ export default function ActionsDropdown({
     changeRoleAction,
     removeAction,
     approveAction,
-    objectId
+    objectId,
+    removeUser,
 }) {
     return (
         <TouchableOpacity style={actionsDropdownStyles.container} >
-            {deleteAction && <DeleteAction collection={deleteAction} />}
+            {deleteAction && <DeleteAction collection={deleteAction} objectId={objectId} removeUser={removeUser} />}
             {editAction && <EditAction collection={editAction} objectId={objectId} />}
             {changeRoleAction && <ChangeRoleAction collection={changeRoleAction} />}
             {blockAction && <BlockAction collection={blockAction} />}
-            {removeAction && <RemoveAction collection={removeAction} />}
+            {removeAction && <RemoveAction collection={removeAction} objectId={objectId} removeUser={removeUser} />}
             {approveAction && <ApproveAction collection={approveAction} />}
         </TouchableOpacity>
     );
