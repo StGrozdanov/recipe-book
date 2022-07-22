@@ -27,7 +27,7 @@ export default function ActionsDropdown({
             {changeRoleAction && <ChangeRoleAction collection={changeRoleAction} userId={objectId} userRole={userRole} />}
             {blockAction && !userIsBlocked && <BlockAction collection={blockAction} userId={objectId} setDropdownIsExpanded={setDropdownIsExpanded} />}
             {blockAction && userIsBlocked && <UnblockAction collection={blockAction} userId={objectId} setDropdownIsExpanded={setDropdownIsExpanded} />}
-            {approveAction && <ApproveAction collection={approveAction} />}
+            {approveAction && <ApproveAction collection={approveAction} recipeId={objectId} setDropdownIsExpanded={setDropdownIsExpanded} />}
         </TouchableOpacity>
     );
 }

@@ -36,7 +36,7 @@ export async function removeRecipe(id) {
 export async function approveRecipe(recipeId) {
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.APPROVE_RECIPE(recipeId), {
         method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken())
     });
 
     return handleRequest(response, COULD_NOT_APPROVE_RECEPIE);
