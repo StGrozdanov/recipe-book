@@ -8,17 +8,18 @@ export const modalStyles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    modalContainer: {
+    lightModalContainer: {
         width: '80%',
-        backgroundColor: 'white',
+        backgroundColor: '#c2c2e9',
         paddingHorizontal: 30,
         paddingVertical: 40,
         borderRadius: 25,
         elevation: 20,
     },
 
-    message: {
+    lightMessage: {
         textAlign: 'center',
+        lineHeight: 25,
     },
 
     buttonsContainer: {
@@ -31,7 +32,7 @@ export const modalStyles = StyleSheet.create({
         borderRadius: 25, 
         paddingVertical: 6, 
         paddingHorizontal: 12, 
-        backgroundColor: 'green',
+        backgroundColor: '#0080008a',
     },
 
     buttonText: {
@@ -42,7 +43,22 @@ export const modalStyles = StyleSheet.create({
         borderRadius: 25, 
         paddingVertical: 5, 
         paddingHorizontal: 10, 
-        backgroundColor: 'red',
+        backgroundColor: '#ff00008a',
     },
+
+    darkModalContainer: {
+        backgroundColor: 'rgba(124,113,192,1)',
+        width: '80%',
+        paddingHorizontal: 30,
+        paddingVertical: 40,
+        borderRadius: 25,
+        elevation: 20,
+    },
+
+    darkMessage: {
+        color: 'floralwhite',
+        textAlign: 'center',
+        lineHeight: 25,
+    }
 
 });
