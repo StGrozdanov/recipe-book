@@ -35,7 +35,7 @@ export async function globalSearchAdmin(query) {
 
     const response = await fetch(BASE_URL + FILTRATION_END_POINTS.GLOBAL_SEARCH_ADMIN(query), {
         method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken()),
     });
     return handleRequest(response, COULD_NOT_SEARCH, CALLBACK);
 }

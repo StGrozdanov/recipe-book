@@ -13,11 +13,35 @@ export const actionStyles = StyleSheet.create({
 
     text: {
         color: 'white',
+        textAlign: 'center',
     },
 
     icons: {
         position: "absolute",
         top: '70%',
         left: '10%',
-    }
+    },
+
+    searchAction: {
+        borderColor: 'white',
+        paddingVertical: 7,
+        paddingHorizontal: 30,
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        flexDirection: "row",
+        borderBottomEndRadius: 20,
+        borderBottomStartRadius: 20,
+        borderBottomWidth: 0.7,
+    },
+
+    darkSearchIcons: {
+        position: "absolute",
+        left: '12%',
+    },
+
+    lightSearchIcons: {
+        position: "absolute",
+        left: '8%',
+    },
 });

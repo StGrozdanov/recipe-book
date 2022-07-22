@@ -19,6 +19,7 @@ export const headerStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
+        zIndex: 5,
     },
 
     lightAvatar: {
