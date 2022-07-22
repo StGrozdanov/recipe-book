@@ -124,9 +124,10 @@ export default function Header({ notificationsCount, markNotificationsAsSeen }) 
                         {
                             globalSearchResults.map(result => {
                                 return (
-                                    <TouchableOpacity 
-                                        style={actionStyles.searchAction} 
+                                    <TouchableOpacity
+                                        style={actionStyles.searchAction}
                                         onPress={() => searchRedirectHandler(result.name, result.resultType)}
+                                        key={result.name}
                                     >
                                         {iconTypes[result.resultType]}
                                         <Text style={actionStyles.text}>{result.name}</Text>

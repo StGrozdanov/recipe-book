@@ -21,7 +21,7 @@ const chartData = {
     ],
 }
 
-export default function Dashboard({navigation}) {
+export default function Dashboard() {
     const [totalRecipes, setTotalRecipes] = useState(null);
     const [totalComments, setTotalComments] = useState(null);
     const [totalUsers, setTotalUsers] = useState(null);

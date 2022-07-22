@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
-import * as Device from 'expo-device';
 import { Dimensions } from 'react-native';
+import * as Device from 'expo-device';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

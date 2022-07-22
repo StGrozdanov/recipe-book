@@ -56,6 +56,14 @@ export const notificationStyles = StyleSheet.create({
     sender: {
         fontSize: 15,
         fontWeight: '400',
-    },  
+    },
+
+    noNotificationsText: {
+        flex: 1,
+        textAlign: 'center',
+        marginTop: '50%',
+        fontSize: 20,
+        color: 'rgba(124,113,192,1)'
+    },
 
 });
