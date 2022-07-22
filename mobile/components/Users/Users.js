@@ -63,6 +63,7 @@ export default function Users() {
     function removeUser(userId) {
         setUserData(userData.filter(user => user.id !== userId));
     }
+    
     return (
         <FlatList
             refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}

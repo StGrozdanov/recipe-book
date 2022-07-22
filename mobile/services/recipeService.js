@@ -10,7 +10,7 @@ const RECIPE_END_POINTS = {
     SINGLE_RECIPE: (id) => `${RECEPIES_END_POINT}/${id}`,
     APPROVE_RECIPE: (recipeId) => `${RECEPIES_END_POINT}/approve/${recipeId}`,
     MOST_ACTIVE_USER: `${RECEPIES_END_POINT}/most-active-user`,
-    ALL_RECIPES_ADMIN: (page) => `${RECEPIES_END_POINT}/admin?skip=${(page - 1)}`,
+    ALL_RECIPES_ADMIN: `${RECEPIES_END_POINT}/admin?limit=1000`,
 }
 
 export async function getRecepiesCount() {
@@ -26,7 +26,7 @@ export async function removeRecipe(id) {
 
     const options = {
         method: 'DELETE',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken())
     };
 
     const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), options);
@@ -52,11 +52,11 @@ export async function findTheMostActiveUser() {
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
 }
 
-export async function getAllRecipesAdmin(page) {
-    CALLBACK.call = () => getAllRecipesAdmin(page);
+export async function getAllRecipesAdmin() {
+    CALLBACK.call = () => getAllRecipesAdmin();
 
-    const response = await fetch(`${BASE_URL}${RECIPE_END_POINTS.ALL_RECIPES_ADMIN(page)}`, {
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+    const response = await fetch(`${BASE_URL}${RECIPE_END_POINTS.ALL_RECIPES_ADMIN}`, {
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken()),
     });
 
     return handleRequest(response, COULD_NOT_GET_RECEPIES, CALLBACK);

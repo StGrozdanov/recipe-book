@@ -48,7 +48,7 @@ export default function Comments() {
                     isFirst={sortedData[0].id === item.id}
                     isLast={sortedData[sortedData.length - 1].id === item.id}
                     blockAction={'user'}
-                    removeAction={'comment'}
+                    deleteAction={'comment'}
                 />
             )}
         />

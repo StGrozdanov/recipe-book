@@ -14,11 +14,11 @@ export default function Table({
     pictureSource,
     deleteAction,
     editAction,
-    removeAction,
     blockAction,
     approveAction,
     changeRoleAction,
     removeUser,
+    removeRecipe,
 }) {
     const route = useRoute();
     const [isToggled, setIsToggled] = useState(false);
@@ -67,13 +67,13 @@ export default function Table({
                     editAction={editAction}
                     blockAction={blockAction}
                     approveAction={approveAction}
-                    removeAction={removeAction}
                     changeRoleAction={changeRoleAction}
                     objectId={data.id}
                     userRole={data.primaryRole}
                     removeUser={removeUser}
                     setDropdownIsExpanded={setDropdownIsExpanded}
                     userIsBlocked={data.blocked}
+                    removeRecipe={removeRecipe}
                 />
             }
         </>

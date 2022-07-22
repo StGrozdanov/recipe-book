@@ -4,6 +4,11 @@ import { useThemeContext } from "../../../../hooks/useThemeContext";
 
 export default function Status({ status }) {
     const { theme } = useThemeContext();
+    if (status == 'одобрена') {
+        status = 'Approved';
+    } else if (status == 'изчакваща') {
+        status = 'Pending'
+    }
 
     return (
         <View>
