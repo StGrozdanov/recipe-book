@@ -5,13 +5,16 @@ import { useRoute } from "@react-navigation/native";
 import { useDataParamSort } from "../../hooks/useDataParamSort";
 import { summary } from "../../helpers/contentSummary";
 import { getAllRecipesAdmin } from "../../services/recipeService";
-import Table from "../Table/Table";
 import { useSearchContext } from "../../hooks/useSearchContext";
+import Table from "../Table/Table";
+import SuccessModal from "../ModalDialogue/SuccessModal";
 
 export default function Recepies() {
     const [refreshData, setRefreshData] = useState(false);
     const [recipeData, setRecipeData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
     const { search } = useSearchContext();
     const route = useRoute();
     const sortedData = useDataParamSort(recipeData, route.params.itemId);
@@ -85,6 +88,8 @@ export default function Recepies() {
                         approveAction={item.statusName == 'одобрена' ? false : 'recipe'}
                         deleteAction={'recipe'}
                         removeRecipe={removeRecipe}
+                        setSuccessMessage={setSuccessMessage}
+                        setShowSuccessMessage={setShowSuccessMessage}
                     />
                 )}
             />
@@ -95,6 +100,11 @@ export default function Recepies() {
                     style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}
                 />
             }
+            <SuccessModal
+                visible={showSuccessMessage}
+                setVisible={setShowSuccessMessage}
+                message={successMessage}
+            />
         </>
     );
 }

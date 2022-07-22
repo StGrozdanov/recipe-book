@@ -9,7 +9,13 @@ import { useThemeContext } from "../../hooks/useThemeContext";
 import ModalDialogue from "../ModalDialogue/ModalDialogue";
 import { blockUser } from "../../services/userService";
 
-export default function BlockAction({ collection, userId, setDropdownIsExpanded }) {
+export default function BlockAction({ 
+    collection, 
+    userId, 
+    setDropdownIsExpanded, 
+    setSuccessMessage, 
+    setShowSuccessMessage 
+}) {
     const [showModal, setShowModal] = useState(false);
     const [inputIsFocused, setInputIsFocused] = useState(false);
     const [reason, setReason] = useState('');
@@ -19,6 +25,8 @@ export default function BlockAction({ collection, userId, setDropdownIsExpanded 
         await blockUser(userId, reason); 
         setShowModal(false);
         setDropdownIsExpanded(false);
+        setShowSuccessMessage(true);
+        setSuccessMessage('Успешно блокирахте потребителя.')
     }
 
     return (

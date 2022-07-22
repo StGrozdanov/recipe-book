@@ -5,13 +5,16 @@ import { useCallback, useEffect, useState } from "react";
 import { useDataParamSort } from '../../hooks/useDataParamSort';
 import { useRoute } from "@react-navigation/native";
 import { getAllCommentsAdmin } from "../../services/commentService";
-import Table from "../Table/Table";
 import { useSearchContext } from "../../hooks/useSearchContext";
+import Table from "../Table/Table";
+import SuccessModal from "../ModalDialogue/SuccessModal";
 
 export default function Comments() {
     const [refreshData, setRefreshData] = useState(false);
     const [commentData, setCommentData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
     const { search } = useSearchContext();
     const route = useRoute();
     const sortedData = useDataParamSort(commentData, route.params.itemId);
@@ -82,6 +85,8 @@ export default function Comments() {
                         blockAction={'user'}
                         deleteAction={'comment'}
                         removeComment={removeComment}
+                        setSuccessMessage={setSuccessMessage}
+                        setShowSuccessMessage={setShowSuccessMessage}
                     />
                 )}
             />
@@ -92,6 +97,11 @@ export default function Comments() {
                     style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}
                 />
             }
+            <SuccessModal
+                visible={showSuccessMessage}
+                setVisible={setShowSuccessMessage}
+                message={successMessage}
+            />
         </>
     );
 }

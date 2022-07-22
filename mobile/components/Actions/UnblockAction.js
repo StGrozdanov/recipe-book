@@ -4,10 +4,18 @@ import { actionStyles } from "./ActionsStyleSheet";
 import { faBan } from '@fortawesome/free-solid-svg-icons/faBan';
 import { unblockUser } from "../../services/userService";
 
-export default function UnblockAction({ collection, userId, setDropdownIsExpanded }) {    
+export default function UnblockAction({ 
+    collection, 
+    userId, 
+    setDropdownIsExpanded, 
+    setSuccessMessage, 
+    setShowSuccessMessage 
+}) {    
     async function unblockUserHandler() {
         await unblockUser(userId);
         setDropdownIsExpanded(false);
+        setSuccessMessage('Успешно отблокирахте потребителя');
+        setShowSuccessMessage(true);
     }
     return (
         <>

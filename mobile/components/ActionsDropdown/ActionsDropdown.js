@@ -20,6 +20,8 @@ export default function ActionsDropdown({
     userIsBlocked,
     removeRecipe,
     removeComment,
+    setSuccessMessage,
+    setShowSuccessMessage,
 }) {
     return (
         <TouchableOpacity style={actionsDropdownStyles.container} >
@@ -55,6 +57,8 @@ export default function ActionsDropdown({
                     collection={blockAction}
                     userId={objectId}
                     setDropdownIsExpanded={setDropdownIsExpanded}
+                    setSuccessMessage={setSuccessMessage}
+                    setShowSuccessMessage={setShowSuccessMessage}
                 />
             }
             {
@@ -63,6 +67,8 @@ export default function ActionsDropdown({
                     collection={blockAction}
                     userId={objectId}
                     setDropdownIsExpanded={setDropdownIsExpanded}
+                    setSuccessMessage={setSuccessMessage}
+                    setShowSuccessMessage={setShowSuccessMessage}
                 />
             }
             {
@@ -71,6 +77,8 @@ export default function ActionsDropdown({
                     collection={approveAction}
                     recipeId={objectId}
                     setDropdownIsExpanded={setDropdownIsExpanded}
+                    setSuccessMessage={setSuccessMessage}
+                    setShowSuccessMessage={setShowSuccessMessage}
                 />
             }
         </TouchableOpacity>

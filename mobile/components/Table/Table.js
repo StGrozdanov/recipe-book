@@ -20,6 +20,8 @@ export default function Table({
     removeUser,
     removeRecipe,
     removeComment,
+    setSuccessMessage,
+    setShowSuccessMessage,
 }) {
     const route = useRoute();
     const [isToggled, setIsToggled] = useState(false);
@@ -76,6 +78,8 @@ export default function Table({
                     userIsBlocked={data.blocked}
                     removeRecipe={removeRecipe}
                     removeComment={removeComment}
+                    setSuccessMessage={setSuccessMessage}
+                    setShowSuccessMessage={setShowSuccessMessage}
                 />
             }
         </>

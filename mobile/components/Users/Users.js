@@ -8,12 +8,15 @@ import { getAllUsers } from "../../services/userService";
 import socket from "../../services/socketioService";
 import { getCurrentUser } from "../../services/authenticationService";
 import { useSearchContext } from "../../hooks/useSearchContext";
+import SuccessModal from "../ModalDialogue/SuccessModal";
 
 export default function Users() {
     const [refreshData, setRefreshData] = useState(false);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [userData, setUserData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
     const { search } = useSearchContext();
     const route = useRoute();
     const sortedData = useDataParamSort(userData, route.params.itemId);
@@ -102,6 +105,8 @@ export default function Users() {
                         deleteAction={'user'}
                         editAction={'user'}
                         removeUser={removeUser}
+                        setSuccessMessage={setSuccessMessage}
+                        setShowSuccessMessage={setShowSuccessMessage}
                     />
                 )}
             />
@@ -112,6 +117,11 @@ export default function Users() {
                     style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}
                 />
             }
+            <SuccessModal
+                visible={showSuccessMessage}
+                setVisible={setShowSuccessMessage}
+                message={successMessage}
+            />
         </>
     );
 }
