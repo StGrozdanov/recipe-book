@@ -1,11 +1,11 @@
 import { FlatList, RefreshControl } from "react-native";
 import { userStyles } from "../Users/UserStyleSheet";
-import Table from "../Table/Table";
 import { summary } from "../../helpers/contentSummary";
 import { useCallback, useEffect, useState } from "react";
 import { useDataParamSort } from '../../hooks/useDataParamSort';
 import { useRoute } from "@react-navigation/native";
 import { getAllCommentsAdmin } from "../../services/commentService";
+import Table from "../Table/Table";
 
 export default function Comments() {
     const [refreshData, setRefreshData] = useState(false);

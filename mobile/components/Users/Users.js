@@ -19,13 +19,12 @@ export default function Users() {
         getCurrentUser().then(response => {
             socket.emit("checkForOnlineUsers", response);
         })
-    }, []);
+    }, [refreshData]);
 
     useEffect(() => {
         socket.on('connectedUsers', data => {
             data.forEach(user => {
                 setOnlineUsers(() => {
-                    onlineUsers.length = 0;
                     onlineUsers.push(user.userId);
                 });
             });

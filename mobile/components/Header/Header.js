@@ -36,8 +36,8 @@ export default function Header({ notificationsCount, markNotificationsAsSeen }) 
     }
 
     function showNotificationsHandler() {
-        navigator.navigate('Notifications');
         markNotificationsAsSeen();
+        navigator.navigate('Notifications');
     }
 
     return (

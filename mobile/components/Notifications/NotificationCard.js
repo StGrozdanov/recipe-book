@@ -4,24 +4,33 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
 import { notificationStyles } from './NotificationsStyleSheet';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { markNotificationAsRead } from '../../services/notificationService';
+
+const actionTranslator = {
+    коментар: 'comment',
+    рецепта: 'recipe',
+}
 
 export default function NotificationCard({ action, locationId, objectId, senderAvatar, senderName, createdAt }) {
     const [notificationDismissed, setNotificationDismissed] = useState(false);
     const navigator = useNavigation();
 
-    function redirectHandler(action, locationId, notificationId) {
+    async function redirectHandler(action, locationId, notificationId) {
         let collectionName = action.split(' ')[1];
-        const path = collectionName.substring(0, 1).toUpperCase() + collectionName.substring(1, collectionName.length) + 's';
+        collectionName = actionTranslator[collectionName];
+        const path = collectionName.substring(0, 1).toUpperCase() + 
+                    collectionName.substring(1, collectionName.length) + 's';
 
-        TODO: //request to modify notification and mark it as read by the supplied notificationId
+        await markNotificationAsRead(notificationId);
+        setNotificationDismissed(true);
 
         navigator.navigate(path, {
             itemId: locationId,
         });
     }
 
-    function dismissHandler(notificationId) {
-        TODO: //request to modify notification and mark it as read by the supplied notificationId
+    async function dismissHandler(notificationId) {
+        await markNotificationAsRead(notificationId);
         setNotificationDismissed(true);
     }
 
@@ -33,7 +42,7 @@ export default function NotificationCard({ action, locationId, objectId, senderA
                 <View style={notificationStyles.section} >
                     <View style={notificationStyles.leftUserSectionContent}>
                         {
-                            senderAvatar
+                            senderAvatar && senderAvatar !== 'null'
                                 ? <Image
                                     source={{ uri: senderAvatar }}
                                     style={notificationStyles.avatar}
@@ -45,7 +54,7 @@ export default function NotificationCard({ action, locationId, objectId, senderA
                         }
                         <Text style={notificationStyles.text}>
                             <Text style={notificationStyles.sender}>{senderName + ' '}</Text>
-                            {action + ' ' + createdAt}
+                            {action + ', ' + createdAt.replace('T', ', ').substring(5, 17) + ' '}
                         </Text>
                     </View>
                     <TouchableOpacity

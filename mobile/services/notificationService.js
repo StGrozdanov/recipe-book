@@ -38,7 +38,7 @@ export async function markNotificationAsRead(notificationId) {
 
     const options = {
         method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken()),
     };
     
     const response = await fetch(BASE_URL + NOTIFICATIONS_END_POINTS.MARK_AS_READ(notificationId), options);
