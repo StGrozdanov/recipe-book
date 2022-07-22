@@ -24,26 +24,26 @@ export const modalStyles = StyleSheet.create({
     },
 
     buttonsContainer: {
-        flexDirection: "row", 
-        justifyContent: "space-around", 
+        flexDirection: "row",
+        justifyContent: "space-around",
         marginTop: 40,
     },
 
     confirmButton: {
-        borderRadius: 25, 
-        paddingVertical: 6, 
-        paddingHorizontal: 12, 
+        borderRadius: 25,
+        paddingVertical: 6,
+        paddingHorizontal: 12,
         backgroundColor: '#0080008a',
     },
 
     buttonText: {
-        color: 'white', 
+        color: 'white',
     },
 
     cancelButton: {
-        borderRadius: 25, 
-        paddingVertical: 5, 
-        paddingHorizontal: 10, 
+        borderRadius: 25,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
         backgroundColor: '#ff00008a',
     },
 
@@ -67,6 +67,7 @@ export const modalStyles = StyleSheet.create({
         position: 'absolute',
         top: '10%',
         right: '7%',
+        fontWeight: '1000',
     },
 
     optionsContainer: {
@@ -75,6 +76,53 @@ export const modalStyles = StyleSheet.create({
         justifyContent: 'space-between',
         textAlign: 'center',
         marginTop: 20,
+    },
+
+    lightOptionsText: {
+        marginLeft: 11,
+        fontSize: 15,
+        alignSelf: "center",
+    },
+
+    darkOptionsText: {
+        marginLeft: 11,
+        color: 'floralwhite',
+        fontSize: 15,
+        alignSelf: "center",
+    },
+
+    lightOptionColor: {
+        height: 24,
+        width: 24,
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: 'rgba(124,113,192,0.9)',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    darkOptionColor: {
+        height: 24,
+        width: 24,
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: 'floralwhite',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    lightSelectColor: {
+        height: 10,
+        width: 10,
+        borderRadius: 6,
+        backgroundColor: 'rgba(124,113,192,0.45)',
+    },
+
+    darkSelectColor: {
+        height: 10,
+        width: 10,
+        borderRadius: 6,
+        backgroundColor: 'floralwhite',
     },
 
 });
