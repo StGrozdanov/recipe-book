@@ -160,7 +160,7 @@ export async function changeUserRole(userId, role) {
 
     const response = await fetch(BASE_URL + USERS_END_POINTS.CHANGE_ROLE(userId), {
         method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken()),
         body: JSON.stringify({ role })
     });
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);

@@ -1,14 +1,14 @@
 import { View, ScrollView } from "react-native";
 import { dashboardStyles } from "./DashboardStyleSheet";
-import StatsCard from "../StatsCard/StatsCard";
-import Chart from "../StatisticChart/Chart";
-import UserCard from "../UserCard/UserCard";
 import { getRecepiesCount } from "../../services/recipeService";
 import { getTotalCommentsCount } from "../../services/commentService";
 import { getTotalUsersCount } from "../../services/userService";
 import { getVisitationsToday } from "../../services/visitationsService";
 import { findTheMostActiveUser } from "../../services/recipeService";
 import { useEffect, useState } from "react";
+import StatsCard from "../StatsCard/StatsCard";
+import Chart from "../StatisticChart/Chart";
+import UserCard from "../UserCard/UserCard";
 
 const chartData = {
     labels: ["Март", "Април", "Май", "Юни", "Юли", "Август"],
@@ -21,7 +21,7 @@ const chartData = {
     ],
 }
 
-export default function Dashboard() {
+export default function Dashboard({navigation}) {
     const [totalRecipes, setTotalRecipes] = useState(null);
     const [totalComments, setTotalComments] = useState(null);
     const [totalUsers, setTotalUsers] = useState(null);
@@ -49,7 +49,7 @@ export default function Dashboard() {
             setVisitationsToday(visitationsToday.visitationsCount);
             setMostActiveUser(mostActiveUser);
         }).catch(err => console.log(err.message));
-    }, [totalRecipes, totalComments, totalUsers, visitationsToday]);
+    }, [totalRecipes, totalComments, totalUsers, visitationsToday, mostActiveUser.username]);
 
     return (
         <ScrollView style={{ flex: 1 }}>

@@ -70,6 +70,7 @@ export default function Table({
                     removeAction={removeAction}
                     changeRoleAction={changeRoleAction}
                     objectId={data.id}
+                    userRole={data.primaryRole}
                     removeUser={removeUser}
                     setDropdownIsExpanded={setDropdownIsExpanded}
                 />

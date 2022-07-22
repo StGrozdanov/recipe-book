@@ -15,6 +15,7 @@ export const modalStyles = StyleSheet.create({
         paddingVertical: 40,
         borderRadius: 25,
         elevation: 20,
+        position: 'relative',
     },
 
     lightMessage: {
@@ -53,12 +54,27 @@ export const modalStyles = StyleSheet.create({
         paddingVertical: 40,
         borderRadius: 25,
         elevation: 20,
+        position: "relative",
     },
 
     darkMessage: {
         color: 'floralwhite',
         textAlign: 'center',
         lineHeight: 25,
-    }
+    },
+
+    xMark: {
+        position: 'absolute',
+        top: '10%',
+        right: '7%',
+    },
+
+    optionsContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        textAlign: 'center',
+        marginTop: 20,
+    },
 
 });
