@@ -6,8 +6,8 @@ import { COULD_NOT_SEARCH } from "../constants/errorMessages.js";
 
 const FILTRATION_END_POINTS = {
     FIND_RECIPES_BY_NAME_CONTAINS: (query) => { return `${RECEPIES_END_POINT}/search-by-name?whereName=${query}` },
-    FIND_RECIPES_BY_NAME_CONTAINS_ADMIN: (query, page) => {
-        return `/recipes/admin/search-by-name?whereName=${query}&page=${(page - 1)}`
+    FIND_RECIPES_BY_NAME_CONTAINS_ADMIN: (query) => {
+        return `/recipes/admin/search-by-name?whereName=${query}&limit=1000`
     },
     GLOBAL_SEARCH_ADMIN: (query) => `/global-search/admin?where=${query}`,
 }
@@ -20,12 +20,12 @@ export async function searchByRecipeName(query) {
     return handleRequest(response, COULD_NOT_SEARCH);
 }
 
-export async function searchByRecipeNameAdmin(query, page) {
-    CALLBACK.call = () => searchByRecipeNameAdmin(query, page);
+export async function searchByRecipeNameAdmin(query) {
+    CALLBACK.call = () => searchByRecipeNameAdmin(query);
 
-    const response = await fetch(BASE_URL + FILTRATION_END_POINTS.FIND_RECIPES_BY_NAME_CONTAINS_ADMIN(query, page), {
+    const response = await fetch(BASE_URL + FILTRATION_END_POINTS.FIND_RECIPES_BY_NAME_CONTAINS_ADMIN(query), {
         method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken())
     });
     return handleRequest(response, COULD_NOT_SEARCH, CALLBACK);
 }

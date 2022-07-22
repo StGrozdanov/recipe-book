@@ -24,8 +24,8 @@ const USERS_END_POINTS = {
     BLOCK_USER: `${USER_END_POINT}/block`,
     UNBLOCK_USER: (userId) => `${USER_END_POINT}/unblock/${userId}`,
     CHANGE_ROLE: (userId) => `${USER_END_POINT}/change-role/${userId}`,
-    SEARCH_USERS: (query, page) => {
-        return `${USER_END_POINT}/search-by-username?whereUsername=${query}&skip=${(page - 1)}`
+    SEARCH_USERS: (query) => {
+        return `${USER_END_POINT}/search-by-username?whereUsername=${query}&limit=1000`
     },
 }
 
@@ -166,12 +166,12 @@ export async function changeUserRole(userId, role) {
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
 }
 
-export async function searchUsersByUsername(page, query) {
-    CALLBACK.call = () => searchUsersByUsername(page, query);
+export async function searchUsersByUsername(query) {
+    CALLBACK.call = () => searchUsersByUsername(query);
 
-    const response = await fetch(BASE_URL + USERS_END_POINTS.SEARCH_USERS(query, page), {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.SEARCH_USERS(query), {
         method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken())
     });
 
     return handleRequest(response, COULD_NOT_FETCH_USER_COUNT, CALLBACK);

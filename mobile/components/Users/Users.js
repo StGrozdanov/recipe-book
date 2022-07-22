@@ -7,13 +7,26 @@ import { useDataParamSort } from "../../hooks/useDataParamSort";
 import { getAllUsers } from "../../services/userService";
 import socket from "../../services/socketioService";
 import { getCurrentUser } from "../../services/authenticationService";
+import { useSearchContext } from "../../hooks/useSearchContext";
 
 export default function Users() {
     const [refreshData, setRefreshData] = useState(false);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [userData, setUserData] = useState([]);
+    const { search } = useSearchContext();
     const route = useRoute();
     const sortedData = useDataParamSort(userData, route.params.itemId);
+
+    useEffect(() => {
+        if (search && search.collection == 'Users') {
+            const results = search.results.map(user => {
+                user.Profile = user.id;
+                onlineUsers.includes(user.id) ? user.Status = 'online' : user.Status = 'offline';
+                return user;
+            });
+            setUserData(results);
+        }
+    }, [search]);
 
     useEffect(() => {
         getCurrentUser().then(response => {

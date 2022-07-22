@@ -6,12 +6,26 @@ import { useDataParamSort } from "../../hooks/useDataParamSort";
 import { summary } from "../../helpers/contentSummary";
 import { getAllRecipesAdmin } from "../../services/recipeService";
 import Table from "../Table/Table";
+import { useSearchContext } from "../../hooks/useSearchContext";
 
 export default function Recepies() {
     const [refreshData, setRefreshData] = useState(false);
     const [recipeData, setRecipeData] = useState([]);
+    const { search } = useSearchContext();
     const route = useRoute();
     const sortedData = useDataParamSort(recipeData, route.params.itemId);
+
+    useEffect(() => {
+        if (search && search.collection == 'Recipes') {
+            const results = search.results.map(recipe => {
+                recipe.Owner = recipe.ownerId;
+                recipe.Location = recipe.id;
+                recipe.Status = recipe.statusName;
+                return recipe;
+            });
+            setRecipeData(results);
+        }
+    }, [search]);
 
     useEffect(() => {
         getAllRecipesAdmin()

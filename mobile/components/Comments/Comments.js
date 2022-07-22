@@ -6,12 +6,25 @@ import { useDataParamSort } from '../../hooks/useDataParamSort';
 import { useRoute } from "@react-navigation/native";
 import { getAllCommentsAdmin } from "../../services/commentService";
 import Table from "../Table/Table";
+import { useSearchContext } from "../../hooks/useSearchContext";
 
 export default function Comments() {
     const [refreshData, setRefreshData] = useState(false);
     const [commentData, setCommentData] = useState([]);
+    const { search } = useSearchContext();
     const route = useRoute();
     const sortedData = useDataParamSort(commentData, route.params.itemId);
+
+    useEffect(() => {
+        if (search && search.collection == 'Comments') {
+            const results = search.results.map(comment => {
+                comment.Owner = comment.ownerId;
+                comment.Location = comment.id;
+                return comment;
+            });
+            setCommentData(results);
+        }
+    }, [search]);
 
     useEffect(() => {
         getAllCommentsAdmin()

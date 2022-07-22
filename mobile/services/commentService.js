@@ -9,8 +9,8 @@ const COMMENT_REQUEST_POINTS = {
     GET_SINGLE_COMMENT: (id) => { return `${COMMENT_END_POINT}/${id}` },
     TOTAL_COMMENTS_COUNT: `${COMMENT_END_POINT}/count`,
     GET_ALL_COMMENTS: `${COMMENT_END_POINT}/admin?limit=1000`,
-    SEARCH_BY_COMMENT_CONTENT: (query, page) => {
-        return `${COMMENT_END_POINT}/search-by-content?whereContent=${query}&page=${page}`;
+    SEARCH_BY_COMMENT_CONTENT: (query) => {
+        return `${COMMENT_END_POINT}/search-by-content?whereContent=${query}&limit=1000`;
     },
 }
 
@@ -46,11 +46,11 @@ export async function getAllCommentsAdmin() {
     return handleRequest(response, COULD_NOT_FETCH_COMMENTS, CALLBACK);
 }
 
-export async function searchComments(query, page) {
-    CALLBACK.call = () => searchComments(query, page);
+export async function searchComments(query) {
+    CALLBACK.call = () => searchComments(query);
 
-    const response = await fetch(`${BASE_URL}${COMMENT_REQUEST_POINTS.SEARCH_BY_COMMENT_CONTENT(query, page)}`, {
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+    const response = await fetch(`${BASE_URL}${COMMENT_REQUEST_POINTS.SEARCH_BY_COMMENT_CONTENT(query)}`, {
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken()),
     });
 
     return handleRequest(response, COULD_NOT_FETCH_COMMENTS, CALLBACK);

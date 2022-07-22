@@ -13,15 +13,17 @@ import Settings from './components/Settings/Settings';
 import UserProfile from './components/UserProfile/UserProfile';
 import Notifications from './components/Notifications/Notifications';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
+import { SearchProvider } from './contexts/SearchContext';
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {  
+export default function App() {
   registerNNPushToken(3094, 'pEa4I5l9hs6NeKhmJUSoIA');
-  
+
   return (
-      <AuthProvider>
-        <ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <SearchProvider>
           <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false, animation: 'none' }}>
 
@@ -51,7 +53,8 @@ export default function App() {
 
             </Stack.Navigator>
           </NavigationContainer>
-        </ThemeProvider>
-      </AuthProvider>
+        </SearchProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }

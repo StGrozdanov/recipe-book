@@ -7,19 +7,42 @@ import { faMoon } from '@fortawesome/free-regular-svg-icons/faMoon';
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons/faLightbulb';
 import { headerStyle } from "./HeaderStyleSheet";
 import { greetingGenerator } from "../../helpers/headerGreetingGenerator";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useSearchContext } from "../../hooks/useSearchContext";
 import { userAvatarIsPresent } from "../../helpers/avatarIsPresent";
+import { searchByRecipeNameAdmin } from "../../services/filtrationService";
+import { searchUsersByUsername } from "../../services/userService";
+import { searchComments } from "../../services/commentService";
+
+const searchLocations = {
+    Users: (query) => searchUsersByUsername(query),
+    Recipes: (query) => searchByRecipeNameAdmin(query),
+    Comments: (query) => searchComments(query),
+}
 
 export default function Header({ notificationsCount, markNotificationsAsSeen }) {
     const [showSearchBar, setShowSearchBar] = useState(false);
+    const [searchValue, setSearchValue] = useState(null);
     const { theme, changeTheme } = useThemeContext();
     const { user } = useAuthContext();
+    const { search, setSearch } = useSearchContext();
     const navigationRoute = useRoute();
-    const navigator = useNavigation()
-
+    const navigator = useNavigation();
     const currentPageName = navigationRoute.name;
+
+    useEffect(() => {
+        if (searchValue !== null) {
+            if (searchLocations.hasOwnProperty(currentPageName)) {
+                searchLocations[currentPageName](searchValue)
+                    .then(res => {
+                        setSearch({ results: res.content, collection: currentPageName });
+                    });
+            }
+        }
+    }, [searchValue])
+
     const currentHour = new Date(Date.now()).getHours();
     const headerMessageGenerator = greetingGenerator(currentPageName, currentHour);
 
@@ -55,6 +78,7 @@ export default function Header({ notificationsCount, markNotificationsAsSeen }) 
                     style={showSearchBar ? headerStyle[theme + 'SearchBar'] : { display: 'none' }}
                     placeholder='type to search...'
                     selectionColor={'#55595c'}
+                    onChangeText={(text) => setSearchValue(text)}
                 />
                 <TouchableOpacity style={headerStyle[theme + 'IconContainer']} onPress={searchBarHandler}>
                     <FontAwesomeIcon
