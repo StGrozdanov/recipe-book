@@ -149,7 +149,7 @@ export async function unblockUser(userId) {
 
     const response = await fetch(BASE_URL + USERS_END_POINTS.UNBLOCK_USER(userId), {
         method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken())
     });
 
     return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);

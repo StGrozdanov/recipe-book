@@ -73,6 +73,7 @@ export default function Table({
                     userRole={data.primaryRole}
                     removeUser={removeUser}
                     setDropdownIsExpanded={setDropdownIsExpanded}
+                    userIsBlocked={data.blocked}
                 />
             }
         </>
