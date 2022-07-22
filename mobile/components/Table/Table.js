@@ -19,6 +19,7 @@ export default function Table({
     changeRoleAction,
     removeUser,
     removeRecipe,
+    removeComment,
 }) {
     const route = useRoute();
     const [isToggled, setIsToggled] = useState(false);
@@ -74,6 +75,7 @@ export default function Table({
                     setDropdownIsExpanded={setDropdownIsExpanded}
                     userIsBlocked={data.blocked}
                     removeRecipe={removeRecipe}
+                    removeComment={removeComment}
                 />
             }
         </>

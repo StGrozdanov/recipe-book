@@ -8,7 +8,7 @@ const COMMENT_END_POINT = '/comments';
 const COMMENT_REQUEST_POINTS = {
     GET_SINGLE_COMMENT: (id) => { return `${COMMENT_END_POINT}/${id}` },
     TOTAL_COMMENTS_COUNT: `${COMMENT_END_POINT}/count`,
-    GET_ALL_COMMENTS: (page) => `${COMMENT_END_POINT}/admin?skip=${(page - 1)}`,
+    GET_ALL_COMMENTS: `${COMMENT_END_POINT}/admin?limit=1000`,
     SEARCH_BY_COMMENT_CONTENT: (query, page) => {
         return `${COMMENT_END_POINT}/search-by-content?whereContent=${query}&page=${page}`;
     },
@@ -29,18 +29,18 @@ export async function removeComment(id) {
 
     const options = {
         method: 'DELETE',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken())
     };
 
     const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(id), options);
     return handleRequest(response, COULD_NOT_DELETE_COMMENT, CALLBACK);
 }
 
-export async function getAllCommentsAdmin(page) {
-    CALLBACK.call = () => getAllCommentsAdmin(page);
+export async function getAllCommentsAdmin() {
+    CALLBACK.call = () => getAllCommentsAdmin();
 
-    const response = await fetch(`${BASE_URL}${COMMENT_REQUEST_POINTS.GET_ALL_COMMENTS(page)}`, {
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+    const response = await fetch(`${BASE_URL}${COMMENT_REQUEST_POINTS.GET_ALL_COMMENTS}`, {
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken()),
     });
 
     return handleRequest(response, COULD_NOT_FETCH_COMMENTS, CALLBACK);

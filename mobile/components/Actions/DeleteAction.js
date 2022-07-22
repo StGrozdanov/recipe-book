@@ -6,13 +6,21 @@ import { remove } from "../../services/userService";
 import { useState } from "react";
 import ConfirmModal from "../ModalDialogue/ConfirmModal";
 import { removeRecipe } from "../../services/recipeService";
+import { removeComment } from "../../services/commentService";
 
 const deleteMessages = {
     userModalMessage: 'Сигурни ли сте, че искате да изтриете този потребител?',
     recipeModalMessage: 'Сигурни ли сте, че искате да изтриете тази рецепта?',
+    commentModalMessage: 'Сигурни ли сте, че искате да изтриете този коментар?',
 }
 
-export default function DeleteAction({ collection, objectId, removeUser, removeRecipe: deleteFromTable }) {
+export default function DeleteAction({
+    collection,
+    objectId,
+    removeUser,
+    removeRecipe: deleteFromTable,
+    removeComment: deleteComment
+}) {
     const [showModal, setShowModal] = useState(false);
 
     async function userDeleteHandler() {
@@ -27,18 +35,25 @@ export default function DeleteAction({ collection, objectId, removeUser, removeR
         deleteFromTable(objectId);
     }
 
+    async function commentDeleteHandler() {
+        setShowModal(true);
+        await removeComment(objectId);
+        deleteComment(objectId);
+    }
+
     const deleteHandlers = {
         user: userDeleteHandler,
         recipe: recipeDeleteHandler,
-    }    
+        comment: commentDeleteHandler
+    }
 
     return (
         <>
-            <ConfirmModal 
-                visible={showModal} 
-                message={deleteMessages[collection + 'ModalMessage']} 
-                triggerFunction={deleteHandlers[collection]} 
-                setVisible={setShowModal} 
+            <ConfirmModal
+                visible={showModal}
+                message={deleteMessages[collection + 'ModalMessage']}
+                triggerFunction={deleteHandlers[collection]}
+                setVisible={setShowModal}
             />
             <TouchableOpacity style={actionStyles.action} onPress={() => setShowModal(true)}>
                 <FontAwesomeIcon style={[actionStyles.text, actionStyles.icons]} icon={faTrashCan} />

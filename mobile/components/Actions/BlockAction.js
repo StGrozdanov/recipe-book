@@ -44,7 +44,7 @@ export default function BlockAction({ collection, userId, setDropdownIsExpanded 
                         },
                     ]}
                     placeholder={'причина...'}
-                    placeholderTextColor={theme == 'light' ? '' : 'floralwhite'}
+                    placeholderTextColor={theme == 'light' ? '#000' : 'floralwhite'}
                     selectionColor={theme == 'light' ? 'rgba(124,113,192,0.9)' : 'floralwhite'}
                     onFocus={() => setInputIsFocused(true)}
                     onBlur={() => setInputIsFocused(false)}

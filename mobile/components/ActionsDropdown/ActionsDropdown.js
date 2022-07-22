@@ -19,15 +19,60 @@ export default function ActionsDropdown({
     userRole,
     userIsBlocked,
     removeRecipe,
+    removeComment,
 }) {
     return (
         <TouchableOpacity style={actionsDropdownStyles.container} >
-            {deleteAction && <DeleteAction collection={deleteAction} objectId={objectId} removeUser={removeUser} removeRecipe={removeRecipe} />}
-            {editAction && <EditAction collection={editAction} objectId={objectId} setDropdownIsExpanded={setDropdownIsExpanded} />}
-            {changeRoleAction && <ChangeRoleAction collection={changeRoleAction} userId={objectId} userRole={userRole} />}
-            {blockAction && !userIsBlocked && <BlockAction collection={blockAction} userId={objectId} setDropdownIsExpanded={setDropdownIsExpanded} />}
-            {blockAction && userIsBlocked && <UnblockAction collection={blockAction} userId={objectId} setDropdownIsExpanded={setDropdownIsExpanded} />}
-            {approveAction && <ApproveAction collection={approveAction} recipeId={objectId} setDropdownIsExpanded={setDropdownIsExpanded} />}
+            {
+                deleteAction &&
+                <DeleteAction
+                    collection={deleteAction}
+                    objectId={objectId}
+                    removeUser={removeUser}
+                    removeRecipe={removeRecipe}
+                    removeComment={removeComment}
+                />
+            }
+            {
+                editAction &&
+                <EditAction
+                    collection={editAction}
+                    objectId={objectId}
+                    setDropdownIsExpanded={setDropdownIsExpanded}
+                />
+            }
+            {
+                changeRoleAction &&
+                <ChangeRoleAction
+                    collection={changeRoleAction}
+                    userId={objectId}
+                    userRole={userRole}
+                />
+            }
+            {
+                blockAction && !userIsBlocked &&
+                <BlockAction
+                    collection={blockAction}
+                    userId={objectId}
+                    setDropdownIsExpanded={setDropdownIsExpanded}
+                />
+            }
+            {
+                blockAction && userIsBlocked &&
+                <UnblockAction
+                    collection={blockAction}
+                    userId={objectId}
+                    setDropdownIsExpanded={setDropdownIsExpanded}
+                />
+            }
+            {
+                approveAction &&
+                <ApproveAction
+                    collection={approveAction}
+                    recipeId={objectId}
+                    setDropdownIsExpanded={setDropdownIsExpanded}
+                />
+            }
         </TouchableOpacity>
     );
 }
