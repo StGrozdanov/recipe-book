@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Modal, StyleSheet, View, Text } from "react-native";
+import { Modal, View } from "react-native";
+import { modalStyles } from './ModalDialogueStyleSheet';
 
 export default function ModalDialogue({ visible, children }) {
     return (
@@ -8,28 +8,11 @@ export default function ModalDialogue({ visible, children }) {
             visible={visible}
             transparent
         >
-            <View style={styles.modalBackground}>
-                <View style={styles.modalContainer}>
+            <View style={modalStyles.modalBackground}>
+                <View style={modalStyles.modalContainer}>
                     {children}
                 </View>
             </View>
         </Modal>
     );
 };
-
-const styles = StyleSheet.create({
-    modalBackground: {
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    modalContainer: {
-        width: '80%',
-        backgroundColor: 'white',
-        paddingHorizontal: 30,
-        paddingVertical: 40,
-        borderRadius: 25,
-        elevation: 20,
-    }
-});
