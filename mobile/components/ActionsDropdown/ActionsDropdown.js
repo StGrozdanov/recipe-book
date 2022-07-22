@@ -24,7 +24,7 @@ export default function ActionsDropdown({
             {deleteAction && <DeleteAction collection={deleteAction} objectId={objectId} removeUser={removeUser} />}
             {editAction && <EditAction collection={editAction} objectId={objectId} setDropdownIsExpanded={setDropdownIsExpanded} />}
             {changeRoleAction && <ChangeRoleAction collection={changeRoleAction} userId={objectId} userRole={userRole} />}
-            {blockAction && <BlockAction collection={blockAction} />}
+            {blockAction && <BlockAction collection={blockAction} userId={objectId} />}
             {removeAction && <RemoveAction collection={removeAction} objectId={objectId} removeUser={removeUser} />}
             {approveAction && <ApproveAction collection={approveAction} />}
         </TouchableOpacity>

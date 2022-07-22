@@ -132,7 +132,7 @@ export async function getAllUsers(page) {
 }
 
 export async function blockUser(id, reason) {
-    CALLBACK.call = () => blockUser(userId, reason);
+    CALLBACK.call = () => blockUser(id, reason);
 
     const response = await fetch(BASE_URL + USERS_END_POINTS.BLOCK_USER, {
         method: 'PATCH',

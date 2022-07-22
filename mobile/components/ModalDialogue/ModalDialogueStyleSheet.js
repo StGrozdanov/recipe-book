@@ -125,4 +125,27 @@ export const modalStyles = StyleSheet.create({
         backgroundColor: 'floralwhite',
     },
 
+    lightInput: {
+        borderBottomColor: 'rgba(124,113,192,0.9)',
+        borderBottomWidth: 0.8,
+        paddingVertical: 10,
+        paddingHorizontal: 25,
+        marginBottom: 20,
+        position: 'relative',
+        fontSize: 18,
+        textAlign: 'center',
+    },
+
+    darkInput: {
+        borderBottomColor: 'floralwhite',
+        color: 'floralwhite',
+        borderBottomWidth: 0.8,
+        paddingVertical: 10,
+        paddingHorizontal: 25,
+        marginBottom: 20,
+        position: 'relative',
+        fontSize: 18,
+        textAlign: 'center',
+    },
+
 });

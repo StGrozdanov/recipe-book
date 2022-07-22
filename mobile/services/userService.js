@@ -25,7 +25,7 @@ const USERS_END_POINTS = {
     UNBLOCK_USER: (userId) => `${USER_END_POINT}/unblock/${userId}`,
     CHANGE_ROLE: (userId) => `${USER_END_POINT}/change-role/${userId}`,
     SEARCH_USERS: (query, page) => {
-       return `${USER_END_POINT}/search-by-username?whereUsername=${query}&skip=${(page - 1)}`
+        return `${USER_END_POINT}/search-by-username?whereUsername=${query}&skip=${(page - 1)}`
     },
 }
 
@@ -107,7 +107,7 @@ export async function changeUserPassword(data) {
         headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
         body: JSON.stringify(data)
     };
-    
+
     return await fetch(`${BASE_URL}${USERS_END_POINTS.CHANGE_PASSWORD(getCurrentUser())}`, options);
 }
 
@@ -133,11 +133,11 @@ export async function getAllUsers() {
 }
 
 export async function blockUser(id, reason) {
-    CALLBACK.call = () => blockUser(userId, reason);
+    CALLBACK.call = () => blockUser(id, reason);
 
     const response = await fetch(BASE_URL + USERS_END_POINTS.BLOCK_USER, {
         method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
+        headers: MODIFIYNG_OPERATIONS_HEADERS(await getUserToken()),
         body: JSON.stringify({ id, reason })
     });
 
