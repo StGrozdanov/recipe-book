@@ -1,9 +1,10 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { THERE_ARE_EMPTY_FIELDS_LEFT, WELCOME } from '../constants/notificationMessages.js';
-import { getCurrentUserUsername, login } from '../services/authenticationService.js';
+import { FORGOTTEN_PASSWORD_MESSAGE, THERE_ARE_EMPTY_FIELDS_LEFT, WELCOME } from '../constants/notificationMessages.js';
+import { forgottenPassword, getCurrentUserUsername, login } from '../services/authenticationService.js';
 import { formContainsEmptyFields } from '../utils/formDataValidator.js';
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 import { notify } from '../utils/notification.js';
+import { reason, showReasonModalDialogue } from '../utils/reasoningModalDialogue.js';
 
 const loginTemplate = (ctx) => html`
 <section id="login-page" class="login formData">
@@ -27,6 +28,9 @@ const loginTemplate = (ctx) => html`
                     <input type="password" name="password" id="password" placeholder="Password">
                 </span>
             </p>
+            <a @click=${forgottenPasswordHandler} href="javascript:void[0]" class="forgotten-password">
+                Забравена парола
+            </a>
             <input class="button submit" type="submit" value="Вход">
         </fieldset>
     </form>
@@ -76,4 +80,38 @@ function showInvalidCredentialsMessage() {
 
 function hideInvalidCredentialsMessage() {
     document.querySelector('.invalid-credentials').style.display = 'none';
+}
+
+function forgottenPasswordHandler(e) {
+    showReasonModalDialogue(shown, FORGOTTEN_PASSWORD_MESSAGE);
+
+    async function shown() {
+        const email = reason;
+
+        showLoadingSpinner(e.target);
+
+        const forgottenPasswordResponse = await forgottenPassword(email);
+
+        if (forgottenPasswordResponse.ok) {
+            const data = await forgottenPasswordResponse.json();
+
+            const sendToUserData = {
+                email,
+                code: data.code,
+                username: data.username,
+            }
+
+            const emailJSResponse = await emailjs
+                .send('service_oqn9vj9', 'template_2actd2b', sendToUserData, 'n0npgfKwhAdyT8_tv');
+
+            if (emailJSResponse.text == 'OK') {
+                notify('Успешно заявихте нова парола. Погледнете имейла си за по-нататъчни инструкции.');
+            } else {
+                notify('В момента имаме проблем с услугата за изпращане на имейли. Моля опитайте пак по-късно.')
+            }
+        } else {
+            notify('Въведохте грешен имейл адрес.')
+        }
+        hideLoadingSpinner();
+    }
 }

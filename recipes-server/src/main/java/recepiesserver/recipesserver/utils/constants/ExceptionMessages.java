@@ -21,4 +21,7 @@ public class ExceptionMessages {
     public static final String BLACKLIST_ALREADY_CONTAINS_IP = "Blacklist already contains one of the ip addresses you attempted to add.";
     public static final String BLACKLIST_DOES_NOT_CONTAIN_IP = "One of the requested user IP to remove from the blacklist is non existent.";
     public static final String INVALID_PASSWORD = "Wrong password.";
+    public static final String USER_EMAIL_NOT_FOUND = "There is no user with the provided email.";
+    public static final String INVALID_CODE = "The provided password reset request code is invalid.";
+    public static final String EXPIRED_CODE = "The provided password reset request code is expired.";
 }

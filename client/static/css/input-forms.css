@@ -269,3 +269,17 @@ input[type='file'] {
     border-radius: 5px;
     background: whitesmoke;
 }
+
+.forgotten-password {
+    margin: 0;
+    margin-bottom: 20px;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #495561;
+    transition: color 0.7s ease-in-out, background-color 0.65s ease-in-out;
+}
+
+.forgotten-password:hover {
+    color: #234465;
+    font-weight: bold;
+}

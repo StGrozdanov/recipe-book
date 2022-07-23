@@ -2,10 +2,7 @@ package recepiesserver.recipesserver.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
-import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
-import recepiesserver.recipesserver.models.dtos.authDTOs.UserPasswordDTO;
-import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
+import recepiesserver.recipesserver.models.dtos.authDTOs.*;
 import recepiesserver.recipesserver.services.AuthenticationService;
 import recepiesserver.recipesserver.utils.constants.Api;
 
@@ -25,7 +22,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(Api.LOGIN)
-    public ResponseEntity<AuthenticatedLoginDTO> Login(HttpServletRequest request,
+    public ResponseEntity<AuthenticatedLoginDTO> login(HttpServletRequest request,
                                                        @RequestBody @Valid UserLoginDTO userLoginDTO) {
         String userIpAddress = getUserIpAddress(request);
         AuthenticatedLoginDTO loginResponse = this.authenticationService.login(userIpAddress, userLoginDTO);
@@ -33,7 +30,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(Api.REGISTER)
-    public ResponseEntity<AuthenticatedLoginDTO> Register(HttpServletRequest request,
+    public ResponseEntity<AuthenticatedLoginDTO> register(HttpServletRequest request,
                                                           @Valid @RequestBody UserRegisterDTO userRegisterDTO) {
         String userIpAddress = getUserIpAddress(request);
         AuthenticatedLoginDTO loginResponse = this.authenticationService.register(userIpAddress, userRegisterDTO);
@@ -41,7 +38,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(Api.LOGOUT)
-    public ResponseEntity<?> Logout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
         this.authenticationService.logout(request, response);
         return ResponseEntity.ok().build();
     }

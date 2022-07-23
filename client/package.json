@@ -20,6 +20,7 @@
   "homepage": "https://github.com/StGrozdanov/recipe-book#readme",
   "dependencies": {
     "chart.js": "^3.8.0",
+    "emailjs-com": "^3.2.0",
     "firebase": "^9.6.1",
     "lit-html": "^2.0.2",
     "lite-server": "^2.6.1",

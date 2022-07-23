@@ -14,9 +14,15 @@ modalDialogue.querySelector('.modal-ok').addEventListener('click', () => onChoic
 let call = null;
 export let reason = null;
 
-export function showReasonModalDialogue(callback) {
+export function showReasonModalDialogue(callback, message) {
     call = callback;
     document.body.appendChild(modalDialogue);
+    if (message) {
+        const modal = document.getElementById('modal')
+        modal.style.background = '';
+        modal.querySelector('p').textContent = message;
+        modal.querySelector('input').placeholder = 'имейл адрес ..';
+    }
 }
 
 function onChoice(choice) {

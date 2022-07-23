@@ -8,6 +8,8 @@ public class Api {
     public static final String LOGOUT = "/authenticate/logout";
     public static final String REFRESH_TOKEN = "/authenticate/token/refresh";
     public static final String CHECK_CREDENTIALS = "/authenticate/credentials-check/{userId}";
+    public static final String FORGOTTEN_PASSWORD = "/forgotten-password";
+    public static final String RESET_PASSWORD = "/password-reset/{code}";
     //comments
     public static final String GET_ALL_RECIPE_COMMENTS = "/comments/{recipeId}";
     public static final String COMMENT_ENDPOINT = "/comments";

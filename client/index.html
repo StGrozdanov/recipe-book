@@ -8,8 +8,16 @@
     <link style="width: 20%;" rel="icon" type="image/x-icon/jpg" href="/static/images/cooking.png">
     <script src="https://kit.fontawesome.com/278cae12ba.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"
+        integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k"
+        crossorigin="anonymous"></script>
     <script src="/src/index.js" type="module"></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js'></script>
+    <script type='text/javascript'>
+        (function () {
+            emailjs.init('<YOUR USER ID>');
+        })();
+    </script>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
@@ -25,11 +33,13 @@
             <header>
                 <h2>Contact us</h2>
             </header>
+
             <body>
                 <ul>
                     <li>
                         <i class="fa-solid fa-map-location-dot"></i>
-                        <a href="https://goo.gl/maps/HVBg3m2znB7rNy297" target="_blank">Bul Hristo Botev 84, Plovdiv, 4004, Bulgaria</a>
+                        <a href="https://goo.gl/maps/HVBg3m2znB7rNy297" target="_blank">Bul Hristo Botev 84, Plovdiv,
+                            4004, Bulgaria</a>
                     </li>
                     <li>
                         <i class="fa-solid fa-envelope"></i>

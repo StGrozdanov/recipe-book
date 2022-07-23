@@ -130,6 +130,9 @@ public class SecurityConfiguration {
                 //global-search controller
                 .antMatchers(Api.GLOBAL_SEARCH_ADMIN).hasRole(RoleEnum.ADMINISTRATOR.name())
 
+                //password request controller
+                .antMatchers(Api.FORGOTTEN_PASSWORD, Api.RESET_PASSWORD).permitAll()
+
                 .and()
                 .addFilterBefore(this.authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 

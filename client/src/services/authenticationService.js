@@ -8,7 +8,8 @@ const AUTHENTICATION_END_POINTS = {
     LOGIN: `${AUTHENTICATION_END_POINT}/login`,
     LOGOUT: `${AUTHENTICATION_END_POINT}/logout`,
     REFRESH_TOKEN: `${AUTHENTICATION_END_POINT}/token/refresh`,
-    CHECK_CREDENTIALS: (userId) => `${AUTHENTICATION_END_POINT}/credentials-check/${userId}`
+    CHECK_CREDENTIALS: (userId) => `${AUTHENTICATION_END_POINT}/credentials-check/${userId}`,
+    FORGOTTEN_PASSWORD: '/forgotten-password',
 }
 
 export async function register(registrationData) {
@@ -48,6 +49,15 @@ export async function logout() {
             throw new Error(data.error);
         }
     }
+}
+
+export async function forgottenPassword(email) {
+    const response = await fetch(BASE_URL + AUTHENTICATION_END_POINTS.FORGOTTEN_PASSWORD, {
+        method: 'POST',
+        headers: BASE_HEADERS,
+        body: JSON.stringify({ email: email })
+    });
+    return response;
 }
 
 export async function checkCredentials(userId, password) {

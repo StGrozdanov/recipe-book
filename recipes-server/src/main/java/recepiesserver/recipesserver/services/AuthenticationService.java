@@ -21,7 +21,6 @@ import recepiesserver.recipesserver.models.dtos.authDTOs.AuthenticatedLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserLoginDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserPasswordDTO;
 import recepiesserver.recipesserver.models.dtos.authDTOs.UserRegisterDTO;
-import recepiesserver.recipesserver.models.dtos.userDTOs.UserDetailsDTO;
 import recepiesserver.recipesserver.models.entities.RoleEntity;
 import recepiesserver.recipesserver.models.entities.UserEntity;
 import recepiesserver.recipesserver.utils.JwtUtil;

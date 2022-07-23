@@ -311,6 +311,10 @@ public class UserService {
         return this.userRepository.existsByEmailAndEmailNot(email, userEmail);
     }
 
+    public Optional<UserEntity> findUserByEmail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
+
     @Transactional
     public Page<UserAdminPanelDTO> getAllUsers(Integer pageNumber, Integer collectionCount, String sortBy) {
         Pageable pageable = PageRequest.of(pageNumber, collectionCount, Sort.by(sortBy));
