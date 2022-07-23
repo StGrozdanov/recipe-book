@@ -197,6 +197,31 @@
     align-items: center;
 }
 
+.blocked-user-heading {
+    position: absolute;
+    z-index: 1;
+    left: 27%;
+    top: 15%;
+    color: #a8a8a6;
+}
+
+.blocked-user-reason-heading {
+    position: absolute;
+    z-index: 1;
+    left: 44%;
+    bottom: 33%;
+    color: #a8a8a6;
+}
+
+.blocked-user-reason {
+    position: absolute;
+    z-index: 1;
+    color: #a8a8a6;
+    bottom: 25%;
+    left: -2%;
+    width: 100%
+}
+
 @media all and (min-width: 1700px) {
     .earth-container-404 {
         width: 280px;

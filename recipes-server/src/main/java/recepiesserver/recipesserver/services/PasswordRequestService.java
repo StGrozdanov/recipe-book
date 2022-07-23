@@ -55,16 +55,16 @@ public class PasswordRequestService {
                 .findByCode(code)
                 .orElseThrow(() -> new InvalidRequestCode(ExceptionMessages.INVALID_CODE));
 
+        LocalDateTime issuedAt = passwordRequestEntity.getIssuedAt();
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        long passedMinutes = ChronoUnit.MINUTES.between(issuedAt, currentTime);
+
+        if (passedMinutes > TWENTY_MINUTES) {
+            throw new ExpiredRequestCode(ExceptionMessages.EXPIRED_CODE);
+        }
+
         if (passwordRequestEntity.getPublicationStatusEnum().name().equals("PENDING")) {
-            LocalDateTime issuedAt = passwordRequestEntity.getIssuedAt();
-            LocalDateTime currentTime = LocalDateTime.now();
-
-            long passedMinutes = ChronoUnit.MINUTES.between(issuedAt, currentTime);
-
-            if (passedMinutes > TWENTY_MINUTES) {
-                throw new ExpiredRequestCode(ExceptionMessages.EXPIRED_CODE);
-            }
-
             passwordRequestEntity.setPublicationStatusEnum(PublicationStatusEnum.APPROVED);
             this.passwordRequestRepository.save(passwordRequestEntity);
         } else {

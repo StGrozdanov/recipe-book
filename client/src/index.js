@@ -26,6 +26,7 @@ import { adminPanelUsersSettingsPage } from './views/adminSettingsView.js';
 import { userEditPage } from './views/templates/adminTemplates/adminUserEditTemplate.js';
 import { adminPanelNotificationsPage } from './views/adminNotificationsView.js';
 import { forgottenPasswordPage } from './views/forgottenPasswordView.js';
+import { blockedUserPage } from './views/blockedUserView.js';
 
 page('/', landingPage);
 page('/catalogue', setUp, cataloguePage);
@@ -43,6 +44,7 @@ page('/my-profile/created-recepies', setUp, isAuthenticated, myRecepiesPage);
 page('/my-profile/favourite-recepies', setUp, isAuthenticated, myFavouriteRecepiesPage);
 page('/my-profile/edit', setUp, isAuthenticated, myProfileEditPage);
 page('/user-:id', setUp, userProfilePage);
+page('/blocked', blockedUserPage);
 page('/administrate-dashboard', adminSetUp, adminPanelDashboardPage);
 page('/administrate/users', adminSetUp, adminPanelUsersPage);
 page('/administrate/users/search=:query', adminSetUp, adminPanelUsersPage);
