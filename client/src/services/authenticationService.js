@@ -1,4 +1,5 @@
 import { notify } from "../utils/notification.js";
+import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 
 const AUTHENTICATION_END_POINT = '/authenticate';
@@ -10,6 +11,7 @@ const AUTHENTICATION_END_POINTS = {
     REFRESH_TOKEN: `${AUTHENTICATION_END_POINT}/token/refresh`,
     CHECK_CREDENTIALS: (userId) => `${AUTHENTICATION_END_POINT}/credentials-check/${userId}`,
     FORGOTTEN_PASSWORD: '/forgotten-password',
+    RESET_PASSWORD: (code) => `/password-reset/${code}`,
 }
 
 export async function register(registrationData) {
@@ -56,6 +58,23 @@ export async function forgottenPassword(email) {
         method: 'POST',
         headers: BASE_HEADERS,
         body: JSON.stringify({ email: email })
+    });
+    return response;
+}
+
+export async function requestPasswordReset(code) {
+    const response = await fetch(BASE_URL + AUTHENTICATION_END_POINTS.RESET_PASSWORD(code), {
+        method: 'POST',
+        headers: BASE_HEADERS,
+    });
+    return response;
+}
+
+export async function resetPassword(code, formData) {
+    const response = await fetch(BASE_URL + AUTHENTICATION_END_POINTS.RESET_PASSWORD(code), {
+        method: 'POST',
+        headers: BASE_HEADERS,
+        body: JSON.stringify(formData)
     });
     return response;
 }
