@@ -11,6 +11,7 @@ export function isAuthenticated(ctx, next) {
     } else if (!userIsAuthenticated() && requestedPath != '/login' && requestedPath != '/register') {
         handleUnauthenticatedAccess(ctx);
     }
+    
     next();
 }
 
