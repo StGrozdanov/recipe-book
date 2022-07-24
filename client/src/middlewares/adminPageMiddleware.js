@@ -21,7 +21,7 @@ socket.on('receiveNotification', data => {
 export async function adminSetUp(ctx, next) {
     
     if (userIsAdministrator() === false) {
-        ctx.page.redirect('/dashboard');
+        ctx.page.redirect('/catalogue');
         return;
     }
 

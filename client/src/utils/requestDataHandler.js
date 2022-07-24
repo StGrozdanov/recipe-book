@@ -27,6 +27,8 @@ export async function handleRequest(fetchResponse, errorMessage, callback) {
         sessionStorage.clear();
         sessionStorage.setItem('blockedFor', data.message);
         page.redirect('/blocked');
+    } else if (data.status === 404) {
+        page.redirect('*');
     } else {
         if (refreshTokenUsed) {
             refreshTokenUsed = false;
