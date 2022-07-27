@@ -145,39 +145,39 @@ The notifications server is build on Node.JS and is using the Socket.io library.
 
 ## Features
 
-##### 1. Single Page Application Architecture
+#### 1. Single Page Application Architecture
 
-##### 2. Fully responsive design from 320px width to 4k monitors support.
+#### 2. Fully responsive design from 320px width to 4k monitors support.
 
 ![320px](https://user-images.githubusercontent.com/74171353/181359459-c7811c93-186f-497e-afeb-e5981b93de5c.jpg)
 
 ![2560](https://user-images.githubusercontent.com/74171353/181359457-4bfb8389-0c49-44e6-9126-fef9340745a9.jpg)
 
-##### 3. Search feature
+#### 3. Search feature
 
 ![New Bitmap Image](https://user-images.githubusercontent.com/74171353/181359984-a79f4664-dace-4f01-bf5d-d8858f10e24e.jpg)
 
-##### 4. Filtration feature
+#### 4. Filtration feature
 
 ![dropdown](https://user-images.githubusercontent.com/74171353/181360276-1e3427ac-9caa-4d10-9e5d-5e0a622caef8.jpg)
 
-##### 5. Custom pagination, build from scratch.
+#### 5. Custom pagination, build from scratch.
 
-##### 6. Custom dropdown menu, build from scratch.
+#### 6. Custom dropdown menu, build from scratch.
 
-##### 7. Modal dialogue
+#### 7. Modal dialogue
 
 ![modal](https://user-images.githubusercontent.com/74171353/181360556-d3abec58-8699-4af9-8710-7985542f2f1f.jpg)
 
-##### 8. Notifications of type A - regular, that will hide upon click and type B - redirect upon click
+#### 8. Notifications of type A - regular, that will hide upon click and type B - redirect upon click
 
 ![notification](https://user-images.githubusercontent.com/74171353/181360905-ccd6b742-dcb3-433a-91c9-2f6444d3e065.jpg)
 
-##### 9. Back to top button /on the recipe details page/
+#### 9. Back to top button /on the recipe details page/
 
-##### 10. Every click on a functional component of the website reflects on the url bar, you can then send it to a friend in order for him to see the result you want him to see.
+#### 10. Every click on a functional component of the website reflects on the url bar, you can then send it to a friend in order for him to see the result you want him to see.
 
-##### 11. Users can create account, providing them with the following rights:
+#### 11. Users can create account, providing them with the following rights:
 
 - Manage their profile /change username, email, password, preferences, avatar image/cover image by url address or by local upload/:
 
@@ -226,3 +226,52 @@ The notifications server is build on Node.JS and is using the Socket.io library.
 ![forgotten password5](https://user-images.githubusercontent.com/74171353/181371896-112f9772-9adb-4d27-8cce-5b1a99fafa2e.jpg)
 ![forgotten password6](https://user-images.githubusercontent.com/74171353/181371898-1c9b9ce1-0963-4318-8655-35079dcf4cd2.jpg)
 
+#### 12. Moderators receive notifications for created/edited comments from any user aswell as notifications for edited recipe. They can edit/delete any comments and edit any recipe
+
+#### 13. Administrators receive notifications for any new action on the website and they have access to the admin panel and mobile app, from where they can manage any single resource - from user profiles ot recipes, manage roles, block users, approve recipes and so on.
+
+- Recipe approval conventional way - without the admin panel
+
+![approve recipe1](https://user-images.githubusercontent.com/74171353/181373393-6714555b-d948-42af-9085-6e28328bbbe8.jpg)
+![approve recipe2](https://user-images.githubusercontent.com/74171353/181373389-d14eaeca-8f8a-4a9f-b75a-ad4bcda2e451.jpg)
+
+#### 14. Admin Panel:
+
+- Dashboard
+
+![admin dashboard](https://user-images.githubusercontent.com/74171353/181373578-95635b42-4181-4134-91c2-7f1c590c4633.jpg)
+
+- Users collection
+
+![user management](https://user-images.githubusercontent.com/74171353/181373684-53ed40d0-107e-4a86-b163-980850e169d0.jpg)
+
+- Recipes collection
+
+![recipe managements](https://user-images.githubusercontent.com/74171353/181373737-f7856130-a2c0-40f5-ac39-609d40e762e4.jpg)
+
+- Comments collection
+
+![comments](https://user-images.githubusercontent.com/74171353/181373786-849e1712-59a0-4394-8984-1f990e471434.jpg)
+
+- Users settings and role management
+ 
+![role management](https://user-images.githubusercontent.com/74171353/181373839-f94bfccf-64a4-432f-b09b-81ec47274742.jpg)
+
+- Global search /accessable only from the dashboard/
+
+![global search](https://user-images.githubusercontent.com/74171353/181373962-f7f27001-ff52-450e-b44a-48a468bca004.jpg)
+![global search 2](https://user-images.githubusercontent.com/74171353/181373956-7822207e-6330-4f0b-a48d-ec422a44f0dc.jpg)
+
+- Individual collection search /the search bar adjusts automaticly, depending on the collection administrator is currently browsing/
+
+![collection search](https://user-images.githubusercontent.com/74171353/181374199-6da2a524-8863-4a78-8413-8bd2dad3453b.jpg)
+
+- Admin panel recipe approval
+
+![approve recipe from panel](https://user-images.githubusercontent.com/74171353/181374278-3f9c0ab0-5c6d-4538-b1a4-d8cbf56bd824.jpg)
+
+- Block user by IP
+
+![block user](https://user-images.githubusercontent.com/74171353/181374378-3ae87ad4-a122-4090-89c2-8e54484cf74c.jpg)
+![block user2](https://user-images.githubusercontent.com/74171353/181374382-bb5137f8-621e-4d9e-b86f-dba5d5ab5237.jpg)
+![block user3](https://user-images.githubusercontent.com/74171353/181374384-a9fea21b-8793-47c5-97a0-f7bc351af927.jpg)
