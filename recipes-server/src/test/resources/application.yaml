@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: "jdbc:hsqldb:mem:testdb;sql.syntax_mys=true"
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never
+amazon:
+  aws:
+    access-key: ${AMAZON_ACCESS}
+    secret-key: ${AMAZON_SECRET}
+    region: eu-central-1
+  s3:
+    default-bucket: ${AMAZON_BUCKET_NAME}
+jwt:
+  secret: ${JWT_SECRET}
