@@ -149,9 +149,17 @@ The notifications server is build on Node.JS and is using the Socket.io library.
 
 ##### 2. Fully responsive design from 320px width to 4k monitors support.
 
+![320px](https://user-images.githubusercontent.com/74171353/181359459-c7811c93-186f-497e-afeb-e5981b93de5c.jpg)
+
+![2560](https://user-images.githubusercontent.com/74171353/181359457-4bfb8389-0c49-44e6-9126-fef9340745a9.jpg)
+
 ##### 3. Search feature
 
+![New Bitmap Image](https://user-images.githubusercontent.com/74171353/181359984-a79f4664-dace-4f01-bf5d-d8858f10e24e.jpg)
+
 ##### 4. Filtration feature
+
+![dropdown](https://user-images.githubusercontent.com/74171353/181360276-1e3427ac-9caa-4d10-9e5d-5e0a622caef8.jpg)
 
 ##### 5. Custom pagination, build from scratch.
 
@@ -159,14 +167,52 @@ The notifications server is build on Node.JS and is using the Socket.io library.
 
 ##### 7. Modal dialogue
 
+![modal](https://user-images.githubusercontent.com/74171353/181360556-d3abec58-8699-4af9-8710-7985542f2f1f.jpg)
+
 ##### 8. Notifications of type A - regular, that will hide upon click and type B - redirect upon click
+
+![notification](https://user-images.githubusercontent.com/74171353/181360905-ccd6b742-dcb3-433a-91c9-2f6444d3e065.jpg)
 
 ##### 9. Back to top button /on the recipe details page/
 
 ##### 10. Every click on a functional component of the website reflects on the url bar, you can then send it to a friend in order for him to see the result you want him to see.
 
-##### 11. Users can create account, providing them with the rights to publish their own recipes and to post comments.
+##### 11. Users can create account, providing them with the following rights:
 
-##### 12. Recipe owners can edit and delete their publications.
+- Manage their profile:
 
+![profile management](https://user-images.githubusercontent.com/74171353/181361422-88ab7cb7-5284-41e6-94e7-4c90c59de629.jpg)
+![change pass](https://user-images.githubusercontent.com/74171353/181361623-9802e437-ef71-4588-91d6-7d5802c0a257.jpg)
+
+- Make their own collection of favourite recipes:
+
+![favourite recipes](https://user-images.githubusercontent.com/74171353/181362079-3f278db8-8a7d-4071-80a8-6074d715bcb9.jpg)
+
+- Browse their created recipes:
+
+![created recipes](https://user-images.githubusercontent.com/74171353/181362308-67724161-4b83-4f0c-8de7-97ea9db8bf0b.jpg)
+
+- Receive real time notifications:
+
+![realtime](https://user-images.githubusercontent.com/74171353/181362888-28ae5e08-aad1-4122-9181-e845f714f91d.jpg)
+![notifications](https://user-images.githubusercontent.com/74171353/181363183-523996a0-62e8-4115-bf96-68f801a33470.jpg)
+
+- Create recipes:
+
+![create](https://user-images.githubusercontent.com/74171353/181363648-3d7cb6d3-44ce-4a1f-93f8-a77e017d231a.jpg)
+
+- Delete / Edit their own recipes:
+
+![delete](https://user-images.githubusercontent.com/74171353/181364001-0ee9c8f0-7330-4cef-b853-430db4c853fd.jpg)
+![edit](https://user-images.githubusercontent.com/74171353/181364140-4c035d6c-7cbb-4adb-bf61-1305e120cbd6.jpg)
+
+- Add comments as well as editing and deleting their own comments:
+
+![add comment](https://user-images.githubusercontent.com/74171353/181364604-fda0aa89-0071-4107-9fa5-5afa9fb3c511.jpg)
+![delete comment](https://user-images.githubusercontent.com/74171353/181364722-c82c13ea-18cb-49b7-b3af-9c337c8036d6.jpg)
+![edit comment](https://user-images.githubusercontent.com/74171353/181364906-1a1f4adc-255e-4abb-b19b-9dd8222abdc2.jpg)
+
+- Add recipes to their favourites collection:
+
+![favourite](https://user-images.githubusercontent.com/74171353/181365178-e44375be-9b68-42a8-8d5b-2e99ee650775.jpg)
 
