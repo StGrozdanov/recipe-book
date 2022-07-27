@@ -84,7 +84,7 @@ class UserServiceTest {
     private UserService userService;
 
     @Test
-    void testFindUserById2() {
+    void testFindUserById() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -104,14 +104,14 @@ class UserServiceTest {
     }
 
     @Test
-    void testFindUserById3() {
+    void testFindUserByIdCaseTwo() {
         when(userRepository.findById((Long) any())).thenThrow(new UserAlreadyBlockedException("An error occurred"));
         assertThrows(UserAlreadyBlockedException.class, () -> userService.findUserById(123L));
         verify(userRepository).findById((Long) any());
     }
 
     @Test
-    void testGetUser2() {
+    void testGetUser() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -184,7 +184,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testChangeUserRole2() {
+    void testChangeUserRoleCaseTwo() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -213,7 +213,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testChangeUserRole3() {
+    void testChangeUserRoleCaseThree() {
         UserEntity userEntity = mock(UserEntity.class);
         doNothing().when(userEntity).setId((Long) any());
         doNothing().when(userEntity).setAvatarUrl((String) any());
@@ -271,7 +271,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testChangeUserRole4() {
+    void testChangeUserRoleCaseFour() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -325,7 +325,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testChangeUserRole5() {
+    void testChangeUserRoleCaseFive() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -365,7 +365,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testChangeUserRole6() {
+    void testChangeUserRoleCaseSix() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -394,7 +394,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testChangeUserRole7() {
+    void testChangeUserRoleCaseSeven() {
         UserEntity userEntity = mock(UserEntity.class);
         doNothing().when(userEntity).setId((Long) any());
         doNothing().when(userEntity).setAvatarUrl((String) any());
@@ -452,7 +452,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testChangeUserRole8() {
+    void testChangeUserRoleCaseEight() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -528,7 +528,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testBlockUser2() {
+    void testBlockUserCaseTwo() {
         UserEntity userEntity = mock(UserEntity.class);
         when(userEntity.getBlocked()).thenReturn(true);
         when(userEntity.getIpAddresses()).thenReturn(new HashSet<>());
@@ -583,7 +583,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testBlockUser3() {
+    void testBlockUserCaseThree() {
         UserEntity userEntity = mock(UserEntity.class);
         when(userEntity.getBlocked()).thenReturn(false);
         when(userEntity.getIpAddresses()).thenReturn(new HashSet<>());
@@ -640,7 +640,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testBlockUser4() {
+    void testBlockUserCaseFour() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -692,7 +692,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testBlockUser5() {
+    void testBlockUserCaseFive() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -714,7 +714,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testBlockUser6() {
+    void testBlockUserCaseSix() {
         UserEntity userEntity = mock(UserEntity.class);
         when(userEntity.getBlocked()).thenReturn(true);
         when(userEntity.getIpAddresses()).thenReturn(new HashSet<>());
@@ -769,7 +769,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testBlockUser7() {
+    void testBlockUserCaseSeven() {
         UserEntity userEntity = mock(UserEntity.class);
         when(userEntity.getBlocked()).thenReturn(false);
         when(userEntity.getIpAddresses()).thenReturn(new HashSet<>());
@@ -826,7 +826,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testBlockUser8() {
+    void testBlockUserCaseEight() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -900,7 +900,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testDeleteUser3() {
+    void testDeleteUserCaseTwo() {
         doNothing().when(userRepository).delete((UserEntity) any());
         when(userRepository.findById((Long) any())).thenReturn(Optional.empty());
         doNothing().when(recipeService).detachAllRecipesFromDeletedUser((DeleteUserEvent) any());
@@ -909,7 +909,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testDeleteUser4() {
+    void testDeleteUserCaseThree() {
         UserEntity userEntity = new UserEntity();
         userEntity.setAvatarUrl("https://example.org/example");
         userEntity.setBlocked(true);
@@ -931,7 +931,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testDeleteUser6() {
+    void testDeleteUserCaseFive() {
         doNothing().when(userRepository).delete((UserEntity) any());
         when(userRepository.findById((Long) any())).thenReturn(Optional.empty());
         doNothing().when(recipeService).detachAllRecipesFromDeletedUser((DeleteUserEvent) any());
