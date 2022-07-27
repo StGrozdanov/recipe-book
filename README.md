@@ -179,10 +179,11 @@ The notifications server is build on Node.JS and is using the Socket.io library.
 
 ##### 11. Users can create account, providing them with the following rights:
 
-- Manage their profile:
+- Manage their profile /change username, email, password, preferences, avatar image/cover image by url address or by local upload/:
 
 ![profile management](https://user-images.githubusercontent.com/74171353/181361422-88ab7cb7-5284-41e6-94e7-4c90c59de629.jpg)
 ![change pass](https://user-images.githubusercontent.com/74171353/181361623-9802e437-ef71-4588-91d6-7d5802c0a257.jpg)
+![profile edit](https://user-images.githubusercontent.com/74171353/181371958-351770d1-1612-45e2-b814-56e54143fee0.jpg)
 
 - Make their own collection of favourite recipes:
 
@@ -215,4 +216,13 @@ The notifications server is build on Node.JS and is using the Socket.io library.
 - Add recipes to their favourites collection:
 
 ![favourite](https://user-images.githubusercontent.com/74171353/181365178-e44375be-9b68-42a8-8d5b-2e99ee650775.jpg)
+
+- Reset their forgotten password:
+
+![forgotten password1](https://user-images.githubusercontent.com/74171353/181371887-be46505e-8094-4c50-be7a-622d255061b5.jpg)
+![forgotten password2](https://user-images.githubusercontent.com/74171353/181371890-1feda163-0a01-4fa1-8292-72272e048ebd.jpg)
+![forgotten password3](https://user-images.githubusercontent.com/74171353/181371891-ba53959b-79a8-4519-b987-36474e09e583.jpg)
+![forgotten password4](https://user-images.githubusercontent.com/74171353/181371894-d42b2acf-2c52-46b8-80eb-2874e6d70122.jpg)
+![forgotten password5](https://user-images.githubusercontent.com/74171353/181371896-112f9772-9adb-4d27-8cce-5b1a99fafa2e.jpg)
+![forgotten password6](https://user-images.githubusercontent.com/74171353/181371898-1c9b9ce1-0963-4318-8655-35079dcf4cd2.jpg)
 
