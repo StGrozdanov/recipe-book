@@ -7,19 +7,24 @@
 <details>
 <summary>Table of contents</summary>
 
- 1. [Project Description](#project-description)
+ [1. Project Description](#project-description)
  - [History](#history)
  - [Application Demo](#application-demo)
- 2. [Technology Stack and libraries](#technology-stack)
+ [2. Technology Stack and libraries](#technology-stack)
  - [Main Client](#main-client)
  - [Mobile Client](#mobile-admin-panel-client)
  - [Main Server](#main-rest-api-server)
  - [Notification Server](#notifications-server)
- 3. [Features](#features)
- 4. Main client reference
- 5. Mobile admin panel client reference
- 6. Main REST API server reference
- 7. Notification server reference
+ 
+ [3. Features](#features)
+ 
+ [4. Main client reference](client/README.md)
+ 
+ [5. Mobile admin panel client reference](mobile/README.md)
+ 
+ [6. Main REST API server reference](recipes-server/README.md)
+ 
+ [7. Notification server reference](notifications-server/README.md)
  
 </details>
 
