@@ -26,4 +26,15 @@ A way to persist information into the application.
 
 This is the react native version of the chart JS library i used in the main client.
 
-## 
+## Screenshots
+
+
+
+## How to Install and Run the Project
+
+All you need to do is to write `npm install` and `npm start` in the console.
+
+Runs the app in the development mode, starting expo servers. You need to have expo app installed on your phone and scan the barcode that you see in the console. You also need login credentials.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
