@@ -1,6 +1,6 @@
 ## Mobile Admin Panel Client
 
-This client is made with React Native. I choosed this framework because i wanted to have multiplatform support - both for Android and iOS, since i am using Android device, my girlfriend - iOS device. We both manage this application so React Native was the way to go.
+This client is made with React Native. I choosed this framework because i wanted to have multiplatform support - both for Android and iOS, since i am using Android device, my girlfriend - iOS device. We both manage this application so React Native was the way to go. The application also supports dark and white themes.
 
 - Expo
 
