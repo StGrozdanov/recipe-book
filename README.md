@@ -10,6 +10,7 @@
  [1. Project Description](#project-description)
  - [History](#history)
  - [Application Demo](#application-demo)
+ 
  [2. Technology Stack and libraries](#technology-stack)
  - [Main Client](#main-client)
  - [Mobile Client](#mobile-admin-panel-client)
