@@ -11,6 +11,13 @@ The main application server is builded with Spring.
 - MySQL
 - HSQLDB
 
+## Test coverage
+
+64% of the server files are covered, 67% service coverage, 23% controllers coverage.
+
+![overall test](https://user-images.githubusercontent.com/74171353/181458233-68cb081c-7bde-4169-a4a1-a0e4e56633e9.jpg)
+![individual test](https://user-images.githubusercontent.com/74171353/181458222-56d8c2d9-eee2-4b03-aefb-084c8ee7e52a.jpg)
+
 ## How to Install and Run the Project
 
 In application.yaml:
