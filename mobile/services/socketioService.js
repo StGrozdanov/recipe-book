@@ -1,6 +1,6 @@
 import socketIOClient from "socket.io-client";
 
-const socket = socketIOClient("http://192.168.0.150:3030", {
+const socket = socketIOClient("https://recepies-notifications-api.herokuapp.com/", {
     transports: ['websocket'],
     reconnectionAttempts: 15
 });

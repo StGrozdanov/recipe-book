@@ -30,8 +30,7 @@ export async function searchPage(ctx) {
     const params = ctx.pathname.split('=')[1] || '';
 
     if (params) {
-        let query = params.toLowerCase();
-        const data = await searchByRecipeName(query);
+        const data = await searchByRecipeName(params);
 
         const recipes = data.map(recipeTemplate);
 

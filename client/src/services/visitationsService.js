@@ -13,7 +13,8 @@ const VISITATIONS_END_POINTS = {
 export async function recordWebsiteVisitation() {
     const response = await fetch(BASE_URL + VISITATIONS_END_POINTS.RECORD_WEBSITE_VISITATION, {
         method: 'POST',
-        headers: BASE_HEADERS
+        headers: BASE_HEADERS,
+        body: JSON.stringify({ smh: 'smh' })
     });
     return handleRequest(response, COULD_NOT_RECORD_VISITATION);
 }
