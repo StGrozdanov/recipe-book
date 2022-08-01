@@ -1,68 +1,36 @@
-# Recipe Book
+# Recipe Book Client
 
-## Project Description
+## Description
 
-Cookbook for recording the most delicious recipes and their ingredients, originally intended for me and my family. Made with pure Vanilla JS, everyone can register and engage by commenting different recipes, share their experience or create their own recipe.
+The main application client is made out of Vanilla JS. The intent was to use pure javascript in order to practice what i have learned in the Softuni JS course, so the libraries i used for this project are limited to routing and templating solutions, bundler for the application deployment, charting library for the beautiful chart of the admin panel and email sending library.
 
-You can view the application here - https://recepti-na-shushanite.web.app/
-
-### Challenges i faced
-
-For a very first time i used backend as a service solution. I also had to learn to work with Mongo DB in order to emplement search and filtration features. 
-
-For a very first time i had to come up with my own HTML and CSS structure and in the beginning it was tragic ^^ But i improved it over time - refactoring the HTML structure and splitting the CSS to multiple files. 
-
-Also i had to figure out how to deploy this thing and how to work on a very basic level with bundler like webpack.
-
-### Libraries and solutions i used
-
-The intent was to use pure javascript in order to practice what i have learned in the Softuni JS course, so the libraries i used for this project are limited to routing and templating solutions and bundler for the application deployment.
-
-#### lit-html
+- lit-html
 
 I choosed lit-html because it's lite, simple and fast templating engine. I also had previous experience with this library and it was confortable using it.
 
-#### page
+- Page
 
 Client side router is a must when creating an Single Page Application. Again - i chosed lite and simple router. Nothing too fancy, nothing too complicated about it.
 
-#### webpack
+- Webpack
 
-Heavy artillery, witch i used on a very basic level. `npx webpack` was all i used it for.
+Heavy artillery, which i used on a very basic level. `npx webpack` was all it was for.
 
-#### back4app
+- Chart JS
 
-This is the backend solution i choosed for this project. It's simple to use and more importantly it's free, so it's perfect for student projects and small applications. There is also a good and easy to follow documentation. 
+Very customizable and functional charting library.
 
-### Features
+- Email JS
 
-##### 1. Single Page Application Architecture
+Why writing 150-200 lines of code for java library, when u can use this solution? All that is needed connection to the CDN and you are ready to send emails with additional 5-10 lines of code on the frontend. It works perfectly and it's very customizable. 
 
-##### 2. Fully responsive design from 320px width to 4k monitors support.
+- Firebase
 
-##### 3. Search feature
-
-##### 4. Filtration feature
-
-##### 5. Custom pagination, build from scratch.
-
-##### 6. Custom dropdown menu, build from scratch.
-
-##### 7. Modal dialogue
-
-##### 8. Notifications of type A - regular, that will hide upon click and type B - redirect upon click
-
-##### 9. Back to top button /on the recipe details page/
-
-##### 10. Every click on a functional component of the website reflects on the url bar, you can then send it to a friend in order for him to see the result you want him to see.
-
-##### 11. Users can create account, providing them with the rights to publish their own recipes and to post comments.
-
-##### 12. Recipe owners can edit and delete their publications.
+I used it for the client deployment.
 
 ## How to Install and Run the Project
 
-All you need to do is to write npm install and npm start in the console.
+All you need to do is to write `npm install` and `npm start` in the console.
 
 ## Available Scripts
 
