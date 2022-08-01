@@ -32,7 +32,7 @@ page('/', landingPage);
 page('/catalogue', setUp, cataloguePage);
 page('/login', setUp, isAuthenticated, loginPage);
 page('/register', setUp, isAuthenticated, registerPage);
-page('/reset-password/:id', setUp, forgottenPasswordPage);
+page('/reset-password-:id', setUp, forgottenPasswordPage);
 page('/add-recipe', setUp, isAuthenticated, addRecipePage);
 page('/details-:id', setUp, detailsPage);
 page('/edit-:id', setUp, isAuthenticated, editPage);
