@@ -18,8 +18,8 @@ export default function UserCard({ username, totalPublicationsCount, recipesCoun
             <View style={ userCardStyles[theme + 'AvatarContainer'] }>
                 {userAvatarIsPresent(avatarUrl)
                         ? <Image
-                            source={{ uri: user.avatarUrl }}
-                            style={headerStyle[theme + 'Avatar']}
+                            source={{ uri: avatarUrl }}
+                            style={userCardStyles.avatar}
                         />
                         : <Image style={userCardStyles.avatar} source={require('../../assets/avatar.png')} />
                 }

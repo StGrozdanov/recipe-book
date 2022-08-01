@@ -77,7 +77,7 @@ export default function Comments() {
                     <Table
                         name={summary(item.content, 20)}
                         pictureType={'avatar'}
-                        pictureSource={item.imgUrl}
+                        pictureSource={item.ownerAvatarUrl}
                         data={item}
                         isEven={item.id % 2 === 0}
                         isFirst={sortedData[0].id === item.id}

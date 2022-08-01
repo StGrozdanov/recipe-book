@@ -1,7 +1,7 @@
 INSERT INTO users (id, username, email, password, avatar_url, cover_photo_url, is_blocked)
-VALUES (1, 'shushan', 'shushan@abv.bg', 'e55a6323d588941b26f652b43dc354e942b2ce8bf82d5aee7aa3445413c067db27b0086ec8d820bd', '/avatar.png', null, false);
+VALUES (1, 'shushan', 'shushan@abv.bg', 'e55a6323d588941b26f652b43dc354e942b2ce8bf82d5aee7aa3445413c067db27b0086ec8d820bd', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/avatar.png', null, false);
 INSERT INTO users (id, username, email, password, avatar_url, cover_photo_url, is_blocked)
-VALUES (2, 'ani', 'ani@abv.bg', 'eb0e58faf11737e9073d173192908ca030b618e88b12651b1fdf46696395aefdc2bde58d0cca4ff2', '/avatar.png', null, false);
+VALUES (2, 'ani', 'ani@abv.bg', 'eb0e58faf11737e9073d173192908ca030b618e88b12651b1fdf46696395aefdc2bde58d0cca4ff2', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/avatar.png', null, false);
 INSERT INTO users (id, username, email, password, avatar_url, cover_photo_url, is_blocked)
 VALUES (3, 'Peter', 'peter@abv.bg', 'f70b82d41791bb6581d4f021313144621621fa46910ad95dca6f6ee331b31f1b2187cb2d500acf89', null, null, false);
 INSERT INTO users (id, username, email, password, avatar_url, cover_photo_url, is_blocked)
@@ -24,43 +24,43 @@ INSERT INTO users_roles(user_entity_id, roles_id)
 VALUES (4, 3);
 
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (1, 'DESSERT', '2021-12-12 09:59:33', '/bananov_keks_s_karamelena_glazura.jpg', 'Кекс', 'APPROVED', 0, 3);
+VALUES (1, 'DESSERT', '2021-12-12 09:59:33', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/bananov_keks_s_karamelena_glazura.jpg', 'Кекс', 'APPROVED', 0, 3);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (2, 'CALF_PORK', '2021-12-12 10:01:37', '/spaghetti_bolognese.jpg', 'Болонезе', 'APPROVED', 0, 1);
+VALUES (2, 'CALF_PORK', '2021-12-12 10:01:37', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/spaghetti_bolognese.jpg', 'Болонезе', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (3, 'PORK', '2021-12-12 10:02:11', '/musaka.jpg', 'Мусака', 'APPROVED', 0, 2);
+VALUES (3, 'PORK', '2021-12-12 10:02:11', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/musaka.jpg', 'Мусака', 'APPROVED', 0, 2);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (4, 'DESSERT', '2021-12-12 21:09:04', '/baklava.jpg', 'Баклава', 'APPROVED', 0, 1);
+VALUES (4, 'DESSERT', '2021-12-12 21:09:04', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/baklava.jpg', 'Баклава', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (5, 'PASTA', '2021-12-14 18:51:49', '/banica.jpg', 'Баница със сирене', 'APPROVED', 0, 2);
+VALUES (5, 'PASTA', '2021-12-14 18:51:49', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/banica.jpg', 'Баница със сирене', 'APPROVED', 0, 2);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (6, 'DESSERT', '2021-12-21 05:06:50', '/tikvenik.jpg', 'Тиквеник', 'APPROVED', 0, 2);
+VALUES (6, 'DESSERT', '2021-12-21 05:06:50', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/tikvenik.jpg', 'Тиквеник', 'APPROVED', 0, 2);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (7, 'PASTA', '2021-12-22 19:36:37', '/tutmanik.jpg', 'Тутманик', 'APPROVED', 0, 1);
+VALUES (7, 'PASTA', '2021-12-22 19:36:37', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/tutmanik.jpg', 'Тутманик', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (8, 'VEGAN', '2021-12-22 19:47:23', '/potato-cream-soup.jpg', 'Картофена крем супа', 'APPROVED', 0, 3);
+VALUES (8, 'VEGAN', '2021-12-22 19:47:23', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/potato-cream-soup.jpg', 'Картофена крем супа', 'APPROVED', 0, 3);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (9, 'DESSERT', '2021-12-22 20:02:11', '/souffle.jpg', 'Малиново суфле', 'APPROVED', 0, 1);
+VALUES (9, 'DESSERT', '2021-12-22 20:02:11', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/souffle.jpg', 'Малиново суфле', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (10, 'DESSERT', '2021-12-22 20:13:17', '/ricotta-roll.jpg', 'Рикота роле с шамфъстък', 'APPROVED', 0, 1);
+VALUES (10, 'DESSERT', '2021-12-22 20:13:17', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/ricotta-roll.jpg', 'Рикота роле с шамфъстък', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (11, 'DESSERT', '2021-12-22 20:18:56', '/Tiramisu.jpg', 'Тирамису', 'APPROVED', 0, 1);
+VALUES (11, 'DESSERT', '2021-12-22 20:18:56', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/Tiramisu.jpg', 'Тирамису', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (12, 'DESSERT', '2021-12-22 20:26:29', '/ChristmasAppleCrumble.jpg', 'Ябълкова натрошенка', 'APPROVED', 0, 1);
+VALUES (12, 'DESSERT', '2021-12-22 20:26:29', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/ChristmasAppleCrumble.jpg', 'Ябълкова натрошенка', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (13, 'SALAD', '2021-12-22 20:36:32', '/Caesar-Salad.jpg', 'Салата цезар', 'APPROVED', 0, 3);
+VALUES (13, 'SALAD', '2021-12-22 20:36:32', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/Caesar-Salad.jpg', 'Салата цезар', 'APPROVED', 0, 3);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (14, 'CALF_PORK', '2021-12-22 20:47:05', '/Subway-Meatball.jpg', 'Брускети с доматени кюфтенца по италиански', 'APPROVED', 0, 1);
+VALUES (14, 'CALF_PORK', '2021-12-22 20:47:05', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/Subway-Meatball.jpg', 'Брускети с доматени кюфтенца по италиански', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (15, 'CALF', '2021-12-22 20:59:44', '/ULTIMATE-BEEF-BURGER.jpg', 'Телешки бургер', 'APPROVED', 0, 1);
+VALUES (15, 'CALF', '2021-12-22 20:59:44', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/ULTIMATE-BEEF-BURGER.jpg', 'Телешки бургер', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (16, 'DESSERT', '2022-01-09 08:24:28', '/pancakes.jpg', 'Палачинки', 'APPROVED', 0, 2);
+VALUES (16, 'DESSERT', '2022-01-09 08:24:28', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/pancakes.jpg', 'Палачинки', 'APPROVED', 0, 2);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (17, 'DESSERT', '2022-05-13 18:30:24', '/strawberry-dessert.jpg', 'Сладкиш с ягоди', 'APPROVED', 0, 2);
+VALUES (17, 'DESSERT', '2022-05-13 18:30:24', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/strawberry-dessert.jpg', 'Сладкиш с ягоди', 'APPROVED', 0, 2);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (18, 'PASTA', '2022-05-20 15:30:35', '/pizza.webp', 'Пица', 'APPROVED', 0, 1);
+VALUES (18, 'PASTA', '2022-05-20 15:30:35', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/pizza.webp', 'Пица', 'APPROVED', 0, 1);
 INSERT INTO recipes (id, category, created_at, image_url, recipe_name, status, visitations_count, owner_id)
-VALUES (19, 'OTHER', '2022-05-24 06:41:12', '/healthy-pancakes.jpg', 'Бананови палачинки', 'APPROVED', 0, 2);
+VALUES (19, 'OTHER', '2022-05-24 06:41:12', 'https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/healthy-pancakes.jpg', 'Бананови палачинки', 'APPROVED', 0, 2);
 
 INSERT INTO recipe_entity_products (recipe_entity_id, products)
 VALUES(1, '5 яйца, 1 и 1/2 ч ч захар, 2 ч ч Брашно, 1 бакпулвер, 2 ванилия, 1 ч ч вода, 1/2ч ч олио, Пудра захар за поръсване');

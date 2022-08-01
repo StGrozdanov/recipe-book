@@ -80,7 +80,7 @@ export default function Recepies() {
                     <Table
                         name={summary(item.recipeName, 20)}
                         pictureType={'food'}
-                        pictureSource={item.imageUrl.charAt[0] !== 'h' ? item.imgUrl : item.imageUrl}
+                        pictureSource={item.imageUrl}
                         data={item}
                         isEven={item.id % 2 === 0}
                         isFirst={sortedData[0].id === item.id}

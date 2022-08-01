@@ -23,11 +23,11 @@ export default function UserProfile() {
     return (
         <View style={[userCardStyles[theme + 'Card'], userCardStyles.randomStyle]}>
             <View style={userCardStyles[theme + 'CardTextSection']}></View>
-            <View style={ userCardStyles[theme + 'AvatarContainer'] }>
+            <View style={userCardStyles[theme + 'AvatarContainer'] }>
                 {userData.avatarUrl && userData.avatarUrl !== '/avatar.png' 
                         ? <Image
                             source={{ uri: userData.avatarUrl }}
-                            style={headerStyle[theme + 'Avatar']}
+                            style={userCardStyles.avatar}
                         />
                         : <Image style={userCardStyles.avatar} source={require('../../assets/avatar.png')} />
                 }
