@@ -60,3 +60,23 @@ Runs the app in the development mode, starting expo servers. You need to have ex
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+## За проверяващият в деня на защитата
+
+Стъпки:
+
+- Android:
+
+1) Свалете Expo от google play: https://play.google.com/store/apps/details?id=host.exp.exponent&hl=bg&gl=US
+2) Отворете линка към апликацията на компютъра си: https://expo.dev/@thunderforge/recepies-administrate?serviceType=classic&distribution=expo-go
+3) Влизате в expo апликацията, избирате Scan QR code и сканирате баркода, който се визуализира при отварянето на горния линк
+
+- iOS:
+
+1) Свалете Expo Go от Apple app store: https://apps.apple.com/us/app/expo-go/id982107779
+2) Понеже сте с iOS нищо не става по лесния начин и се изисква регистрация в expo апликацията, която сте свалили на телефона си, като можете да го направите и на този линк https://expo.dev/signup
+3) След като се регистрирате трябва да ми изпратите имейла, с който сте се регистрирали на имейл st.grozdanov.developer@gmail.com
+4) След като ми изпратите имейла си, ще се разровичкам из настройките и ще ви пратя покана за достъп до апликацията, която трябва да приемете
+5) След като сте приели поканата - отворете линка към апликацията на компютъра си: https://expo.dev/@thunderforge/recepies-administrate?serviceType=classic&distribution=expo-go и сканирайте баркода с камерата на телефона си, това ще ви пренасочи към expo и ще стартира апликацията
+
+В деня на защитата ще ви дам username и password за достъп до администраторския панел, за да изтестваме работата на приложението :)
