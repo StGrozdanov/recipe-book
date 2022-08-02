@@ -28,9 +28,10 @@ const searchPageTemplate = (recepies, ctx, query) => html`
 
 export async function searchPage(ctx) {
     const params = ctx.pathname.split('=')[1] || '';
+    const query = params.toLowerCase();
 
     if (params) {
-        const data = await searchByRecipeName(params);
+        const data = await searchByRecipeName(query);
 
         const recipes = data.map(recipeTemplate);
 
