@@ -14,12 +14,12 @@ import UserProfile from './components/UserProfile/UserProfile';
 import Notifications from './components/Notifications/Notifications';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 import { SearchProvider } from './contexts/SearchContext';
+import {NOTIFY_APP_ID, NOTIFY_APP_TOKEN} from "@env"
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  registerNNPushToken(3094, 'pEa4I5l9hs6NeKhmJUSoIA');
-
+  registerNNPushToken(NOTIFY_APP_ID, NOTIFY_APP_TOKEN);
   return (
     <AuthProvider>
       <ThemeProvider>

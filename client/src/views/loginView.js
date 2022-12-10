@@ -2,6 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { FORGOTTEN_PASSWORD_MESSAGE, THERE_ARE_EMPTY_FIELDS_LEFT, WELCOME } from '../constants/notificationMessages.js';
 import { forgottenPassword, getCurrentUserUsername, login } from '../services/authenticationService.js';
 import { formContainsEmptyFields } from '../utils/formDataValidator.js';
+import { EMAIL_JS_SERVICE, EMAIL_JS_TEMPLATE, EMAIL_JS_TOKEN } from '../utils/keys.js';
 import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.js';
 import { notify } from '../utils/notification.js';
 import { reason, showReasonModalDialogue } from '../utils/reasoningModalDialogue.js';
@@ -101,8 +102,12 @@ function forgottenPasswordHandler(e) {
                 username: data.username,
             }
 
-            const emailJSResponse = await emailjs
-                .send('service_oqn9vj9', 'template_2actd2b', sendToUserData, 'n0npgfKwhAdyT8_tv');
+            const emailJSResponse = await emailjs.send(
+                                                        EMAIL_JS_SERVICE, 
+                                                        EMAIL_JS_TEMPLATE, 
+                                                        sendToUserData, 
+                                                        EMAIL_JS_TOKEN
+                                                        );
 
             if (emailJSResponse.text == 'OK') {
                 notify('Успешно заявихте нова парола. Погледнете имейла си за по-нататъчни инструкции.');

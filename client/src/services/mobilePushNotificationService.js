@@ -1,4 +1,4 @@
-import { APP_ID, APP_TOKEN, BASE_URL } from "./nativeNotifyService.js";
+import { NATIVE_NOTIFY_APP_ID, NATIVE_NOTIFY_APP_TOKEN, NATIVE_NOTIFY_URL } from "../utils/keys.js";
 
 export async function createMobilePushNotification(subject, content) {
     const options = {
@@ -7,11 +7,11 @@ export async function createMobilePushNotification(subject, content) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            appId: APP_ID,
-            appToken: APP_TOKEN,
+            appId: NATIVE_NOTIFY_APP_ID,
+            appToken: NATIVE_NOTIFY_APP_TOKEN,
             title: subject,
             body: content,
         })
     };
-    await fetch(BASE_URL, options);
+    await fetch(NATIVE_NOTIFY_URL, options);
 }

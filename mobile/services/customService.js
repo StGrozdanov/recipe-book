@@ -1,5 +1,7 @@
-// export const BASE_URL = 'http://192.168.0.150:8080';
-export const BASE_URL = 'https://recipes-server-api.herokuapp.com';
+import {BACKEND_URL} from "@env"
+
+// export const BASE_URL = process.env.LOCAL_BACKEND_URL;
+export const BASE_URL = BACKEND_URL;
 
 export const BASE_HEADERS = {
     'Content-Type': 'application/json'

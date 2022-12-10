@@ -1,6 +1,8 @@
+import {SOCKET_URL} from "@env"
+
 import socketIOClient from "socket.io-client";
 
-const socket = socketIOClient("https://recepies-notifications-api.herokuapp.com/", {
+const socket = socketIOClient(SOCKET_URL, {
     transports: ['websocket'],
     reconnectionAttempts: 15
 });
