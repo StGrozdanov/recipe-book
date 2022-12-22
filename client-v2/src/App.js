@@ -1,6 +1,8 @@
+import Landing from "./components/Landing/Landing";
+
 function App() {
   return (
-    <h1>Hallo</h1>
+    <Landing />
   );
 }
 
