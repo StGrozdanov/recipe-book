@@ -1,5 +1,4 @@
 @use "src/scss/common/colors" as *;
-@use "src/scss/common/positioning" as *;
 
 .landing-nav {
     display: flex;
@@ -11,7 +10,7 @@
     box-shadow: $nav-box-shadow;
     align-items: center;
     justify-content: space-around;
-    
+
     img {
         width: 50px;
     }
