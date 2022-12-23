@@ -1,6 +1,7 @@
 import LandingHeader from "./modules/LandingHeader/LandingHeader";
 import LandingNav from "./modules/LandingNav/LandingNav";
 import LandingDescription from "./modules/LandingDescription/LandingDescription";
+import LandingFeatures from './modules/LandingFeatures/LandingFeatures';
 
 export default function Landing() {
     return (
@@ -8,7 +9,8 @@ export default function Landing() {
             <LandingNav />
             <LandingHeader />
             <LandingDescription />
-
+            <LandingFeatures />
+            
             <section className="landing-latest-recepies">
                 <span className="landing-latest-recepies-span">smh</span>
                 <h3 className="landing-heading">Най-новите рецепти</h3>
