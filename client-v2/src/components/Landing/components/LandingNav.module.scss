@@ -6,7 +6,7 @@
     z-index: 2;
     width: 100%;
     background: $nav-background;
-    height: 10vh;
+    height: 13vh;
     box-shadow: $nav-box-shadow;
     align-items: center;
     justify-content: space-around;
@@ -28,6 +28,18 @@
     }
 }
 
+@media all and (min-width: 1600px) {
+    .landing-nav {
+        img {
+            width: 4vw;
+        }
+
+        .landing-nav-link {
+            font-size: 1.3rem;
+        }
+    }
+}
+
 @media all and (max-width: 480px) {
     .landing-nav {
         height: 13vh;
@@ -41,4 +53,3 @@
         }
     }
 }
-

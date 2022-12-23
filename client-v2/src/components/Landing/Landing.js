@@ -1,14 +1,11 @@
+import LandingHeader from "./components/LandingHeader";
 import LandingNav from "./components/LandingNav";
 
 export default function Landing() {
     return (
-        <section className="landing-page">
+        <section>
             <LandingNav />
-            <div>
-                <img className="landing-background" src="images/welcome 2.jpg" alt="welcome" />
-                <img className="landing-welcome" src="images/welcome.jpg" alt="Welcome!" />
-                <i className="fa-solid fa-angles-down fa-beat-fade"></i>
-            </div>
+            <LandingHeader />
             <section className="landing-description">
                 <h3 className="landing-description-heading">Идеята зад нашия сайт</h3>
                 <section className="landing-description-article-container">
