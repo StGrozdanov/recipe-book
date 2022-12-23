@@ -24,7 +24,11 @@ code {
   box-sizing: border-box;
 }
 
-::-moz-selection,
+::-moz-selection {
+  color: white;
+  background: $orange-accent-color;
+}
+
 ::selection {
   color: white;
   background: $orange-accent-color;

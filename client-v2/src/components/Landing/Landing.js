@@ -1,33 +1,13 @@
-import LandingHeader from "./components/LandingHeader";
-import LandingNav from "./components/LandingNav";
+import LandingHeader from "./components/LandingHeader/LandingHeader";
+import LandingNav from "./components/LandingNav/LandingNav";
+import LandingDescription from "./components/LandingDescription/LandingDescription";
 
 export default function Landing() {
     return (
         <section>
             <LandingNav />
             <LandingHeader />
-            <section className="landing-description">
-                <h3 className="landing-description-heading">Идеята зад нашия сайт</h3>
-                <section className="landing-description-article-container">
-                    <article className="landing-description-article">
-                        Идеята за "тайна рецепта" не ни допада. Природата на рецептата е друга. Тя е производна, предназначена
-                        за
-                        споделяне. Как иначе една рецепта би се подобрила? Как би се променила? Как би се зародила нова идея за
-                        рецепта? Трябва отправна точка. Трябва вдъхновение. Трябва да се опита и да се докосне, за да може да се
-                        доразвие и впоследствие да продължи живота си под друга форма, пречупена през призмата на нечий други
-                        вкусови рецептори и възприятия. При нас няма тайни рецепти.
-                    </article>
-                    <article className="landing-description-article">
-                        Това е идеята и мисията зад сайта ни. Какво печелите ако се регистрирате в него? Всеки регистрирал се
-                        се сдобива с потребителски профил, в който да създаде лична готварска книга на база съдържанието на
-                        сайта.
-                        Получава лесен и бърз достъп до всяка рецепта, обозначена като любима. Получава лесен и бърз достъп до
-                        рецептите, които той е създал. Също така регистрираният потребител може да коментира и да изказва
-                        впечатлението/мнението си, за нещо което е изпробвал, а също и да получава нотификации за нови коментари
-                        в реално време.
-                    </article>
-                </section>
-            </section>
+            <LandingDescription />
 
             <section className="landing-latest-recepies">
                 <span className="landing-latest-recepies-span">smh</span>

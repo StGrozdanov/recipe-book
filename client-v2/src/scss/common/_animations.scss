@@ -1,0 +1,53 @@
+@mixin fadeInUpAnimation($animation-delay) {
+    opacity: 0;
+    transform: translateY(3rem);
+    animation: fadeInUp 2s ease $animation-delay forwards;
+}
+
+@mixin animatedTextWriter($direction, $animation-delay) {
+    position: relative;
+    display: block;
+
+    &:before {
+        position: absolute;
+        content: "";
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        animation: if($direction==left,typewriterLeft, typewriterRight) 2s ease $animation-delay forwards;
+    }
+}
+
+@mixin blinkingTextAnimation($animation-speed, $animation-delay:4s) {
+    opacity: 0.8;
+    font-size: 103%;
+    animation: blink $animation-speed ease-out $animation-delay infinite;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes typewriterLeft {
+    to {
+        left: 100%;
+    }
+}
+
+@keyframes typewriterRight {
+    to {
+        right: 100%;
+    }
+}
+
+@keyframes blink {
+    to {
+        opacity: 1;
+        font-size: 100%;
+    }
+}
