@@ -26,6 +26,13 @@
     animation: blink $animation-speed ease-out $animation-delay infinite;
 }
 
+@mixin smoothTransitionAnimation() {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateX(-100%);
+    animation: smoothTransition 1.5s ease forwards;
+}
+
 @keyframes fadeInUp {
     to {
         opacity: 1;
@@ -49,5 +56,13 @@
     to {
         opacity: 1;
         font-size: 100%;
+    }
+}
+
+@keyframes smoothTransition {
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(0);
     }
 }

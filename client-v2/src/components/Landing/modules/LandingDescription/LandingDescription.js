@@ -1,11 +1,12 @@
 import { useRef } from 'react';
 import { useElementIsInViewport } from '../../../../hooks/useElementIsInViewport';
 import styles from './LandingDescription.module.scss';
-import LandingDescriptionFeatures from './modules/Features/LandingDescriptionFeatures';
+import LandingFeatures from '../LandingFeatures/LandingFeatures';
 
 export default function LandingDescription() {
     const articleRef = useRef();
     const isInViewport = useElementIsInViewport(articleRef);
+    
     return (
         <>
             <section className={styles["landing-description"]}>
@@ -27,7 +28,7 @@ export default function LandingDescription() {
                     </article>
                 </section>
             </section>
-            <LandingDescriptionFeatures />
+            <LandingFeatures />
         </>
     );
 }
