@@ -7,7 +7,7 @@ export default function LandingHeader() {
     return (
         <header>
             <div className={styles['landing-background-container']}>
-                <img className={styles["landing-background"]} src="images/welcome 2.jpg" alt="welcome" />
+                <img className={styles["landing-background"]} src="images/welcome-2.jpg" alt="welcome" />
             </div>
             <img className={styles["landing-welcome"]} src="images/welcome.jpg" alt="Welcome!" />
             <FontAwesomeIcon

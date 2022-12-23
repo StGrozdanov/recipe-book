@@ -1,6 +1,6 @@
-import LandingHeader from "./components/LandingHeader/LandingHeader";
-import LandingNav from "./components/LandingNav/LandingNav";
-import LandingDescription from "./components/LandingDescription/LandingDescription";
+import LandingHeader from "./modules/LandingHeader/LandingHeader";
+import LandingNav from "./modules/LandingNav/LandingNav";
+import LandingDescription from "./modules/LandingDescription/LandingDescription";
 
 export default function Landing() {
     return (

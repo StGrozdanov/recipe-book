@@ -1,0 +1,12 @@
+.features {
+    position: relative;
+    .features-image-container {
+        height: 60vh;
+
+        .features-image {
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.3);
+        }
+    }
+}
