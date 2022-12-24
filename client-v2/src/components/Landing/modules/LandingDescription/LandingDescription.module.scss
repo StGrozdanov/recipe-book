@@ -53,13 +53,14 @@
         @include fontSizeMediaQuery(1550px, 1rem, 'min-width');
         @include fontSizeMediaQuery(1700px, 1.3rem, 'min-width');
         @include fontSizeMediaQuery(1250px, 0.75rem);
+        @include fontSizeMediaQuery(395px, 0.72rem);
         
         @include mediaQuery(900px) {
             margin-top: 20px;
             width: 60vw;
         }
 
-        @include mediaQuery(450px) {
+        @include mediaQuery(600px) {
             margin-top: 20px;
             width: 100%;
             padding: 0 5px;
@@ -95,7 +96,7 @@
             width: 100%;
             font-size: 0.9rem;
         }
-        @include mediaQuery(351px) {
+        @include mediaQuery(393px) {
             bottom: -15%;
         }
     }
