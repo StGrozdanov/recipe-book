@@ -29,7 +29,7 @@
     }
 }
 
-@include mediaQuery(1600px, 'min-width') {
+@include mediaQuery(1650px, 'min-width') {
     .landing-nav {
         img {
             width: 4vw;
