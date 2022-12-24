@@ -1,10 +1,18 @@
 @use 'src/scss/common/colors' as *;
 @use 'src/scss/common/animations' as *;
+@use 'src/scss/common/fonts' as *;
+@use 'sass:map';
 
 $border-color: $orange-accent-color;
 $background-color: rgba(170, 109, 33, 10%);
 $figure-size: 200px;
 $after-element-height: 76px;
+
+@mixin text() {
+    text-align: center;
+    z-index: 2;
+    color: white;
+}
 
 @mixin pseudoElementProperties() {
     background: $border-color;
@@ -73,9 +81,13 @@ $after-element-height: 76px;
 }
 
 .text {
-    text-align: center;
-    z-index: 2;
-    color: white;
+    @include text();
+    font-family: map.get($fonts, 'elegant-cormorant');
+    font-weight: map.get(map.get($fonts-sizes, 'elegant-cormorant'), 'medium');
+}
+
+.text-heading {
+    @include text();
 }
 
 .content {

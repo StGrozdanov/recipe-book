@@ -1,0 +1,11 @@
+@mixin mediaQuery($screen-size, $width-type: max-width) {
+    @media all and ($width-type: $screen-size) {
+        @content
+    }
+};
+
+@mixin fontSizeMediaQuery($screen-size, $font-size, $width-type: max-width) {
+    @media all and ($width-type: $screen-size) {
+        font-size: $font-size;
+    }
+}

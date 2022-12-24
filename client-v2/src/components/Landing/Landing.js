@@ -10,7 +10,7 @@ export default function Landing() {
             <LandingHeader />
             <LandingDescription />
             <LandingFeatures />
-            
+
             <section className="landing-latest-recepies">
                 <span className="landing-latest-recepies-span">smh</span>
                 <h3 className="landing-heading">Най-новите рецепти</h3>

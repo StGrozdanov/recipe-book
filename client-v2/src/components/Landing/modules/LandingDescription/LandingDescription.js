@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { useElementIsInViewport } from '../../../../hooks/useElementIsInViewport';
 import styles from './LandingDescription.module.scss';
-import LandingFeatures from '../LandingFeatures/LandingFeatures';
 
 export default function LandingDescription() {
     const articleRef = useRef();
