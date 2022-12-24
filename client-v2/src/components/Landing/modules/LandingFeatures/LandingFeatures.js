@@ -9,7 +9,7 @@ import { useRef } from 'react';
 import features from './constants/featureCards';
 
 export default function LandingDescriptionFeatures() {
-    const featuresRef = useRef();
+    const featuresRef = useRef(null);
     const isInViewport = useElementIsInViewport(featuresRef);
 
     return (
@@ -18,36 +18,36 @@ export default function LandingDescriptionFeatures() {
                 <div className={styles['features-image-container']}>
                     <img className={styles["features-image"]} src="images/welcome-3.jpg" alt="welcome" />
                 </div>
-                {isInViewport && (
-                    <>
-                        <FeaturesCard
-                            {...features.profile}
-                            leftAlignPercentage={'10%'}
-                            icon={faUser}
-                            animationDelay={'300ms'}
-                        />
-                        <FeaturesCard
-                            {...features.favourites}
-                            leftAlignPercentage={'30%'}
-                            icon={faStar}
-                            animationDelay={'600ms'}
-                        />
-                        <FeaturesCard
-                            {...features.createdRecipes}
-                            leftAlignPercentage={'50%'}
-                            icon={faBookOpen}
-                            animationDelay={'900ms'}
-                        />
-                        <FeaturesCard
-                            {...features.comments}
-                            leftAlignPercentage={'70%'}
-                            icon={faCommentDots}
-                            animationDelay={'1200ms'}
-                        />
-                    </>
-                )}
+                <FeaturesCard
+                    {...features.profile}
+                    leftAlignPercentage={'10%'}
+                    icon={faUser}
+                    animationDelay={'300ms'}
+                    animation={isInViewport}
+                />
+                <FeaturesCard
+                    {...features.favourites}
+                    leftAlignPercentage={'30%'}
+                    icon={faStar}
+                    animationDelay={'600ms'}
+                    animation={isInViewport}
+                />
+                <FeaturesCard
+                    {...features.createdRecipes}
+                    leftAlignPercentage={'50%'}
+                    icon={faBookOpen}
+                    animationDelay={'900ms'}
+                    animation={isInViewport}
+                />
+                <FeaturesCard
+                    {...features.comments}
+                    leftAlignPercentage={'70%'}
+                    icon={faCommentDots}
+                    animationDelay={'1200ms'}
+                    animation={isInViewport}
+                />
             </section>
-            <span ref={featuresRef} />
+            <div ref={featuresRef} />
         </>
     );
 }

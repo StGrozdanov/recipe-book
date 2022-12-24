@@ -1,12 +1,12 @@
 @use 'src/scss/common/colors' as *;
 @use 'src/scss/common/animations' as *;
 @use 'src/scss/common/fonts' as *;
+@use 'src/scss/common/media' as *;
 @use 'sass:map';
 
 $border-color: $orange-accent-color;
 $background-color: rgba(170, 109, 33, 10%);
 $figure-size: 200px;
-$after-element-height: 76px;
 
 @mixin text() {
     text-align: center;
@@ -34,6 +34,10 @@ $after-element-height: 76px;
     border-width: 2px;
     border-style: solid;
     transform: rotate(45deg);
+
+    @include mediaQuery(1000px) {
+        position: static;
+    }
 
     &:before,
     &:after {
@@ -64,6 +68,11 @@ $after-element-height: 76px;
     overflow: hidden;
     z-index: 1;
     @include smoothTransitionAnimation();
+
+    @include mediaQuery(1000px) {
+        position: static;
+        margin: 15px 0;
+    }
 
     &:before,
     &:after {

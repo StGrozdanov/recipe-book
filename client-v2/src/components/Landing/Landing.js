@@ -11,7 +11,7 @@ export default function Landing() {
             <LandingDescription />
             <LandingFeatures />
 
-            <section className="landing-latest-recepies">
+            <section style={{height: '100vh'}} className="landing-latest-recepies">
                 <span className="landing-latest-recepies-span">smh</span>
                 <h3 className="landing-heading">Най-новите рецепти</h3>
                 <section className="landing-latest-recepies-container">

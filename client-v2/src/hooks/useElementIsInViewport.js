@@ -1,15 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-export function useElementIsInViewport(reference) {
+export function useElementIsInViewport(ref) {
     const [isInViewport, setIsInViewport] = useState(false);
+    const observerRef = useRef(null);
 
     useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            const entry = entries[0];
-            setIsInViewport(entry.isIntersecting);
+        observerRef.current = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                setIsInViewport(true);
+            }
         });
-        observer.observe(reference.current);
     }, []);
+
+    useEffect(() => {
+        observerRef.current.observe(ref.current);
+
+        return () => {
+            observerRef.current.disconnect();
+        };
+    }, [ref]);
 
     return isInViewport;
 }
