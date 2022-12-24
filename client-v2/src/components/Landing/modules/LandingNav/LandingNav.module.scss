@@ -14,6 +14,10 @@
 
     img {
         width: 50px;
+
+        @include mediaQuery(1650px, 'min-width') {
+            width: 4vw;
+        }
     }
 
     .landing-nav-link {
@@ -21,23 +25,13 @@
         text-decoration: none;
         color: white;
         padding: 6px 16px;
+
+        @include fontSizeMediaQuery(1650px, 1.3rem, 'min-width');
     }
 
     .landing-nav-link:hover {
         background: green;
         transition: 0.75s;
-    }
-}
-
-@include mediaQuery(1650px, 'min-width') {
-    .landing-nav {
-        img {
-            width: 4vw;
-        }
-
-        .landing-nav-link {
-            font-size: 1.3rem;
-        }
     }
 }
 
