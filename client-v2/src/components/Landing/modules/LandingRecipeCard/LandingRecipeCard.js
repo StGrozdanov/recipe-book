@@ -3,7 +3,7 @@ import styles from './LandingRecipeCard.module.scss';
 export default function LandingRecipeCard({ imageUrl, recipeName, category, animation, animationDelay }) {
     return (
         animation ?
-            <article className={styles["card-container"]} style={{animationDelay}}>
+            <article className={styles["card-container"]} style={{ animationDelay }}>
                 <header className={styles["picture-container"]}>
                     <img src={imageUrl} />
                 </header>

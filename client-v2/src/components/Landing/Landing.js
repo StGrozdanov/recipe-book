@@ -2,10 +2,10 @@ import LandingHeader from "./modules/LandingHeader/LandingHeader";
 import LandingNav from "./modules/LandingNav/LandingNav";
 import LandingDescription from "./modules/LandingDescription/LandingDescription";
 import LandingFeatures from './modules/LandingFeatures/LandingFeatures';
-import LandingRecipeCard from "./modules/LandingRecipeCard/LandingRecipeCard";
 import styles from './Landing.module.scss';
 import { useRef } from "react";
 import { useElementIsInViewport } from "../../hooks/useElementIsInViewport";
+import { useRenderLandingRecipe } from "../../hooks/useRenderLandingRecipe";
 
 const latestThreeRecipes = [
     {
@@ -31,17 +31,18 @@ const latestThreeRecipes = [
 
 ]
 
-const animationDelayMap = {
-    0: '250ms',
-    1: '700ms',
-    2: '1s',
-}
-
 export default function Landing() {
     const featuresRef = useRef(null);
     const featuresAreInViewport = useElementIsInViewport(featuresRef);
+
     const latestRecipesRef = useRef(null);
     const latestRecipesAreInViewport = useElementIsInViewport(latestRecipesRef);
+
+    const mostViewedRecipesRef = useRef(null);
+    const mostViewedRecipesAreInViewport = useElementIsInViewport(latestRecipesRef);
+
+    const latestRecipes = useRenderLandingRecipe(latestThreeRecipes, latestRecipesAreInViewport);
+    const mostViewedRecipes = useRenderLandingRecipe(latestThreeRecipes, mostViewedRecipesAreInViewport);
 
     return (
         <section>
@@ -51,23 +52,19 @@ export default function Landing() {
             <LandingFeatures isInViewport={featuresAreInViewport} />
             <h3 ref={featuresRef} className={styles["landing-heading"]}>Последни Публикации</h3>
             <section className={styles["landing-section"]}>
-                {
-                    latestThreeRecipes.map((recipe, index) => {
-                        recipe.animationDelay = animationDelayMap[index];
-                        return (
-                            <LandingRecipeCard
-                                key={recipe.id}
-                                {...recipe}
-                                animation={latestRecipesAreInViewport}
-                            />
-                        )
-                    })
-                }
+                {latestRecipes}
             </section>
-            <h3 className={styles["landing-heading"]}>Най-разглеждани Рецепти</h3>
-            <section ref={latestRecipesRef} className="landing-most-viewed-latest-comments"></section>
-            <h3 className={styles["landing-heading"]}>Последни Коментари</h3>
-            <section className="landing-most-viewed-latest-comments"></section>
+            <section className={styles["landing-section"]}>
+                <article ref={latestRecipesRef} className={styles["landing-article"]}>
+                    <h3 className={styles["landing-heading"]}>Най-разглеждани Рецепти</h3>
+                    {mostViewedRecipes}
+                </article>
+                <article className={styles["landing-article"]}>
+                    <h3 className={styles["landing-heading"]}>Последни Коментари</h3>
+                    {mostViewedRecipes}
+                </article>
+                <div ref={mostViewedRecipesRef} />
+            </section>
         </section >
     )
 }

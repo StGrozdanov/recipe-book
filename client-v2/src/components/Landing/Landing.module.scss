@@ -7,6 +7,13 @@
     align-items: center;
 }
 
+.landing-article {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    align-items: center;
+}
+
 .landing-heading {
     position: relative;
     padding: 8px 16px;
