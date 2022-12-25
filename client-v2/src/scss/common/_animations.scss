@@ -1,7 +1,7 @@
-@mixin fadeInUpAnimation($animation-delay) {
+@mixin fadeInUpAnimation($animation-delay: 0s, $animation-durration: 2s) {
     opacity: 0;
-    transform: translateY(3rem);
-    animation: fadeInUp 2s ease $animation-delay forwards;
+    transform: translateY(20%);
+    animation: fadeInUp $animation-durration ease $animation-delay forwards;
 }
 
 @mixin animatedTextWriter($direction, $animation-delay) {

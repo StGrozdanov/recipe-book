@@ -4,14 +4,9 @@ import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import FeaturesCard from './FeaturesCard';
 import styles from './LandingFeatures.module.scss';
-import { useElementIsInViewport } from '../../../../hooks/useElementIsInViewport'
-import { useRef } from 'react';
 import features from './constants/featureCards';
 
-export default function LandingDescriptionFeatures() {
-    const featuresRef = useRef(null);
-    const isInViewport = useElementIsInViewport(featuresRef);
-
+export default function LandingDescriptionFeatures({ isInViewport }) {
     return (
         <>
             <section className={styles.features}>
@@ -47,7 +42,6 @@ export default function LandingDescriptionFeatures() {
                     animation={isInViewport}
                 />
             </section>
-            <div ref={featuresRef} />
         </>
     );
 }

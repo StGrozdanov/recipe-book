@@ -1,0 +1,34 @@
+@use 'src/scss/common/animations' as *;
+
+.card-container {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include fadeInUpAnimation();
+
+}
+
+.picture-container {
+    width: 320px;
+    height: 215px;
+    box-shadow: 0px 1px 6px 3px #00000063;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        transition: transform .8s;
+
+        &:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+    }
+}
+
+.card-footer {
+    background-color: white;
+    border-top: 2.5px solid;
+    padding: 15px 0;
+}
