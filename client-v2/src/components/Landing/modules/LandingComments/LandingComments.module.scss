@@ -14,6 +14,10 @@ $comment-background-color: rgb(193 119 28 / 30%);
     align-items: center;
     margin-top: 40px;
     @include fadeInUpAnimation();
+
+    @include maxWidthMediaQuery(990px) {
+        padding: 0 35px;
+    }
 }
 
 .comment-header {
@@ -21,14 +25,22 @@ $comment-background-color: rgb(193 119 28 / 30%);
     align-items: center;
     justify-content: center;
     align-self: flex-start;
-    margin-left: 40px;
+    margin-left: 3.8vw;
     @include customHeadingFont('regular');
+
+    @include maxWidthMediaQuery(520px) {
+        margin-bottom: 35px;
+    }
 }
 
 .comment-username {
     margin-left: 35px;
     color: $landing-green;
     @include customHeadingFont('bold');
+
+    @include maxWidthMediaQuery(990px) {
+        margin-left: 8vw;
+    }
 }
 
 .image-container {
@@ -39,6 +51,14 @@ $comment-background-color: rgb(193 119 28 / 30%);
     top: 8%;
     box-shadow: 0px 1px 6px 3px #00000063;
     overflow: hidden;
+
+    @include maxWidthMediaQuery(990px) {
+        left: 8%;
+    }
+
+    @include maxWidthMediaQuery(640px) {
+        left: 4%;
+    }
 
     img {
         width: 100%;
@@ -65,6 +85,15 @@ $comment-background-color: rgb(193 119 28 / 30%);
 .date {
     position: absolute;
     right: 12%;
+
+    @include maxWidthMediaQuery(990px) {
+        right: 17%;
+    }
+
+    @include maxWidthMediaQuery(520px) {
+        top: 8vh;
+        right: 37vw;
+    }
 }
 
 .content {
@@ -73,10 +102,18 @@ $comment-background-color: rgb(193 119 28 / 30%);
     border-top: transparent;
     background-color: $comment-background-color;
     position: relative;
-    min-width: 80%;
+    width: 80%;
     text-align: center;
     box-shadow: 0px 1px 1px 0px rgb(0 0 0 / 20%);
     @include elegantCormorantFont('semi-bold');
+
+    @include maxWidthMediaQuery(1200px) {
+        width: 75%;
+    }
+
+    @include maxWidthMediaQuery(520px) {
+        width: 90%;
+    }
 
     &:after {
         border-color: transparent transparent $comment-background-color transparent;
@@ -89,5 +126,9 @@ $comment-background-color: rgb(193 119 28 / 30%);
         left: 5%;
         position: absolute;
         width: 0;
+
+        @include maxWidthMediaQuery(1200px) {
+            top: -3.25vh;
+        }
     }
 }
