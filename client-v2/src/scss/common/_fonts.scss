@@ -20,3 +20,17 @@ $fonts-sizes: (
         "bold": 700,
     )
 );
+
+@mixin elegantCormorantFont($font-weight) {
+    font-family: map.get($fonts, "elegant-cormorant");
+    font-weight: map.get(map.get($fonts-sizes, "elegant-cormorant"), $font-weight);
+}
+
+@mixin elegantScriptFont() {
+    font-family: map.get($fonts, "elegant-script");
+}
+
+@mixin customHeadingFont($font-weight) {
+    font-family: map.get($fonts, "heading-TT");
+    font-weight: map.get(map.get($fonts-sizes, "heading-TT"), $font-weight);
+}

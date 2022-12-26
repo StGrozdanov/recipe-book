@@ -1,4 +1,4 @@
-export function smoothScroll(viewportPositionDivisor = 2.5) {
+export function smoothScrollUtil(viewportPositionDivisor = 2.5) {
     const SCROLL_DOWN_RECIPE_CATALOGUE_VIEWPORT_VALUE = document.body.clientHeight / viewportPositionDivisor;
 
     window.scrollTo({

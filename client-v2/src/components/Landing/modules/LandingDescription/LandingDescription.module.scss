@@ -29,8 +29,7 @@
         padding: 2.5vh 18vw 0 18vw;
         background-color: white;
         color: $landing-green;
-        font-family: map.get($fonts, "heading-TT");
-        font-weight: map.get(map.get($fonts-sizes, "heading-TT"), "bold");
+        @include customHeadingFont('bold');
 
         @include fontSizeMediaQuery(1550px, 1.5rem, 'min-width');
         @include fontSizeMediaQuery(1700px, 1.7rem, 'min-width');
@@ -47,8 +46,7 @@
         margin-top: 35px;
         width: 40vw;
         font-size: 0.9rem;
-        font-family: map.get($fonts, "elegant-cormorant");
-        font-weight: map.get(map.get($fonts-sizes, "elegant-cormorant"), "medium");
+        @include elegantCormorantFont('medium');
 
         @include fontSizeMediaQuery(1550px, 1rem, 'min-width');
         @include fontSizeMediaQuery(1700px, 1.3rem, 'min-width');
@@ -85,7 +83,7 @@
         position: absolute;
         bottom: -20%;
         left: 50%;
-        font-weight: map.get(map.get($fonts-sizes, "elegant-cormorant"), "bold");
+        @include elegantCormorantFont('bold');
         transform: translate(-50%, -50%);
 
         @include fontSizeMediaQuery(1550px, 1.2rem, 'min-width');

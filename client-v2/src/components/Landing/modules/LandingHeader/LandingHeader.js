@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesDown } from '@fortawesome/free-solid-svg-icons';
 import styles from './LandingHeader.module.scss';
-import { smoothScroll } from '../../../../utils/smoothScroll';
+import { smoothScrollUtil } from '../../../../utils/smoothScrollUtil';
 
 export default function LandingHeader() {
     return (
@@ -11,7 +11,7 @@ export default function LandingHeader() {
             </div>
             <img className={styles["landing-welcome"]} src="images/welcome.jpg" alt="Welcome!" />
             <FontAwesomeIcon
-                onClick={() => smoothScroll()}
+                onClick={() => smoothScrollUtil()}
                 className={styles.icon}
                 icon={faAnglesDown}
                 beatFade
