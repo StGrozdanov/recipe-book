@@ -5,7 +5,7 @@ import LandingFeatures from './modules/LandingFeatures/LandingFeatures';
 import styles from './Landing.module.scss';
 import { useRef } from "react";
 import { useElementIsInViewport } from "../../hooks/useElementIsInViewport";
-import { useRenderLandingRecipe } from "../../hooks/useRenderLandingRecipe";
+import { useRenderLandingRecipe } from "./hooks/useRenderLandingRecipe";
 
 const latestThreeRecipes = [
     {
@@ -42,29 +42,33 @@ export default function Landing() {
     const mostViewedRecipesAreInViewport = useElementIsInViewport(latestRecipesRef);
 
     const latestRecipes = useRenderLandingRecipe(latestThreeRecipes, latestRecipesAreInViewport);
-    const mostViewedRecipes = useRenderLandingRecipe(latestThreeRecipes, mostViewedRecipesAreInViewport);
+
+    const animationDelays = {0: '2.5s', 1:'4.5s', 2: '5.1`s'}
+    const mostViewedRecipes = useRenderLandingRecipe(latestThreeRecipes, mostViewedRecipesAreInViewport, animationDelays);
 
     return (
-        <section>
-            <LandingNav />
-            <LandingHeader />
-            <LandingDescription />
-            <LandingFeatures isInViewport={featuresAreInViewport} />
-            <h3 ref={featuresRef} className={styles["landing-heading"]}>Последни Публикации</h3>
-            <section className={styles["landing-section"]}>
-                {latestRecipes}
-            </section>
-            <section className={styles["landing-section"]}>
-                <article ref={latestRecipesRef} className={styles["landing-article"]}>
-                    <h3 className={styles["landing-heading"]}>Най-разглеждани Рецепти</h3>
-                    {mostViewedRecipes}
-                </article>
-                <article className={styles["landing-article"]}>
-                    <h3 className={styles["landing-heading"]}>Последни Коментари</h3>
-                    {mostViewedRecipes}
-                </article>
-                <div ref={mostViewedRecipesRef} />
-            </section>
-        </section >
+        <>
+            <section>
+                <LandingNav />
+                <LandingHeader />
+                <LandingDescription />
+                <LandingFeatures isInViewport={featuresAreInViewport} />
+                <h3 ref={featuresRef} className={styles["landing-heading"]}>Последни Публикации</h3>
+                <section className={styles["landing-section"]}>
+                    {latestRecipes}
+                </section>
+                <section className={styles["landing-section"]}>
+                    <article ref={latestRecipesRef} className={styles["landing-article"]}>
+                        <h3 className={styles["landing-heading"]}>Най-разглеждани Рецепти</h3>
+                        {mostViewedRecipes}
+                    </article>
+                    <article ref={mostViewedRecipesRef} className={styles["landing-article"]}>
+                        <h3 className={styles["landing-heading"]}>Последни Коментари</h3>
+                        {mostViewedRecipes}
+                    </article>
+                </section>
+            </section >
+            <footer ref={mostViewedRecipesRef}>All rights reserved</footer>
+        </>
     )
 }
