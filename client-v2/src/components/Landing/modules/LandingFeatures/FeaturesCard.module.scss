@@ -114,3 +114,40 @@ $figure-size: 200px;
     color: $border-color;
     display: block;
 }
+
+@include minWidthMediaQuery(1700px) {
+    .outter {
+        height: 250px;
+        width: 250px;
+
+        &:before {
+            height: 100px;
+            margin-top: -50px;
+        }
+
+        &:after {
+            margin-top: -50px;
+            height: 100px;
+        }
+    }
+
+    .inner {
+        width: 250px;
+        height: 250px;
+
+        &:before {
+            height: 103px;
+            margin-top: -25px;
+            left: 34px;
+            top: 9px;
+        }
+
+        &:after {
+            height: 103px;
+            right: 35px;
+            left: auto;
+            bottom: 14px;
+            top: 200px;
+        }
+    }
+}
