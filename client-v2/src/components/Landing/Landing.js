@@ -22,38 +22,35 @@ export default function Landing() {
     const landingComments = appendCommentsAnimationDelayUtil(latestComments);
 
     return (
-        <>
-            <section>
-                <LandingNav />
-                <LandingHeader />
-                <LandingDescription />
-                <LandingFeatures isInViewport={featuresAreInViewport} />
-                <h3 ref={featuresRef} className={styles["landing-heading"]}>Последни Публикации</h3>
-                <section className={styles["landing-section"]}>
-                    {latestRecipes}
-                </section>
+        <section>
+            <LandingNav />
+            <LandingHeader />
+            <LandingDescription />
+            <LandingFeatures isInViewport={featuresAreInViewport} />
+            <h3 ref={featuresRef} className={styles["landing-heading"]}>Последни Публикации</h3>
+            <section className={styles["landing-section"]}>
+                {latestRecipes}
+            </section>
 
-                <section className={styles["landing-section"]}>
-                    <article ref={latestRecipesRef} className={styles["landing-article"]}>
-                        <h3 ref={mostViewedRecipesRef} className={styles["landing-heading"]}>
-                            Най-разглеждани Рецепти
-                        </h3>
-                        {mostViewedRecipes}
-                    </article>
+            <section className={styles["landing-section"]}>
+                <article ref={latestRecipesRef} className={styles["landing-article"]}>
+                    <h3 ref={mostViewedRecipesRef} className={styles["landing-heading"]}>
+                        Най-разглеждани Рецепти
+                    </h3>
+                    {mostViewedRecipes}
+                </article>
 
-                    <article className={styles["landing-article"]}>
-                        <h3 className={styles["landing-heading"]}>Последни Коментари</h3>
-                        {landingComments.map(comment => {
-                            return <LandingComments
-                                key={comment.id}
-                                {...comment}
-                                isInViewport={featuresAreInViewport}
-                            />
-                        })}
-                    </article>
-                </section>
-            </section >
-            <footer>All rights reserved</footer>
-        </>
+                <article className={styles["landing-article"]}>
+                    <h3 className={styles["landing-heading"]}>Последни Коментари</h3>
+                    {landingComments.map(comment => {
+                        return <LandingComments
+                            key={comment.id}
+                            {...comment}
+                            isInViewport={featuresAreInViewport}
+                        />
+                    })}
+                </article>
+            </section>
+        </section >
     )
 }
