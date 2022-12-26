@@ -1,4 +1,5 @@
 @use 'src/scss/common/animations' as *;
+@use 'src/scss/common/media' as *;
 
 .card-container {
     margin-top: 40px;
@@ -6,13 +7,18 @@
     flex-direction: column;
     align-items: center;
     @include fadeInUpAnimation();
-}
+} 
 
 .picture-container {
     width: 320px;
     height: 215px;
     box-shadow: 0px 1px 6px 3px #00000063;
     overflow: hidden;
+
+    @include maxWidthMediaQuery(350px) {
+        width: 275px;
+        height: 190px;  
+    }
 
     img {
         width: 100%;

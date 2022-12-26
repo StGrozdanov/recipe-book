@@ -35,7 +35,9 @@ export default function Landing() {
 
                 <section className={styles["landing-section"]}>
                     <article ref={latestRecipesRef} className={styles["landing-article"]}>
-                        <h3 ref={mostViewedRecipesRef} className={styles["landing-heading"]}>Най-разглеждани Рецепти</h3>
+                        <h3 ref={mostViewedRecipesRef} className={styles["landing-heading"]}>
+                            Най-разглеждани Рецепти
+                        </h3>
                         {mostViewedRecipes}
                     </article>
 
