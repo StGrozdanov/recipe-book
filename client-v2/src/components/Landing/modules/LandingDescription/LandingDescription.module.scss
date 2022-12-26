@@ -53,12 +53,12 @@
         @include fontSizeMediaQuery(1250px, 0.75rem);
         @include fontSizeMediaQuery(395px, 0.72rem);
         
-        @include mediaQuery(900px) {
+        @include maxWidthMediaQuery(900px) {
             margin-top: 20px;
             width: 60vw;
         }
 
-        @include mediaQuery(600px) {
+        @include maxWidthMediaQuery(600px) {
             margin-top: 20px;
             width: 100%;
             padding: 0 5px;
@@ -89,12 +89,12 @@
         @include fontSizeMediaQuery(1550px, 1.2rem, 'min-width');
         @include fontSizeMediaQuery(1700px, 1.45rem, 'min-width');
 
-        @include mediaQuery(570px) {
+        @include maxWidthMediaQuery(570px) {
             bottom: -25%;
             width: 100%;
             font-size: 0.9rem;
         }
-        @include mediaQuery(393px) {
+        @include maxWidthMediaQuery(393px) {
             bottom: -15%;
         }
     }

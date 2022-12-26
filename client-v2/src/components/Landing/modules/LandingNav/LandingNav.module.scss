@@ -15,7 +15,7 @@
     img {
         width: 50px;
 
-        @include mediaQuery(1650px, 'min-width') {
+        @include minWidthMediaQuery(1650px) {
             width: 4vw;
         }
     }
@@ -35,7 +35,7 @@
     }
 }
 
-@include mediaQuery(480px) {
+@include maxWidthMediaQuery(480px) {
     .landing-nav {
         height: 13vh;
 

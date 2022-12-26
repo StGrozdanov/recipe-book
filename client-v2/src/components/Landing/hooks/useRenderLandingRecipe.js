@@ -1,7 +1,7 @@
 import LandingRecipeCard from "../modules/LandingRecipeCard/LandingRecipeCard";
 
 const defaultaAnimationsDelayMap = { 0: '1s', 1: '1.3s', 2: '1.7s' }
-const mostViewedAnimationsDelayMap = { 0: '2.5s', 1: '3.2s', 2: '5s' }
+const mostViewedAnimationsDelayMap = { 0: '1.5s', 1: '3s', 2: '4.5s' }
 
 export function useRenderLandingRecipe(recipes, animationCondition, isMostViewed) {
     const landingRecipes = recipes.map((recipe, index) => {

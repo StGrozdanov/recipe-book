@@ -35,7 +35,7 @@ $figure-size: 200px;
     border-style: solid;
     transform: rotate(45deg);
 
-    @include mediaQuery(1000px) {
+    @include maxWidthMediaQuery(1000px) {
         position: static;
     }
 
@@ -69,7 +69,7 @@ $figure-size: 200px;
     z-index: 1;
     @include smoothTransitionAnimation();
 
-    @include mediaQuery(1000px) {
+    @include maxWidthMediaQuery(1000px) {
         position: static;
         margin: 15px 0;
     }

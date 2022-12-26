@@ -1,5 +1,12 @@
-@mixin mediaQuery($screen-size, $width-type: max-width) {
-    @media all and ($width-type: $screen-size) {
+@mixin maxWidthMediaQuery($screen-size) {
+    @media all and (max-width: $screen-size) {
+        @content
+    }
+};
+
+
+@mixin minWidthMediaQuery($screen-size) {
+    @media all and (min-width: $screen-size) {
         @content
     }
 };

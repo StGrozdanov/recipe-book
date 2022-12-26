@@ -4,7 +4,7 @@
 .landing-background-container {
     height: 110vh;
 
-    @include mediaQuery(690px) {
+    @include maxWidthMediaQuery(690px) {
         height: 100vh;
     }
 
@@ -13,7 +13,7 @@
         height: 100%;
         opacity: 0.9;
 
-        @include mediaQuery(990px) {
+        @include maxWidthMediaQuery(990px) {
             object-fit: cover;
         }
     }
@@ -29,11 +29,11 @@
     border-radius: 35px;
     width: 35vw;
 
-    @include mediaQuery(990px) {
+    @include maxWidthMediaQuery(990px) {
         width: 50vw;
     }
 
-    @include mediaQuery(690px) {
+    @include maxWidthMediaQuery(690px) {
         width: 80vw;
     }
 }
@@ -48,11 +48,11 @@
     transform: translate(-50%, -50%);
     cursor: pointer;
 
-    @include mediaQuery(1500px, 'min-width') {
+    @include minWidthMediaQuery(1500px) {
         font-size: 3rem;
     }
 
-    @include mediaQuery(460px) {
+    @include maxWidthMediaQuery(460px) {
         font-size: 1.6rem;
         top: 59%;
         left: 48%;
