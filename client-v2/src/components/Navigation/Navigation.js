@@ -1,8 +1,14 @@
 import styles from './Navigation.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faAngleDown, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
+import { useAnimationDelay } from '../../hooks/useAnimationDelay';
 
 export default function Navigation() {
+    const [showSearch, setShowSearch] = useState(false);
+    const shouldRenderSearch = useAnimationDelay(showSearch, 1000);
+    const unmountedStyle = { left: '50vw', bottom: 100, background:'cornflowerblue', transition: 'all .6s ease-in' };
+
     return (
         <nav className={styles.navigation}>
             <h4 className={styles.logo}>All The Best
@@ -56,7 +62,28 @@ export default function Navigation() {
                 </li>
 
                 <li className={styles['nav-item-search']}>
-                    <FontAwesomeIcon className={styles.search} icon={faMagnifyingGlass} />
+                    <FontAwesomeIcon
+                        className={styles.search}
+                        icon={faMagnifyingGlass}
+                        onClick={() => showSearch ? setShowSearch(false) : setShowSearch(true)}
+                    />
+                    {shouldRenderSearch &&
+                        <article className={styles['search-article']} style={!showSearch ? unmountedStyle : null} >
+                            <FontAwesomeIcon
+                                className={styles['search-input-icon']}
+                                icon={faMagnifyingGlass}
+                            />
+                            <input
+                                className={styles['search-input']}
+                                type="text"
+                                placeholder='Търсете по име на рецепта ...'
+                            />
+                            <FontAwesomeIcon
+                                className={styles['cancel-input-icon']}
+                                icon={faXmark}
+                                onClick={() => setShowSearch(false)}
+                            />
+                        </article>}
                 </li>
             </ul>
         </nav >

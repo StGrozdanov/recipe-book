@@ -26,10 +26,10 @@
     animation: blink $animation-speed ease-out $animation-delay infinite;
 }
 
-@mixin smoothTransitionAnimation() {
+@mixin smoothTransitionAnimation($direction: -100%) {
     opacity: 0;
     filter: blur(10px);
-    transform: translateX(-100%);
+    transform: translateX($direction);
     animation: smoothTransition 1.5s ease forwards;
 }
 
