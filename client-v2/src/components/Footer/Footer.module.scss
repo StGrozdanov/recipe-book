@@ -66,20 +66,25 @@
 
 .footer {
     display: flex;
+    overflow: hidden;
+    margin-top: 10px;
 }
 
 .left-article {
-    background: transparent url('../../../public/images/footer-image.jpg') no-repeat scroll;
-    color: #fff;
-    overflow: hidden;
-    padding: 60px 0 200px;
-    position: relative;
+    background-size: cover;
     text-align: center;
-    width: 49vw;
-    filter: brightness(0.8);
+    min-width: 49vw;
+    height: 350px;
+
+    img {
+        filter: brightness(0.8);
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
 
 .right-article {
     background-color: $orange-accent-color;
-    width: 51vw;
+    min-width: 50vw;
 }

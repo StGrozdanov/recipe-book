@@ -8,8 +8,8 @@ export default function LandingDescription() {
 
     return (
         <section className={styles["landing-description"]}>
-            <h3 className={styles.heading}>Идеята зад нашия сайт</h3>
-            <section ref={articleRef} className={isInViewport ? styles["article-container"] : ''}>
+            <h3 ref={articleRef} className={styles.heading}>Идеята зад нашия сайт</h3>
+            <section className={isInViewport ? styles["animated-article-container"] : styles["article-container"]}>
                 <article className={styles.article}>
                     <span className={isInViewport ? styles['first-animated-text'] : ''}>
                         Идеята за "тайна рецепта" не ни допада. Природата на рецептата е друга. Тя е производна,

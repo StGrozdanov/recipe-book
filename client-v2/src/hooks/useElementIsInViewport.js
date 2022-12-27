@@ -1,5 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 
+const options = {
+    threshold: 1,
+    rootMargin: '0px 0px -100px 0px', 
+}
+
 export function useElementIsInViewport(ref) {
     const [isInViewport, setIsInViewport] = useState(false);
     const observerRef = useRef(null);
@@ -9,7 +14,7 @@ export function useElementIsInViewport(ref) {
             if (entry.isIntersecting) {
                 setIsInViewport(true);
             }
-        });
+        }, options);
     }, []);
 
     useEffect(() => {

@@ -6,6 +6,7 @@ export default function Footer() {
     return (
         <footer className={styles.footer}>
             <article className={styles['left-article']}>
+                <img src="images/footer-image.jpg" />
                 <p>©2023 Copyright: recepti-na-shushanite.web.app</p>
             </article>
             <article className={styles["right-article"]}>

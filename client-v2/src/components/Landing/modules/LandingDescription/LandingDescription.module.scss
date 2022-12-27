@@ -2,7 +2,12 @@
 @use 'src/scss/common/animations' as *;
 @use 'src/scss/common/fonts' as *;
 @use 'src/scss/common/media' as *;
-@use 'sass:map';
+
+@mixin articleContainer() {
+    display: flex;
+    justify-content: space-around;
+    margin-top: -18px;
+}
 
 .landing-description {
     height: 45vh;
@@ -36,9 +41,11 @@
     }
 
     .article-container {
-        display: flex;
-        justify-content: space-around;
-        margin-top: -18px;
+        @include articleContainer();
+    }
+
+    .animated-article-container {
+        @include articleContainer();
         @include fadeInUpAnimation();
     }
 
@@ -52,7 +59,7 @@
         @include fontSizeMediaQuery(1700px, 1.3rem, 'min-width');
         @include fontSizeMediaQuery(1250px, 0.75rem);
         @include fontSizeMediaQuery(395px, 0.72rem);
-        
+
         @include maxWidthMediaQuery(900px) {
             margin-top: 20px;
             width: 60vw;
@@ -94,6 +101,7 @@
             width: 100%;
             font-size: 0.9rem;
         }
+
         @include maxWidthMediaQuery(393px) {
             bottom: -15%;
         }

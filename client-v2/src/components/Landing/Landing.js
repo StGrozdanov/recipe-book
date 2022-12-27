@@ -13,10 +13,9 @@ const latestThreeRecipes = [{ "id": 20, "imageUrl": "https://cook-book-shushanit
 const latestComments = [{ "id": 11, "content": "Оооооо тоя сладкиш е тооп ви казвам. Дегостиран е мноогократно!", "createdAt": "2022-05-13T18:57:51", "recipe": { "id": 17, "imageUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/strawberry-dessert.jpg", "recipeName": "сладкиш с ягоди" }, "owner": { "id": 1, "username": "shushan", "avatarUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/avatar.png" } }, { "id": 10, "content": "…..  E,беше ФАМОЗНО!!! \uD83E\uDD70\uD83D\uDE0D\uD83D\uDE1A\uD83E\uDD29\uD83D\uDE03\uD83D\uDE0B", "createdAt": "2022-04-02T15:38:07", "recipe": { "id": 11, "imageUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/Tiramisu.jpg", "recipeName": "тирамису" }, "owner": { "id": 2, "username": "ani", "avatarUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/avatar.png" } }, { "id": 9, "content": "На 25/3/22 с Патюшка си направихме и ….следва продължение!", "createdAt": "2022-03-25T20:09:12", "recipe": { "id": 11, "imageUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/Tiramisu.jpg", "recipeName": "тирамису" }, "owner": { "id": 2, "username": "ani", "avatarUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/avatar.png" } }, { "id": 8, "content": "Много готина мусака", "createdAt": "2022-02-16T18:53:35", "recipe": { "id": 3, "imageUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/musaka.jpg", "recipeName": "мусака" }, "owner": { "id": 1, "username": "shushan", "avatarUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/avatar.png" } }, { "id": 7, "content": "Баси яката рецепта! Браво !", "createdAt": "2022-01-13T17:21:16", "recipe": { "id": 16, "imageUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/pancakes.jpg", "recipeName": "палачинки" }, "owner": { "id": 1, "username": "shushan", "avatarUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/avatar.png" } }, { "id": 6, "content": "Защото снощи правих кееекс!", "createdAt": "2022-01-03T16:26:27", "recipe": { "id": 1, "imageUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/bananov_keks_s_karamelena_glazura.jpg", "recipeName": "кекс" }, "owner": { "id": 1, "username": "shushan", "avatarUrl": "https://cook-book-shushanite.s3.eu-central-1.amazonaws.com/avatar.png" } }]
 
 export default function Landing() {
-    const featuresRef = useRef(null);
     const latestRecipesRef = useRef(null);
     const mostViewedRecipesRef = useRef(null);
-    const [featuresAreInViewport, latestRecipesAreInViewport, mostViewedRecipesAreInViewport] = useLandingRefs(featuresRef, latestRecipesRef, mostViewedRecipesRef);
+    const [latestRecipesAreInViewport, mostViewedRecipesAreInViewport] = useLandingRefs(latestRecipesRef, mostViewedRecipesRef);
     const latestRecipes = useRenderLandingRecipe(latestThreeRecipes, latestRecipesAreInViewport);
     const mostViewedRecipes = useRenderLandingRecipe(latestThreeRecipes, mostViewedRecipesAreInViewport, true);
     const landingComments = appendCommentsAnimationDelayUtil(latestComments);
@@ -26,14 +25,14 @@ export default function Landing() {
             <LandingNav />
             <LandingHeader />
             <LandingDescription />
-            <LandingFeatures isInViewport={featuresAreInViewport} />
-            <h3 ref={featuresRef} className={styles["landing-heading"]}>Последни Публикации</h3>
-            <section className={styles["landing-section"]}>
+            <LandingFeatures />
+            <h3 className={styles["landing-heading"]}>Последни Публикации</h3>
+            <section ref={latestRecipesRef} className={styles["landing-section"]}>
                 {latestRecipes}
             </section>
 
             <section className={styles["landing-section"]}>
-                <article ref={latestRecipesRef} className={styles["landing-article"]}>
+                <article className={styles["landing-article"]}>
                     <h3 ref={mostViewedRecipesRef} className={styles["landing-heading"]}>
                         Най-разглеждани Рецепти
                     </h3>
@@ -46,7 +45,7 @@ export default function Landing() {
                         return <LandingComments
                             key={comment.id}
                             {...comment}
-                            isInViewport={featuresAreInViewport}
+                            isInViewport={mostViewedRecipesAreInViewport}
                         />
                     })}
                 </article>
