@@ -1,10 +1,16 @@
 import styles from './Footer.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { useRef } from 'react';
+import { useElementIsInViewport } from '../../hooks/useElementIsInViewport';
 
 export default function Footer() {
+    const footerRef = useRef(null);
+    const isInViewport = useElementIsInViewport(footerRef);
+
     return (
         <footer className={styles.footer}>
+            <span ref={footerRef} />
             <article className={styles['left-article']}>
                 <img src="images/footer-image.jpg" />
                 <p className={styles.copyright}>©2023 Copyright: recepti-na-shushanite.web.app</p>
@@ -13,51 +19,55 @@ export default function Footer() {
                 <section className={styles['link-section']}>
                     <p className={styles.projects}>Other projects</p>
                     <ul className={styles['project-links-list']}>
-                        <a
-                            href='https://st-grozdanov-portfolio.web.app/'
-                            target="_blank"
-                            className={styles['project-links']}
-                        >
-                            <img
-                                className={styles['project-images']}
-                                src="https://st-grozdanov-portfolio.web.app/favicon.png"
-                            />
-                        </a>
-                        <a
-                            href='https://forge-my-physique.web.app/'
-                            target="_blank"
-                            className={styles['project-links']}
-                        >
-                            <img
-                                className={styles['project-images']}
-                                src="https://forge-my-physique.web.app/assets/pictures/forge.png"
-                            />
-                        </a>
-                        <a
-                            href='https://movies-mern-stack.web.app/'
-                            target="_blank"
-                            className={styles['project-links']}
-                        >
-                            <img
-                                className={styles['project-images']}
-                                src="https://movies-mern-stack.web.app/pictures/favicon.ico"
-                            />
-                        </a>
-                        <a
-                            href='https://viva-las-vegas-ba1bf.web.app/'
-                            target="_blank"
-                            className={styles['project-links']}
-                        >
-                            <img
-                                className={styles['project-images']}
-                                src="https://viva-las-vegas-ba1bf.web.app/casino_logo.png"
-                            />
-                        </a>
+                        {isInViewport ?
+                            <>
+                                <a
+                                    href='https://st-grozdanov-portfolio.web.app/'
+                                    target="_blank"
+                                    className={styles['project-links']}
+                                >
+                                    <img
+                                        className={styles['project-images']}
+                                        src="https://st-grozdanov-portfolio.web.app/favicon.png"
+                                    />
+                                </a>
+                                <a
+                                    href='https://forge-my-physique.web.app/'
+                                    target="_blank"
+                                    className={styles['project-links']}
+                                >
+                                    <img
+                                        className={styles['project-images']}
+                                        src="https://forge-my-physique.web.app/assets/pictures/forge.png"
+                                    />
+                                </a>
+                                <a
+                                    href='https://movies-mern-stack.web.app/'
+                                    target="_blank"
+                                    className={styles['project-links']}
+                                >
+                                    <img
+                                        className={styles['project-images']}
+                                        src="https://movies-mern-stack.web.app/pictures/favicon.ico"
+                                    />
+                                </a>
+                                <a
+                                    href='https://viva-las-vegas-ba1bf.web.app/'
+                                    target="_blank"
+                                    className={styles['project-links']}
+                                >
+                                    <img
+                                        className={styles['project-images']}
+                                        src="https://viva-las-vegas-ba1bf.web.app/casino_logo.png"
+                                    />
+                                </a>
+                            </>
+                            : null}
                     </ul>
                     <ul className={styles['project-links-list']}>
                         <a
                             href="mailto:st.grozdanov.developer@gmail.com"
-                            className={styles['project-links-email']}
+                            className={isInViewport && styles['project-links-email']}
                             style={{ position: 'relative' }}
                         >
                             <FontAwesomeIcon
@@ -68,8 +78,8 @@ export default function Footer() {
                         </a>
                         <a
                             href="javascript:void[0]"
-                            className={styles['project-links-facebook']}
-                            style={{ position: 'relative' }}
+                            className={isInViewport && styles['project-links-facebook']}
+                            style={{ position: 'relative', animationDelay: '500ms' }}
                         >
                             <svg
                                 className={styles.facebook}
@@ -84,8 +94,8 @@ export default function Footer() {
                         <a
                             href="https://www.linkedin.com/in/stoyan-grozdanov-533b4b1bb"
                             target="_blank"
-                            className={styles['project-links-linked-in']}
-                            style={{ position: 'relative' }}
+                            className={styles[isInViewport && 'project-links-linked-in']}
+                            style={{ position: 'relative', animationDelay: '800ms' }}
                         >
                             <svg
                                 className={styles['linked-in']}
@@ -100,8 +110,8 @@ export default function Footer() {
                         <a
                             href="https://github.com/StGrozdanov"
                             target="_blank"
-                            className={styles['project-links-github']}
-                            style={{ position: 'relative' }}
+                            className={styles[isInViewport && 'project-links-github']}
+                            style={{ position: 'relative', animationDelay: '1200ms' }}
                         >
                             <svg
                                 className={styles.github}
