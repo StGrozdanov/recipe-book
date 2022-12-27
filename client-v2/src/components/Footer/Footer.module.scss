@@ -21,6 +21,10 @@
     transition: $social-links-transition;
     @include smoothTransitionAnimation();
 
+    &:hover {
+        background-color: burlywood;
+    }
+
     @include maxWidthMediaQuery(560px) {
         border-color: white;
     }
