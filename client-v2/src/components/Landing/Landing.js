@@ -15,7 +15,8 @@ const latestComments = [{ "id": 11, "content": "Оооооо тоя сладки
 export default function Landing() {
     const latestRecipesRef = useRef(null);
     const mostViewedRecipesRef = useRef(null);
-    const [latestRecipesAreInViewport, mostViewedRecipesAreInViewport] = useLandingRefs(latestRecipesRef, mostViewedRecipesRef);
+    const commentsRef = useRef(null);
+    const [latestRecipesAreInViewport, mostViewedRecipesAreInViewport, commentsAreInViewport] = useLandingRefs(latestRecipesRef, mostViewedRecipesRef, commentsRef);
     const latestRecipes = useRenderLandingRecipe(latestThreeRecipes, latestRecipesAreInViewport);
     const mostViewedRecipes = useRenderLandingRecipe(latestThreeRecipes, mostViewedRecipesAreInViewport, true);
     const landingComments = appendCommentsAnimationDelayUtil(latestComments);
@@ -40,12 +41,12 @@ export default function Landing() {
                 </article>
 
                 <article className={styles["landing-article"]}>
-                    <h3 className={styles["landing-heading"]}>Последни Коментари</h3>
+                    <h3 ref={commentsRef} className={styles["landing-heading"]}>Последни Коментари</h3>
                     {landingComments.map(comment => {
                         return <LandingComments
                             key={comment.id}
                             {...comment}
-                            isInViewport={mostViewedRecipesAreInViewport}
+                            isInViewport={commentsAreInViewport}
                         />
                     })}
                 </article>

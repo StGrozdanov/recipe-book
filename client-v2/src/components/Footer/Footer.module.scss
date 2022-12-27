@@ -1,7 +1,13 @@
 @use 'src/scss/common/animations' as *;
 @use 'src/scss/common/colors' as *;
+@use 'src/scss/common/fonts' as *;
 
-.project-links {
+@mixin footerFont() {
+    color: white;
+    @include customHeadingFont('bold');
+}
+
+@mixin projectLinks() {
     border: 1.5px solid bisque;
     border-radius: 50%;
     display: block;
@@ -11,6 +17,45 @@
     margin-left: 10px;
     cursor: pointer;
     box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%);
+    transition: $social-links-transition;
+}
+
+$social-links-transition: all .75s ease 0s;
+
+.project-links {
+    @include projectLinks();
+}
+
+.project-links-facebook {
+    @include projectLinks();
+
+    &:hover {
+        background: rgba(7, 115, 216, .778);
+    }
+}
+
+.project-links-linked-in {
+    @include projectLinks();
+
+    &:hover {
+        background: #6495ed;
+    }
+}
+
+.project-links-github {
+    @include projectLinks();
+
+    &:hover {
+        background: dimgray;
+    }
+}
+
+.project-links-email {
+    @include projectLinks();
+
+    &:hover {
+        background: #f4a460;
+    }
 }
 
 .project-images {
@@ -22,35 +67,36 @@
 .facebook {
     position: absolute;
     width: 53px;
-    height: 30px;
-    left: -9%;
-    top: 18%;
+    height: 23px;
+    left: -6%;
+    top: 25%;
+    transition: $social-links-transition;
 }
-
 
 .github {
     position: absolute;
     width: 50px;
-    height: 35px;
-    top: 13%;
-    left: -15%;
+    height: 28px;
+    top: 20%;
+    left: -13%;
+    transition: $social-links-transition;
 }
-
 
 .linked-in {
     position: absolute;
     width: 50px;
-    height: 30px;
+    height: 23px;
     left: -9%;
-    top: 18%;
+    top: 25%;
 }
 
 .email {
     position: absolute;
     width: 53px;
-    height: 27px;
-    left: -9%;
-    top: 22%;
+    height: 23px;
+    left: -8%;
+    top: 26%;
+    transition: $social-links-transition;
 }
 
 .project-links-list {
@@ -67,14 +113,15 @@
 .footer {
     display: flex;
     overflow: hidden;
-    margin-top: 10px;
+    margin-top: 30px;
+    position: relative;
 }
 
 .left-article {
     background-size: cover;
     text-align: center;
     min-width: 49vw;
-    height: 350px;
+    height: 300px;
 
     img {
         filter: brightness(0.8);
@@ -86,5 +133,26 @@
 
 .right-article {
     background-color: $orange-accent-color;
-    min-width: 50vw;
+    min-width: 51vw;
+}
+
+.copyright {
+    @include footerFont();
+    z-index: 2;
+    position: absolute;
+    left: 30vw;
+    font-size: 1.2rem;
+    bottom: 0;
+}
+
+.projects {
+    @include footerFont();
+    font-size: 1rem;
+    text-align: center;
+}
+
+.link-section {
+    position: absolute;
+    top: 5vh;
+    right: 15vw;
 }
