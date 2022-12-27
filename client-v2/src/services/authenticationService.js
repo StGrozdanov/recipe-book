@@ -1,4 +1,3 @@
-// import { notify } from "../utils/notification.js";
 import { BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 
 const AUTHENTICATION_END_POINT = '/authenticate';
@@ -46,7 +45,6 @@ export async function logout() {
             await refreshToken();
             await logout();
         } else {
-            // notify(data.message);
             throw new Error(data.error);
         }
     }
@@ -106,11 +104,11 @@ export function userIsAuthenticated() {
 }
 
 export function userIsAdministrator() {
-    return Boolean(sessionStorage.getItem('isAdministrator') == 'true');
+    return Boolean(sessionStorage.getItem('isAdministrator') === 'true');
 }
 
 export function userIsModerator() {
-    return Boolean(sessionStorage.getItem('isModerator') == 'true');
+    return Boolean(sessionStorage.getItem('isModerator') === 'true');
 }
 
 export function saveUserData(data) {

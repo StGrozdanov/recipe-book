@@ -1,10 +1,19 @@
+import { Route, Routes, useLocation } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Landing from "./components/Landing/Landing";
+import Catalogue from './components/Catalogue/Catalogue';
+import Navigation from './components/Navigation/Navigation';
 
 function App() {
+  const location = useLocation();
+  const currentPage = location.pathname;
   return (
     <>
-      <Landing />
+      {currentPage !== '/' && <Navigation />}
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/catalogue" element={<Catalogue />} />
+      </Routes>
       <Footer />
     </>
   );

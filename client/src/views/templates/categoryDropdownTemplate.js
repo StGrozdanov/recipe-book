@@ -10,7 +10,7 @@ export const categoryDropdownTemplate = (ctx) => html`
                 <option>Категории</option>
             </select>
             <div class="overSelect"></div>
-        </div>
+    </div>
         <div @change=${(e) => categorize(e, ctx)} id="checkboxes" style="display: none;">
             <label for="all-categories">
                 <input type="checkbox" id="all-categories" value="Всички" checked /><span></span>Всички</label>

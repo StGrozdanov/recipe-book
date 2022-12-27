@@ -13,7 +13,7 @@ export default function Footer() {
             <span ref={footerRef} />
             <article className={styles['left-article']}>
                 <img src="images/footer-image.jpg" />
-                <p className={styles.copyright}>©2023 Copyright: recepti-na-shushanite.web.app</p>
+                <p className={styles.copyright}>©2023 Copyright: all-the-best-recipes.web.app</p>
             </article>
             <article className={styles["right-article"]}>
                 <section className={styles['link-section']}>

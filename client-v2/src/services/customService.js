@@ -1,4 +1,4 @@
-import { BACKEND_URL } from "../utils/keys.js";
+import { BACKEND_URL } from "../utils/keys";
 
 // export const BASE_URL = 'http://localhost:8080';
 export const BASE_URL = BACKEND_URL;

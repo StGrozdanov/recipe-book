@@ -1,6 +1,5 @@
 import { AUTHENTICATE_FIRST } from "../constants/errorMessages.js";
 import { refreshToken } from "../services/authenticationService.js";
-// import { notify } from "./notification.js";
 
 let refreshTokenUsed = false;
 
@@ -21,7 +20,7 @@ export async function handleRequest(fetchResponse, errorMessage, callback) {
                 return AUTHENTICATE_FIRST;
             }
         }
-    } 
+    }
     // else if (fetchResponse.status === 401) {
     //     sessionStorage.clear();
     //     sessionStorage.setItem('blockedFor', data.message);
@@ -34,7 +33,6 @@ export async function handleRequest(fetchResponse, errorMessage, callback) {
         if (refreshTokenUsed) {
             refreshTokenUsed = false;
         }
-        // notify(errorMessage);
         throw new Error(data.error);
     }
 }

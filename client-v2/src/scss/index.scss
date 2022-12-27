@@ -41,12 +41,13 @@ code {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  margin-top: 13vh;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: $orange-accent-color;
+  height: 300px;
 }
 
 /* Handle on hover */
