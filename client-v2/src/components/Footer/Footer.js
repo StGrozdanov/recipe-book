@@ -67,7 +67,7 @@ export default function Footer() {
                     <ul className={styles['project-links-list']}>
                         <a
                             href="mailto:st.grozdanov.developer@gmail.com"
-                            className={isInViewport && styles['project-links-email']}
+                            className={styles[isInViewport ? 'project-links-email' : '']}
                             style={{ position: 'relative' }}
                         >
                             <FontAwesomeIcon
@@ -78,7 +78,7 @@ export default function Footer() {
                         </a>
                         <a
                             href="javascript:void[0]"
-                            className={isInViewport && styles['project-links-facebook']}
+                            className={styles[isInViewport ? 'project-links-facebook' : '']}
                             style={{ position: 'relative', animationDelay: '500ms' }}
                         >
                             <svg
@@ -94,7 +94,7 @@ export default function Footer() {
                         <a
                             href="https://www.linkedin.com/in/stoyan-grozdanov-533b4b1bb"
                             target="_blank"
-                            className={styles[isInViewport && 'project-links-linked-in']}
+                            className={styles[isInViewport ? 'project-links-linked-in' : '']}
                             style={{ position: 'relative', animationDelay: '800ms' }}
                         >
                             <svg
@@ -110,7 +110,7 @@ export default function Footer() {
                         <a
                             href="https://github.com/StGrozdanov"
                             target="_blank"
-                            className={styles[isInViewport && 'project-links-github']}
+                            className={styles[isInViewport ? 'project-links-github' : '']}
                             style={{ position: 'relative', animationDelay: '1200ms' }}
                         >
                             <svg
