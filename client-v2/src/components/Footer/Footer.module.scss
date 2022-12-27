@@ -1,6 +1,7 @@
 @use 'src/scss/common/animations' as *;
 @use 'src/scss/common/colors' as *;
 @use 'src/scss/common/fonts' as *;
+@use 'src/scss/common/media' as *;
 
 @mixin footerFont() {
     color: white;
@@ -19,6 +20,10 @@
     box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%);
     transition: $social-links-transition;
     @include smoothTransitionAnimation();
+
+    @include maxWidthMediaQuery(560px) {
+        border-color: white;
+    }
 }
 
 $social-links-transition: all .75s ease 0s;
@@ -130,30 +135,66 @@ $social-links-transition: all .75s ease 0s;
         height: 100%;
         object-fit: cover;
     }
+
+    @include maxWidthMediaQuery(560px) {
+        min-width: 100vw;
+        background-color: transparent;
+        filter: brightness(0.7);
+    }
 }
 
 .right-article {
     background-color: $orange-accent-color;
     min-width: 51vw;
+
+    @include maxWidthMediaQuery(560px) {
+        width: 0vw;
+        background-color: transparent
+    }
 }
 
 .copyright {
     @include footerFont();
     z-index: 2;
     position: absolute;
-    left: 30vw;
+    left: 50%;
     font-size: 1.2rem;
-    bottom: 0;
+    bottom: -7%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+
+    @include maxWidthMediaQuery(768px) {
+        font-size: 1rem;
+    }
+
+    @include maxWidthMediaQuery(560px) {
+        margin: 0;
+        font-size: 0.75rem;
+        bottom: 0;
+    }
 }
 
 .projects {
     @include footerFont();
     font-size: 1rem;
     text-align: center;
+
+    @include maxWidthMediaQuery(560px) {
+        margin: 0;
+    }
 }
 
 .link-section {
     position: absolute;
     top: 5vh;
     right: 15vw;
+
+    @include maxWidthMediaQuery(768px) {
+        right: 9vw;
+    }
+
+    @include maxWidthMediaQuery(560px) {
+        top: 2vh;
+        left: 0;
+    }
 }
