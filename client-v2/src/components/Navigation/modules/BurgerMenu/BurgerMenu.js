@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './BurgerMenu.module.scss';
 
 export default function BurgerMenu({ handler, style }) {
     const [clicked, setClicked] = useState(false);
 
+    function burgerMenuClickHandler() {
+        clicked ? setClicked(false) : setClicked(true)
+        handler();
+    }
+
     return (
         <button
             className={styles.button}
             aria-expanded={clicked}
-            onClick={() => {
-                clicked ? setClicked(false) : setClicked(true)
-                handler();
-            }}
+            onClick={burgerMenuClickHandler}
             style={style}
         >
             <svg className={styles.hamburger} viewBox="0 0 100 100" width={45}>
@@ -33,7 +35,7 @@ export default function BurgerMenu({ handler, style }) {
                 />
                 <rect
                     className={styles.bottom}
-                    width={clicked ? 80 : 65}
+                    width={clicked ? 80 : 55}
                     height={10}
                     x={10}
                     y={65}

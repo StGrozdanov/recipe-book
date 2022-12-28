@@ -1,5 +1,3 @@
-import { NATIVE_NOTIFY_APP_ID, NATIVE_NOTIFY_APP_TOKEN, NATIVE_NOTIFY_URL } from "../utils/keys.js";
-
 export async function createMobilePushNotification(subject, content) {
     const options = {
         method: 'POST',
@@ -7,11 +5,11 @@ export async function createMobilePushNotification(subject, content) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            appId: NATIVE_NOTIFY_APP_ID,
-            appToken: NATIVE_NOTIFY_APP_TOKEN,
+            appId: process.env.REACT_APP_NATIVE_NOTIFY_APP_ID,
+            appToken: process.env.REACT_APP_NATIVE_NOTIFY_APP_TOKEN,
             title: subject,
             body: content,
         })
     };
-    await fetch(NATIVE_NOTIFY_URL, options);
+    await fetch(process.env.REACT_APP_NATIVE_NOTIFY_URL, options);
 }

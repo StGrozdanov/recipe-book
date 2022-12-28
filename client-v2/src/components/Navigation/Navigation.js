@@ -39,7 +39,8 @@ export default function Navigation() {
                     onClick={() => showSearch ? setShowSearch(false) : setShowSearch(true)}
                 />
             </li>
-            {shouldRenderSearch &&
+            {
+            shouldRenderSearch &&
                 <article className={styles['search-article']} style={!showSearch ? unmountedStyle : null} >
                     <FontAwesomeIcon
                         className={styles['search-input-icon']}
@@ -56,7 +57,8 @@ export default function Navigation() {
                         icon={faXmark}
                         onClick={() => setShowSearch(false)}
                     />
-                </article>}
+                </article>
+                }
             <BurgerMenu handler={showDropdownHandler} style={{position: 'absolute', right: '3vw'}} />
         </nav >
     )

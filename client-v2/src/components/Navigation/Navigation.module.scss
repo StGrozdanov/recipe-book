@@ -4,9 +4,6 @@
 @use "src/scss/common/animations" as *;
 @use "src/scss/common/media" as *;
 
-$nav-items-size: 1.15rem;
-$transperent-accent-color: rgba(214, 172, 119, 0.7);
-
 .navigation {
     @include siteNavigation();
 }
@@ -36,79 +33,6 @@ $transperent-accent-color: rgba(214, 172, 119, 0.7);
             width: 100%;
             height: 100%;
         }
-    }
-}
-
-.nav-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    max-width: 80vw;
-    justify-content: space-around;
-    align-content: center;
-    align-items: center;
-    height: 100%;
-
-    li {
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-image: linear-gradient($dark-orange-accent-color, $transperent-accent-color);
-        background-size: 0% 0.1em;
-        background-position-y: 75%;
-        background-repeat: no-repeat;
-        transition: background-size 0.4s ease-out;
-        margin-right: 30px;
-
-        &:hover {
-            background-size: 100% 0.2em;
-        }
-    }
-}
-
-.item {
-    font-weight: 800;
-    text-decoration: none;
-    color: darkslategray;
-    font-size: $nav-items-size;
-    transition: all .5s;
-
-    &:hover {
-        color: $dark-orange-accent-color;
-    }
-}
-
-.dropdown-item {
-    height: 100%;
-}
-
-.dropdown-nav-item {
-    padding: 0 10px;
-    transition: all .65s;
-    background-image: none !important;
-    position: relative;
-
-    &:hover {
-        background-color: $transperent-accent-color;
-
-        a {
-            color: black;
-        }
-
-        .dropdown-icon {
-            transform: rotate(180deg);
-        }
-
-        .dropdown-menu {
-            visibility: visible;
-            opacity: 1;
-        }
-    }
-
-    .dropdown-icon {
-        margin-left: 7px;
     }
 }
 
@@ -145,7 +69,7 @@ $transperent-accent-color: rgba(214, 172, 119, 0.7);
         position: relative;
         padding: 15px 10vw;
         font-size: 1.2rem;
-        background: $transperent-accent-color;
+        background: rgba(214, 172, 119, 0.7);
         border: none;
 
         &:focus {
@@ -179,67 +103,8 @@ $transperent-accent-color: rgba(214, 172, 119, 0.7);
     }
 }
 
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    width: 13vw;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-    background: $transperent-accent-color;
-    color: black;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility .01s, opacity 1s linear;
-
-    @include maxWidthMediaQuery(1150px) {
-        width: 16vw;
-    }
-
-    label {
-        position: relative;
-        padding: 3px;
-
-        &:hover {
-            background-color: #c9995c;
-            color: white;
-            opacity: 0.8;
-        }
-
-        span {
-            height: 12px;
-            width: 12px;
-            margin-right: 5px;
-            border: 1px solid #010101;
-            display: inline-block;
-            position: relative;
-            border-radius: 2px;
-        }
-
-        input {
-            display: none;
-        }
-    }
-
-    [type=checkbox]:checked+span:before {
-        content: '\e92f';
-        font-family: 'Material Icons';
-        color: #2a5e03;
-        position: absolute;
-        top: -10px;
-        left: -1px;
-        font-size: 18px;
-        -webkit-text-stroke: 0.8px;
-    }
-}
-
-.dropdown-icon {
-    font-size: $nav-items-size;
-    transition: all .75s;
-}
-
-.burger-menu, .close-burger-menu {
+.burger-menu,
+.close-burger-menu {
     display: none;
     font-size: 1.8rem;
     color: $dark-orange-accent-color;
@@ -256,49 +121,7 @@ $transperent-accent-color: rgba(214, 172, 119, 0.7);
         position: initial;
     }
 
-    .nav-logo {
-        display: flex;
-        width: 60px;
-        position: absolute;
-        top: 0;
-
-        img {
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    .dropdown-nav-item:hover {
-        background-color: rgba(214, 172, 119, 0.95);
-    }
-
-    .dropdown-menu {
-        width: 100%;
-        background: rgba(214, 172, 119, 0.95);
-    }
-
-    .nav-ul {
-        display: none;
-        position: absolute;
-        height: 80vh;
-        overflow-y: scroll;
-        top: 77px;
-        width: 100vw;
-        background: white;
-        right: 0;
-        padding: 78px 0;
-        background-color: rgba(241, 240, 240, 0.4);
-        backdrop-filter: blur(15px);
-        @include smoothTransitionAnimation(20%, 700ms);
-
-        &::-webkit-scrollbar {
-            width: 0;
-          }          
-    }
-
     .search-article {
-        bottom: 77vh;
-
         .search-input::placeholder {
             font-size: 1rem;
         }

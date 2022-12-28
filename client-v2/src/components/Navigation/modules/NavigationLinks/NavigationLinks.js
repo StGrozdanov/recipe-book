@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import styles from '../../Navigation.module.scss';
+import styles from './NavigationLinks.module.scss';
 
 const unmountedStyleDropdown = {
     display: 'flex',
@@ -14,12 +14,15 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false 
         <ul
             className={styles['nav-ul']}
             style={
-                additionalStyle ?
-                showDropdown ? { display: 'flex', flexDirection: 'column' } : unmountedStyleDropdown
-                : null
+                additionalStyle
+                    ? showDropdown ? { display: 'flex', flexDirection: 'column' } : unmountedStyleDropdown
+                    : null
             }
         >
-            <div className={styles['nav-logo']} style={showDropdown ? { display: 'initial' } : { display: 'none' }}>
+            <div
+                className={styles['nav-logo']}
+                style={showDropdown ? { display: 'initial' } : { display: 'none' }}
+            >
                 <img src="/images/cooking.png" />
             </div>
 
@@ -30,7 +33,7 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false 
             <li className={styles['dropdown-nav-item']}>
                 <a href="#" className={styles.item}>Категории</a>
                 <FontAwesomeIcon className={styles['dropdown-icon']} icon={faAngleDown} />
-                <div className={styles['dropdown-menu']} style={{}}>
+                <div className={styles['dropdown-menu']}>
                     <label htmlFor="all-categories">
                         <input type="checkbox" id="all-categories" value="Всички" /><span></span>Всички</label>
                     <label>
