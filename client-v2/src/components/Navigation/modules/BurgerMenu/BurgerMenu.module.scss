@@ -1,0 +1,49 @@
+@use 'src/scss/common/colors' as *;
+@use 'src/scss/common/media' as *;
+
+.button {
+    margin: 0 auto;
+    display: none;
+    background: transparent;
+    border: none;
+
+    @include maxWidthMediaQuery(1000px) {
+        display: block;
+    } 
+
+    .hamburger {
+        fill: $dark-orange-accent-color;
+
+        rect {
+            transition: y 250ms ease-in 250ms, transform 250ms ease-in, opacity 0ms 250ms;
+            transform-origin: center;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &[aria-expanded="true"] {
+        rect {
+            transition: y 250ms ease-in, transform 250ms ease-in 250ms, opacity 0ms 250ms;
+        }
+
+        .top,
+        .bottom {
+            y: 45
+        }
+
+        .top {
+            transform: rotate(45deg)
+        }
+
+        .bottom {
+            transform: rotate(-45deg)
+        }
+
+        .mid {
+            opacity: 0;
+        }
+    }
+}
