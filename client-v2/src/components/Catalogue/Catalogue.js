@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as recipeService from '../../services/recipeService';
 import styles from './Catalogue.module.scss';
-import LandingRecipeCard from '../RecipeCard/RecipeCard';
+import RecipeCard from '../RecipeCard/RecipeCard';
 import BackToTopButton from '../BackToTopButton/BackToTopButton';
 import { useEndlessScroll } from '../../hooks/useEndlessScroll';
 import { capitalizatorUtil } from '../../utils/capitalizatorUtil';
@@ -30,7 +30,7 @@ export default function Catalogue() {
                         ? recipes.map(recipe => {
                             recipe.recipeName = capitalizatorUtil(recipe.recipeName);
                             return (
-                                <LandingRecipeCard
+                                <RecipeCard
                                     key={recipe.id}
                                     {...recipe}
                                     animation={true}
