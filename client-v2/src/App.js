@@ -15,6 +15,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/catalogue" element={<Catalogue />} />
         <Route path='/search' element={<Search />} />
+        <Route path='/categorize' element={<Search />} />
       </Routes>
       <Footer />
     </>

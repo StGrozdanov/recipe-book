@@ -22,7 +22,7 @@ export default function Search() {
     }, [location]);
 
     return (
-        <section className={styles["search-section"]} style={{ minHeight: '70vh' }}>
+        <section className={styles["search-section"]} style={{ minHeight: '75vh' }}>
             <ul className={styles["recipe-card-list"]}>
                 <h2 className={styles["filtration-heading"]}>Рецепти, съдържащи "{query}" в името си:</h2>
                 {
@@ -41,7 +41,7 @@ export default function Search() {
                         })
                         :
                         <div className={styles['no-results']}>
-                            <h3>Все още няма такива рецепти. Ако желаете да добавите първата, кликнете тук или се върнете на каталога</h3><Link to="/catalogue" className={styles["return-anker"]}></Link>
+                            <h3>Все още няма такива рецепти. Можете да добавите първата или да се върнете на каталога</h3><Link to="/catalogue" className={styles["return-anker"]}></Link>
                         </div>
                 }
             </ul>

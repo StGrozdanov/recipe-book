@@ -6,6 +6,7 @@ import { useAnimationDelay } from '../../hooks/useAnimationDelay';
 import NavigationLinks from './modules/NavigationLinks/NavigationLinks';
 import BurgerMenu from './modules/BurgerMenu/BurgerMenu';
 import { Link, useNavigate } from 'react-router-dom';
+
 const unmountedStyle = { left: '50vw', bottom: '100%', transition: 'all .6s ease-in' };
 const inputUnmountedStyle = { background: 'white', transition: 'all 0.7s ease-in' }
 
@@ -23,6 +24,7 @@ export default function Navigation() {
 
     function searchHandler(e) {
         e.preventDefault();
+
         if (searchInput.trim() != '') {
             navigate(`/search?=${searchInput}`);
             setSearchInput('');
