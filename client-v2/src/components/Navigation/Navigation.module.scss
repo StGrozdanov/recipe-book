@@ -18,6 +18,7 @@
     min-width: 18vw;
     @include fontSizeMediaQuery(425px, 0.95rem);
     position: relative;
+    cursor: pointer;
 
     .logo-container {
         width: 40px;

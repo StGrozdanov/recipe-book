@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 import styles from './NavigationLinks.module.scss';
 
 const unmountedStyleDropdown = {
@@ -27,11 +28,11 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false 
             </div>
 
             <li className={styles['nav-item']}>
-                <a href="#" className={styles.item}>Каталог</a>
+                <Link to={'/catalogue'} className={styles.item}>Каталог</Link>
             </li>
 
             <li className={styles['dropdown-nav-item']}>
-                <a href="#" className={styles.item}>Категории</a>
+                <Link to={'/categories'} className={styles.item}>Категории</Link>
                 <FontAwesomeIcon className={styles['dropdown-icon']} icon={faAngleDown} />
                 <div className={styles['dropdown-menu']}>
                     <label htmlFor="all-categories">
@@ -62,15 +63,15 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false 
             </li>
 
             <li className={styles['nav-item']}>
-                <a href="#" className={styles.item}>Вход</a>
+                <Link to={'/login'} className={styles.item}>Вход</Link>
             </li>
 
             <li className={styles['nav-item']}>
-                <a href="#" className={styles.item}>Моят Профил</a>
+                <Link to={'/user-profile'} className={styles.item}>Моят Профил</Link>
             </li>
 
             <li className={styles['nav-item']}>
-                <a href="#" className={styles.item}>Създай Рецепта</a>
+                <Link to={'/create'} className={styles.item}>Създай Рецепта</Link>
             </li>
 
         </ul>

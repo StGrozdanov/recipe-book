@@ -3,6 +3,7 @@ import Footer from "./components/Footer/Footer";
 import Landing from "./components/Landing/Landing";
 import Catalogue from './components/Catalogue/Catalogue';
 import Navigation from './components/Navigation/Navigation';
+import Search from "./components/Search/Search";
 
 function App() {
   const location = useLocation();
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/catalogue" element={<Catalogue />} />
+        <Route path='/search' element={<Search />} />
       </Routes>
       <Footer />
     </>
