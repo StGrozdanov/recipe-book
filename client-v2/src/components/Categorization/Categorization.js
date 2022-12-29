@@ -22,7 +22,7 @@ export default function Categorization() {
                 .then(recipes => setRecipes(recipes))
                 .catch(error => console.log(error));
         }
-    }, []);
+    }, [location]);
 
     return (
         <section className={styles["category-section"]} style={{ minHeight: '75vh' }}>

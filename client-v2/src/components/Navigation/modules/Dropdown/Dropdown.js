@@ -1,34 +1,128 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Dropdown.module.scss';
 
 export default function Dropdown({ style }) {
-    
+    const [checkedBoxes, setCheckedBoxes] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        navigate(`/categories?=${checkedBoxes.join('&')}`);
+    }, [checkedBoxes])
+
+    function checkboxHandler(e) {
+        const isChecked = e.target.checked;
+        const boxName = e.target.value;
+
+        if (isChecked) {
+            if (checkedBoxes.includes(boxName) === false) {
+                setCheckedBoxes((boxes) => [...boxes, boxName]);
+            }
+        } else {
+            setCheckedBoxes(checkedBoxes.filter(box => box !== boxName));
+        }
+    }
 
     return (
         <div className={styles['dropdown-menu']} style={style}>
             <label htmlFor="all-categories">
-                <input type="checkbox" id="all-categories" value="Всички" /><span></span>Всички</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Всички"}
+                    onChange={checkboxHandler}
+                    defaultChecked
+                />
+                <span></span>
+                Всички
+            </label>
             <label>
-                <input type="checkbox" value="Пилешко" /><span></span>Пилешко</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Пилешко"}
+                    onChange={checkboxHandler}
+                />
+                <span></span>
+                Пилешко
+            </label>
             <label>
-                <input type="checkbox" value="Свинско" /><span></span>Свинско</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Свинско"}
+                    onChange={checkboxHandler} />
+                <span></span>
+                Свинско
+            </label>
             <label>
-                <input type="checkbox" value="Телешко" /><span></span>Телешко</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Телешко"}
+                    onChange={checkboxHandler} />
+                <span></span>
+                Телешко
+            </label>
             <label>
-                <input type="checkbox" value="Телешко\-свинско" /><span></span>Телешко-свинско</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Телешко\-свинско"}
+                    onChange={checkboxHandler} />
+                <span></span>
+                Телешко-свинско
+            </label>
             <label>
-                <input type="checkbox" value="Риба" /><span></span>Риба</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Риба"}
+                    onChange={checkboxHandler} />
+                <span></span>
+                Риба
+            </label>
             <label>
-                <input type="checkbox" value="Други месни" /><span></span>Други месни</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Други месни"}
+                    onChange={checkboxHandler} />
+                <span></span>
+                Други месни
+            </label>
             <label>
-                <input type="checkbox" value="Вегитариански" /><span></span>Вегитариански</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Вегитариански"}
+                    onChange={checkboxHandler} />
+                <span></span>
+                Вегитариански
+            </label>
             <label>
-                <input type="checkbox" value="Салати" /><span></span>Салати</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Салати"}
+                    onChange={checkboxHandler} />
+                <span></span>
+                Салати
+            </label>
             <label>
-                <input type="checkbox" value="Тестени" /><span></span>Тестени</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Тестени"}
+                    onChange={checkboxHandler} />
+                <span></span>
+                Тестени
+            </label>
             <label>
-                <input type="checkbox" value="Десерти" /><span></span>Десерти</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Десерти"}
+                    onChange={checkboxHandler} />
+                <span></span>
+                Десерти
+            </label>
             <label>
-                <input type="checkbox" value="Други" /><span></span>Други</label>
+                <input
+                    type="checkbox"
+                    defaultValue={"Други"} onChange={checkboxHandler} />
+                <span></span>
+                Други
+            </label>
         </div>
     );
 }
