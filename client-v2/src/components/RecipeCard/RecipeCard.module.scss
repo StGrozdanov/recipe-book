@@ -7,6 +7,10 @@
     flex-direction: column;
     align-items: center;
     @include fadeInUpAnimation();
+
+    @include minWidthMediaQuery(1600px){
+        margin: 40px 100px !important;
+    }
 } 
 
 .picture-container {

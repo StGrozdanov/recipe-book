@@ -3,7 +3,7 @@ import { handleRequest } from "../utils/requestDataHandler.js";
 import { BASE_HEADERS, BASE_URL, CALLBACK, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
 import { getUserToken } from "./authenticationService.js";
 
-export const RECEPIES_PER_PAGE = 6;
+export const RECEPIES_PER_PAGE = 3;
 export const RECEPIES_END_POINT = '/recipes';
 
 const RECIPE_END_POINTS = {
