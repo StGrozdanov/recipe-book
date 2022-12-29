@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import styles from './NavigationLinks.module.scss';
+import Dropdown from '../Dropdown/Dropdown';
+import { useState } from 'react';
 
 const unmountedStyleDropdown = {
     display: 'flex',
@@ -11,6 +13,8 @@ const unmountedStyleDropdown = {
 };
 
 export default function NavigationLinks({ showDropdown, additionalStyle = false }) {
+    const [dropdownIsExpanded, setDropdownIsExpanded] = useState(false);
+
     return (
         <ul
             className={styles['nav-ul']}
@@ -31,35 +35,14 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false 
                 <Link to={'/catalogue'} className={styles.item}>Каталог</Link>
             </li>
 
-            <li className={styles['dropdown-nav-item']}>
+            <li
+                className={styles['dropdown-nav-item']}
+                onMouseEnter={() => setDropdownIsExpanded(true)}
+                onMouseLeave={() => setDropdownIsExpanded(false)}
+            >
                 <Link to={'/categories'} className={styles.item}>Категории</Link>
                 <FontAwesomeIcon className={styles['dropdown-icon']} icon={faAngleDown} />
-                <div className={styles['dropdown-menu']}>
-                    <label htmlFor="all-categories">
-                        <input type="checkbox" id="all-categories" value="Всички" /><span></span>Всички</label>
-                    <label>
-                        <input type="checkbox" value="Пилешко" /><span></span>Пилешко</label>
-                    <label>
-                        <input type="checkbox" value="Свинско" /><span></span>Свинско</label>
-                    <label>
-                        <input type="checkbox" value="Телешко" /><span></span>Телешко</label>
-                    <label>
-                        <input type="checkbox" value="Телешко\-свинско" /><span></span>Телешко-свинско</label>
-                    <label>
-                        <input type="checkbox" value="Риба" /><span></span>Риба</label>
-                    <label>
-                        <input type="checkbox" value="Други месни" /><span></span>Други месни</label>
-                    <label>
-                        <input type="checkbox" value="Вегитариански" /><span></span>Вегитариански</label>
-                    <label>
-                        <input type="checkbox" value="Салати" /><span></span>Салати</label>
-                    <label>
-                        <input type="checkbox" value="Тестени" /><span></span>Тестени</label>
-                    <label>
-                        <input type="checkbox" value="Десерти" /><span></span>Десерти</label>
-                    <label>
-                        <input type="checkbox" value="Други" /><span></span>Други</label>
-                </div>
+                <Dropdown style={dropdownIsExpanded ? { visibility: 'visible', opacity: 1 } : null} />
             </li>
 
             <li className={styles['nav-item']}>

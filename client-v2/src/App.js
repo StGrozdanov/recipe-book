@@ -4,6 +4,7 @@ import Landing from "./components/Landing/Landing";
 import Catalogue from './components/Catalogue/Catalogue';
 import Navigation from './components/Navigation/Navigation';
 import Search from "./components/Search/Search";
+import Categorization from "./components/Categorization/Categorization";
 
 function App() {
   const location = useLocation();
@@ -15,7 +16,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/catalogue" element={<Catalogue />} />
         <Route path='/search' element={<Search />} />
-        <Route path='/categorize' element={<Search />} />
+        <Route path='/categories' element={<Categorization />} />
       </Routes>
       <Footer />
     </>
