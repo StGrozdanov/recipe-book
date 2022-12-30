@@ -77,7 +77,7 @@ export default function Footer() {
                             />
                         </a>
                         <a
-                            href="javascript:void[0]"
+                            href="#"
                             className={styles[isInViewport ? 'project-links-facebook' : '']}
                             style={{ position: 'relative', animationDelay: '500ms' }}
                         >

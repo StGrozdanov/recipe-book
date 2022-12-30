@@ -40,7 +40,7 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false 
                 onMouseEnter={() => setDropdownIsExpanded(true)}
                 onMouseLeave={() => setDropdownIsExpanded(false)}
             >
-                <Link to={'/categories'} className={styles.item}>Категории</Link>
+                <Link className={styles.item}>Категории</Link>
                 <FontAwesomeIcon className={styles['dropdown-icon']} icon={faAngleDown} />
                 <Dropdown style={dropdownIsExpanded ? { visibility: 'visible', opacity: 1 } : null} />
             </li>
