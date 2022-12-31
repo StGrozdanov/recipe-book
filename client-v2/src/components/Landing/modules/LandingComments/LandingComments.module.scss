@@ -24,7 +24,7 @@ $comment-background-color: rgb(193 119 28 / 30%);
         height: 238px;
     }
 
-    @include maxWidthMediaQuery(400px) {
+    @include maxWidthMediaQuery(391px) {
         height: 237.5px;
     }
 
