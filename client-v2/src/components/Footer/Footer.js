@@ -79,7 +79,7 @@ export default function Footer() {
                         <a
                             href="#"
                             className={styles[isInViewport ? 'project-links-facebook' : '']}
-                            style={{ position: 'relative', animationDelay: '500ms' }}
+                            style={{ position: 'relative', animationDelay: '280ms' }}
                         >
                             <svg
                                 className={styles.facebook}
