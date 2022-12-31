@@ -7,17 +7,27 @@
 $comment-background-color: rgb(193 119 28 / 30%);
 
 .comment {
-    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 40px;
+    position: relative;
+    height: 125px;
     @include fadeInUpAnimation();
 
     @include maxWidthMediaQuery(990px) {
         padding: 0 35px;
     }
+
+    @include maxWidthMediaQuery(520px) {
+        height: 238px;
+    }
+
+    @include maxWidthMediaQuery(400px) {
+        height: 237.5px;
+    }
+
 }
 
 .comment-header {
@@ -53,7 +63,7 @@ $comment-background-color: rgb(193 119 28 / 30%);
     overflow: hidden;
 
     @include maxWidthMediaQuery(990px) {
-        left: 8%;
+        left: 6%;
     }
 
     @include maxWidthMediaQuery(640px) {
@@ -101,15 +111,10 @@ $comment-background-color: rgb(193 119 28 / 30%);
     border-radius: 15px;
     border-top: transparent;
     background-color: $comment-background-color;
-    position: relative;
     width: 80%;
     text-align: center;
     box-shadow: 0px 1px 1px 0px rgb(0 0 0 / 20%);
     @include elegantCormorantFont('semi-bold');
-
-    @include maxWidthMediaQuery(1200px) {
-        width: 75%;
-    }
 
     @include maxWidthMediaQuery(520px) {
         width: 90%;
@@ -119,16 +124,16 @@ $comment-background-color: rgb(193 119 28 / 30%);
         border-color: transparent transparent $comment-background-color transparent;
         border-style: solid;
         border-width: 0 16px 17px 0;
-        top: -28%;
+        top: 31%;
         content: "";
         display: block;
         height: 0;
-        left: 5%;
+        left: 14%;
         position: absolute;
         width: 0;
 
-        @include maxWidthMediaQuery(1200px) {
-            top: -3.25vh;
+        @include maxWidthMediaQuery(990px) {
+            left: 20%;
         }
     }
 }
