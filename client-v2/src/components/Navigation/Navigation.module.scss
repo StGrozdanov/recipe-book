@@ -72,6 +72,10 @@
         font-size: 1.2rem;
         background: rgba(214, 172, 119, 0.7);
         border: none;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-border-radius: 0;
+        border-radius: 0;
 
         &:focus {
             outline: none;
@@ -123,18 +127,23 @@
     }
 
     .search-article {
+        bottom: -54px;
+
         .search-input::placeholder {
             font-size: 1rem;
         }
 
+        .search-input-icon,
+        .cancel-input-icon {
+            top: 17px;
+        }
+
         .search-input-icon {
             left: 2vw;
-            top: 3vh;
         }
 
         .cancel-input-icon {
             left: 93vw;
-            top: 3.2vh;
         }
 
     }
