@@ -22,11 +22,9 @@ export default function Navigation() {
 
     function burgerMenuClickHandler() {
         if (burgerMenuState.burgerMenuIsClicked) {
-            setBurgerMenuState((state) => ({ ...state, burgerMenuIsClicked: false }));
-            setBurgerMenuState((state) => ({ ...state, burgerMenuDropdownIsShown: false }));
+            setBurgerMenuState({ burgerMenuDropdownIsShown: false, burgerMenuIsClicked: false });
         } else {
-            setBurgerMenuState((state) => ({ ...state, burgerMenuIsClicked: true }));
-            setBurgerMenuState((state) => ({ ...state, burgerMenuDropdownIsShown: true }));
+            setBurgerMenuState({ burgerMenuDropdownIsShown: true, burgerMenuIsClicked: true });
         }
     }
 
