@@ -16,7 +16,7 @@ export default function BurgerMenu({ handler, style }) {
             onClick={burgerMenuClickHandler}
             style={style}
         >
-            <svg className={styles.hamburger} viewBox="0 0 100 100" width={45}>
+            <svg className={styles.hamburger} viewBox="0 0 100 100" width={clicked ? 36 : 45}>
                 <rect
                     className={styles.top}
                     width={clicked ? 80 : 90}
