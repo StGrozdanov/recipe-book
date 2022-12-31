@@ -1,19 +1,11 @@
-import { useState } from 'react';
 import styles from './BurgerMenu.module.scss';
 
-export default function BurgerMenu({ handler, style }) {
-    const [clicked, setClicked] = useState(false);
-
-    function burgerMenuClickHandler() {
-        clicked ? setClicked(false) : setClicked(true)
-        handler();
-    }
-
+export default function BurgerMenu({ handler, style, clicked }) {
     return (
         <button
             className={styles.button}
             aria-expanded={clicked}
-            onClick={burgerMenuClickHandler}
+            onClick={handler}
             style={style}
         >
             <svg className={styles.hamburger} viewBox="0 0 100 100" width={clicked ? 36 : 45}>

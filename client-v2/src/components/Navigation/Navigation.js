@@ -8,33 +8,41 @@ import BurgerMenu from './modules/BurgerMenu/BurgerMenu';
 import { Link, useNavigate } from 'react-router-dom';
 
 const unmountedStyle = { left: '50vw', bottom: '100%', transition: 'all .6s ease-in' };
-const inputUnmountedStyle = { background: 'white', transition: 'all 0.7s ease-in' }
+const inputUnmountedStyle = { background: 'white', transition: 'all 0.7s ease-in' };
+const burgerMenuDefaultState = { burgerMenuIsClicked: false, burgerMenuDropdownIsShown: false };
 
 export default function Navigation() {
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [burgerMenuState, setBurgerMenuState] = useState(burgerMenuDefaultState);
     const [showSearch, setShowSearch] = useState(false);
-    const [searchInput, setSearchInput] = useState('');
+    const [searchInputValue, setSearchInputValue] = useState('');
     const navigate = useNavigate();
-    const shouldRenderSearch = useAnimationDelay(showSearch, 1000);
-    const shouldRenderDropdown = useAnimationDelay(showDropdown, 1000);
 
-    function showDropdownHandler() {
-        showDropdown ? setShowDropdown(false) : setShowDropdown(true);
+    const shouldRenderSearch = useAnimationDelay(showSearch, 1000);
+    const shouldRenderDropdown = useAnimationDelay(burgerMenuState.burgerMenuDropdownIsShown, 1000);
+
+    function burgerMenuClickHandler() {
+        if (burgerMenuState.burgerMenuIsClicked) {
+            setBurgerMenuState((state) => ({ ...state, burgerMenuIsClicked: false }));
+            setBurgerMenuState((state) => ({ ...state, burgerMenuDropdownIsShown: false }));
+        } else {
+            setBurgerMenuState((state) => ({ ...state, burgerMenuIsClicked: true }));
+            setBurgerMenuState((state) => ({ ...state, burgerMenuDropdownIsShown: true }));
+        }
     }
 
     function searchHandler(e) {
         e.preventDefault();
 
-        if (searchInput.trim() != '') {
-            navigate(`/search?=${searchInput}`);
-            setSearchInput('');
+        if (searchInputValue.trim() != '') {
+            navigate(`/search?=${searchInputValue}`);
+            setSearchInputValue('');
             setShowSearch(false);
         }
     }
 
     return (
         <nav className={styles.navigation}>
-            <Link style={{textDecoration: 'none'}} to={'/'}>
+            <Link style={{ textDecoration: 'none' }} to={'/'}>
                 <h4 className={styles.logo}>All The Best
                     <div className={styles['logo-container']}>
                         <img src="/images/cooking.png" />
@@ -44,7 +52,10 @@ export default function Navigation() {
             </Link>
             {
                 shouldRenderDropdown
-                    ? <NavigationLinks showDropdown={showDropdown} additionalStyle={true} />
+                    ? <NavigationLinks
+                        showDropdown={burgerMenuState.burgerMenuDropdownIsShown}
+                        additionalStyle={true}
+                    />
                     : <NavigationLinks showDropdown={false} />
             }
             <li className={styles['nav-item-search']}>
@@ -56,9 +67,9 @@ export default function Navigation() {
             </li>
             {
                 shouldRenderSearch &&
-                <form 
-                    className={styles['search-article']} 
-                    style={!showSearch ? unmountedStyle : null} 
+                <form
+                    className={styles['search-article']}
+                    style={!showSearch ? unmountedStyle : null}
                     onSubmit={searchHandler}
                 >
                     <FontAwesomeIcon
@@ -71,8 +82,8 @@ export default function Navigation() {
                         type="text"
                         placeholder='Търсете по име на рецепта ...'
                         style={!showSearch ? inputUnmountedStyle : null}
-                        defaultValue={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
+                        defaultValue={searchInputValue}
+                        onChange={(e) => setSearchInputValue(e.target.value)}
                     />
                     <FontAwesomeIcon
                         className={styles['cancel-input-icon']}
@@ -81,7 +92,11 @@ export default function Navigation() {
                     />
                 </form>
             }
-            <BurgerMenu handler={showDropdownHandler} style={{ position: 'absolute', right: '3vw' }} />
+            <BurgerMenu
+                handler={burgerMenuClickHandler}
+                style={{ position: 'absolute', right: '3vw' }}
+                clicked={burgerMenuState.burgerMenuIsClicked}
+            />
         </nav >
     )
 }
