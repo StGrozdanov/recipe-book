@@ -15,9 +15,9 @@ export default function BackToTopButton({ scrollVisibility = 500 }) {
 
     function toggleBackToTopButton() {
         if (window.scrollY > scrollVisibility) {
-            setButtonIsVisible(false);
-        } else {
             setButtonIsVisible(true);
+        } else {
+            setButtonIsVisible(false);
         }
     };
 
@@ -27,7 +27,7 @@ export default function BackToTopButton({ scrollVisibility = 500 }) {
         <div
             className={styles['button-to-top']}
             onClick={backToTopHandler}
-            style={buttonIsVisible ? { opacity: 0 } : null}
+            style={buttonIsVisible ? null : { opacity: 0 }}
         >
             <FontAwesomeIcon className={styles.icon} icon={faAngleUp} />
         </div>
