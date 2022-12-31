@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 
-const options = {
-    threshold: 1,
-    rootMargin: '0px 0px -100px 0px',
-}
-
-export function useElementIsInViewport(ref) {
+export function useElementIsInViewport(ref, viewportThreshold = '-100px') {
     const [isInViewport, setIsInViewport] = useState(false);
     const observerRef = useRef(null);
+
+    const options = {
+        threshold: 1,
+        rootMargin: `0px 0px ${viewportThreshold} 0px`,
+    }
 
     useEffect(() => {
         observerRef.current = new IntersectionObserver(([entry]) => {

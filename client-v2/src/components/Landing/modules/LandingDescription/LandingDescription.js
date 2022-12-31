@@ -4,7 +4,7 @@ import styles from './LandingDescription.module.scss';
 
 export default function LandingDescription() {
     const articleRef = useRef();
-    const isInViewport = useElementIsInViewport(articleRef);
+    const isInViewport = useElementIsInViewport(articleRef, '-20px');
 
     return (
         <section className={styles["landing-description"]}>

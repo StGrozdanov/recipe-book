@@ -8,7 +8,7 @@ import { useRenderLandingRecipe } from "./hooks/useRenderLandingRecipe";
 import LandingComments from "./modules/LandingComments/LandingComments";
 import BackToTopButton from "../BackToTopButton/BackToTopButton";
 import { useLandingRefs } from "./hooks/useLandingRefs";
-import { appendCommentsAnimationDelayUtil } from './utils/appendCommentsAnimationDelayUtil';
+import { appendCommentsAnimationDelayUtil } from './modules/LandingComments/utils/appendCommentsAnimationDelayUtil';
 import * as recipeService from '../../services/recipeService';
 import * as commentService from '../../services/commentService'; 
 

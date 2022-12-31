@@ -10,7 +10,7 @@ import { useElementIsInViewport } from '../../../../hooks/useElementIsInViewport
 
 export default function LandingDescriptionFeatures() {
     const featuresRef = useRef(null);
-    const isInViewport = useElementIsInViewport(featuresRef);
+    const isInViewport = useElementIsInViewport(featuresRef, '-50px');
 
     return (
         <section className={styles.features}>
