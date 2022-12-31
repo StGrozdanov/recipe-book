@@ -12,8 +12,14 @@ const unmountedStyleDropdown = {
     transition: 'all 700ms ease-in'
 };
 
-export default function NavigationLinks({ showDropdown, additionalStyle = false }) {
+export default function NavigationLinks({ showDropdown, additionalStyle = false, handler }) {
     const [dropdownIsExpanded, setDropdownIsExpanded] = useState(false);
+
+    function navItemClickHandler() {
+        if (handler) {
+            handler();
+        }
+    }
 
     return (
         <ul
@@ -32,7 +38,7 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false 
             </div>
 
             <li className={styles['nav-item']}>
-                <Link to={'/catalogue'} className={styles.item}>Каталог</Link>
+                <Link to={'/catalogue'} className={styles.item} onClick={navItemClickHandler}>Каталог</Link>
             </li>
 
             <li
@@ -46,15 +52,15 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false 
             </li>
 
             <li className={styles['nav-item']}>
-                <Link to={'/login'} className={styles.item}>Вход</Link>
+                <Link to={'/login'} onClick={navItemClickHandler} className={styles.item}>Вход</Link>
             </li>
 
             <li className={styles['nav-item']}>
-                <Link to={'/user-profile'} className={styles.item}>Моят Профил</Link>
+                <Link to={'/user-profile'} className={styles.item} onClick={navItemClickHandler}>Моят Профил</Link>
             </li>
 
             <li className={styles['nav-item']}>
-                <Link to={'/create'} className={styles.item}>Създай Рецепта</Link>
+                <Link to={'/create'} className={styles.item} onClick={navItemClickHandler}>Създай Рецепта</Link>
             </li>
 
         </ul>

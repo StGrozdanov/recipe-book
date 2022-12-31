@@ -15,6 +15,7 @@ export default function Navigation() {
     const [burgerMenuState, setBurgerMenuState] = useState(burgerMenuDefaultState);
     const [showSearch, setShowSearch] = useState(false);
     const [searchInputValue, setSearchInputValue] = useState('');
+
     const navigate = useNavigate();
 
     const shouldRenderSearch = useAnimationDelay(showSearch, 1000);
@@ -52,6 +53,7 @@ export default function Navigation() {
                 shouldRenderDropdown
                     ? <NavigationLinks
                         showDropdown={burgerMenuState.burgerMenuDropdownIsShown}
+                        handler={burgerMenuClickHandler}
                         additionalStyle={true}
                     />
                     : <NavigationLinks showDropdown={false} />
