@@ -1,7 +1,7 @@
 import styles from './Categorization.module.scss';
 import { useLocation } from 'react-router-dom';
 import RecipeCard from '../RecipeCard/RecipeCard';
-import BackToTopButton from '../BackToTopButton/BackToTopButton';
+import BackToTopButton from '../common/BackToTopButton/BackToTopButton';
 import * as filtrationService from '../../services/filtrationService'
 import { capitalizatorUtil } from '../../utils/capitalizatorUtil';
 import { useEffect, useState } from 'react';

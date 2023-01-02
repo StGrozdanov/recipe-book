@@ -16,11 +16,11 @@
         left: 0;
         right: 0;
         background: white;
-        animation: if($direction==left,typewriterLeft, typewriterRight) 2s ease $animation-delay forwards;
+        animation: if($direction==left, typewriterLeft, typewriterRight) 2s ease $animation-delay forwards;
     }
 }
 
-@mixin blinkingTextAnimation($animation-speed, $animation-delay:4s) {
+@mixin blinkingTextAnimation($animation-speed, $animation-delay: 4s) {
     opacity: 1;
     transform: scale(1.05);
     animation: blink $animation-speed ease-out $animation-delay infinite;
@@ -31,6 +31,11 @@
     filter: blur(10px);
     transform: translateX($direction);
     animation: smoothTransition $durration ease forwards;
+}
+
+@mixin smoothAppearanceAnimation($durration: .5s) {
+    opacity: 1;
+    animation: smoothAppearance $durration ease-in;
 }
 
 @keyframes fadeInUp {
@@ -64,5 +69,11 @@
         opacity: 1;
         filter: blur(0);
         transform: translateX(0);
+    }
+}
+
+@keyframes smoothAppearance {
+    from {
+        opacity: 0.1;
     }
 }

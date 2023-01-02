@@ -6,7 +6,7 @@ import styles from './Landing.module.scss';
 import { useEffect, useRef, useState } from "react";
 import { useRenderLandingRecipe } from "./hooks/useRenderLandingRecipe";
 import LandingComments from "./modules/LandingComments/LandingComments";
-import BackToTopButton from "../BackToTopButton/BackToTopButton";
+import BackToTopButton from "../common/BackToTopButton/BackToTopButton";
 import { useLandingRefs } from "./hooks/useLandingRefs";
 import { appendCommentsAnimationDelayUtil } from './modules/LandingComments/utils/appendCommentsAnimationDelayUtil';
 import * as recipeService from '../../services/recipeService';

@@ -18,7 +18,7 @@ $transperent-accent-color: rgba(214, 172, 119, 0.85);
     @include maxWidthMediaQuery(1000px) {
         display: none;
         position: absolute;
-        height: 80vh;
+        height: 100vh;
         overflow-y: scroll;
         top: 12.8vh;
         width: 100vw;

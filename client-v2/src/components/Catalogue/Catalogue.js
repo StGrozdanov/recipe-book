@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as recipeService from '../../services/recipeService';
 import styles from './Catalogue.module.scss';
 import RecipeCard from '../RecipeCard/RecipeCard';
-import BackToTopButton from '../BackToTopButton/BackToTopButton';
+import BackToTopButton from '../common/BackToTopButton/BackToTopButton';
 import { useEndlessScroll } from '../../hooks/useEndlessScroll';
 import { capitalizatorUtil } from '../../utils/capitalizatorUtil';
 
