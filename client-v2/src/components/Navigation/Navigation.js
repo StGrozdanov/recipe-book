@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useAnimationDelay } from '../../hooks/useAnimationDelay';
 import NavigationLinks from './modules/NavigationLinks/NavigationLinks';
 import BurgerMenu from './modules/BurgerMenu/BurgerMenu';
+import Notification from '../common/Notification/Notification';
 import { Link, useNavigate } from 'react-router-dom';
 
 const unmountedStyle = { left: '50vw', bottom: '100%', transition: 'all .6s ease-in' };
@@ -14,6 +15,7 @@ const burgerMenuDefaultState = { burgerMenuIsClicked: false, burgerMenuDropdownI
 export default function Navigation() {
     const [burgerMenuState, setBurgerMenuState] = useState(burgerMenuDefaultState);
     const [showSearch, setShowSearch] = useState(false);
+    const [showNotification, setShowNotification] = useState(false);
     const [searchInputValue, setSearchInputValue] = useState('');
 
     const navigate = useNavigate();
@@ -36,7 +38,13 @@ export default function Navigation() {
             navigate(`/search?=${searchInputValue}`);
             setSearchInputValue('');
             setShowSearch(false);
+        } else {
+            setShowNotification(true);
         }
+    }
+
+    function notificationHandler() {
+        showNotification ? setShowNotification(false) : setShowNotification(true);
     }
 
     return (
@@ -96,6 +104,12 @@ export default function Navigation() {
                 handler={burgerMenuClickHandler}
                 style={{ position: 'absolute', right: '3vw' }}
                 clicked={burgerMenuState.burgerMenuIsClicked}
+            />
+            <Notification 
+                type={'warning'}
+                visibility={showNotification}
+                handler={notificationHandler} 
+                message={'Добър опит! Сега пробвайте и с буквички.'} 
             />
         </nav >
     )

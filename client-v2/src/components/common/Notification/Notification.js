@@ -1,8 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faCircleCheck, faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import styles from './Notification.module.scss';
-import { useEffect, useState } from 'react';
-import { useAnimationDelay } from '../../../hooks/useAnimationDelay';
+import { useEffect } from 'react';
 
 const iconTypes = {
     success: { icon: faCircleCheck, color: '#66c066', background: 'rgb(210 242 210 / 95%)' },
