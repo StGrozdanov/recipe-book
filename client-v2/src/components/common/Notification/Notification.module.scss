@@ -20,7 +20,7 @@
     }
 
     @include maxWidthMediaQuery(460px) {
-        width: 90vw;
+        width: 95vw;
     }
 }
 
@@ -31,6 +31,10 @@
     background-color: white;
     border-radius: 15px;
     width: 40px;
+
+    @include maxWidthMediaQuery(460px) {
+        min-width: 40px;
+    }
 
     .icon {
         font-size: 200%;
@@ -44,4 +48,11 @@
     color: gray;
     margin-right: 10px;
     cursor: pointer;
+}
+
+.content {
+    padding: 0 10px;
+    text-align: center;
+    
+    @include fontSizeMediaQuery(460px, 0.7rem)
 }

@@ -26,11 +26,12 @@ export default function Notification({ type, message, visibility, handler, style
     return (
         <article
             className={styles.notification}
-            style={!visibility
-                ? unmountedStyleNotification
-                : !style
-                    ? { backgroundColor: iconTypes[type].background }
-                    : { ...style, backgroundColor: iconTypes[type].background }
+            style={
+                !visibility
+                    ? unmountedStyleNotification
+                    : !style
+                        ? { backgroundColor: iconTypes[type].background }
+                        : { ...style, backgroundColor: iconTypes[type].background }
             }
         >
             <div className={styles["icon-container"]} style={{ backgroundColor: iconTypes[type].color }}>
