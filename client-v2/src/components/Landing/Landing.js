@@ -10,7 +10,8 @@ import BackToTopButton from "../common/BackToTopButton/BackToTopButton";
 import { useLandingRefs } from "./hooks/useLandingRefs";
 import { appendCommentsAnimationDelayUtil } from './modules/LandingComments/utils/appendCommentsAnimationDelayUtil';
 import * as recipeService from '../../services/recipeService';
-import * as commentService from '../../services/commentService'; 
+import * as commentService from '../../services/commentService';
+import LoadingPan from "../common/LoadingPan/LoadingPan";
 
 export default function Landing() {
     const latestRecipesRef = useRef(null);
@@ -20,6 +21,7 @@ export default function Landing() {
     const [lastThreeRecipes, setLastThreeRecipes] = useState([]);
     const [latestComments, setLatestComments] = useState([]);
     const [mostViewedRecipes, setMostViewedRecipes] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const lastThreeRecipesData = recipeService.getTheLastThreeRecepies();
@@ -32,6 +34,11 @@ export default function Landing() {
                 setLastThreeRecipes(data[0]);
                 setLatestComments(data[1]);
                 setMostViewedRecipes(data[2]);
+                setIsLoading(false);
+            })
+            .catch(err => {
+                setIsLoading(true);
+                console.log(err);
             });
     }, []);
 
@@ -39,8 +46,8 @@ export default function Landing() {
     const mostViewed = useRenderLandingRecipe(mostViewedRecipes, mostViewedRecipesAreInViewport, true);
     const landingComments = appendCommentsAnimationDelayUtil(latestComments);
 
-    return (
-        <section>
+    return isLoading ? <LoadingPan style={{width: 500}} /> :
+        (<section>
             <LandingNav />
             <LandingHeader />
             <LandingDescription />
@@ -71,5 +78,5 @@ export default function Landing() {
             </section>
             <BackToTopButton />
         </section >
-    )
+        )
 }

@@ -18,12 +18,16 @@ export function useElementIsInViewport(ref, viewportThreshold = '-100px') {
     }, []);
 
     useEffect(() => {
-        observerRef.current.observe(ref.current);
+        try {
+            observerRef.current.observe(ref.current);
 
-        return () => {
-            observerRef.current.disconnect();
-        };
-    }, [ref]);
+            return () => {
+                observerRef.current.disconnect();
+            };
+        } catch (err) {
+            console.log(err);
+        }
+    }, [ref, options]);
 
     return isInViewport;
 }
