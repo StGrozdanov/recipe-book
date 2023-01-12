@@ -15,7 +15,11 @@ export default function Catalogue() {
     useEffect(() => {
         recipeService
             .getAllRecepies(currentPage)
-            .then(recipes => setRecipes((oldRecipes) => [...oldRecipes, ...recipes.content]));
+            .then(recipes => setRecipes((oldRecipes) => [...oldRecipes, ...recipes.content]))
+            .catch(err => {
+                
+                console.log(err);
+            });
     }, [currentPage]);
 
     function incrementPageHandler() {

@@ -1,23 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './Dropdown.module.scss';
 import Notification from '../../../common/Notification/Notification';
+import { useExpandCheckboxWithSelectedCategories } from './hooks/useExpandCheckboxWithSelectedCategories';
 
 export default function Dropdown({ style }) {
     const [checkedBoxes, setCheckedBoxes] = useState([]);
     const [showNotification, setshowNotification] = useState(false);
+    const checksHandler = (checks) => setCheckedBoxes(checks);
+    useExpandCheckboxWithSelectedCategories(checksHandler);
 
     const navigate = useNavigate();
-    const location = useLocation();
-
-    useEffect(() => {
-        if (location.pathname !== '/categories') {
-            setCheckedBoxes([]);
-            expandCheckboxWithSelectedCategories();
-        } else {
-            expandCheckboxWithSelectedCategories();
-        }
-    }, [location]);
 
     useEffect(() => {
         if (checkedBoxes.length > 0) {
@@ -66,26 +59,6 @@ export default function Dropdown({ style }) {
                 navigate('/catalogue');
                 allCategoriesCheckbox.checked = true;
             }
-        }
-    }
-
-    function expandCheckboxWithSelectedCategories() {
-        const checks = document.querySelectorAll('[type=checkbox]');
-
-        if (location.search) {
-            const params = decodeURI(location.search.split('=')[1].split('&') || '').split(',');
-
-            Array.from(checks)
-                .filter(c => params.includes(c.defaultValue))
-                .map(element => element.checked = true);
-
-            document.getElementById('all-categories').checked = false;
-        } else {
-            Array.from(checks)
-                .filter(c => c.checked = true)
-                .map(element => element.checked = false);
-
-            document.getElementById('all-categories').checked = true;
         }
     }
 
