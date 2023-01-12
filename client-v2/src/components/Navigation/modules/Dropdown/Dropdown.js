@@ -1,70 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usePopulateChecksOnRedirect } from './hooks/usePopulateChecksOnRedirect';
+import { useHandleCheckboxes } from './hooks/useHandleCheckboxes';
 import styles from './Dropdown.module.scss';
 import Notification from '../../../common/Notification/Notification';
-import { useExpandCheckboxWithSelectedCategories } from './hooks/useExpandCheckboxWithSelectedCategories';
 
 export default function Dropdown({ style }) {
     const [checkedBoxes, setCheckedBoxes] = useState([]);
     const [showNotification, setshowNotification] = useState(false);
-    const checksHandler = (checks) => setCheckedBoxes(checks);
-    useExpandCheckboxWithSelectedCategories(checksHandler);
-
     const navigate = useNavigate();
+
+    const checksHandler = (checks) => setCheckedBoxes(checks);
+    const notificationHandler = () => showNotification ? setshowNotification(false) : setshowNotification(true);
+
+    usePopulateChecksOnRedirect(checksHandler);
+    const checkboxHandler = useHandleCheckboxes(checkedBoxes, checksHandler, notificationHandler);
 
     useEffect(() => {
         if (checkedBoxes.length > 0) {
             navigate(`/categories?=${checkedBoxes.join('&')}`);
         }
     }, [checkedBoxes]);
-
-    function checkboxHandler(e) {
-        const checkboxContainer = e.target.parentNode.parentNode;
-        const allCheckboxes = checkboxContainer.querySelectorAll('[type=checkbox]');
-
-        const currentBoxIsChecked = e.target.checked;
-        const currentBoxName = e.target.value;
-
-        const allCategoriesCheckbox = checkboxContainer.querySelector('#all-categories');
-        const allCategoriesBoxName = allCategoriesCheckbox.value;
-
-        if (allCategoriesBoxName === currentBoxName && checkedBoxes.length === 0) {
-            allCategoriesCheckbox.checked = true;
-            return;
-        } else if (allCategoriesBoxName !== currentBoxName && checkedBoxes.length >= 0) {
-            allCategoriesCheckbox.checked = false;
-        }
-
-        if (currentBoxIsChecked) {
-            if (currentBoxName === allCategoriesBoxName) {
-                navigate('/catalogue');
-                allCheckboxes.forEach((c, index) => {
-                    if (index > 0) {
-                        c.checked = false;
-                    }
-                });
-                setCheckedBoxes([]);
-            }
-            if (checkedBoxes.includes(currentBoxName) === false && currentBoxName !== allCategoriesBoxName) {
-                if (checkedBoxes.length > 3) {
-                    e.target.checked = false;
-                    notificationHandler();
-                    return;
-                }
-                setCheckedBoxes((boxes) => [...boxes, currentBoxName]);
-            }
-        } else {
-            setCheckedBoxes(checkedBoxes.filter(box => box !== currentBoxName));
-            if (checkedBoxes.length === 1) {
-                navigate('/catalogue');
-                allCategoriesCheckbox.checked = true;
-            }
-        }
-    }
-
-    function notificationHandler() {
-        showNotification ? setshowNotification(false) : setshowNotification(true);
-    }
 
     return (
         <>

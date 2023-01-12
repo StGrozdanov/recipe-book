@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-export function useExpandCheckboxWithSelectedCategories(setChecksHandler) {
+export function usePopulateChecksOnRedirect(setChecksHandler) {
     const location = useLocation();
     useEffect(() => expandCheckboxWithSelectedCategories(), [location.pathname]);
 
