@@ -48,6 +48,10 @@ $transperent-accent-color: rgba(214, 172, 119, 0.85);
 
         &:hover {
             background-size: 100% 0.2em;
+
+            & a {
+                color: $dark-orange-accent-color;
+            }
         }
     }
 }
@@ -81,16 +85,18 @@ $transperent-accent-color: rgba(214, 172, 119, 0.85);
     }
 }
 
-.item {
+.item,
+.categories-item {
     font-weight: 800;
     text-decoration: none;
     color: darkslategray;
     font-size: 1.15rem;
     transition: all .5s;
+}
 
-    &:hover {
-        color: $dark-orange-accent-color;
-    }
+.categories-item:hover {
+    cursor: pointer;
+    color: black;
 }
 
 @include maxWidthMediaQuery(1000px) {

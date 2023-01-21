@@ -5,7 +5,7 @@ import { useHandleCheckboxes } from './hooks/useHandleCheckboxes';
 import styles from './Dropdown.module.scss';
 import Notification from '../../../common/Notification/Notification';
 
-export default function Dropdown({ style }) {
+export default function Dropdown({ style, dropdownHandler }) {
     const [checkedBoxes, setCheckedBoxes] = useState([]);
     const [showNotification, setshowNotification] = useState(false);
     const navigate = useNavigate();
@@ -30,6 +30,7 @@ export default function Dropdown({ style }) {
                         type="checkbox"
                         id='all-categories'
                         defaultValue={"Всички"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler}
                         defaultChecked
                     />
@@ -40,6 +41,7 @@ export default function Dropdown({ style }) {
                     <input
                         type="checkbox"
                         defaultValue={"Пилешко"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler}
                     />
                     <span></span>
@@ -49,6 +51,7 @@ export default function Dropdown({ style }) {
                     <input
                         type="checkbox"
                         defaultValue={"Свинско"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler} />
                     <span></span>
                     Свинско
@@ -57,6 +60,7 @@ export default function Dropdown({ style }) {
                     <input
                         type="checkbox"
                         defaultValue={"Телешко"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler} />
                     <span></span>
                     Телешко
@@ -65,6 +69,7 @@ export default function Dropdown({ style }) {
                     <input
                         type="checkbox"
                         defaultValue={"Телешко\-свинско"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler} />
                     <span></span>
                     Телешко-свинско
@@ -73,6 +78,7 @@ export default function Dropdown({ style }) {
                     <input
                         type="checkbox"
                         defaultValue={"Риба"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler} />
                     <span></span>
                     Риба
@@ -81,6 +87,7 @@ export default function Dropdown({ style }) {
                     <input
                         type="checkbox"
                         defaultValue={"Други месни"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler} />
                     <span></span>
                     Други месни
@@ -89,6 +96,7 @@ export default function Dropdown({ style }) {
                     <input
                         type="checkbox"
                         defaultValue={"Вегитариански"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler} />
                     <span></span>
                     Вегитариански
@@ -97,6 +105,7 @@ export default function Dropdown({ style }) {
                     <input
                         type="checkbox"
                         defaultValue={"Салати"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler} />
                     <span></span>
                     Салати
@@ -105,6 +114,7 @@ export default function Dropdown({ style }) {
                     <input
                         type="checkbox"
                         defaultValue={"Тестени"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler} />
                     <span></span>
                     Тестени
@@ -113,6 +123,7 @@ export default function Dropdown({ style }) {
                     <input
                         type="checkbox"
                         defaultValue={"Десерти"}
+                        onClick={() => dropdownHandler()}
                         onChange={checkboxHandler} />
                     <span></span>
                     Десерти
@@ -120,7 +131,8 @@ export default function Dropdown({ style }) {
                 <label>
                     <input
                         type="checkbox"
-                        defaultValue={"Други"} onChange={checkboxHandler} />
+                        onClick={() => dropdownHandler()}defaultValue={"Други"} 
+                        onChange={checkboxHandler} />
                     <span></span>
                     Други
                 </label>

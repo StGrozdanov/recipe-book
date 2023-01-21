@@ -21,6 +21,12 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false,
         }
     }
 
+    function mobileDropdownClickHandler() {
+        if (handler && window.innerWidth <= 450) {
+            handler();
+        }
+    }
+
     return (
         <ul
             className={styles['nav-ul']}
@@ -46,9 +52,12 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false,
                 onMouseEnter={() => setDropdownIsExpanded(true)}
                 onMouseLeave={() => setDropdownIsExpanded(false)}
             >
-                <Link className={styles.item}>Категории</Link>
+                <div className={styles['categories-item']}>Категории</div>
                 <FontAwesomeIcon className={styles['dropdown-icon']} icon={faAngleDown} />
-                <Dropdown style={dropdownIsExpanded ? { visibility: 'visible', opacity: 1 } : null} />
+                <Dropdown 
+                    style={dropdownIsExpanded ? { visibility: 'visible', opacity: 1 } : null} 
+                    dropdownHandler={mobileDropdownClickHandler}
+                />
             </li>
 
             <li className={styles['nav-item']}>
