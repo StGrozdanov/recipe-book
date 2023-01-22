@@ -5,10 +5,13 @@ import RecipeCard from '../RecipeCard/RecipeCard';
 import BackToTopButton from '../common/BackToTopButton/BackToTopButton';
 import { useEndlessScroll } from '../../hooks/useEndlessScroll';
 import { capitalizatorUtil } from '../../utils/capitalizatorUtil';
+import recipesFallback from './recipesFallback.json';
+import Notification from '../common/Notification/Notification'
 
 export default function Catalogue() {
     const [recipes, setRecipes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [fallbackIsLoaded, setFallbackIsLoaded] = useState(false);
     const loader = useRef(null);
     useEndlessScroll(loader, incrementPageHandler);
 
@@ -17,13 +20,18 @@ export default function Catalogue() {
             .getAllRecepies(currentPage)
             .then(recipes => setRecipes((oldRecipes) => [...oldRecipes, ...recipes.content]))
             .catch(err => {
-                
                 console.log(err);
+                setRecipes(recipesFallback.content);
+                setFallbackIsLoaded(true);
             });
     }, [currentPage]);
 
     function incrementPageHandler() {
         setCurrentPage((prev) => prev + 1);
+    }
+
+    function notificationHandler() {
+        fallbackIsLoaded ? setFallbackIsLoaded(false) : setFallbackIsLoaded(true);
     }
 
     return (
@@ -47,6 +55,12 @@ export default function Catalogue() {
             </ul>
             <div ref={loader} />
             <BackToTopButton scrollVisibility={0} />
+            <Notification
+                type={'fail'}
+                visibility={fallbackIsLoaded}
+                message={'Здравейте, имаме проблем с зареждането на всички рецепти. Поради това, сайта работи с ограничени функционалности. Вече работим по отстраняването му.'}
+                handler={notificationHandler}
+            />
         </section >
     )
 }

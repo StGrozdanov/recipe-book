@@ -30,7 +30,7 @@
     align-items: center;
     background-color: white;
     border-radius: 15px;
-    width: 40px;
+    min-width: 40px;
 
     @include maxWidthMediaQuery(460px) {
         min-width: 40px;
