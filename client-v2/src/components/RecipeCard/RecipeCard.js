@@ -17,7 +17,7 @@ export default function RecipeCard({
                 <Link to={`/details/${id}`}>
                     <header className={styles["picture-container"]}>
                         <img 
-                            src={imageUrl + 's'}
+                            src={imageUrl}
                             onError={({ currentTarget }) => {
                                 currentTarget.onerror = null;
                                 currentTarget.src="images/food.jpg";

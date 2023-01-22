@@ -12,6 +12,9 @@ import { appendCommentsAnimationDelayUtil } from './modules/LandingComments/util
 import * as recipeService from '../../services/recipeService';
 import * as commentService from '../../services/commentService';
 import LoadingPan from "../common/LoadingPan/LoadingPan";
+import latestSixCommentsFallback from './data/latestSixCommentsFallback.json';
+import latestThreeRecipesFallback from './data/latestThreeRecipesFallback.json';
+import mostViewedRecipesFallback from './data/mostViewedRecipesFallback.json';
 
 export default function Landing() {
     const latestRecipesRef = useRef(null);
@@ -37,8 +40,11 @@ export default function Landing() {
                 setIsLoading(false);
             })
             .catch(err => {
-                setIsLoading(true);
                 console.log(err);
+                setLastThreeRecipes(latestThreeRecipesFallback)
+                setLatestComments(latestSixCommentsFallback)
+                setMostViewedRecipes(mostViewedRecipesFallback)
+                setIsLoading(false);
             });
     }, []);
 
