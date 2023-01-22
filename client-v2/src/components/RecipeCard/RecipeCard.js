@@ -16,7 +16,13 @@ export default function RecipeCard({
             <article className={styles["card-container"]} style={style ? customStyle : { animationDelay }}>
                 <Link to={`/details/${id}`}>
                     <header className={styles["picture-container"]}>
-                        <img src={imageUrl} />
+                        <img 
+                            src={imageUrl + 's'}
+                            onError={({ currentTarget }) => {
+                                currentTarget.onerror = null;
+                                currentTarget.src="images/food.jpg";
+                              }}
+                        />
                     </header>
                 </Link>
                 <main>

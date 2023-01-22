@@ -17,7 +17,13 @@ export default function LandingComments({
                     <h3 className={styles['comment-username']}>{owner.username}, </h3>
                     <Link to={`/users/${id}`}>
                         <div className={styles['image-container']}>
-                            <img src={owner.avatarUrl} />
+                            <img 
+                                src={owner.avatarUrl} 
+                                onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null;
+                                    currentTarget.src="images/avatar.png";
+                                  }}
+                            />
                         </div>
                     </Link>
                     <span className={styles['target-recipe']}>{recipe.recipeName}</span>
