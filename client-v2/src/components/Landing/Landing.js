@@ -11,6 +11,7 @@ import { useLandingRefs } from "./hooks/useLandingRefs";
 import { appendCommentsAnimationDelayUtil } from './modules/LandingComments/utils/appendCommentsAnimationDelayUtil';
 import * as recipeService from '../../services/recipeService';
 import * as commentService from '../../services/commentService';
+import * as visitationService from '../../services/visitationsService';
 import LoadingPan from "../common/LoadingPan/LoadingPan";
 import latestSixCommentsFallback from './data/latestSixCommentsFallback.json';
 import latestThreeRecipesFallback from './data/latestThreeRecipesFallback.json';
@@ -30,9 +31,10 @@ export default function Landing() {
         const lastThreeRecipesData = recipeService.getTheLastThreeRecepies();
         const latestSixCommentsData = commentService.getTheLatestSixComments();
         const mostViewedRecipesData = recipeService.getTheThreeMostViewedRecepies();
+        const visitations = visitationService.recordWebsiteVisitation();
 
         Promise
-            .all([lastThreeRecipesData, latestSixCommentsData, mostViewedRecipesData])
+            .all([lastThreeRecipesData, latestSixCommentsData, mostViewedRecipesData, visitations])
             .then(data => {
                 setLastThreeRecipes(data[0]);
                 setLatestComments(data[1]);
