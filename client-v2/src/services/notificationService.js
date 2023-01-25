@@ -1,58 +1,19 @@
-import { COULD_NOT_GET_NOTIFICATIONS, COULD_NOT_MARK_NOTIFICATION, COULD_NOT_POST_NOTIFICATION } from "../constants/errorMessages.js";
-import { handleRequest } from "../utils/requestDataHandler.js";
-import { BASE_URL, CALLBACK, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
-import { getCurrentUser, getUserToken } from "./authenticationService.js";
+import { BASE_URL } from "./customService.js";
+import * as send from "../utils/requestDataHandler.js";
 
 export const NOTIFICATION_END_POINT = '/notifications';
 
-const NOTIFICATIONS_END_POINTS = {
-    GET_USER_NOTIFICATIONS: (userId) => `${NOTIFICATION_END_POINT}/${userId}`,
-    CREATE_NOTIFICATION: NOTIFICATION_END_POINT,
-    MARK_AS_READ: (notificationId) => `${NOTIFICATION_END_POINT}/${notificationId}`,
-    USER_NOTIFICATIONS_COUNT: (userId) => `${NOTIFICATION_END_POINT}/${userId}/count`,
+const END_POINTS = {
+    GET_USER_NOTIFICATIONS: (userId) => `${BASE_URL + NOTIFICATION_END_POINT}/${userId}`,
+    CREATE_NOTIFICATION: BASE_URL + NOTIFICATION_END_POINT,
+    MARK_AS_READ: (notificationId) => `${BASE_URL + NOTIFICATION_END_POINT}/${notificationId}`,
+    USER_NOTIFICATIONS_COUNT: (userId) => `${BASE_URL + NOTIFICATION_END_POINT}/${userId}/count`,
 }
 
-export async function getMyNotifications() {
-    CALLBACK.call = () => getMyNotifications();
+export const getMyNotifications = (userId) => send.authGET(END_POINTS.GET_USER_NOTIFICATIONS(userId));
 
-    const response = await fetch(BASE_URL + NOTIFICATIONS_END_POINTS.GET_USER_NOTIFICATIONS(getCurrentUser()), {
-        method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-    });
-    return handleRequest(response, COULD_NOT_GET_NOTIFICATIONS, CALLBACK);
-}
+export const getMyNotificationsCount = (userId) => send.authGET(END_POINTS.USER_NOTIFICATIONS_COUNT(userId));
 
-export async function getMyNotificationsCount() {
-    CALLBACK.call = () => getMyNotificationsCount();
+export const createNotification = (data) => send.authPOST(END_POINTS.CREATE_NOTIFICATION, data);
 
-    const response = await fetch(BASE_URL + NOTIFICATIONS_END_POINTS.USER_NOTIFICATIONS_COUNT(getCurrentUser()), {
-        method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-    });
-    
-    return handleRequest(response, COULD_NOT_GET_NOTIFICATIONS, CALLBACK);
-}
-
-export async function createNotification(notificationData) {
-    CALLBACK.call = () => createNotification(notificationData);
-
-    const options = {
-        method: 'POST',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-        body: JSON.stringify(notificationData)
-    };
-
-    const response = await fetch(BASE_URL + NOTIFICATIONS_END_POINTS.CREATE_NOTIFICATION, options);
-    return handleRequest(response, COULD_NOT_POST_NOTIFICATION, CALLBACK);
-}
-
-export async function markNotificationAsRead(notificationId) {
-    CALLBACK.call = () => markNotificationAsRead(notificationId);
-
-    const options = {
-        method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-    };
-    const response = await fetch(BASE_URL + NOTIFICATIONS_END_POINTS.MARK_AS_READ(notificationId), options);
-    return handleRequest(response, COULD_NOT_MARK_NOTIFICATION, CALLBACK);
-}
+export const markNotificationAsRead = (notificationId) => send.authPATCH(END_POINTS.MARK_AS_READ(notificationId));

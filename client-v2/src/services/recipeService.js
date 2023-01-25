@@ -1,189 +1,67 @@
-import { COULD_NOT_GET_RECEPIES, COULD_NOT_GET_RECEPIE, COULD_NOT_CREATE_RECEPIE, COULD_NOT_EDIT_RECEPIE, COULD_NOT_APPROVE_RECEPIE, COULD_NOT_RECORD_VISITATION, COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
-import { handleRequest } from "../utils/requestDataHandler.js";
-import { BASE_HEADERS, BASE_URL, CALLBACK, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
-import { getUserToken } from "./authenticationService.js";
+import { BASE_URL } from "./backendService.js";
+import * as send from "../utils/requestDataHandler.js";
 
-export const RECEPIES_PER_PAGE = 3;
-export const RECEPIES_END_POINT = '/recipes';
+export const RECIPES_PER_PAGE = 3;
+export const RECIPES_END_POINT = '/recipes';
 
-const RECIPE_END_POINTS = {
-    TOTAL_RECEPIES_COUNT: `${RECEPIES_END_POINT}/count`,
-    CREATE_RECIPE: RECEPIES_END_POINT,
+const END_POINT = {
+    RECIPES: BASE_URL + RECIPES_END_POINT,
+    TOTAL_RECIPES_COUNT: `${BASE_URL + RECIPES_END_POINT}/count`,
+    CREATE_RECIPE: BASE_URL + RECIPES_END_POINT,
     ALL_RECIPES: (page) => {
-        return `${RECEPIES_END_POINT}/pagination?limit=${RECEPIES_PER_PAGE}&skip=${(page - 1)}`
+        return `${BASE_URL + RECIPES_END_POINT}/pagination?limit=${RECIPES_PER_PAGE}&skip=${(page - 1)}`
     },
-    LATEST_THREE_RECIPES: `${RECEPIES_END_POINT}/latest-three-recipes`,
-    SINGLE_RECIPE: (id) => `${RECEPIES_END_POINT}/${id}`,
-    RECORD_VISITATION: (recipeId) => `${RECEPIES_END_POINT}/${recipeId}/new-visitation`,
-    OWNER_PUBLICATIONS: (ownerId) => `${RECEPIES_END_POINT}/created-by/${ownerId}`,
-    OWNER_PUBLICATIONS_COUNT: (ownerId) => `${RECEPIES_END_POINT}/created-by/${ownerId}/count`,
-    APPROVE_RECIPE: (recipeId) => `${RECEPIES_END_POINT}/approve/${recipeId}`,
-    THE_THREE_MOST_VIEWED_RECIPES: `${RECEPIES_END_POINT}/most-viewed-three-recipes`,
-    EXISTS_BY_NAME: (name) => `${RECEPIES_END_POINT}/existsByName?name=${name}`,
-    EXISTS_BY_PICTURE: (pictureUrl) => `${RECEPIES_END_POINT}/existsByPicture?pictureUrl=${pictureUrl}`,
+    LATEST_THREE_RECIPES: `${BASE_URL + RECIPES_END_POINT}/latest-three-recipes`,
+    SINGLE_RECIPE: (id) => `${BASE_URL + RECIPES_END_POINT}/${id}`,
+    RECORD_VISITATION: (recipeId) => `${BASE_URL + RECIPES_END_POINT}/${recipeId}/new-visitation`,
+    OWNER_PUBLICATIONS: (ownerId) => `${BASE_URL + RECIPES_END_POINT}/created-by/${ownerId}`,
+    OWNER_PUBLICATIONS_COUNT: (ownerId) => `${BASE_URL + RECIPES_END_POINT}/created-by/${ownerId}/count`,
+    APPROVE_RECIPE: (recipeId) => `${BASE_URL + RECIPES_END_POINT}/approve/${recipeId}`,
+    THE_THREE_MOST_VIEWED_RECIPES: `${BASE_URL + RECIPES_END_POINT}/most-viewed-three-recipes`,
+    EXISTS_BY_NAME: (name) => `${BASE_URL + RECIPES_END_POINT}/existsByName?name=${name}`,
+    EXISTS_BY_PICTURE: (pictureUrl) => `${BASE_URL + RECIPES_END_POINT}/existsByPicture?pictureUrl=${pictureUrl}`,
     OTHER_EXISTS_BY_NAME: (name, originalName) => {
-        return `${RECEPIES_END_POINT}/otherExistsByName?name=${name}&originalName=${originalName}`;
+        return `${BASE_URL + RECIPES_END_POINT}/otherExistsByName?name=${name}&originalName=${originalName}`;
     },
     OTHER_EXISTS_BY_PICTURE: (pictureUrl, originalPictureUrl) => {
-       return `${RECEPIES_END_POINT}/otherExistsByPicture?pictureUrl=${pictureUrl}&originalPictureUrl=${originalPictureUrl}`;
+        return `${BASE_URL + RECIPES_END_POINT}/otherExistsByPicture?pictureUrl=${pictureUrl}&originalPictureUrl=${originalPictureUrl}`;
     },
-    MOST_ACTIVE_USER: `${RECEPIES_END_POINT}/most-active-user`,
-    ALL_RECIPES_ADMIN: (page) => `${RECEPIES_END_POINT}/admin?skip=${(page - 1)}`,
+    MOST_ACTIVE_USER: `${BASE_URL + RECIPES_END_POINT}/most-active-user`,
+    ALL_RECIPES_ADMIN: (page) => `${BASE_URL + RECIPES_END_POINT}/admin?skip=${(page - 1)}`,
 }
 
-export async function getRecepiesCount() {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.TOTAL_RECEPIES_COUNT, {
-        method: 'GET',
-        headers: BASE_HEADERS
-    });
-    return handleRequest(response, COULD_NOT_GET_RECEPIES);
-}
+export const getRecipesCount = () => send.GET(END_POINT.TOTAL_RECIPES_COUNT);
 
-export async function getAllRecepies(page) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.ALL_RECIPES(page), {
-        method: 'GET',
-        headers: BASE_HEADERS
-    });
-    return handleRequest(response, COULD_NOT_GET_RECEPIES);
-}
+export const getAllRecipes = (page) => send.GET(END_POINT.ALL_RECIPES(page));
 
-export async function createRecipe(recipe) {
-    CALLBACK.call = () => createRecipe(recipe);
+export const createRecipe = (recipe) => send.authPOST(END_POINT.RECIPES, recipe);
 
-    const options = {
-        method: 'POST',
-        headers: { "Authorization": `Bearer ${getUserToken()}` },
-        body: recipe
-    };
-    const response = await fetch(BASE_URL + RECEPIES_END_POINT, options);
-    return handleRequest(response, COULD_NOT_CREATE_RECEPIE, CALLBACK);
-}
+export const getSingleRecipe = (recipeId) => send.GET(END_POINT.SINGLE_RECIPE(recipeId));
 
-export async function getSingleRecipe(recipeId) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(recipeId), {
-        method: 'GET',
-        headers: BASE_HEADERS
-    });
-    return handleRequest(response, COULD_NOT_GET_RECEPIE);
-}
+export const getTheLastThreeRecepies = () => send.GET(END_POINT.LATEST_THREE_RECIPES);
 
-export async function getTheLastThreeRecepies() {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.LATEST_THREE_RECIPES, {
-        method: 'GET',
-        headers: BASE_HEADERS
-    });
-    return handleRequest(response, COULD_NOT_GET_RECEPIES);
-}
+export const updateRecipe = (recipeData, recipeId) => send.authPUT(END_POINT.SINGLE_RECIPE(recipeId), recipeData);
 
-export async function updateRecipe(recipeData, recipeId) {
-    CALLBACK.call = () => updateRecipe(recipeData, recipeId);
+export const removeRecipe = (recipeId) => send.authDELETE(END_POINT.SINGLE_RECIPE(recipeId));
 
-    const options = {
-        method: 'PUT',
-        headers: { "Authorization": `Bearer ${getUserToken()}` },
-        body: recipeData
-    };
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(recipeId), options);
-    return handleRequest(response, COULD_NOT_EDIT_RECEPIE, CALLBACK);
-}
+export const getMyPublications = (userId) => send.GET(END_POINT.OWNER_PUBLICATIONS(userId)); 
 
-export async function removeRecipe(id) {
-    CALLBACK.call = () => removeRecipe(id);
+export const getMyPublicationsCount = (userId) => send.GET(END_POINT.OWNER_PUBLICATIONS_COUNT(userId));
 
-    const options = {
-        method: 'DELETE',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
-    };
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.SINGLE_RECIPE(id), options);
-    return handleRequest(response, COULD_NOT_EDIT_RECEPIE, CALLBACK);
-}
+export const getTheThreeMostViewedRecipes = () => send.GET(END_POINT.THE_THREE_MOST_VIEWED_RECIPES);
 
-export async function getMyPublications(userId) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.OWNER_PUBLICATIONS(userId), {
-        method: 'GET',
-        headers: BASE_HEADERS
-    });
-    return handleRequest(response, COULD_NOT_GET_RECEPIES);
-}
+export const recipeExistsByName = (recipeName) => send.GET(END_POINT.EXISTS_BY_NAME(recipeName));
 
-export async function getMyPublicationsCount(userId) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.OWNER_PUBLICATIONS_COUNT(userId), {
-        method: 'GET',
-        headers: BASE_HEADERS
-    });
-    return handleRequest(response, COULD_NOT_GET_RECEPIES);
-}
+export const recipeExistsByPicture = (pictureUrl) => send.GET(END_POINT.EXISTS_BY_PICTURE(pictureUrl));
 
-export async function getTheThreeMostViewedRecepies() {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.THE_THREE_MOST_VIEWED_RECIPES, {
-        method: 'GET',
-        headers: BASE_HEADERS
-    });
-    return handleRequest(response, COULD_NOT_GET_RECEPIES);
-}
+export const otherRecipeExistsByName = (name, originalName) => send.GET(END_POINT.OTHER_EXISTS_BY_NAME(name, originalName));
 
-export async function recipeExistsByName(name) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.EXISTS_BY_NAME(name));
-    if (response.ok) {
-        return response.json();
-    }
-}
+export const otherRecipeExistsByPicture = (pictureUrl, originalPictureUrl) => send.GET(END_POINT.OTHER_EXISTS_BY_PICTURE(pictureUrl, originalPictureUrl));
 
-export async function recipeExistsByPicture(pictureUrl) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.EXISTS_BY_PICTURE(pictureUrl));
-    if (response.ok) {
-        return response.json();
-    }
-}
+export const approveRecipe = (recipeId) => send.authPATCH(END_POINT.APPROVE_RECIPE(recipeId));
 
-export async function otherRecipeExistsByName(name, originalName) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.OTHER_EXISTS_BY_NAME(name, originalName));
+export const recordRecipeVisitation = (recipeId) => send.POST(END_POINT.RECORD_VISITATION(recipeId));
 
-    if (response.ok) {
-        return response.json();
-    }
-}
+export const findTheMostActiveUser = () => send.authGET(END_POINT.MOST_ACTIVE_USER);
 
-export async function otherRecipeExistsByPicture(pictureUrl, originalPictureUrl) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.OTHER_EXISTS_BY_PICTURE(pictureUrl, originalPictureUrl));
-
-    if (response.ok) {
-        return response.json();
-    }
-}
-
-export async function approveRecipe(recipeId) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.APPROVE_RECIPE(recipeId), {
-        method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
-    });
-    return handleRequest(response, COULD_NOT_APPROVE_RECEPIE);
-}
-
-export async function recordRecipeVisitation(recipeId) {
-    const response = await fetch(BASE_URL + RECIPE_END_POINTS.RECORD_VISITATION(recipeId), {
-        method: 'POST',
-        headers: BASE_HEADERS
-    });
-    return handleRequest(response, COULD_NOT_RECORD_VISITATION);
-}
-
-export async function findTheMostActiveUser() {
-    CALLBACK.call = () => findTheMostActiveUser();
-
-    const response = await fetch(`${BASE_URL}${RECIPE_END_POINTS.MOST_ACTIVE_USER}`, {
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-    });
-
-    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
-}
-
-export async function getAllRecipesAdmin(page) {
-    CALLBACK.call = () => getAllRecipesAdmin(page);
-
-    const response = await fetch(`${BASE_URL}${RECIPE_END_POINTS.ALL_RECIPES_ADMIN(page)}`, {
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-    });
-
-    return handleRequest(response, COULD_NOT_GET_RECEPIES, CALLBACK);
-}
+export const getAllRecipesAdmin = (page) => send.authGET(END_POINT.ALL_RECIPES_ADMIN(page));

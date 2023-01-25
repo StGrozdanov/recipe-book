@@ -1,177 +1,58 @@
-import { COULD_NOT_FETCH_USER_COUNT, COULD_NOT_FIND_USER } from "../constants/errorMessages.js";
-import { notify } from "../utils/notification.js";
-import { handleRequest } from "../utils/requestDataHandler.js";
-import { getCurrentUser, getCurrentUserEmail, getCurrentUserUsername, getUserToken, refreshToken } from "./authenticationService.js";
-import { BASE_URL, BASE_HEADERS, MODIFIYNG_OPERATIONS_HEADERS, CALLBACK } from "./customService.js";
+import { BASE_URL } from "./customService.js";
+import * as send from "../utils/requestDataHandler.js";
 
 const USER_END_POINT = '/users'
 
-const USERS_END_POINTS = {
-    UPDATE: (userId) => `${USER_END_POINT}/profile/${userId}`,
-    DELETE: (userId) => `${USER_END_POINT}/${userId}`,
-    USER_INFO: (userId) => `${USER_END_POINT}/profile/${userId}`,
-    EXISTS_BY_USERNAME: (username) => `${USER_END_POINT}/existsByUsername?username=${username}`,
-    EXISTS_BY_EMAIL: (email) => `${USER_END_POINT}/existsByEmail?email=${email}`,
+const END_POINT = {
+    UPDATE: (userId) => `${BASE_URL + USER_END_POINT}/profile/${userId}`,
+    DELETE: (userId) => `${BASE_URL + USER_END_POINT}/${userId}`,
+    USER_INFO: (userId) => `${BASE_URL + USER_END_POINT}/profile/${userId}`,
+    EXISTS_BY_USERNAME: (username) => `${BASE_URL + USER_END_POINT}/existsByUsername?username=${username}`,
+    EXISTS_BY_EMAIL: (email) => `${BASE_URL + USER_END_POINT}/existsByEmail?email=${email}`,
     OTHER_EXISTS_BY_USERNAME: (username, userUsername) => {
-        return `${USER_END_POINT}/otherExistsByUsername?username=${username}&userUsername=${userUsername}`;
+        return `${BASE_URL + USER_END_POINT}/otherExistsByUsername?username=${username}&userUsername=${userUsername}`;
     },
     OTHER_EXISTS_BY_EMAIL: (email, userEmail) => {
-        return `${USER_END_POINT}/otherExistsByEmail?email=${email}&userEmail=${userEmail}`;
+        return `${BASE_URL + USER_END_POINT}/otherExistsByEmail?email=${email}&userEmail=${userEmail}`;
     },
-    CHANGE_PASSWORD: (userId) => `${USER_END_POINT}/changePassword/${userId}`,
-    USERS_COUNT: `${USER_END_POINT}/count`,
-    GET_ALL_USERS: (page) => `${USER_END_POINT}?skip=${(page - 1)}`,
-    UPDATE_AS_ADMIN: (userId) => `${USER_END_POINT}/administrate/profile/${userId}`,
-    BLOCK_USER: `${USER_END_POINT}/block`,
-    UNBLOCK_USER: (userId) => `${USER_END_POINT}/unblock/${userId}`,
-    CHANGE_ROLE: (userId) => `${USER_END_POINT}/change-role/${userId}`,
+    CHANGE_PASSWORD: (userId) => `${BASE_URL + USER_END_POINT}/changePassword/${userId}`,
+    USERS_COUNT: `${BASE_URL + USER_END_POINT}/count`,
+    GET_ALL_USERS: (page) => `${BASE_URL + USER_END_POINT}?skip=${(page - 1)}`,
+    UPDATE_AS_ADMIN: (userId) => `${BASE_URL + USER_END_POINT}/administrate/profile/${userId}`,
+    BLOCK_USER: `${BASE_URL + USER_END_POINT}/block`,
+    UNBLOCK_USER: (userId) => `${BASE_URL + USER_END_POINT}/unblock/${userId}`,
+    CHANGE_ROLE: (userId) => `${BASE_URL + USER_END_POINT}/change-role/${userId}`,
     SEARCH_USERS: (query, page) => {
-       return `${USER_END_POINT}/search-by-username?whereUsername=${query}&skip=${(page - 1)}`
+       return `${BASE_URL + USER_END_POINT}/search-by-username?whereUsername=${query}&skip=${(page - 1)}`
     },
 }
 
-export async function update(userId, formData) {
-    const options = {
-        method: 'PUT',
-        headers: { "Authorization": `Bearer ${getUserToken()}` },
-        body: formData
-    };
-    return await fetch(`${BASE_URL}${USERS_END_POINTS.UPDATE(userId)}`, options);
-}
+export const update = (userId, formData) => send.authPUT(END_POINT.UPDATE(userId), formData);
 
-export async function updateAsAdmin(userId, formData) {
-    const options = {
-        method: 'PUT',
-        headers: { "Authorization": `Bearer ${getUserToken()}` },
-        body: formData
-    };
-    return await fetch(`${BASE_URL}${USERS_END_POINTS.UPDATE_AS_ADMIN(userId)}`, options);
-}
+export const updateAsAdmin = (userId, formData) => send.authPUT(END_POINT.UPDATE_AS_ADMIN(userId), formData);
 
-export async function remove(userId) {
-    CALLBACK.call = () => remove(userId);
+export const remove = (userId) => send.authDELETE(END_POINT.DELETE(userId));
 
-    const response = await fetch(BASE_URL + USERS_END_POINTS.DELETE(userId), {
-        method: 'DELETE',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
-    });
+export const getUser = (userId) => send.authGET(END_POINT.USER_INFO(userId));
 
-    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
-}
+export const userExistsByUsername = (username) => send.GET(END_POINT.EXISTS_BY_USERNAME(username));
 
-export async function getUser(userId) {
-    CALLBACK.call = () => getUser(userId);
+export const otherUserExistsByUsername = (username, currentUserUsername) => send.GET(END_POINT.OTHER_EXISTS_BY_USERNAME(username, currentUserUsername));
 
-    const response = await fetch(BASE_URL + USERS_END_POINTS.USER_INFO(userId), {
-        method: 'GET',
-        headers: getUserToken() ? MODIFIYNG_OPERATIONS_HEADERS(getUserToken()) : BASE_HEADERS
-    });
+export const userExistsByEmail = (email) => send.GET(END_POINT.EXISTS_BY_EMAIL(email));
 
-    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
-}
+export const otherUserExistsByEmail = (email, currentUserEmail) => send.GET(END_POINT.OTHER_EXISTS_BY_EMAIL(email, currentUserEmail));
 
-export async function userExistsByUsername(username) {
-    const response = await fetch(BASE_URL + USERS_END_POINTS.EXISTS_BY_USERNAME(username));
-    if (response.ok) {
-        return response.json();
-    }
-}
+export const changeUserPassword = (userId, data) => send.authPATCH(END_POINT.CHANGE_PASSWORD(userId), data);
 
-export async function userExistsByEmail(email) {
-    const response = await fetch(BASE_URL + USERS_END_POINTS.EXISTS_BY_EMAIL(email));
-    if (response.ok) {
-        return response.json();
-    }
-}
+export const getTotalUsersCount = () => send.authGET(END_POINT.USERS_COUNT);
 
-export async function otherUserExistsByUsername(username, currentUserUsername) {
-    const response = await fetch(BASE_URL + USERS_END_POINTS.OTHER_EXISTS_BY_USERNAME(username, currentUserUsername));
+export const getAllUsers = (page) => send.authGET(END_POINT.GET_ALL_USERS(page));
 
-    if (response.ok) {
-        return response.json();
-    }
-}
+export const blockUser = (userId, reason) => send.authPATCH(END_POINT.BLOCK_USER, { userId, reason });
 
-export async function otherUserExistsByEmail(email, currentUserEmail) {
-    const response = await fetch(BASE_URL + USERS_END_POINTS.OTHER_EXISTS_BY_EMAIL(email, currentUserEmail));
+export const unblockUser = (userId) => send.authPATCH(END_POINT.UNBLOCK_USER(userId));
 
-    if (response.ok) {
-        return response.json();
-    }
-}
+export const changeUserRole = (userId, role) => send.authPATCH(END_POINT.CHANGE_ROLE(userId), role);
 
-export async function changeUserPassword(data) {
-    const options = {
-        method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-        body: JSON.stringify(data)
-    };
-    
-    return await fetch(`${BASE_URL}${USERS_END_POINTS.CHANGE_PASSWORD(getCurrentUser())}`, options);
-}
-
-export async function getTotalUsersCount() {
-    CALLBACK.call = () => getTotalUsersCount();
-
-    const response = await fetch(`${BASE_URL}${USERS_END_POINTS.USERS_COUNT}`, {
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-    });
-
-    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
-}
-
-export async function getAllUsers(page) {
-    CALLBACK.call = () => getAllUsers(page);
-
-    const response = await fetch(BASE_URL + USERS_END_POINTS.GET_ALL_USERS(page), {
-        method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
-    });
-
-    return handleRequest(response, COULD_NOT_FETCH_USER_COUNT, CALLBACK);
-}
-
-export async function blockUser(id, reason) {
-    CALLBACK.call = () => blockUser(id, reason);
-
-    const response = await fetch(BASE_URL + USERS_END_POINTS.BLOCK_USER, {
-        method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-        body: JSON.stringify({ id, reason })
-    });
-
-    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
-}
-
-export async function unblockUser(userId) {
-    CALLBACK.call = () => unblockUser(userId);
-
-    const response = await fetch(BASE_URL + USERS_END_POINTS.UNBLOCK_USER(userId), {
-        method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
-    });
-
-    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
-}
-
-export async function changeUserRole(userId, role) {
-    CALLBACK.call = () => changeUserRole(userId);
-
-    const response = await fetch(BASE_URL + USERS_END_POINTS.CHANGE_ROLE(userId), {
-        method: 'PATCH',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-        body: JSON.stringify({ role })
-    });
-    return handleRequest(response, COULD_NOT_FIND_USER, CALLBACK);
-}
-
-export async function searchUsersByUsername(page, query) {
-    CALLBACK.call = () => searchUsersByUsername(page, query);
-
-    const response = await fetch(BASE_URL + USERS_END_POINTS.SEARCH_USERS(query, page), {
-        method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
-    });
-
-    return handleRequest(response, COULD_NOT_FETCH_USER_COUNT, CALLBACK);
-}
+export const searchUsersByUsername = (page, query) => send.authGET(END_POINT.SEARCH_USERS(query, page));

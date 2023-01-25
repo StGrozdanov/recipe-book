@@ -30,7 +30,7 @@ export default function Landing() {
     useEffect(() => {
         const lastThreeRecipesData = recipeService.getTheLastThreeRecepies();
         const latestSixCommentsData = commentService.getTheLatestSixComments();
-        const mostViewedRecipesData = recipeService.getTheThreeMostViewedRecepies();
+        const mostViewedRecipesData = recipeService.getTheThreeMostViewedRecipes();
         const visitations = visitationService.recordWebsiteVisitation();
 
         Promise

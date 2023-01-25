@@ -17,7 +17,7 @@ export default function Catalogue() {
 
     useEffect(() => {
         recipeService
-            .getAllRecepies(currentPage)
+            .getAllRecipes(currentPage)
             .then(recipes => setRecipes((oldRecipes) => [...oldRecipes, ...recipes.content]))
             .catch(err => {
                 console.log(err);

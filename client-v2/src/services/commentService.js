@@ -1,102 +1,32 @@
-import { BASE_HEADERS, BASE_URL, CALLBACK, MODIFIYNG_OPERATIONS_HEADERS } from "./customService.js";
-import { AUTHENTICATE_FIRST, COULD_NOT_DELETE_COMMENT, COULD_NOT_EDIT_COMMENT, COULD_NOT_FETCH_COMMENTS } from "../constants/errorMessages.js";
-import { handleRequest } from "../utils/requestDataHandler.js";
-import { getCurrentUser, getUserToken } from "./authenticationService.js";
+import { BASE_URL } from "./backendService.js";
+import * as send from "../utils/requestDataHandler.js";
 
 const COMMENT_END_POINT = '/comments';
 
-const COMMENT_REQUEST_POINTS = {
-    CREATE_COMMENT: COMMENT_END_POINT,
-    GET_COMMENTS_BY_RECIPE: (recipeId) => { return `${COMMENT_END_POINT}/${recipeId}` },
-    GET_SINGLE_COMMENT: (id) => { return `${COMMENT_END_POINT}/${id}` },
-    GET_LAST_SIX_COMMENTS: `${COMMENT_END_POINT}/latest-six-comments`,
-    TOTAL_COMMENTS_COUNT: `${COMMENT_END_POINT}/count`,
-    GET_ALL_COMMENTS: (page) => `${COMMENT_END_POINT}/admin?skip=${(page - 1)}`,
+const END_POINT = {
+    CREATE_COMMENT: BASE_URL + COMMENT_END_POINT,
+    GET_COMMENTS_BY_RECIPE: (recipeId) => { return `${BASE_URL + COMMENT_END_POINT}/${recipeId}` },
+    GET_SINGLE_COMMENT: (id) => { return `${BASE_URL + COMMENT_END_POINT}/${id}` },
+    GET_LAST_SIX_COMMENTS: `${BASE_URL + COMMENT_END_POINT}/latest-six-comments`,
+    TOTAL_COMMENTS_COUNT: `${BASE_URL + COMMENT_END_POINT}/count`,
+    GET_ALL_COMMENTS: (page) => `${BASE_URL + COMMENT_END_POINT}/admin?skip=${(page - 1)}`,
     SEARCH_BY_COMMENT_CONTENT: (query, page) => {
-        return `${COMMENT_END_POINT}/search-by-content?whereContent=${query}&page=${page}`;
+        return `${BASE_URL + COMMENT_END_POINT}/search-by-content?whereContent=${query}&page=${page}`;
     },
 }
 
-export async function getCommentsForRecipe(recipeId) {
-    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_COMMENTS_BY_RECIPE(recipeId), {
-        method: 'GET',
-        headers: BASE_HEADERS
-    });
-    return handleRequest(response, COULD_NOT_FETCH_COMMENTS);
-}
+export const getCommentsForRecipe = (recipeId) => send.GET(END_POINT.GET_COMMENTS_BY_RECIPE(recipeId));
 
-export async function getTotalCommentsCount() {
-    CALLBACK.call = () => getTotalCommentsCount();
+export const getTotalCommentsCount = () => send.authGET(END_POINT.TOTAL_COMMENTS_COUNT);
 
-    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.TOTAL_COMMENTS_COUNT, {
-        method: 'GET',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
-    });
-    return handleRequest(response, COULD_NOT_FETCH_COMMENTS, CALLBACK);
-}
+export const getTheLatestSixComments = () => send.GET(END_POINT.GET_LAST_SIX_COMMENTS);
 
-export async function getTheLatestSixComments() {
-    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_LAST_SIX_COMMENTS, {
-        method: 'GET',
-        headers: BASE_HEADERS
-    });
-    return handleRequest(response, COULD_NOT_FETCH_COMMENTS);
-}
+export const commentRecipe = (comment) => send.authPOST(END_POINT.CREATE_COMMENT, { comment });
 
-export async function commentRecipe(recipeId, comment) {
-    CALLBACK.call = () => commentRecipe(recipeId, comment);
-    comment.targetRecipeId = recipeId;
-    comment.ownerId = getCurrentUser();
+export const removeComment = (commentId) => send.authDELETE(END_POINT.GET_SINGLE_COMMENT(commentId));
 
-    const options = {
-        method: 'POST',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-        body: JSON.stringify(comment)
-    };
+export const editComment = (content, commentId) => send.authPUT(END_POINT.GET_SINGLE_COMMENT(commentId), { content })
 
-    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.CREATE_COMMENT, options);
-    return handleRequest(response, AUTHENTICATE_FIRST, CALLBACK);
-}
+export const getAllCommentsAdmin = (page) => send.authGET(END_POINT.GET_ALL_COMMENTS(page));
 
-export async function removeComment(id) {
-    CALLBACK.call = () => removeComment(id);
-
-    const options = {
-        method: 'DELETE',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken())
-    };
-    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(id), options);
-    return handleRequest(response, COULD_NOT_DELETE_COMMENT, CALLBACK);
-}
-
-export async function editComment(commentContent, commentId) {
-    CALLBACK.call = () => editComment(commentContent, commentId);
-
-    const options = {
-        method: 'PUT',
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-        body: JSON.stringify({ content: commentContent })
-    };
-    const response = await fetch(BASE_URL + COMMENT_REQUEST_POINTS.GET_SINGLE_COMMENT(commentId), options);
-    return handleRequest(response, COULD_NOT_EDIT_COMMENT, CALLBACK);
-}
-
-export async function getAllCommentsAdmin(page) {
-    CALLBACK.call = () => getAllCommentsAdmin(page);
-
-    const response = await fetch(`${BASE_URL}${COMMENT_REQUEST_POINTS.GET_ALL_COMMENTS(page)}`, {
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-    });
-
-    return handleRequest(response, COULD_NOT_FETCH_COMMENTS, CALLBACK);
-}
-
-export async function searchComments(query, page) {
-    CALLBACK.call = () => searchComments(query, page);
-
-    const response = await fetch(`${BASE_URL}${COMMENT_REQUEST_POINTS.SEARCH_BY_COMMENT_CONTENT(query, page)}`, {
-        headers: MODIFIYNG_OPERATIONS_HEADERS(getUserToken()),
-    });
-
-    return handleRequest(response, COULD_NOT_FETCH_COMMENTS, CALLBACK);
-}
+export const searchComments = (query, page) => send.authGET(END_POINT.SEARCH_BY_COMMENT_CONTENT(query, page));

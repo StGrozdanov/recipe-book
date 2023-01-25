@@ -17,8 +17,10 @@ export default function Categorization() {
 
     useEffect(() => {
         if (query && query.size <= 4) {
+            const categoriesArray = Array.from(query);
+
             filtrationService
-                .filterByCategory(query)
+                .filterByCategory(categoriesArray)
                 .then(recipes => setRecipes(recipes))
                 .catch(error => console.log(error));
         }

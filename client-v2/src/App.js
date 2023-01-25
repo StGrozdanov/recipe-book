@@ -5,12 +5,13 @@ import Catalogue from './components/Catalogue/Catalogue';
 import Navigation from './components/Navigation/Navigation';
 import Search from "./components/Search/Search";
 import Categorization from "./components/Categorization/Categorization";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   const location = useLocation();
   const currentPage = location.pathname;
   return (
-    <>
+    <AuthProvider>
       {currentPage !== '/' && <Navigation />}
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -19,7 +20,7 @@ function App() {
         <Route path='/categories' element={<Categorization />} />
       </Routes>
       <Footer />
-    </>
+    </AuthProvider>
   );
 }
 
