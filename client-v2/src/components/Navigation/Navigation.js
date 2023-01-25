@@ -17,7 +17,6 @@ export default function Navigation() {
     const [showSearch, setShowSearch] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
     const [searchInputValue, setSearchInputValue] = useState('');
-
     const navigate = useNavigate();
 
     const shouldRenderSearch = useAnimationDelay(showSearch, 1000);

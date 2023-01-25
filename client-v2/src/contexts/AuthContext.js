@@ -16,13 +16,13 @@ export const AuthProvider = ({
         setUser({});
     };
 
-    const userIsAuthenticated = () => Boolean(user.sessionToken);
+    const userIsAuthenticated = Boolean(user.sessionToken);
 
     const userIsResourceOwner = (resourceOwnerId) => resourceOwnerId === user.id;
 
-    const userIsAdministrator = () => Boolean(user.isAdministrator);
+    const userIsAdministrator = Boolean(user.isAdministrator);
     
-    const userIsModerator = () => Boolean(user.isModerator);
+    const userIsModerator = Boolean(user.isModerator);
 
     return (
         <AuthContext.Provider value={{

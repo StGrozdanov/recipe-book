@@ -50,7 +50,7 @@ export default function Catalogue() {
                                 />
                             );
                         })
-                        : <h1 style={{ minHeight: '100vh' }}>Loading Recipes...</h1>
+                        : <h1 style={{ minHeight: '100vh' }}>Зареждаме Рецептите...</h1>
                 }
             </ul>
             <div ref={loader} />

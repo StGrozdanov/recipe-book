@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styles from './NavigationLinks.module.scss';
 import Dropdown from '../Dropdown/Dropdown';
 import { useState } from 'react';
+import { useAuthContext } from '../../../../hooks/useAuthContext';
 
 const unmountedStyleDropdown = {
     display: 'flex',
@@ -14,6 +15,7 @@ const unmountedStyleDropdown = {
 
 export default function NavigationLinks({ showDropdown, additionalStyle = false, handler }) {
     const [dropdownIsExpanded, setDropdownIsExpanded] = useState(false);
+    const { userIsAuthenticated } = useAuthContext();
 
     function navItemClickHandler() {
         if (handler) {
@@ -43,35 +45,73 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false,
                 <img src="/images/cooking.png" />
             </div>
 
-            <li className={styles['nav-item']}>
-                <Link to={'/catalogue'} className={styles.item} onClick={navItemClickHandler}>Каталог</Link>
-            </li>
+            {
+                userIsAuthenticated
+                    ? (
+                        <>
+                            <li className={styles['nav-item']}>
+                                <Link
+                                    to={'/catalogue'}
+                                    className={styles.item}
+                                    onClick={navItemClickHandler}
+                                >
+                                    Каталог
+                                </Link>
+                            </li>
 
-            <li
-                className={styles['dropdown-nav-item']}
-                onMouseEnter={() => setDropdownIsExpanded(true)}
-                onMouseLeave={() => setDropdownIsExpanded(false)}
-            >
-                <div className={styles['categories-item']}>Категории</div>
-                <FontAwesomeIcon className={styles['dropdown-icon']} icon={faAngleDown} />
-                <Dropdown 
-                    style={dropdownIsExpanded ? { visibility: 'visible', opacity: 1 } : null} 
-                    dropdownHandler={mobileDropdownClickHandler}
-                />
-            </li>
+                            <li
+                                className={styles['dropdown-nav-item']}
+                                onMouseEnter={() => setDropdownIsExpanded(true)}
+                                onMouseLeave={() => setDropdownIsExpanded(false)}
+                            >
+                                <div className={styles['categories-item']}>Категории</div>
+                                <FontAwesomeIcon className={styles['dropdown-icon']} icon={faAngleDown} />
+                                <Dropdown
+                                    style={dropdownIsExpanded ? { visibility: 'visible', opacity: 1 } : null}
+                                    dropdownHandler={mobileDropdownClickHandler}
+                                />
+                            </li>
 
-            <li className={styles['nav-item']}>
-                <Link to={'/login'} onClick={navItemClickHandler} className={styles.item}>Вход</Link>
-            </li>
+                            <li className={styles['nav-item']}>
+                                <Link to={'/user-profile'} className={styles.item} onClick={navItemClickHandler}>Моят Профил</Link>
+                            </li>
 
-            <li className={styles['nav-item']}>
-                <Link to={'/user-profile'} className={styles.item} onClick={navItemClickHandler}>Моят Профил</Link>
-            </li>
+                            <li className={styles['nav-item']}>
+                                <Link to={'/create'} className={styles.item} onClick={navItemClickHandler}>Създай Рецепта</Link>
+                            </li>
+                        </>
+                    )
+                    : (
+                        <>
+                            <li className={styles['nav-item']}>
+                                <Link
+                                    to={'/catalogue'}
+                                    className={styles.item}
+                                    onClick={navItemClickHandler}
+                                >
+                                    Каталог
+                                </Link>
+                            </li>
 
-            <li className={styles['nav-item']}>
-                <Link to={'/create'} className={styles.item} onClick={navItemClickHandler}>Създай Рецепта</Link>
-            </li>
+                            <li
+                                className={styles['dropdown-nav-item']}
+                                onMouseEnter={() => setDropdownIsExpanded(true)}
+                                onMouseLeave={() => setDropdownIsExpanded(false)}
+                            >
+                                <div className={styles['categories-item']}>Категории</div>
+                                <FontAwesomeIcon className={styles['dropdown-icon']} icon={faAngleDown} />
+                                <Dropdown
+                                    style={dropdownIsExpanded ? { visibility: 'visible', opacity: 1 } : null}
+                                    dropdownHandler={mobileDropdownClickHandler}
+                                />
+                            </li>
 
+                            <li className={styles['nav-item']}>
+                                <Link to={'/login'} onClick={navItemClickHandler} className={styles.item}>Вход</Link>
+                            </li>
+                        </>
+                    )
+            }
         </ul>
     )
 }
