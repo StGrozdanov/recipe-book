@@ -5,6 +5,8 @@ import Catalogue from './components/Catalogue/Catalogue';
 import Navigation from './components/Navigation/Navigation';
 import Search from "./components/Search/Search";
 import Categorization from "./components/Categorization/Categorization";
+import Login from "./components/Authentication/Login";
+import Register from "./components/Authentication/Register";
 import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
         <Route path="/catalogue" element={<Catalogue />} />
         <Route path='/search' element={<Search />} />
         <Route path='/categories' element={<Categorization />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
       </Routes>
       <Footer />
     </AuthProvider>
