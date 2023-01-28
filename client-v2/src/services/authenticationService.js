@@ -15,7 +15,7 @@ const ENDPOINT = {
 
 export const register = (registrationData) => send.POST(ENDPOINT.REGISTER, { registrationData });
 
-export const login = (loginData) => send.POST(ENDPOINT.LOGIN, { loginData });
+export const login = (loginData) => send.POST(ENDPOINT.LOGIN, { ...loginData });
 
 export const logout = () => send.authPOST(ENDPOINT.LOGOUT);
 
@@ -30,7 +30,7 @@ export const checkCredentials = (userId, password) => send.authPOST(ENDPOINT.CHE
 export const refreshToken = async () => {
     const data = await send.authGET(ENDPOINT.REFRESH_TOKEN)
     
-    if (response.ok) {
+    if (data.ok) {
         const user = JSON.parse(localStorage.getItem('user'));
         user.sessionToken = data.sessionToken;
         user.refreshToken = data.refreshToken;

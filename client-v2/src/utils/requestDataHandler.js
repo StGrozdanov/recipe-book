@@ -63,8 +63,15 @@ const handleRequest = async (method, authRequest, URL, bodyData) => {
         }
     }
     else if (data.status === 401) {
-        localStorage.removeItem('user');
-        localStorage.setItem('blockedFor', JSON.stringify(data.message));
+        if (localStorage.getItem('user') !== null) {
+            localStorage.removeItem('user');
+            localStorage.setItem('blockedFor', JSON.stringify(data.message));
+        } else {
+            if (refreshTokenUsed) {
+                refreshTokenUsed = false;
+            }
+            throw new Error(data.error);
+        }
         // navigate('/blocked');
     }
     else if (data.status === 404) {

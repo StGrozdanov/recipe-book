@@ -5,6 +5,7 @@ import styles from './NavigationLinks.module.scss';
 import Dropdown from '../Dropdown/Dropdown';
 import { useState } from 'react';
 import { useAuthContext } from '../../../../hooks/useAuthContext';
+import * as authService from '../../../../services/authenticationService';
 
 const unmountedStyleDropdown = {
     display: 'flex',
@@ -15,7 +16,7 @@ const unmountedStyleDropdown = {
 
 export default function NavigationLinks({ showDropdown, additionalStyle = false, handler }) {
     const [dropdownIsExpanded, setDropdownIsExpanded] = useState(false);
-    const { userIsAuthenticated } = useAuthContext();
+    const { userIsAuthenticated, userLogout } = useAuthContext();
 
     function navItemClickHandler() {
         if (handler) {
@@ -78,6 +79,24 @@ export default function NavigationLinks({ showDropdown, additionalStyle = false,
 
                             <li className={styles['nav-item']}>
                                 <Link to={'/create'} className={styles.item} onClick={navItemClickHandler}>Създай Рецепта</Link>
+                            </li>
+
+                            <li className={styles['nav-item']}>
+                                <Link
+                                    to={'/catalogue'}
+                                    className={styles.item}
+                                    onClick={() => {
+                                        authService
+                                            .logout()
+                                            .then(userLogout())
+                                            .catch(err => {
+                                                console.log(err);
+                                            });
+                                        navItemClickHandler();
+                                    }}
+                                >
+                                    Изход
+                                </Link>
                             </li>
                         </>
                     )
