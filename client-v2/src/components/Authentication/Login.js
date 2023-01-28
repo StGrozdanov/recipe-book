@@ -37,17 +37,29 @@ export default function Login() {
                 <header className={style['form-header']}><h2>Вход</h2></header>
                 {!loginSuccess
                     ?
-                    <span className={style['form-validation-msg']}>Невалидно потребителско име или парола</span>
+                    <h4 className={style['form-validation-msg']}>Невалидно потребителско име или парола</h4>
                     : null
                 }
                 <form className={style.form} autoComplete="off" onSubmit={loginHandler}>
                     <div className={style['input-container']}>
                         <FontAwesomeIcon className={style.icon} icon={faUser} />
-                        <input type="text" placeholder={'Потребителско име'} name='username' />
+                        <input
+                            onFocus={() => setLoginSuccess(true)}
+                            style={loginSuccess ? {} : { borderBottomColor: 'red' }}
+                            type="text"
+                            placeholder={'Потребителско име'}
+                            name='username'
+                        />
                     </div>
                     <div className={style['input-container']}>
                         <FontAwesomeIcon className={style.icon} icon={faKey} />
-                        <input type="password" placeholder={'Парола'} name='password' />
+                        <input
+                            onFocus={() => setLoginSuccess(true)}
+                            style={loginSuccess ? {} : { borderBottomColor: 'red' }}
+                            type="password"
+                            placeholder={'Парола'}
+                            name='password'
+                        />
                     </div>
                     <div className={style['button-container']}>
                         <FontAwesomeIcon className={style['continue-icon']} icon={faRightToBracket} />
