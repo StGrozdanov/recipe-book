@@ -13,23 +13,23 @@ const ENDPOINT = {
     RESET_PASSWORD: (code) => `${BASE_URL}/password-reset/${code}`,
 }
 
-export const register = (registrationData) => send.POST(ENDPOINT.REGISTER, { registrationData });
+export const register = (registrationData) => send.POST(ENDPOINT.REGISTER, registrationData);
 
-export const login = (loginData) => send.POST(ENDPOINT.LOGIN, { ...loginData });
+export const login = (loginData) => send.POST(ENDPOINT.LOGIN, loginData);
 
 export const logout = () => send.authPOST(ENDPOINT.LOGOUT);
 
-export const forgottenPassword = (email) => send.POST(ENDPOINT.FORGOTTEN_PASSWORD, { email });
+export const forgottenPassword = (email) => send.POST(ENDPOINT.FORGOTTEN_PASSWORD, email);
 
 export const requestPasswordReset = (code) => send.POST(ENDPOINT.RESET_PASSWORD(code));
 
-export const resetPassword = (code, formData) => send.POST(ENDPOINT.RESET_PASSWORD(code), { formData });
+export const resetPassword = (code, formData) => send.POST(ENDPOINT.RESET_PASSWORD(code), formData);
 
-export const checkCredentials = (userId, password) => send.authPOST(ENDPOINT.CHECK_CREDENTIALS(userId), { password });
+export const checkCredentials = (userId, password) => send.authPOST(ENDPOINT.CHECK_CREDENTIALS(userId), password);
 
 export const refreshToken = async () => {
     const data = await send.authGET(ENDPOINT.REFRESH_TOKEN)
-    
+
     if (data.ok) {
         const user = JSON.parse(localStorage.getItem('user'));
         user.sessionToken = data.sessionToken;

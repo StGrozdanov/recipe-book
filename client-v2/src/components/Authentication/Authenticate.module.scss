@@ -127,7 +127,8 @@ a {
     }
 }
 
-.input-container, .button-container {
+.input-container,
+.button-container {
     position: relative;
     width: 80%;
     display: inline-block;
@@ -140,11 +141,19 @@ a {
     margin-right: 40px;
 }
 
-.icon, .continue-icon {
+.icon,
+.continue-icon,
+.warning-icon {
     position: absolute;
     color: darkslategray;
     top: 5%;
     font-size: 0.9rem;
+}
+
+.warning-icon {
+    right: 7%;
+    top: 10%;
+    color: $orange-accent-color;
 }
 
 .continue-icon {
@@ -153,10 +162,29 @@ a {
     color: white;
 }
 
-.form-validation-msg {
+.login-warning-icon {
+    color: $orange-accent-color;
     position: absolute;
-    top: 15%;
+    top: 18%;
     text-align: center;
     width: 100%;
-    color: red;
+    font-size: 1.3rem;
+}
+
+.form-validation-msg {
+    position: absolute;
+    top: 20%;
+    text-align: center;
+    width: 100%;
+    color: $dark-orange-accent-color;
+}
+
+.fail-validation-msg {
+    color: $dark-orange-accent-color;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 55%;
+    font-weight: 600;
+    font-size: 0.75rem;
 }

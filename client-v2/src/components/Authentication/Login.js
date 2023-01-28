@@ -1,9 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightToBracket, faUser, faKey } from '@fortawesome/free-solid-svg-icons';
+import { faRightToBracket, faUser, faKey, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import style from './Authenticate.module.scss';
 import { useState } from 'react';
 import * as authService from '../../services/authenticationService';
+import * as validator from '../../utils/formDataValidator';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 export default function Login() {
@@ -13,10 +14,13 @@ export default function Login() {
 
     function loginHandler(e) {
         e.preventDefault();
-        const { username, password } = Object.fromEntries(new FormData(e.target));
-        if (username.trim() !== '' && password.trim() !== '') {
+
+        const formData = new FormData(e.target);
+        const inputData = Object.fromEntries(formData);
+
+        if (!validator.formContainsEmptyFields(formData)) {
             authService
-                .login({ username, password })
+                .login(inputData)
                 .then(loginData => {
                     userLogin(loginData);
                     setLoginSuccess(true);
@@ -37,14 +41,20 @@ export default function Login() {
                 <header className={style['form-header']}><h2>Вход</h2></header>
                 {!loginSuccess
                     ?
-                    <h4 className={style['form-validation-msg']}>Невалидно потребителско име или парола</h4>
+                    <>
+                        <FontAwesomeIcon
+                            icon={faExclamationTriangle}
+                            className={style['login-warning-icon']}
+                        />
+                        <h4 className={style['form-validation-msg']}>Невалидно потребителско име или парола</h4>
+                    </>
                     : null
                 }
                 <form className={style.form} autoComplete="off" onSubmit={loginHandler}>
                     <div className={style['input-container']}>
                         <FontAwesomeIcon className={style.icon} icon={faUser} />
                         <input
-                            onFocus={() => setLoginSuccess(true)}
+                            onChange={() => setLoginSuccess(true)}
                             style={loginSuccess ? {} : { borderBottomColor: 'red' }}
                             type="text"
                             placeholder={'Потребителско име'}
@@ -54,7 +64,7 @@ export default function Login() {
                     <div className={style['input-container']}>
                         <FontAwesomeIcon className={style.icon} icon={faKey} />
                         <input
-                            onFocus={() => setLoginSuccess(true)}
+                            onChange={() => setLoginSuccess(true)}
                             style={loginSuccess ? {} : { borderBottomColor: 'red' }}
                             type="password"
                             placeholder={'Парола'}

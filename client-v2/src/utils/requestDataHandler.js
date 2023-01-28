@@ -62,16 +62,9 @@ const handleRequest = async (method, authRequest, URL, bodyData) => {
             }
         }
     }
-    else if (data.status === 401) {
-        if (localStorage.getItem('user') !== null) {
-            localStorage.removeItem('user');
-            localStorage.setItem('blockedFor', JSON.stringify(data.message));
-        } else {
-            if (refreshTokenUsed) {
-                refreshTokenUsed = false;
-            }
-            throw new Error(data.error);
-        }
+    else if (data.status === 401 && localStorage.getItem('user') !== null && localStorage.getItem('user') !== '{}') {
+        localStorage.removeItem('user');
+        localStorage.setItem('blockedFor', JSON.stringify(data.message));
         // navigate('/blocked');
     }
     else if (data.status === 404) {
