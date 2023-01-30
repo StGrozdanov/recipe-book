@@ -1,4 +1,4 @@
-import { BASE_URL } from "./customService.js";
+import { BASE_URL } from "./backendService";
 import * as send from "../utils/requestDataHandler.js";
 
 const USER_END_POINT = '/users'

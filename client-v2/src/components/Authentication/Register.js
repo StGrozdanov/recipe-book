@@ -5,6 +5,7 @@ import style from './Authenticate.module.scss';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import * as authService from '../../services/authenticationService';
 import * as validator from '../../utils/formDataValidator';
+import * as userService from '../../services/userService';
 import { useState } from 'react';
 import FailedValidationMessage from './FailedValidationMessage';
 import Notification from '../common/Notification/Notification';
@@ -17,6 +18,8 @@ export default function Register() {
     const [password, setPassword] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const { userLogin } = useAuthContext();
+    const [invalidUsernameMessage, setInvalidUsernameMessage] = useState('');
+    const [invalidEmailMessage, setInvalidEmailMessage] = useState('');
     const navigate = useNavigate();
 
     const validationPassed = emailIsValid && usernameIsValid && passwordIsValid && passwordsMatch;
@@ -58,6 +61,32 @@ export default function Register() {
         } else {
             const inputIsValid = validator.validate[inputName](inputValue);
             inputOptions[inputName](inputIsValid);
+
+            if (inputIsValid && inputName == 'email') {
+                userService
+                    .userExistsByEmail(inputValue)
+                    .then(response => {
+                        if (response.emailExists) {
+                            setInvalidEmailMessage('Този имейл е вече регистриран')
+                            setEmailIsValid(false);
+                        }
+                    })
+                    .catch(err => console.log(err));
+            } else if (inputIsValid && inputName == 'username') {
+                userService
+                    .userExistsByUsername(inputValue)
+                    .then(response => {
+                        if (response.usernameExists) {
+                            setInvalidUsernameMessage('Потребителското име е заето');
+                            setUsernameIsValid(false);
+                        }
+                    })
+                    .catch(err => console.log(err));
+            } else if (!inputIsValid && inputName == 'email') {
+                setInvalidEmailMessage('Имейлът трябва да е валиден');
+            } else if (!inputIsValid && inputName == 'username') {
+                setInvalidUsernameMessage('Дължина между 3 и 10 символа');
+            }
         }
     }
 
@@ -88,7 +117,7 @@ export default function Register() {
                         {
                             emailIsValid
                                 ? null
-                                : <FailedValidationMessage message={'Имейлът трябва да е валиден'} />
+                                : <FailedValidationMessage message={invalidEmailMessage} />
                         }
                     </div>
                     <div className={style['input-container']}>
@@ -104,7 +133,7 @@ export default function Register() {
                         {
                             usernameIsValid
                                 ? null
-                                : <FailedValidationMessage message={'Между 3 и 10 символа'} />
+                                : <FailedValidationMessage message={invalidUsernameMessage} />
                         }
                     </div>
                     <div className={style['input-container']}>
