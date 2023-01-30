@@ -7,6 +7,7 @@ import Search from "./components/Search/Search";
 import Categorization from "./components/Categorization/Categorization";
 import Login from "./components/Authentication/Login";
 import Register from "./components/Authentication/Register";
+import ForgottenPassword from "./components/ForgottenPassword/ForgottenPassword";
 import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
@@ -16,12 +17,13 @@ function App() {
     <AuthProvider>
       {currentPage !== '/' && <Navigation />}
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/catalogue" element={<Catalogue />} />
+        <Route path='/' element={<Landing />} />
+        <Route path='/catalogue' element={<Catalogue />} />
         <Route path='/search' element={<Search />} />
         <Route path='/categories' element={<Categorization />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/forgotten-password' element={<ForgottenPassword />} />
       </Routes>
       <Footer />
     </AuthProvider>

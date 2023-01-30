@@ -9,7 +9,7 @@ const ENDPOINT = {
     LOGOUT: `${BASE_URL + AUTHENTICATION_END_POINT}/logout`,
     REFRESH_TOKEN: `${BASE_URL + AUTHENTICATION_END_POINT}/token/refresh`,
     CHECK_CREDENTIALS: (userId) => `${BASE_URL + AUTHENTICATION_END_POINT}/credentials-check/${userId}`,
-    FORGOTTEN_PASSWORD: `${BASE_URL}'/forgotten-password'`,
+    FORGOTTEN_PASSWORD: `${BASE_URL}/forgotten-password`,
     RESET_PASSWORD: (code) => `${BASE_URL}/password-reset/${code}`,
 }
 
@@ -19,7 +19,7 @@ export const login = (loginData) => send.POST(ENDPOINT.LOGIN, loginData);
 
 export const logout = () => send.authPOST(ENDPOINT.LOGOUT);
 
-export const forgottenPassword = (email) => send.POST(ENDPOINT.FORGOTTEN_PASSWORD, email);
+export const forgottenPassword = (email) => send.POST(ENDPOINT.FORGOTTEN_PASSWORD, { email });
 
 export const requestPasswordReset = (code) => send.POST(ENDPOINT.RESET_PASSWORD(code));
 
