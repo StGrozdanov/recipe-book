@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import FallbackImage from '../common/FallbackImage/FallbackImage';
 import styles from './RecipeCard.module.scss';
 
 export default function RecipeCard({
@@ -16,13 +17,7 @@ export default function RecipeCard({
             <article className={styles["card-container"]} style={style ? customStyle : { animationDelay }}>
                 <Link to={`/details/${id}`}>
                     <header className={styles["picture-container"]}>
-                        <img 
-                            src={imageUrl}
-                            onError={({ currentTarget }) => {
-                                currentTarget.onerror = null;
-                                currentTarget.src="images/food.jpg";
-                              }}
-                        />
+                        <FallbackImage src={imageUrl} alt={"/images/food.jpg"} />
                     </header>
                 </Link>
                 <main>

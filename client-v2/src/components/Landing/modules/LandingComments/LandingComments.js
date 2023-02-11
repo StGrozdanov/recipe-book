@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import FallbackImage from '../../../common/FallbackImage/FallbackImage';
 import styles from './LandingComments.module.scss';
 
 export default function LandingComments({
@@ -17,13 +18,7 @@ export default function LandingComments({
                     <h3 className={styles['comment-username']}>{owner.username}, </h3>
                     <Link to={`/users/${id}`}>
                         <div className={styles['image-container']}>
-                            <img 
-                                src={owner.avatarUrl} 
-                                onError={({ currentTarget }) => {
-                                    currentTarget.onerror = null;
-                                    currentTarget.src="images/avatar.png";
-                                  }}
-                            />
+                            <FallbackImage src={owner.avatarUrl} alt={"/images/avatar.png"} />
                         </div>
                     </Link>
                     <span className={styles['target-recipe']}>{recipe.recipeName}</span>

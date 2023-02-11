@@ -9,6 +9,7 @@ import Login from "./components/Authentication/Login";
 import Register from "./components/Authentication/Register";
 import ForgottenPassword from "./components/ForgottenPassword/ForgottenPassword";
 import { AuthProvider } from "./contexts/AuthContext";
+import RecipeDetails from "./components/RecipeDetails/RecipeDetails";
 
 function App() {
   const location = useLocation();
@@ -24,6 +25,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/forgotten-password' element={<ForgottenPassword />} />
+        <Route path='/details/:id' element={<RecipeDetails />} />
       </Routes>
       <Footer />
     </AuthProvider>
