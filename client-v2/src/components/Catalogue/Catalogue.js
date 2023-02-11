@@ -58,7 +58,7 @@ export default function Catalogue() {
             <Notification
                 type={'fail'}
                 visibility={fallbackIsLoaded}
-                message={'Здравейте, имаме проблем с зареждането на всички рецепти. Поради това, сайта работи с ограничени функционалности. Вече работим по отстраняването му.'}
+                message={'Здравейте, имаме проблем с зареждането на всички рецепти и работим по отстраняването му.'}
                 handler={notificationHandler}
             />
         </section >
