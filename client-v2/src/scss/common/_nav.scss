@@ -12,8 +12,4 @@
     box-shadow: $nav-box-shadow;
     align-items: center;
     justify-content: space-around;
-
-    @include maxWidthMediaQuery(1000px) {
-        background-color: rgba(245, 245, 245, 0.98);
-    }
 }

@@ -50,14 +50,16 @@ export function profileFormContainsInvalidInput(formElement) {
     return formInvalidInputIterator(formInputFields);
 }
 
-export function recipeFormContainsEmptyFields(fileImg, img, name, products, steps, category) {
+export function recipeFormContainsEmptyFields(fileImg, img, name, products, steps, category, difficulty, preparationTime) {
     const noImageIsProvided = fileImg.size === 0 && img.trim() == '';
     const nameIsEmpty = name.trim() == '';
     const productsAreEmpty = products.length === 0;
     const stepsAreEmpty = steps.length === 0;
     const categoryIsEmpty = category.trim() == '';
+    const difficultyIsEmpty = difficulty.trim() == '';
+    const preparationTimeIsEmpty = preparationTime.trim() == '';
 
-    return nameIsEmpty || productsAreEmpty || stepsAreEmpty || categoryIsEmpty || noImageIsProvided;
+    return nameIsEmpty || productsAreEmpty || stepsAreEmpty || categoryIsEmpty || noImageIsProvided || difficultyIsEmpty || preparationTimeIsEmpty;
 }
 
 function formInvalidInputIterator(formInputFields, formTextFields, inputCriteria) {

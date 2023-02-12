@@ -11,35 +11,36 @@ import { hideLoadingSpinner, showLoadingSpinner } from '../utils/loadingSpinner.
 
 const createRecipeTemplate = (ctx) => html`
 <section id="create-page" class="create formData">
-    <form @submit=${(e)=> createHandler(e, ctx)}
+    <form @submit=${(e) => createHandler(e, ctx)}
         id="create-form"
         autocomplete="off"
         enctype='multipart/form-data'
         style="position: relative;"
-    >
+        >
         <fieldset>
             <legend>Нова рецепта</legend>
             <p class="field">
                 <label for="title">Наименование</label>
                 <span class="input">
                     <i class="fa-solid fa-bowl-rice"></i>
-                    <input 
-                        @input=${formDataValidator.inputValidateHandler} 
-                        @blur=${checkForExistingName}
-                        type="search" 
-                        name="name" 
-                        id="title"
-                        placeholder="Име на рецепта" 
-                        autocomplete="off"
-                    >
+                    <input @input=${formDataValidator.inputValidateHandler} @blur=${checkForExistingName} type="search"
+                        name="name" id="title" placeholder="Име на рецепта" autocomplete="off">
                     <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
-                    <i class="fa-solid fa-square-check check-icon validate-icon validate-icon" style="display: none;"></i>
+                    <i class="fa-solid fa-square-check check-icon validate-icon validate-icon"
+                        style="display: none;"></i>
                 </span>
                 <span class="invalid-input-text" style="display: none;">
                     Името трябва да е на български, минимум 4 букви, без символи.
                 </span>
                 <span class="invalid-input-text non-unique-name" style="display: none;">
                     Вече съществува рецепта с това име.
+                </span>
+            </p>
+            <p class="field">
+                <label for="title">Време за приготвяне</label>
+                <span class="input">
+                    <i class="fa-solid fa-clock" style="margin-left: 8px"></i>
+                    <input type="text" name="preparationTime" id="title" placeholder="Време за приготвяне в минути" />
                 </span>
             </p>
             <p class="field">
@@ -68,13 +69,8 @@ const createRecipeTemplate = (ctx) => html`
                 <label for="image">Картинка</label>
                 <span class="input">
                     <i class="fa-solid fa-utensils"></i>
-                    <input 
-                        @blur=${checkForExistingPicture}
-                        type="text" 
-                        name="img" 
-                        id="image" 
-                        placeholder="Адрес на изображение"
-                    >
+                    <input @blur=${checkForExistingPicture} type="text" name="img" id="image"
+                        placeholder="Адрес на изображение">
                     <i class="fa-solid fa-triangle-exclamation warning-icon validate-icon" style="display: none;"></i>
                     <i class="fa-solid fa-square-check check-icon validate-icon" style="display: none;"></i>
                 </span>
@@ -102,6 +98,17 @@ const createRecipeTemplate = (ctx) => html`
                     </select>
                 </span>
             </p>
+            <p class="field">
+                <label for="type">Трудност</label>
+                <span class="input">
+                    <select id="type" name="difficulty">
+                        <option value="" selected hidden>Изберете трудност...</option>
+                        <option value="Лесна">Лесна</option>
+                        <option value="Средна">Средна</option>
+                        <option value="За напреднали">За напреднали</option>
+                    </select>
+                </span>
+            </p>
             <input class="button submit" type="submit" value="Създай рецепта">
         </fieldset>
     </form>
@@ -122,13 +129,15 @@ async function createHandler(e, context) {
     const form = new FormData(e.target);
 
     const name = form.get('name');
+    const preparationTime = form.get('preparationTime');
     const products = multiLineInputProcessor.process(form.get('products'));
     const steps = multiLineInputProcessor.process(form.get('steps'));
     const img = form.get('img');
     const category = form.get('category');
+    const difficulty = form.get('difficulty');
     const fileImg = form.get('fileImg');
 
-    const thereAreEmptyFieldsLeft = formDataValidator.recipeFormContainsEmptyFields(fileImg, img, name, products, steps, category);
+    const thereAreEmptyFieldsLeft = formDataValidator.recipeFormContainsEmptyFields(fileImg, img, name, products, steps, category, preparationTime, difficulty);
 
     if (thereAreEmptyFieldsLeft) {
         return notify(THERE_ARE_EMPTY_FIELDS_LEFT);
@@ -138,10 +147,12 @@ async function createHandler(e, context) {
 
     const newRecipe = {
         recipeName: name,
+        difficulty: difficulty, 
         products: products,
         steps: steps,
         imageUrl: img,
         category: category,
+        preparationTime: preparationTime,
         ownerId: getCurrentUser()
     }
 
@@ -154,10 +165,10 @@ async function createHandler(e, context) {
 
     context.page.redirect(`/details-${createdRecipeId.recipeId}`);
     userIsAdministrator || userIsModerator ? notify(CREATED_RECIPE_SUCCESS) : notify(CREATED_RECIPE_SUCCESS_APPROVAL);
-    
+
     await sendNotifications(
-        { id: createdRecipeId.recipeId, recipeName: newRecipe.recipeName }, 
-        POSTED_NEW_RECIPE, 
+        { id: createdRecipeId.recipeId, recipeName: newRecipe.recipeName },
+        POSTED_NEW_RECIPE,
         NEW_RECIPE
     );
 
@@ -173,7 +184,7 @@ async function checkForExistingName(e) {
 
     if (nameFieldValue.trim() !== '') {
         const data = await recipeExistsByName(nameFieldValue);
-        
+
         if (data.nameExists) {
             cancelValidFieldDecorationAndSetAsInvalid(nameField, invalidNameClass);
         }
@@ -190,7 +201,7 @@ async function checkForExistingPicture(e) {
 
     if (pictureFieldValue.trim() !== '') {
         const data = await recipeExistsByPicture(pictureFieldValue);
-        
+
         if (data.pictureExists) {
             cancelValidFieldDecorationAndSetAsInvalid(pictureField, invalidPictureClass);
         }
@@ -205,7 +216,7 @@ function cancelInvalidFieldDecoration(field) {
 function cancelValidFieldDecorationAndSetAsInvalid(field, invalidMessageClass) {
     field.parentNode.classList.remove('valid-input');
     field.parentNode.querySelector('.check-icon').style.display = 'none';
-    
+
     field.parentNode.classList.add('invalid-input');
     field.parentNode.querySelector('.warning-icon').style.display = 'block';
     field.parentNode.parentNode.querySelector(invalidMessageClass).style.display = 'block';

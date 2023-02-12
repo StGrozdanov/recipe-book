@@ -4,6 +4,7 @@ import * as recipeService from '../../services/recipeService';
 import * as userService from '../../services/userService';
 import { capitalizatorUtil } from "../../utils/capitalizatorUtil";
 import FallbackImage from '../common/FallbackImage/FallbackImage';
+import styles from './RecipeDetails.module.scss';
 
 export default function RecipeDetails() {
     const [recipe, setRecipe] = useState({});
@@ -22,14 +23,22 @@ export default function RecipeDetails() {
     }, []);
 
     return (
-        <>
-            <h2>{recipe.recipeName}</h2>
-            <FallbackImage src={recipe.imageUrl} alt={"/images/food.jpg"} />
-            <h2>Категория: {recipe.categoryName}</h2>
-            <h2>Публикувана от: {owner.username}</h2>
-            <FallbackImage src={owner.avatarUrl} alt={"/images/avatar.png"} />
-            <div>Продукти: {recipe.products}</div>
-            <div>Стъпки на приготвяне: {recipe.steps}</div>
-        </>
+        <article className={styles.container}>
+            <section className={styles['top-section']}>
+                <section>
+                    <h4 className={styles['recipe-category']}>{recipe.categoryName}</h4>
+                    <h2 className={styles['recipe-name']}>{recipe.recipeName}</h2>
+                    <h4 className={styles['recipe-owner']}>
+                        <span className={styles.published}>Публикувана от:</span> {owner.username}
+                    </h4>
+                    <h3 className={styles.method}>Метод на приготвяне</h3>
+                </section>
+                <div className={styles['recipe-image-container']}>
+                    <FallbackImage className={styles['recipe-image']} src={recipe.imageUrl} alt={"/images/food.jpg"} />
+                </div>
+                <article className={styles.products}>{recipe.products}</article>
+            </section>
+            <article className={styles.steps}>{recipe.steps}</article>
+        </article>
     );
 }
