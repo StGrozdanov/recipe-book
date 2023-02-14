@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import FallbackImage from '../../../common/FallbackImage/FallbackImage';
-import styles from './RecipeComment.module.scss';
+import FallbackImage from '../../../../common/FallbackImage/FallbackImage';
+import styles from './Comment.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-export default function RecipeComment({ content, createdAt, owner }) {
+export default function Comment({ content, createdAt, owner }) {
     return (
         <article className={styles.comment}>
             <header className={styles['comment-header']}>

@@ -1,0 +1,12 @@
+@use 'src/scss/common/fonts' as *;
+
+.heading {
+    @include customHeadingFont('bold');
+    font-size: 1.4rem;
+    margin: 0 0 30px 0;
+}
+
+.no-comments {
+    text-align: center;
+    margin: 100px 80px 0 0;
+}
