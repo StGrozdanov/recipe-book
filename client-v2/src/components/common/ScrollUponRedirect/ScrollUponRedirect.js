@@ -5,7 +5,9 @@ export default function ScrollUponRedirect() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (pathname.split('/')[3] != 'comments') {
+      window.scrollTo(0, 0);
+    }
   }, [pathname]);
 
   return null;
