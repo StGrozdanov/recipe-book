@@ -26,6 +26,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/forgotten-password' element={<ForgottenPassword />} />
         <Route path='/details/:id' element={<RecipeDetails />} />
+        <Route path='/details/:id/comments' element={<RecipeDetails />} />
       </Routes>
       <Footer />
     </AuthProvider>

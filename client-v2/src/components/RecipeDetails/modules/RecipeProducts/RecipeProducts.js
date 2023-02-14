@@ -24,9 +24,8 @@ export default function RecipeProducts({ preparationTime, calories, protein, pro
                 {
                     products && products.map(product => {
                         return (
-                            <label>
+                            <label key={product}>
                                 <input
-                                    key={product}
                                     style={{ marginTop: 2 }}
                                     type="checkbox"
                                 />

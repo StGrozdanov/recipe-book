@@ -1,0 +1,21 @@
+@use 'src/scss/common/colors' as *;
+@use 'src/scss/common/fonts' as *;
+
+.container {
+    position: absolute;
+    right: 10px;
+    top: 90px;
+    background: whitesmoke;
+    border-radius: 35px;
+    color: black;
+    padding: 50px 0px 0px 80px;
+    font-size: 1rem;
+    width: 425px;
+    height: 118vh;
+}
+
+.heading {
+    @include customHeadingFont('bold');
+    font-size: 1.4rem;
+    margin: 0 0 30px 0;
+}

@@ -6,7 +6,7 @@ import { capitalizatorUtil } from "../../utils/capitalizatorUtil";
 import RecipeStep from "./modules/RecipeSteps/RecipeStep";
 import styles from './RecipeDetails.module.scss';
 import RecipeDetailsHeader from "./modules/RecipeDetailsHeader/RecipeDetailsHeader";
-import RecipeDetailsNavigation from "./modules/RecipeDetailsNavigation/RecipeDetailsNavigation";
+import RecipePanel from "./modules/RecipePanel/RecipePanel";
 
 export default function RecipeDetails() {
     const [recipe, setRecipe] = useState({});
@@ -36,7 +36,7 @@ export default function RecipeDetails() {
                     image={recipe.imageUrl}
                     owner={owner.username}
                 />
-                <RecipeDetailsNavigation recipe={recipe} />
+                <RecipePanel recipe={recipe} />
             </section>
             <section className={styles['methods-section']}>
                 <section className={styles.methods}>

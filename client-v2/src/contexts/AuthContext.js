@@ -3,9 +3,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({
-    children,
-}) => {
+export const AuthProvider = ({ children }) => {
     const [user, setUser] = useLocalStorage('user', {});
 
     const userLogin = (userData) => {
@@ -21,7 +19,7 @@ export const AuthProvider = ({
     const userIsResourceOwner = (resourceOwnerId) => resourceOwnerId === user.id;
 
     const userIsAdministrator = Boolean(user.isAdministrator);
-    
+
     const userIsModerator = Boolean(user.isModerator);
 
     return (
@@ -35,6 +33,6 @@ export const AuthProvider = ({
             userIsModerator
         }}>
             {children}
-        </AuthContext.Provider>  
+        </AuthContext.Provider>
     );
 };

@@ -3,7 +3,6 @@ import FallbackImage from '../../../common/FallbackImage/FallbackImage';
 import styles from './LandingComments.module.scss';
 
 export default function LandingComments({
-    id,
     content,
     createdAt,
     recipe,
@@ -16,7 +15,7 @@ export default function LandingComments({
             <article className={styles.comment} style={{ animationDelay }}>
                 <header className={styles['comment-header']}>
                     <h3 className={styles['comment-username']}>{owner.username}, </h3>
-                    <Link to={`/users/${id}`}>
+                    <Link to={`/users/${owner.id}`}>
                         <div className={styles['image-container']}>
                             <FallbackImage src={owner.avatarUrl} alt={"/images/avatar.png"} />
                         </div>
