@@ -1,0 +1,46 @@
+.icon {
+    font-size: 1.25rem;
+    margin-right: 10px;
+}
+
+.list {
+    margin-top: 20px;
+}
+
+.ul {
+    position: relative;
+    list-style: none;
+    padding: 0;
+
+    label {
+        display: flex;
+        position: relative;
+        align-items: center;
+        cursor: pointer;
+
+        span {
+            height: 15px;
+            width: 15px;
+            margin-right: 5px;
+            border: 1.5px solid #010101;
+            display: inline-block;
+            position: relative;
+            border-radius: 25px;
+        }
+
+        input {
+            display: none;
+        }
+    }
+
+    [type=checkbox]:checked+span:before {
+        content: '\e92f';
+        font-family: 'Material Icons';
+        color: #2a5e03;
+        position: absolute;
+        top: -9px;
+        left: 0;
+        font-size: 18px;
+        -webkit-text-stroke: 0.8px;
+    }
+}

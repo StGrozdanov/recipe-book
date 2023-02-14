@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useElementIsInViewport } from '../../../hooks/useElementIsInViewport';
+import { useElementIsInViewport } from '../../../../hooks/useElementIsInViewport';
 import styles from './RecipeStep.module.scss';
 
 export default function RecipeStep({ step, index, isInViewportHandler }) {

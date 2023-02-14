@@ -2,8 +2,6 @@
 @use 'src/scss/common/colors' as *;
 @use 'src/scss/common/animations' as *;
 
-$transperent-accent-color: rgba(214, 172, 119, 0.85);
-
 .nav-ul {
     list-style-type: none;
     margin: 0;

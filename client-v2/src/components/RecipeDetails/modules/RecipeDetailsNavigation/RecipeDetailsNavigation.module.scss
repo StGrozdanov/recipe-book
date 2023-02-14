@@ -1,0 +1,52 @@
+@use 'src/scss/common/colors' as *;
+
+.products {
+    position: absolute;
+    right: 10px;
+    top: 90px;
+    background: whitesmoke;
+    border-radius: 35px;
+    color: black;
+    padding: 50px 0px 0px 80px;
+    font-size: 1rem;
+    width: 425px;
+    height: 118vh;
+}
+
+.nav-icon {
+    font-size: 1.25rem;
+    margin-right: 10px;
+    color: #57595f;
+}
+
+.navigation {
+    background: #a2a8babd;
+    position: absolute;
+    bottom: 8px;
+    left: 6px;
+    border-radius: 35px;
+    width: 97%;
+
+    ul {
+        list-style: none;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 0;
+    }
+
+    .nav-icon {
+        padding: 10px 0;
+        background-image: linear-gradient(#57595f, #515560);
+        background-size: 0% 0.1em;
+        background-position-y: 100%;
+        background-position-x: 50%;
+        background-repeat: no-repeat;
+        transition: background-size 0.4s ease-out;
+        cursor: pointer;
+
+        &:hover {
+            background-size: 100% 0.15em;
+            color: #57595fc9
+        }
+    }
+}
