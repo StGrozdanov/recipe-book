@@ -7,6 +7,7 @@ import RecipeStep from "./modules/RecipeSteps/RecipeStep";
 import styles from './RecipeDetails.module.scss';
 import RecipeDetailsHeader from "./modules/RecipeDetailsHeader/RecipeDetailsHeader";
 import RecipePanel from "./modules/RecipePanel/RecipePanel";
+import RecipePanelNavigation from './modules/RecipePanel/modules/RecipePanelNavigation';
 
 export default function RecipeDetails() {
     const [recipe, setRecipe] = useState({});
@@ -36,7 +37,10 @@ export default function RecipeDetails() {
                     image={recipe.imageUrl}
                     owner={owner.username}
                 />
-                <RecipePanel recipe={recipe} />
+                <article className={styles['panel-container']}>
+                    <RecipePanel recipe={recipe} />
+                    <RecipePanelNavigation recipeId={recipe.id} />
+                </article>
             </section>
             <section className={styles['methods-section']}>
                 <section className={styles.methods}>

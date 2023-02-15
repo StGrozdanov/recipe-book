@@ -1,9 +1,17 @@
 @use 'src/scss/common/fonts' as *;
 
+.container {
+    overflow-y: scroll;
+    height: 86.5vh;
+    width: 100%;
+    padding: 0 0 0 80px;
+}
+
 .heading {
     @include customHeadingFont('bold');
     font-size: 1.4rem;
     margin: 0 0 30px 0;
+    text-align: center;
 }
 
 .no-comments {

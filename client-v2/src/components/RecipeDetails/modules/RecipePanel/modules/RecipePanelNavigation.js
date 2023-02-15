@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faComment, faPenToSquare, faShareNodes, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import styles from './RecipeNavigation.module.scss';
+import styles from './RecipePanelNavigation.module.scss';
 import { useNavigate } from 'react-router-dom';
 
-export default function RecipeNavigation({ recipeId }) {
+export default function RecipePanelNavigation({ recipeId }) {
     const navigate = useNavigate();
 
     return (
