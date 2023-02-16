@@ -1,10 +1,33 @@
 @use 'src/scss/common/fonts' as *;
+@use 'src/scss/common/colors' as *;
 
 .container {
     overflow-y: scroll;
     height: 86.5vh;
     width: 100%;
     padding: 0 0 0 80px;
+
+    &::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        margin-top: 20px;
+        background: #57595f30;
+        border-radius: 50px;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: #4048608a;
+        border-radius: 50px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: #57595fc5;
+    }
 }
 
 .heading {
