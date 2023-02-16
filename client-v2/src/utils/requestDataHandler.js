@@ -55,7 +55,7 @@ const handleRequest = async (method, authRequest, URL, bodyData) => {
         try {
             await refreshToken();
             refreshTokenUsed = true;
-            this.call();
+            return handleRequest(method, authRequest, URL, bodyData);
         } catch (e) {
             if (e.message == AUTHENTICATE_FIRST) {
                 return AUTHENTICATE_FIRST;

@@ -28,14 +28,28 @@ export const resetPassword = (code, formData) => send.POST(ENDPOINT.RESET_PASSWO
 export const checkCredentials = (userId, password) => send.authPOST(ENDPOINT.CHECK_CREDENTIALS(userId), password);
 
 export const refreshToken = async () => {
-    const data = await send.authGET(ENDPOINT.REFRESH_TOKEN)
+    try {
+        const user = localStorage.getItem('user');
+        const auth = JSON.parse(user || '{}');
 
-    if (data.ok) {
-        const user = JSON.parse(localStorage.getItem('user'));
-        user.sessionToken = data.sessionToken;
-        user.refreshToken = data.refreshToken;
-        localStorage.setItem('user', JSON.stringify(user));
-    } else {
-        throw new Error(data.error);
+        const response = await fetch(ENDPOINT.REFRESH_TOKEN, {
+            headers: {
+                'Authorization': `Bearer ${auth.refreshToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            const user = JSON.parse(localStorage.getItem('user'));
+            user.sessionToken = data.sessionToken;
+            user.refreshToken = data.refreshToken;
+            localStorage.setItem('user', JSON.stringify(user));
+        } else {
+            throw new Error(data.error);
+        }
+    } catch (err) {
+        console.log(err);
     }
 };

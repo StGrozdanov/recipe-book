@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Comment from "./modules/Comment";
 import styles from './RecipeComments.module.scss';
 import * as commentService from '../../../../services/commentService';
@@ -6,16 +6,31 @@ import { useParams } from "react-router-dom";
 import { useAuthContext } from '../../../../hooks/useAuthContext';
 import FallbackImage from "../../../common/FallbackImage/FallbackImage";
 
-export default function RecipeComments({ comments }) {
-    const [comment, setComment] = useState('');
+export default function RecipeComments() {
     const params = useParams();
     const { user, userIsAuthenticated } = useAuthContext();
+    const [comments, setComments] = useState([]);
+    const recipeId = Number(params.id);
 
-    function addCommentHandler(e) {
+    useEffect(() => {
+        commentService
+            .getCommentsForRecipe(recipeId)
+            .then(comments => setComments(comments))
+            .catch(err => console.log(err));
+    }, [setComments]);
+
+    async function addCommentHandler(e) {
         e.preventDefault();
+        const comment = new FormData(e.target).get('comment');
+
         if (comment.trim() !== '') {
-            const content = { comment: comment, targetRecipeId: params.id, ownerId: user.id };
-            commentService.commentRecipe(content);
+            const content = { content: comment, targetRecipeId: recipeId, ownerId: user.id };
+            await commentService.commentRecipe(content);
+            commentService
+                .getCommentsForRecipe(recipeId)
+                .then(data => setComments(data))
+                .catch(err => console.log(err));
+            e.target.reset();
         }
     }
 
@@ -38,14 +53,13 @@ export default function RecipeComments({ comments }) {
                 }
                 <section className={styles['add-comment-section']}>
                     <div className={styles['image-container']}>
-                        <FallbackImage src={null} alt={"/images/avatar.png"} />
+                        <FallbackImage src={user.avatarUrl || null} alt={"/images/avatar.png"} />
                     </div>
                     <form onSubmit={addCommentHandler}>
                         <input
                             type="text"
                             placeholder="Добави коментар ..."
-                            defaultValue={comment}
-                            onChange={(e) => setComment(e.target.value)}
+                            name="comment"
                         />
                     </form>
                 </section>

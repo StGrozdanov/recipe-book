@@ -21,7 +21,7 @@ export const getTotalCommentsCount = () => send.authGET(END_POINT.TOTAL_COMMENTS
 
 export const getTheLatestSixComments = () => send.GET(END_POINT.GET_LAST_SIX_COMMENTS);
 
-export const commentRecipe = (comment) => send.authPOST(END_POINT.CREATE_COMMENT, { comment });
+export const commentRecipe = (comment) => send.authPOST(END_POINT.CREATE_COMMENT, comment);
 
 export const removeComment = (commentId) => send.authDELETE(END_POINT.GET_SINGLE_COMMENT(commentId));
 
