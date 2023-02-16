@@ -1,19 +1,19 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faComment, faPenToSquare, faShareNodes, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import styles from './RecipePanelNavigation.module.scss';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const selectedStyle = { backgroundSize: '100% 0.15em', color: '#57595fc9' };
 
 export default function RecipePanelNavigation({ recipeId }) {
     const [selected, setSelected] = useState('products');
     const navigate = useNavigate();
+    const { pathname } = useLocation();
 
-    function redirectOnSelectHandler(URL, buttonName) {
-        setSelected(buttonName);
-        navigate(URL);
-    }
+    useEffect(() => {
+        pathname.endsWith('comments') ? setSelected('comments') : setSelected('products');
+    }, [pathname])
 
     return (
         <nav className={styles.navigation}>
@@ -22,13 +22,13 @@ export default function RecipePanelNavigation({ recipeId }) {
                     style={selected == 'products' && selectedStyle}
                     icon={faCartShopping}
                     className={styles['nav-icon']}
-                    onClick={() => redirectOnSelectHandler(`/details/${recipeId}`, 'products')}
+                    onClick={() => navigate(`/details/${recipeId}`)}
                 />
                 <FontAwesomeIcon
                     style={selected == 'comments' && selectedStyle}
                     icon={faComment}
                     className={styles['nav-icon']}
-                    onClick={() => redirectOnSelectHandler(`/details/${recipeId}/comments`, 'comments')}
+                    onClick={() => navigate(`/details/${recipeId}/comments`)}
                 />
                 <FontAwesomeIcon
                     icon={faPenToSquare}
