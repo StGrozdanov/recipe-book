@@ -5,7 +5,6 @@ import * as commentService from '../../../../services/commentService';
 import { useParams } from "react-router-dom";
 import { useAuthContext } from '../../../../hooks/useAuthContext';
 import FallbackImage from "../../../common/FallbackImage/FallbackImage";
-import ModalDialogue from "../../../common/ModalDialogue/ModalDialogue";
 
 export default function RecipeComments() {
     const params = useParams();
