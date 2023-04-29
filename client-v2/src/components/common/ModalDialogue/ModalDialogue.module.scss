@@ -1,0 +1,33 @@
+@use 'src/scss/common/colors' as *;
+@use 'src/scss/common/buttons' as *;
+
+.container {
+    position: fixed;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    height: 250px;
+    width: 350px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 2px 20px 0px #bdbdbd;
+}
+
+.button-container {
+    display: flex;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.cancel-btn {
+    @include cancel-btn()
+}
+
+.confirm-btn {
+    @include confirm-btn()
+}

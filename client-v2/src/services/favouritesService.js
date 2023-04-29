@@ -3,9 +3,9 @@ import * as send from "../utils/requestDataHandler.js";
 
 const END_POINTS = {
     USER_FAVOURITE_RECEPIES: (userId) => `${BASE_URL}/users/favourites/${userId}`,
+    RECIPE_IS_IN_USER_FAVOURITES: `${BASE_URL}/users/recipe-is-in-favourites`,
     ADD_RECIPE_TO_FAVOURITES: `${BASE_URL}/recipes/add-to-favourites`,
     REMOVE_RECIPE_FROM_FAVOURITES: `${BASE_URL}/recipes/remove-from-favourites`,
-    RECIPE_IS_IN_USER_FAVOURITES: `${BASE_URL}/users/recipe-is-in-favourites`,
 }
 
 export const getMyFavouriteRecepies = (userId) => send.authGET(END_POINTS.USER_FAVOURITE_RECEPIES(userId));
